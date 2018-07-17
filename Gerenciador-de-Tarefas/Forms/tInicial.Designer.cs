@@ -159,6 +159,57 @@
             this.pPreviewTarefas = new System.Windows.Forms.PrintPreviewDialog();
             this.sfdSalvarArquivo = new System.Windows.Forms.SaveFileDialog();
             this.ofdAbrirArquivo = new System.Windows.Forms.OpenFileDialog();
+            this.tabNFDados = new System.Windows.Forms.TabControl();
+            this.tabPageNFDadosGerais = new System.Windows.Forms.TabPage();
+            this.tabPageNFObservacoes = new System.Windows.Forms.TabPage();
+            this.grpEndereco = new System.Windows.Forms.GroupBox();
+            this.lblNFCep = new System.Windows.Forms.Label();
+            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.btnNFBuscarEndereco = new System.Windows.Forms.Button();
+            this.lblNFEndereco = new System.Windows.Forms.Label();
+            this.txtNFEndereco = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.maskedTextBox3 = new System.Windows.Forms.MaskedTextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.maskedTextBox4 = new System.Windows.Forms.MaskedTextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.grpNFCadastroJuridico = new System.Windows.Forms.GroupBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.tlpGeral.SuspendLayout();
             this.tlpMenuPrincipal.SuspendLayout();
             this.tlpMenu.SuspendLayout();
@@ -204,6 +255,12 @@
             this.tableLayoutPanel23.SuspendLayout();
             this.panelConfigBanco.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
+            this.tabNFDados.SuspendLayout();
+            this.tabPageNFDadosGerais.SuspendLayout();
+            this.tabPageNFObservacoes.SuspendLayout();
+            this.grpEndereco.SuspendLayout();
+            this.grpNFCadastroJuridico.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpGeral
@@ -578,13 +635,16 @@
             this.tlpNFDivisorias.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpNFDivisorias.Controls.Add(this.panelNFHeader, 0, 0);
             this.tlpNFDivisorias.Controls.Add(this.tlpNFTipoFornecedor, 0, 1);
+            this.tlpNFDivisorias.Controls.Add(this.tabNFDados, 0, 2);
+            this.tlpNFDivisorias.Controls.Add(this.tableLayoutPanel1, 0, 3);
             this.tlpNFDivisorias.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpNFDivisorias.Location = new System.Drawing.Point(0, 0);
             this.tlpNFDivisorias.Name = "tlpNFDivisorias";
-            this.tlpNFDivisorias.RowCount = 3;
+            this.tlpNFDivisorias.RowCount = 4;
             this.tlpNFDivisorias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tlpNFDivisorias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 159F));
             this.tlpNFDivisorias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpNFDivisorias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tlpNFDivisorias.Size = new System.Drawing.Size(902, 652);
             this.tlpNFDivisorias.TabIndex = 0;
             this.tlpNFDivisorias.Visible = false;
@@ -1583,7 +1643,7 @@
             this.tableLayoutPanel22.ColumnCount = 3;
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 181F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
             this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1823,7 +1883,7 @@
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel24.Size = new System.Drawing.Size(125, 473);
+            this.tableLayoutPanel24.Size = new System.Drawing.Size(124, 473);
             this.tableLayoutPanel24.TabIndex = 6;
             // 
             // btnDestravaTarefas
@@ -1838,7 +1898,7 @@
             this.btnDestravaTarefas.ForeColor = System.Drawing.Color.White;
             this.btnDestravaTarefas.Location = new System.Drawing.Point(3, 373);
             this.btnDestravaTarefas.Name = "btnDestravaTarefas";
-            this.btnDestravaTarefas.Size = new System.Drawing.Size(119, 97);
+            this.btnDestravaTarefas.Size = new System.Drawing.Size(118, 97);
             this.btnDestravaTarefas.TabIndex = 10;
             this.btnDestravaTarefas.Text = "Destravar Tarefas";
             this.btnDestravaTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1857,7 +1917,7 @@
             this.btnConfiguraBD.ForeColor = System.Drawing.Color.White;
             this.btnConfiguraBD.Location = new System.Drawing.Point(3, 73);
             this.btnConfiguraBD.Name = "btnConfiguraBD";
-            this.btnConfiguraBD.Size = new System.Drawing.Size(119, 94);
+            this.btnConfiguraBD.Size = new System.Drawing.Size(118, 94);
             this.btnConfiguraBD.TabIndex = 7;
             this.btnConfiguraBD.Text = "Configurar Banco de Dados";
             this.btnConfiguraBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1875,7 +1935,7 @@
             this.btnRestaurar.ForeColor = System.Drawing.Color.White;
             this.btnRestaurar.Location = new System.Drawing.Point(3, 273);
             this.btnRestaurar.Name = "btnRestaurar";
-            this.btnRestaurar.Size = new System.Drawing.Size(119, 94);
+            this.btnRestaurar.Size = new System.Drawing.Size(118, 94);
             this.btnRestaurar.TabIndex = 5;
             this.btnRestaurar.Text = "Restaurar";
             this.btnRestaurar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1894,7 +1954,7 @@
             this.btnBackup.ForeColor = System.Drawing.Color.White;
             this.btnBackup.Location = new System.Drawing.Point(3, 173);
             this.btnBackup.Name = "btnBackup";
-            this.btnBackup.Size = new System.Drawing.Size(119, 94);
+            this.btnBackup.Size = new System.Drawing.Size(118, 94);
             this.btnBackup.TabIndex = 4;
             this.btnBackup.Text = "Backup";
             this.btnBackup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1964,6 +2024,536 @@
             // ofdAbrirArquivo
             // 
             this.ofdAbrirArquivo.DefaultExt = "sql";
+            // 
+            // tabNFDados
+            // 
+            this.tabNFDados.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.tabNFDados.Controls.Add(this.tabPageNFDadosGerais);
+            this.tabNFDados.Controls.Add(this.tabPageNFObservacoes);
+            this.tabNFDados.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabNFDados.Location = new System.Drawing.Point(3, 212);
+            this.tabNFDados.Name = "tabNFDados";
+            this.tabNFDados.SelectedIndex = 0;
+            this.tabNFDados.Size = new System.Drawing.Size(896, 357);
+            this.tabNFDados.TabIndex = 2;
+            // 
+            // tabPageNFDadosGerais
+            // 
+            this.tabPageNFDadosGerais.BackColor = System.Drawing.Color.White;
+            this.tabPageNFDadosGerais.Controls.Add(this.grpNFCadastroJuridico);
+            this.tabPageNFDadosGerais.Controls.Add(this.grpEndereco);
+            this.tabPageNFDadosGerais.Location = new System.Drawing.Point(4, 25);
+            this.tabPageNFDadosGerais.Name = "tabPageNFDadosGerais";
+            this.tabPageNFDadosGerais.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageNFDadosGerais.Size = new System.Drawing.Size(888, 328);
+            this.tabPageNFDadosGerais.TabIndex = 0;
+            this.tabPageNFDadosGerais.Text = "Dados Gerais";
+            // 
+            // tabPageNFObservacoes
+            // 
+            this.tabPageNFObservacoes.BackColor = System.Drawing.Color.White;
+            this.tabPageNFObservacoes.Controls.Add(this.richTextBox1);
+            this.tabPageNFObservacoes.Location = new System.Drawing.Point(4, 25);
+            this.tabPageNFObservacoes.Name = "tabPageNFObservacoes";
+            this.tabPageNFObservacoes.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageNFObservacoes.Size = new System.Drawing.Size(888, 328);
+            this.tabPageNFObservacoes.TabIndex = 1;
+            this.tabPageNFObservacoes.Text = "Observações";
+            // 
+            // grpEndereco
+            // 
+            this.grpEndereco.Controls.Add(this.textBox11);
+            this.grpEndereco.Controls.Add(this.label27);
+            this.grpEndereco.Controls.Add(this.textBox10);
+            this.grpEndereco.Controls.Add(this.label26);
+            this.grpEndereco.Controls.Add(this.textBox9);
+            this.grpEndereco.Controls.Add(this.label24);
+            this.grpEndereco.Controls.Add(this.maskedTextBox4);
+            this.grpEndereco.Controls.Add(this.label25);
+            this.grpEndereco.Controls.Add(this.textBox8);
+            this.grpEndereco.Controls.Add(this.label22);
+            this.grpEndereco.Controls.Add(this.maskedTextBox3);
+            this.grpEndereco.Controls.Add(this.label23);
+            this.grpEndereco.Controls.Add(this.textBox7);
+            this.grpEndereco.Controls.Add(this.label21);
+            this.grpEndereco.Controls.Add(this.maskedTextBox2);
+            this.grpEndereco.Controls.Add(this.label20);
+            this.grpEndereco.Controls.Add(this.textBox6);
+            this.grpEndereco.Controls.Add(this.label19);
+            this.grpEndereco.Controls.Add(this.textBox3);
+            this.grpEndereco.Controls.Add(this.label16);
+            this.grpEndereco.Controls.Add(this.textBox4);
+            this.grpEndereco.Controls.Add(this.label17);
+            this.grpEndereco.Controls.Add(this.textBox5);
+            this.grpEndereco.Controls.Add(this.label18);
+            this.grpEndereco.Controls.Add(this.textBox2);
+            this.grpEndereco.Controls.Add(this.label14);
+            this.grpEndereco.Controls.Add(this.textBox1);
+            this.grpEndereco.Controls.Add(this.label1);
+            this.grpEndereco.Controls.Add(this.txtNFEndereco);
+            this.grpEndereco.Controls.Add(this.lblNFEndereco);
+            this.grpEndereco.Controls.Add(this.btnNFBuscarEndereco);
+            this.grpEndereco.Controls.Add(this.maskedTextBox1);
+            this.grpEndereco.Controls.Add(this.lblNFCep);
+            this.grpEndereco.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpEndereco.Location = new System.Drawing.Point(3, 3);
+            this.grpEndereco.Name = "grpEndereco";
+            this.grpEndereco.Size = new System.Drawing.Size(882, 238);
+            this.grpEndereco.TabIndex = 0;
+            this.grpEndereco.TabStop = false;
+            this.grpEndereco.Text = "Endereço";
+            // 
+            // lblNFCep
+            // 
+            this.lblNFCep.AutoSize = true;
+            this.lblNFCep.Location = new System.Drawing.Point(14, 25);
+            this.lblNFCep.Name = "lblNFCep";
+            this.lblNFCep.Size = new System.Drawing.Size(31, 13);
+            this.lblNFCep.TabIndex = 0;
+            this.lblNFCep.Text = "CEP:";
+            // 
+            // maskedTextBox1
+            // 
+            this.maskedTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maskedTextBox1.Location = new System.Drawing.Point(17, 44);
+            this.maskedTextBox1.Mask = "00000-000";
+            this.maskedTextBox1.Name = "maskedTextBox1";
+            this.maskedTextBox1.Size = new System.Drawing.Size(74, 20);
+            this.maskedTextBox1.TabIndex = 1;
+            // 
+            // btnNFBuscarEndereco
+            // 
+            this.btnNFBuscarEndereco.BackColor = System.Drawing.Color.LightGreen;
+            this.btnNFBuscarEndereco.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFBuscarEndereco.Location = new System.Drawing.Point(97, 43);
+            this.btnNFBuscarEndereco.Name = "btnNFBuscarEndereco";
+            this.btnNFBuscarEndereco.Size = new System.Drawing.Size(106, 23);
+            this.btnNFBuscarEndereco.TabIndex = 2;
+            this.btnNFBuscarEndereco.Text = "Buscar Endereço";
+            this.btnNFBuscarEndereco.UseVisualStyleBackColor = false;
+            // 
+            // lblNFEndereco
+            // 
+            this.lblNFEndereco.AutoSize = true;
+            this.lblNFEndereco.Location = new System.Drawing.Point(251, 26);
+            this.lblNFEndereco.Name = "lblNFEndereco";
+            this.lblNFEndereco.Size = new System.Drawing.Size(56, 13);
+            this.lblNFEndereco.TabIndex = 3;
+            this.lblNFEndereco.Text = "Endereço:";
+            // 
+            // txtNFEndereco
+            // 
+            this.txtNFEndereco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFEndereco.Location = new System.Drawing.Point(254, 44);
+            this.txtNFEndereco.Name = "txtNFEndereco";
+            this.txtNFEndereco.Size = new System.Drawing.Size(340, 20);
+            this.txtNFEndereco.TabIndex = 4;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox1.Location = new System.Drawing.Point(600, 44);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(80, 20);
+            this.textBox1.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(597, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Número:";
+            // 
+            // textBox2
+            // 
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox2.Location = new System.Drawing.Point(686, 43);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(184, 20);
+            this.textBox2.TabIndex = 8;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(683, 25);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(74, 13);
+            this.label14.TabIndex = 7;
+            this.label14.Text = "Complemento:";
+            // 
+            // textBox3
+            // 
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox3.Location = new System.Drawing.Point(554, 96);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(126, 20);
+            this.textBox3.TabIndex = 14;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(551, 78);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(43, 13);
+            this.label16.TabIndex = 13;
+            this.label16.Text = "Estado:";
+            // 
+            // textBox4
+            // 
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox4.Location = new System.Drawing.Point(254, 96);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(294, 20);
+            this.textBox4.TabIndex = 12;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(251, 78);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(43, 13);
+            this.label17.TabIndex = 11;
+            this.label17.Text = "Cidade:";
+            // 
+            // textBox5
+            // 
+            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox5.Location = new System.Drawing.Point(17, 96);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(231, 20);
+            this.textBox5.TabIndex = 10;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 78);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(37, 13);
+            this.label18.TabIndex = 9;
+            this.label18.Text = "Bairro:";
+            // 
+            // textBox6
+            // 
+            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox6.Location = new System.Drawing.Point(686, 96);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(184, 20);
+            this.textBox6.TabIndex = 16;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(683, 78);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(32, 13);
+            this.label19.TabIndex = 15;
+            this.label19.Text = "País:";
+            // 
+            // maskedTextBox2
+            // 
+            this.maskedTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maskedTextBox2.Location = new System.Drawing.Point(17, 146);
+            this.maskedTextBox2.Mask = "(00) 0000-0000";
+            this.maskedTextBox2.Name = "maskedTextBox2";
+            this.maskedTextBox2.Size = new System.Drawing.Size(116, 20);
+            this.maskedTextBox2.TabIndex = 18;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(14, 130);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(52, 13);
+            this.label20.TabIndex = 17;
+            this.label20.Text = "Telefone:";
+            // 
+            // textBox7
+            // 
+            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox7.Location = new System.Drawing.Point(139, 146);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(155, 20);
+            this.textBox7.TabIndex = 20;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(136, 128);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(47, 13);
+            this.label21.TabIndex = 19;
+            this.label21.Text = "Contato:";
+            // 
+            // textBox8
+            // 
+            this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox8.Location = new System.Drawing.Point(422, 146);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(160, 20);
+            this.textBox8.TabIndex = 24;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(419, 128);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(47, 13);
+            this.label22.TabIndex = 23;
+            this.label22.Text = "Contato:";
+            // 
+            // maskedTextBox3
+            // 
+            this.maskedTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maskedTextBox3.Location = new System.Drawing.Point(300, 146);
+            this.maskedTextBox3.Mask = "(00) 0000-0000";
+            this.maskedTextBox3.Name = "maskedTextBox3";
+            this.maskedTextBox3.Size = new System.Drawing.Size(116, 20);
+            this.maskedTextBox3.TabIndex = 22;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(297, 130);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(101, 13);
+            this.label23.TabIndex = 21;
+            this.label23.Text = "Telefone Comercial:";
+            // 
+            // textBox9
+            // 
+            this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox9.Location = new System.Drawing.Point(710, 146);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(160, 20);
+            this.textBox9.TabIndex = 28;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(707, 128);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(47, 13);
+            this.label24.TabIndex = 27;
+            this.label24.Text = "Contato:";
+            // 
+            // maskedTextBox4
+            // 
+            this.maskedTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maskedTextBox4.Location = new System.Drawing.Point(588, 146);
+            this.maskedTextBox4.Mask = "(00) 00000-0000";
+            this.maskedTextBox4.Name = "maskedTextBox4";
+            this.maskedTextBox4.Size = new System.Drawing.Size(116, 20);
+            this.maskedTextBox4.TabIndex = 26;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(585, 130);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(42, 13);
+            this.label25.TabIndex = 25;
+            this.label25.Text = "Celular:";
+            // 
+            // textBox10
+            // 
+            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox10.Location = new System.Drawing.Point(17, 198);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(407, 20);
+            this.textBox10.TabIndex = 30;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(14, 180);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(38, 13);
+            this.label26.TabIndex = 29;
+            this.label26.Text = "E-mail:";
+            // 
+            // textBox11
+            // 
+            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox11.Location = new System.Drawing.Point(430, 198);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(440, 20);
+            this.textBox11.TabIndex = 32;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(427, 180);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(28, 13);
+            this.label27.TabIndex = 31;
+            this.label27.Text = "Site:";
+            // 
+            // grpNFCadastroJuridico
+            // 
+            this.grpNFCadastroJuridico.Controls.Add(this.textBox13);
+            this.grpNFCadastroJuridico.Controls.Add(this.label29);
+            this.grpNFCadastroJuridico.Controls.Add(this.button1);
+            this.grpNFCadastroJuridico.Controls.Add(this.comboBox1);
+            this.grpNFCadastroJuridico.Controls.Add(this.textBox12);
+            this.grpNFCadastroJuridico.Controls.Add(this.label28);
+            this.grpNFCadastroJuridico.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpNFCadastroJuridico.Location = new System.Drawing.Point(3, 241);
+            this.grpNFCadastroJuridico.Name = "grpNFCadastroJuridico";
+            this.grpNFCadastroJuridico.Size = new System.Drawing.Size(882, 81);
+            this.grpNFCadastroJuridico.TabIndex = 1;
+            this.grpNFCadastroJuridico.TabStop = false;
+            this.grpNFCadastroJuridico.Text = "Cadastro Jurídico";
+            // 
+            // textBox12
+            // 
+            this.textBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox12.Location = new System.Drawing.Point(17, 43);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(184, 20);
+            this.textBox12.TabIndex = 34;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(14, 25);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(97, 13);
+            this.label28.TabIndex = 33;
+            this.label28.Text = "Inscrição Estadual:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(286, 41);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(169, 21);
+            this.comboBox1.TabIndex = 35;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.LightGreen;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Location = new System.Drawing.Point(207, 41);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(64, 23);
+            this.button1.TabIndex = 33;
+            this.button1.Text = "Consultar";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // textBox13
+            // 
+            this.textBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox13.Location = new System.Drawing.Point(461, 41);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(415, 20);
+            this.textBox13.TabIndex = 37;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(458, 23);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(101, 13);
+            this.label29.TabIndex = 36;
+            this.label29.Text = "Inscrição Municipal:";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.richTextBox1.Size = new System.Drawing.Size(882, 322);
+            this.richTextBox1.TabIndex = 0;
+            this.richTextBox1.Text = "";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 8;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.button6, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button5, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button7, 7, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button4, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button3, 3, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 575);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(896, 74);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.Khaki;
+            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Location = new System.Drawing.Point(543, 3);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(79, 68);
+            this.button3.TabIndex = 39;
+            this.button3.Text = "Editar";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.Thistle;
+            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Location = new System.Drawing.Point(628, 3);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(79, 68);
+            this.button4.TabIndex = 40;
+            this.button4.Text = "Imprimir";
+            this.button4.UseVisualStyleBackColor = false;
+            // 
+            // button7
+            // 
+            this.button7.BackColor = System.Drawing.Color.LightGreen;
+            this.button7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button7.Location = new System.Drawing.Point(813, 3);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(80, 68);
+            this.button7.TabIndex = 43;
+            this.button7.Text = "Fechar";
+            this.button7.UseVisualStyleBackColor = false;
+            // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.LightCoral;
+            this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Location = new System.Drawing.Point(428, 3);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(79, 68);
+            this.button5.TabIndex = 44;
+            this.button5.Text = "Apagar";
+            this.button5.UseVisualStyleBackColor = false;
+            // 
+            // button6
+            // 
+            this.button6.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.button6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button6.Location = new System.Drawing.Point(713, 3);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(79, 68);
+            this.button6.TabIndex = 45;
+            this.button6.Text = "Novo Fornecedor";
+            this.button6.UseVisualStyleBackColor = false;
             // 
             // tInicial
             // 
@@ -2042,6 +2632,14 @@
             this.panelConfigBanco.ResumeLayout(false);
             this.panelConfigBanco.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
+            this.tabNFDados.ResumeLayout(false);
+            this.tabPageNFDadosGerais.ResumeLayout(false);
+            this.tabPageNFObservacoes.ResumeLayout(false);
+            this.grpEndereco.ResumeLayout(false);
+            this.grpEndereco.PerformLayout();
+            this.grpNFCadastroJuridico.ResumeLayout(false);
+            this.grpNFCadastroJuridico.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2177,5 +2775,56 @@
         private System.Windows.Forms.DateTimePicker dtpNFDataNascimento;
         private System.Windows.Forms.Label lblNFCadastro;
         private System.Windows.Forms.DateTimePicker dtpNFCadastro;
+        private System.Windows.Forms.TabControl tabNFDados;
+        private System.Windows.Forms.TabPage tabPageNFDadosGerais;
+        private System.Windows.Forms.TabPage tabPageNFObservacoes;
+        private System.Windows.Forms.GroupBox grpEndereco;
+        private System.Windows.Forms.Button btnNFBuscarEndereco;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.Label lblNFCep;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtNFEndereco;
+        private System.Windows.Forms.Label lblNFEndereco;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.GroupBox grpNFCadastroJuridico;
+        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox4;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.MaskedTextBox maskedTextBox3;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button5;
     }
 }
