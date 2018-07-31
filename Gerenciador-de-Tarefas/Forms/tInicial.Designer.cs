@@ -57,20 +57,85 @@
             this.panelNFHeader = new System.Windows.Forms.Panel();
             this.labelNFTitulo = new System.Windows.Forms.Label();
             this.tlpNFTipoFornecedor = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.txtNFIDFornecedor = new System.Windows.Forms.TextBox();
+            this.lblIDFornecedor = new System.Windows.Forms.Label();
+            this.txtNFDataCadastro = new System.Windows.Forms.MaskedTextBox();
+            this.lblNFDataNascimento = new System.Windows.Forms.Label();
+            this.dtpNFDataNascimento = new System.Windows.Forms.DateTimePicker();
+            this.label31 = new System.Windows.Forms.Label();
             this.panelNFTipoFornecedor = new System.Windows.Forms.Panel();
-            this.lblApelido = new System.Windows.Forms.Label();
+            this.lblNFApelido = new System.Windows.Forms.Label();
             this.lblNomeFornecedor = new System.Windows.Forms.Label();
+            this.btnNFBuscarDados = new System.Windows.Forms.Button();
             this.lblNFCPFCNPJ = new System.Windows.Forms.Label();
             this.lblTipoFornecedor = new System.Windows.Forms.Label();
-            this.txtApelido = new System.Windows.Forms.TextBox();
-            this.txtNome = new System.Windows.Forms.TextBox();
+            this.txtNFApelido = new System.Windows.Forms.TextBox();
+            this.txtNFNome = new System.Windows.Forms.TextBox();
             this.txtNFCPFCNPJ = new System.Windows.Forms.MaskedTextBox();
             this.cmbTipoFornecedor = new System.Windows.Forms.ComboBox();
             this.panelNFDatas = new System.Windows.Forms.Panel();
-            this.lblNFDataNascimento = new System.Windows.Forms.Label();
-            this.dtpNFDataNascimento = new System.Windows.Forms.DateTimePicker();
-            this.lblNFCadastro = new System.Windows.Forms.Label();
-            this.dtpNFCadastro = new System.Windows.Forms.DateTimePicker();
+            this.label35 = new System.Windows.Forms.Label();
+            this.cmbNFSubCateg3 = new System.Windows.Forms.ComboBox();
+            this.cmbNFCateg3 = new System.Windows.Forms.ComboBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.cmbNFSubCateg2 = new System.Windows.Forms.ComboBox();
+            this.cmbNFCateg2 = new System.Windows.Forms.ComboBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.cmbNFSubCateg1 = new System.Windows.Forms.ComboBox();
+            this.cmbNFCateg1 = new System.Windows.Forms.ComboBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.tabNFDados = new System.Windows.Forms.TabControl();
+            this.tabPageNFDadosGerais = new System.Windows.Forms.TabPage();
+            this.grpNFCadastroJuridico = new System.Windows.Forms.GroupBox();
+            this.txtNFInscricaoMunicipal = new System.Windows.Forms.TextBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtNFInscricaoEstadual = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.grpEndereco = new System.Windows.Forms.GroupBox();
+            this.txtNFSite = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.txtNFEmail = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.txtNFContatoCelular = new System.Windows.Forms.TextBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.txtNFCelular = new System.Windows.Forms.MaskedTextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.txtNFContatoComercial = new System.Windows.Forms.TextBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.txtNFTelefoneComercial = new System.Windows.Forms.MaskedTextBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.txtNFContato = new System.Windows.Forms.TextBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtNFTelefone = new System.Windows.Forms.MaskedTextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.txtNFPais = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.txtNFEstado = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txtNFCidade = new System.Windows.Forms.TextBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.txtNFBairro = new System.Windows.Forms.TextBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.txtNFComplemento = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.txtNFNumero = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtNFEndereco = new System.Windows.Forms.TextBox();
+            this.lblNFEndereco = new System.Windows.Forms.Label();
+            this.btnNFBuscarEndereco = new System.Windows.Forms.Button();
+            this.txtNFCEP = new System.Windows.Forms.MaskedTextBox();
+            this.lblNFCep = new System.Windows.Forms.Label();
+            this.tabPageNFObservacoes = new System.Windows.Forms.TabPage();
+            this.txtNFObservacoes = new System.Windows.Forms.RichTextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnNFNovoCadastro = new System.Windows.Forms.Button();
+            this.btnNFApagar = new System.Windows.Forms.Button();
+            this.btnNFFechar = new System.Windows.Forms.Button();
+            this.btnNFImprimir = new System.Windows.Forms.Button();
+            this.btnNFEditar = new System.Windows.Forms.Button();
             this.panelFornecedores = new System.Windows.Forms.Panel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -159,57 +224,7 @@
             this.pPreviewTarefas = new System.Windows.Forms.PrintPreviewDialog();
             this.sfdSalvarArquivo = new System.Windows.Forms.SaveFileDialog();
             this.ofdAbrirArquivo = new System.Windows.Forms.OpenFileDialog();
-            this.tabNFDados = new System.Windows.Forms.TabControl();
-            this.tabPageNFDadosGerais = new System.Windows.Forms.TabPage();
-            this.tabPageNFObservacoes = new System.Windows.Forms.TabPage();
-            this.grpEndereco = new System.Windows.Forms.GroupBox();
-            this.lblNFCep = new System.Windows.Forms.Label();
-            this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
-            this.btnNFBuscarEndereco = new System.Windows.Forms.Button();
-            this.lblNFEndereco = new System.Windows.Forms.Label();
-            this.txtNFEndereco = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.maskedTextBox2 = new System.Windows.Forms.MaskedTextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.label21 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
-            this.label22 = new System.Windows.Forms.Label();
-            this.maskedTextBox3 = new System.Windows.Forms.MaskedTextBox();
-            this.label23 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.label24 = new System.Windows.Forms.Label();
-            this.maskedTextBox4 = new System.Windows.Forms.MaskedTextBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.label27 = new System.Windows.Forms.Label();
-            this.grpNFCadastroJuridico = new System.Windows.Forms.GroupBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox13 = new System.Windows.Forms.TextBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
+            this.tooltipNFBuscarDados = new System.Windows.Forms.ToolTip(this.components);
             this.tlpGeral.SuspendLayout();
             this.tlpMenuPrincipal.SuspendLayout();
             this.tlpMenu.SuspendLayout();
@@ -227,8 +242,15 @@
             this.tlpNFDivisorias.SuspendLayout();
             this.panelNFHeader.SuspendLayout();
             this.tlpNFTipoFornecedor.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.panelNFTipoFornecedor.SuspendLayout();
             this.panelNFDatas.SuspendLayout();
+            this.tabNFDados.SuspendLayout();
+            this.tabPageNFDadosGerais.SuspendLayout();
+            this.grpNFCadastroJuridico.SuspendLayout();
+            this.grpEndereco.SuspendLayout();
+            this.tabPageNFObservacoes.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.panelFornecedores.SuspendLayout();
             this.tableLayoutPanel14.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -255,12 +277,6 @@
             this.tableLayoutPanel23.SuspendLayout();
             this.panelConfigBanco.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
-            this.tabNFDados.SuspendLayout();
-            this.tabPageNFDadosGerais.SuspendLayout();
-            this.tabPageNFObservacoes.SuspendLayout();
-            this.grpEndereco.SuspendLayout();
-            this.grpNFCadastroJuridico.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpGeral
@@ -605,17 +621,17 @@
             // tlpNFBordas
             // 
             this.tlpNFBordas.ColumnCount = 3;
-            this.tlpNFBordas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tlpNFBordas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpNFBordas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tlpNFBordas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
+            this.tlpNFBordas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 96.07843F));
+            this.tlpNFBordas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
             this.tlpNFBordas.Controls.Add(this.panelNFCentro, 1, 1);
             this.tlpNFBordas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpNFBordas.Location = new System.Drawing.Point(0, 0);
             this.tlpNFBordas.Name = "tlpNFBordas";
             this.tlpNFBordas.RowCount = 3;
-            this.tlpNFBordas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tlpNFBordas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpNFBordas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tlpNFBordas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
+            this.tlpNFBordas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 96.07843F));
+            this.tlpNFBordas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 1.960784F));
             this.tlpNFBordas.Size = new System.Drawing.Size(938, 688);
             this.tlpNFBordas.TabIndex = 0;
             // 
@@ -624,9 +640,9 @@
             this.panelNFCentro.BackColor = System.Drawing.Color.White;
             this.panelNFCentro.Controls.Add(this.tlpNFDivisorias);
             this.panelNFCentro.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFCentro.Location = new System.Drawing.Point(18, 18);
+            this.panelNFCentro.Location = new System.Drawing.Point(21, 16);
             this.panelNFCentro.Name = "panelNFCentro";
-            this.panelNFCentro.Size = new System.Drawing.Size(902, 652);
+            this.panelNFCentro.Size = new System.Drawing.Size(895, 655);
             this.panelNFCentro.TabIndex = 0;
             // 
             // tlpNFDivisorias
@@ -645,9 +661,8 @@
             this.tlpNFDivisorias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 159F));
             this.tlpNFDivisorias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tlpNFDivisorias.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tlpNFDivisorias.Size = new System.Drawing.Size(902, 652);
+            this.tlpNFDivisorias.Size = new System.Drawing.Size(895, 655);
             this.tlpNFDivisorias.TabIndex = 0;
-            this.tlpNFDivisorias.Visible = false;
             // 
             // panelNFHeader
             // 
@@ -656,7 +671,7 @@
             this.panelNFHeader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFHeader.Location = new System.Drawing.Point(3, 3);
             this.panelNFHeader.Name = "panelNFHeader";
-            this.panelNFHeader.Size = new System.Drawing.Size(896, 44);
+            this.panelNFHeader.Size = new System.Drawing.Size(889, 44);
             this.panelNFHeader.TabIndex = 0;
             // 
             // labelNFTitulo
@@ -670,9 +685,11 @@
             // 
             // tlpNFTipoFornecedor
             // 
-            this.tlpNFTipoFornecedor.ColumnCount = 2;
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 71.31696F));
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.68303F));
+            this.tlpNFTipoFornecedor.ColumnCount = 3;
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
             this.tlpNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -680,75 +697,161 @@
             this.tlpNFTipoFornecedor.Name = "tlpNFTipoFornecedor";
             this.tlpNFTipoFornecedor.RowCount = 1;
             this.tlpNFTipoFornecedor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpNFTipoFornecedor.Size = new System.Drawing.Size(896, 153);
+            this.tlpNFTipoFornecedor.Size = new System.Drawing.Size(889, 153);
             this.tlpNFTipoFornecedor.TabIndex = 1;
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.txtNFIDFornecedor);
+            this.panel1.Controls.Add(this.lblIDFornecedor);
+            this.panel1.Controls.Add(this.txtNFDataCadastro);
+            this.panel1.Controls.Add(this.lblNFDataNascimento);
+            this.panel1.Controls.Add(this.dtpNFDataNascimento);
+            this.panel1.Controls.Add(this.label31);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(501, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(136, 147);
+            this.panel1.TabIndex = 1;
+            // 
+            // txtNFIDFornecedor
+            // 
+            this.txtNFIDFornecedor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFIDFornecedor.Enabled = false;
+            this.txtNFIDFornecedor.Location = new System.Drawing.Point(21, 23);
+            this.txtNFIDFornecedor.Name = "txtNFIDFornecedor";
+            this.txtNFIDFornecedor.Size = new System.Drawing.Size(104, 20);
+            this.txtNFIDFornecedor.TabIndex = 11;
+            // 
+            // lblIDFornecedor
+            // 
+            this.lblIDFornecedor.AutoSize = true;
+            this.lblIDFornecedor.Location = new System.Drawing.Point(18, 5);
+            this.lblIDFornecedor.Name = "lblIDFornecedor";
+            this.lblIDFornecedor.Size = new System.Drawing.Size(78, 13);
+            this.lblIDFornecedor.TabIndex = 10;
+            this.lblIDFornecedor.Text = "ID Fornecedor:";
+            // 
+            // txtNFDataCadastro
+            // 
+            this.txtNFDataCadastro.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFDataCadastro.Enabled = false;
+            this.txtNFDataCadastro.Location = new System.Drawing.Point(21, 69);
+            this.txtNFDataCadastro.Mask = "00/00/0000";
+            this.txtNFDataCadastro.Name = "txtNFDataCadastro";
+            this.txtNFDataCadastro.Size = new System.Drawing.Size(104, 20);
+            this.txtNFDataCadastro.TabIndex = 0;
+            // 
+            // lblNFDataNascimento
+            // 
+            this.lblNFDataNascimento.AutoSize = true;
+            this.lblNFDataNascimento.Location = new System.Drawing.Point(18, 100);
+            this.lblNFDataNascimento.Name = "lblNFDataNascimento";
+            this.lblNFDataNascimento.Size = new System.Drawing.Size(58, 13);
+            this.lblNFDataNascimento.TabIndex = 9;
+            this.lblNFDataNascimento.Text = "Fundação:";
+            // 
+            // dtpNFDataNascimento
+            // 
+            this.dtpNFDataNascimento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpNFDataNascimento.Location = new System.Drawing.Point(21, 117);
+            this.dtpNFDataNascimento.MinDate = new System.DateTime(1890, 1, 1, 0, 0, 0, 0);
+            this.dtpNFDataNascimento.Name = "dtpNFDataNascimento";
+            this.dtpNFDataNascimento.Size = new System.Drawing.Size(104, 20);
+            this.dtpNFDataNascimento.TabIndex = 1;
+            this.dtpNFDataNascimento.Value = new System.DateTime(2018, 7, 13, 0, 0, 0, 0);
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(18, 53);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(52, 13);
+            this.label31.TabIndex = 7;
+            this.label31.Text = "Cadastro:";
             // 
             // panelNFTipoFornecedor
             // 
             this.panelNFTipoFornecedor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelNFTipoFornecedor.Controls.Add(this.lblApelido);
+            this.panelNFTipoFornecedor.Controls.Add(this.lblNFApelido);
             this.panelNFTipoFornecedor.Controls.Add(this.lblNomeFornecedor);
+            this.panelNFTipoFornecedor.Controls.Add(this.btnNFBuscarDados);
             this.panelNFTipoFornecedor.Controls.Add(this.lblNFCPFCNPJ);
             this.panelNFTipoFornecedor.Controls.Add(this.lblTipoFornecedor);
-            this.panelNFTipoFornecedor.Controls.Add(this.txtApelido);
-            this.panelNFTipoFornecedor.Controls.Add(this.txtNome);
+            this.panelNFTipoFornecedor.Controls.Add(this.txtNFApelido);
+            this.panelNFTipoFornecedor.Controls.Add(this.txtNFNome);
             this.panelNFTipoFornecedor.Controls.Add(this.txtNFCPFCNPJ);
             this.panelNFTipoFornecedor.Controls.Add(this.cmbTipoFornecedor);
             this.panelNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(633, 147);
+            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(492, 147);
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
-            // lblApelido
+            // lblNFApelido
             // 
-            this.lblApelido.AutoSize = true;
-            this.lblApelido.Location = new System.Drawing.Point(24, 101);
-            this.lblApelido.Name = "lblApelido";
-            this.lblApelido.Size = new System.Drawing.Size(78, 13);
-            this.lblApelido.TabIndex = 7;
-            this.lblApelido.Text = "Nome Fantasia";
+            this.lblNFApelido.AutoSize = true;
+            this.lblNFApelido.Location = new System.Drawing.Point(24, 101);
+            this.lblNFApelido.Name = "lblNFApelido";
+            this.lblNFApelido.Size = new System.Drawing.Size(81, 13);
+            this.lblNFApelido.TabIndex = 7;
+            this.lblNFApelido.Text = "Nome Fantasia:";
             // 
             // lblNomeFornecedor
             // 
             this.lblNomeFornecedor.AutoSize = true;
             this.lblNomeFornecedor.Location = new System.Drawing.Point(24, 53);
             this.lblNomeFornecedor.Name = "lblNomeFornecedor";
-            this.lblNomeFornecedor.Size = new System.Drawing.Size(70, 13);
+            this.lblNomeFornecedor.Size = new System.Drawing.Size(73, 13);
             this.lblNomeFornecedor.TabIndex = 6;
-            this.lblNomeFornecedor.Text = "Razão Social";
+            this.lblNomeFornecedor.Text = "Razão Social:";
+            // 
+            // btnNFBuscarDados
+            // 
+            this.btnNFBuscarDados.BackColor = System.Drawing.Color.LightGreen;
+            this.btnNFBuscarDados.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFBuscarDados.Location = new System.Drawing.Point(308, 19);
+            this.btnNFBuscarDados.Name = "btnNFBuscarDados";
+            this.btnNFBuscarDados.Size = new System.Drawing.Size(93, 23);
+            this.btnNFBuscarDados.TabIndex = 2;
+            this.btnNFBuscarDados.Text = "Buscar Dados";
+            this.btnNFBuscarDados.UseVisualStyleBackColor = false;
             // 
             // lblNFCPFCNPJ
             // 
             this.lblNFCPFCNPJ.AutoSize = true;
             this.lblNFCPFCNPJ.Location = new System.Drawing.Point(151, 6);
             this.lblNFCPFCNPJ.Name = "lblNFCPFCNPJ";
-            this.lblNFCPFCNPJ.Size = new System.Drawing.Size(34, 13);
+            this.lblNFCPFCNPJ.Size = new System.Drawing.Size(37, 13);
             this.lblNFCPFCNPJ.TabIndex = 5;
-            this.lblNFCPFCNPJ.Text = "CNPJ";
+            this.lblNFCPFCNPJ.Text = "CNPJ:";
             // 
             // lblTipoFornecedor
             // 
             this.lblTipoFornecedor.AutoSize = true;
             this.lblTipoFornecedor.Location = new System.Drawing.Point(24, 6);
             this.lblTipoFornecedor.Name = "lblTipoFornecedor";
-            this.lblTipoFornecedor.Size = new System.Drawing.Size(28, 13);
+            this.lblTipoFornecedor.Size = new System.Drawing.Size(31, 13);
             this.lblTipoFornecedor.TabIndex = 4;
-            this.lblTipoFornecedor.Text = "Tipo";
+            this.lblTipoFornecedor.Text = "Tipo:";
             // 
-            // txtApelido
+            // txtNFApelido
             // 
-            this.txtApelido.Location = new System.Drawing.Point(27, 117);
-            this.txtApelido.Name = "txtApelido";
-            this.txtApelido.Size = new System.Drawing.Size(462, 20);
-            this.txtApelido.TabIndex = 3;
+            this.txtNFApelido.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFApelido.Location = new System.Drawing.Point(27, 117);
+            this.txtNFApelido.Name = "txtNFApelido";
+            this.txtNFApelido.Size = new System.Drawing.Size(451, 20);
+            this.txtNFApelido.TabIndex = 4;
             // 
-            // txtNome
+            // txtNFNome
             // 
-            this.txtNome.Location = new System.Drawing.Point(27, 69);
-            this.txtNome.Name = "txtNome";
-            this.txtNome.Size = new System.Drawing.Size(462, 20);
-            this.txtNome.TabIndex = 2;
+            this.txtNFNome.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFNome.Location = new System.Drawing.Point(27, 69);
+            this.txtNFNome.MaxLength = 100;
+            this.txtNFNome.Name = "txtNFNome";
+            this.txtNFNome.Size = new System.Drawing.Size(451, 20);
+            this.txtNFNome.TabIndex = 3;
             // 
             // txtNFCPFCNPJ
             // 
@@ -769,57 +872,646 @@
             this.cmbTipoFornecedor.Size = new System.Drawing.Size(121, 21);
             this.cmbTipoFornecedor.TabIndex = 0;
             this.cmbTipoFornecedor.Text = "Pessoa Jurídica";
+            this.cmbTipoFornecedor.SelectedIndexChanged += new System.EventHandler(this.cmbTipoFornecedor_SelectedIndexChanged);
             // 
             // panelNFDatas
             // 
             this.panelNFDatas.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelNFDatas.Controls.Add(this.lblNFDataNascimento);
-            this.panelNFDatas.Controls.Add(this.dtpNFDataNascimento);
-            this.panelNFDatas.Controls.Add(this.lblNFCadastro);
-            this.panelNFDatas.Controls.Add(this.dtpNFCadastro);
+            this.panelNFDatas.Controls.Add(this.label35);
+            this.panelNFDatas.Controls.Add(this.cmbNFSubCateg3);
+            this.panelNFDatas.Controls.Add(this.cmbNFCateg3);
+            this.panelNFDatas.Controls.Add(this.label36);
+            this.panelNFDatas.Controls.Add(this.label33);
+            this.panelNFDatas.Controls.Add(this.cmbNFSubCateg2);
+            this.panelNFDatas.Controls.Add(this.cmbNFCateg2);
+            this.panelNFDatas.Controls.Add(this.label34);
+            this.panelNFDatas.Controls.Add(this.label30);
+            this.panelNFDatas.Controls.Add(this.cmbNFSubCateg1);
+            this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
+            this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFDatas.Location = new System.Drawing.Point(642, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(643, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(251, 147);
-            this.panelNFDatas.TabIndex = 1;
+            this.panelNFDatas.Size = new System.Drawing.Size(243, 147);
+            this.panelNFDatas.TabIndex = 2;
             // 
-            // lblNFDataNascimento
+            // label35
             // 
-            this.lblNFDataNascimento.AutoSize = true;
-            this.lblNFDataNascimento.Location = new System.Drawing.Point(18, 54);
-            this.lblNFDataNascimento.Name = "lblNFDataNascimento";
-            this.lblNFDataNascimento.Size = new System.Drawing.Size(58, 13);
-            this.lblNFDataNascimento.TabIndex = 9;
-            this.lblNFDataNascimento.Text = "Fundação:";
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(126, 100);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(77, 13);
+            this.label35.TabIndex = 12;
+            this.label35.Text = "Sub Categoria:";
             // 
-            // dtpNFDataNascimento
+            // cmbNFSubCateg3
             // 
-            this.dtpNFDataNascimento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNFDataNascimento.Location = new System.Drawing.Point(21, 71);
-            this.dtpNFDataNascimento.MinDate = new System.DateTime(1890, 1, 1, 0, 0, 0, 0);
-            this.dtpNFDataNascimento.Name = "dtpNFDataNascimento";
-            this.dtpNFDataNascimento.Size = new System.Drawing.Size(213, 20);
-            this.dtpNFDataNascimento.TabIndex = 8;
-            this.dtpNFDataNascimento.Value = new System.DateTime(2018, 7, 13, 0, 0, 0, 0);
+            this.cmbNFSubCateg3.Enabled = false;
+            this.cmbNFSubCateg3.FormattingEnabled = true;
+            this.cmbNFSubCateg3.Location = new System.Drawing.Point(129, 115);
+            this.cmbNFSubCateg3.Name = "cmbNFSubCateg3";
+            this.cmbNFSubCateg3.Size = new System.Drawing.Size(101, 21);
+            this.cmbNFSubCateg3.TabIndex = 11;
             // 
-            // lblNFCadastro
+            // cmbNFCateg3
             // 
-            this.lblNFCadastro.AutoSize = true;
-            this.lblNFCadastro.Location = new System.Drawing.Point(17, 5);
-            this.lblNFCadastro.Name = "lblNFCadastro";
-            this.lblNFCadastro.Size = new System.Drawing.Size(52, 13);
-            this.lblNFCadastro.TabIndex = 7;
-            this.lblNFCadastro.Text = "Cadastro:";
+            this.cmbNFCateg3.FormattingEnabled = true;
+            this.cmbNFCateg3.Location = new System.Drawing.Point(6, 116);
+            this.cmbNFCateg3.Name = "cmbNFCateg3";
+            this.cmbNFCateg3.Size = new System.Drawing.Size(117, 21);
+            this.cmbNFCateg3.TabIndex = 10;
             // 
-            // dtpNFCadastro
+            // label36
             // 
-            this.dtpNFCadastro.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNFCadastro.Location = new System.Drawing.Point(20, 22);
-            this.dtpNFCadastro.MinDate = new System.DateTime(1890, 1, 1, 0, 0, 0, 0);
-            this.dtpNFCadastro.Name = "dtpNFCadastro";
-            this.dtpNFCadastro.Size = new System.Drawing.Size(213, 20);
-            this.dtpNFCadastro.TabIndex = 0;
-            this.dtpNFCadastro.Value = new System.DateTime(2018, 7, 13, 0, 0, 0, 0);
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(3, 99);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(99, 13);
+            this.label36.TabIndex = 9;
+            this.label36.Text = "Categoria Terciária:";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(126, 53);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(77, 13);
+            this.label33.TabIndex = 8;
+            this.label33.Text = "Sub Categoria:";
+            // 
+            // cmbNFSubCateg2
+            // 
+            this.cmbNFSubCateg2.Enabled = false;
+            this.cmbNFSubCateg2.FormattingEnabled = true;
+            this.cmbNFSubCateg2.Location = new System.Drawing.Point(129, 68);
+            this.cmbNFSubCateg2.Name = "cmbNFSubCateg2";
+            this.cmbNFSubCateg2.Size = new System.Drawing.Size(101, 21);
+            this.cmbNFSubCateg2.TabIndex = 7;
+            // 
+            // cmbNFCateg2
+            // 
+            this.cmbNFCateg2.FormattingEnabled = true;
+            this.cmbNFCateg2.Location = new System.Drawing.Point(6, 69);
+            this.cmbNFCateg2.Name = "cmbNFCateg2";
+            this.cmbNFCateg2.Size = new System.Drawing.Size(117, 21);
+            this.cmbNFCateg2.TabIndex = 6;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(3, 52);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(112, 13);
+            this.label34.TabIndex = 5;
+            this.label34.Text = "Categoria Secundária:";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(126, 6);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(77, 13);
+            this.label30.TabIndex = 4;
+            this.label30.Text = "Sub Categoria:";
+            // 
+            // cmbNFSubCateg1
+            // 
+            this.cmbNFSubCateg1.Enabled = false;
+            this.cmbNFSubCateg1.FormattingEnabled = true;
+            this.cmbNFSubCateg1.Location = new System.Drawing.Point(129, 21);
+            this.cmbNFSubCateg1.Name = "cmbNFSubCateg1";
+            this.cmbNFSubCateg1.Size = new System.Drawing.Size(101, 21);
+            this.cmbNFSubCateg1.TabIndex = 3;
+            // 
+            // cmbNFCateg1
+            // 
+            this.cmbNFCateg1.FormattingEnabled = true;
+            this.cmbNFCateg1.Location = new System.Drawing.Point(6, 22);
+            this.cmbNFCateg1.Name = "cmbNFCateg1";
+            this.cmbNFCateg1.Size = new System.Drawing.Size(117, 21);
+            this.cmbNFCateg1.TabIndex = 1;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(3, 5);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(98, 13);
+            this.label32.TabIndex = 0;
+            this.label32.Text = "Categoria Principal:";
+            // 
+            // tabNFDados
+            // 
+            this.tabNFDados.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
+            this.tabNFDados.Controls.Add(this.tabPageNFDadosGerais);
+            this.tabNFDados.Controls.Add(this.tabPageNFObservacoes);
+            this.tabNFDados.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabNFDados.Location = new System.Drawing.Point(3, 212);
+            this.tabNFDados.Name = "tabNFDados";
+            this.tabNFDados.SelectedIndex = 0;
+            this.tabNFDados.Size = new System.Drawing.Size(889, 360);
+            this.tabNFDados.TabIndex = 2;
+            // 
+            // tabPageNFDadosGerais
+            // 
+            this.tabPageNFDadosGerais.BackColor = System.Drawing.Color.White;
+            this.tabPageNFDadosGerais.Controls.Add(this.grpNFCadastroJuridico);
+            this.tabPageNFDadosGerais.Controls.Add(this.grpEndereco);
+            this.tabPageNFDadosGerais.Location = new System.Drawing.Point(4, 25);
+            this.tabPageNFDadosGerais.Name = "tabPageNFDadosGerais";
+            this.tabPageNFDadosGerais.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageNFDadosGerais.Size = new System.Drawing.Size(881, 331);
+            this.tabPageNFDadosGerais.TabIndex = 0;
+            this.tabPageNFDadosGerais.Text = "Dados Gerais";
+            // 
+            // grpNFCadastroJuridico
+            // 
+            this.grpNFCadastroJuridico.Controls.Add(this.txtNFInscricaoMunicipal);
+            this.grpNFCadastroJuridico.Controls.Add(this.label29);
+            this.grpNFCadastroJuridico.Controls.Add(this.txtNFInscricaoEstadual);
+            this.grpNFCadastroJuridico.Controls.Add(this.label28);
+            this.grpNFCadastroJuridico.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpNFCadastroJuridico.Location = new System.Drawing.Point(3, 241);
+            this.grpNFCadastroJuridico.Name = "grpNFCadastroJuridico";
+            this.grpNFCadastroJuridico.Size = new System.Drawing.Size(875, 81);
+            this.grpNFCadastroJuridico.TabIndex = 1;
+            this.grpNFCadastroJuridico.TabStop = false;
+            this.grpNFCadastroJuridico.Text = "Cadastro Jurídico";
+            // 
+            // txtNFInscricaoMunicipal
+            // 
+            this.txtNFInscricaoMunicipal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFInscricaoMunicipal.Location = new System.Drawing.Point(430, 43);
+            this.txtNFInscricaoMunicipal.Name = "txtNFInscricaoMunicipal";
+            this.txtNFInscricaoMunicipal.Size = new System.Drawing.Size(438, 20);
+            this.txtNFInscricaoMunicipal.TabIndex = 37;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(427, 25);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(101, 13);
+            this.label29.TabIndex = 36;
+            this.label29.Text = "Inscrição Municipal:";
+            // 
+            // txtNFInscricaoEstadual
+            // 
+            this.txtNFInscricaoEstadual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFInscricaoEstadual.Location = new System.Drawing.Point(17, 43);
+            this.txtNFInscricaoEstadual.Name = "txtNFInscricaoEstadual";
+            this.txtNFInscricaoEstadual.Size = new System.Drawing.Size(407, 20);
+            this.txtNFInscricaoEstadual.TabIndex = 34;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(14, 25);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(97, 13);
+            this.label28.TabIndex = 33;
+            this.label28.Text = "Inscrição Estadual:";
+            // 
+            // grpEndereco
+            // 
+            this.grpEndereco.Controls.Add(this.txtNFSite);
+            this.grpEndereco.Controls.Add(this.label27);
+            this.grpEndereco.Controls.Add(this.txtNFEmail);
+            this.grpEndereco.Controls.Add(this.label26);
+            this.grpEndereco.Controls.Add(this.txtNFContatoCelular);
+            this.grpEndereco.Controls.Add(this.label24);
+            this.grpEndereco.Controls.Add(this.txtNFCelular);
+            this.grpEndereco.Controls.Add(this.label25);
+            this.grpEndereco.Controls.Add(this.txtNFContatoComercial);
+            this.grpEndereco.Controls.Add(this.label22);
+            this.grpEndereco.Controls.Add(this.txtNFTelefoneComercial);
+            this.grpEndereco.Controls.Add(this.label23);
+            this.grpEndereco.Controls.Add(this.txtNFContato);
+            this.grpEndereco.Controls.Add(this.label21);
+            this.grpEndereco.Controls.Add(this.txtNFTelefone);
+            this.grpEndereco.Controls.Add(this.label20);
+            this.grpEndereco.Controls.Add(this.txtNFPais);
+            this.grpEndereco.Controls.Add(this.label19);
+            this.grpEndereco.Controls.Add(this.txtNFEstado);
+            this.grpEndereco.Controls.Add(this.label16);
+            this.grpEndereco.Controls.Add(this.txtNFCidade);
+            this.grpEndereco.Controls.Add(this.label17);
+            this.grpEndereco.Controls.Add(this.txtNFBairro);
+            this.grpEndereco.Controls.Add(this.label18);
+            this.grpEndereco.Controls.Add(this.txtNFComplemento);
+            this.grpEndereco.Controls.Add(this.label14);
+            this.grpEndereco.Controls.Add(this.txtNFNumero);
+            this.grpEndereco.Controls.Add(this.label1);
+            this.grpEndereco.Controls.Add(this.txtNFEndereco);
+            this.grpEndereco.Controls.Add(this.lblNFEndereco);
+            this.grpEndereco.Controls.Add(this.btnNFBuscarEndereco);
+            this.grpEndereco.Controls.Add(this.txtNFCEP);
+            this.grpEndereco.Controls.Add(this.lblNFCep);
+            this.grpEndereco.Dock = System.Windows.Forms.DockStyle.Top;
+            this.grpEndereco.Location = new System.Drawing.Point(3, 3);
+            this.grpEndereco.Name = "grpEndereco";
+            this.grpEndereco.Size = new System.Drawing.Size(875, 238);
+            this.grpEndereco.TabIndex = 0;
+            this.grpEndereco.TabStop = false;
+            this.grpEndereco.Text = "Endereço";
+            // 
+            // txtNFSite
+            // 
+            this.txtNFSite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFSite.Location = new System.Drawing.Point(430, 198);
+            this.txtNFSite.Name = "txtNFSite";
+            this.txtNFSite.Size = new System.Drawing.Size(439, 20);
+            this.txtNFSite.TabIndex = 32;
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(427, 180);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(28, 13);
+            this.label27.TabIndex = 31;
+            this.label27.Text = "Site:";
+            // 
+            // txtNFEmail
+            // 
+            this.txtNFEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFEmail.Location = new System.Drawing.Point(17, 198);
+            this.txtNFEmail.Name = "txtNFEmail";
+            this.txtNFEmail.Size = new System.Drawing.Size(407, 20);
+            this.txtNFEmail.TabIndex = 30;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(14, 180);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(38, 13);
+            this.label26.TabIndex = 29;
+            this.label26.Text = "E-mail:";
+            // 
+            // txtNFContatoCelular
+            // 
+            this.txtNFContatoCelular.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFContatoCelular.Location = new System.Drawing.Point(710, 146);
+            this.txtNFContatoCelular.Name = "txtNFContatoCelular";
+            this.txtNFContatoCelular.Size = new System.Drawing.Size(159, 20);
+            this.txtNFContatoCelular.TabIndex = 28;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(707, 128);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(47, 13);
+            this.label24.TabIndex = 27;
+            this.label24.Text = "Contato:";
+            // 
+            // txtNFCelular
+            // 
+            this.txtNFCelular.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFCelular.Location = new System.Drawing.Point(588, 146);
+            this.txtNFCelular.Mask = "(00) 00000-0000";
+            this.txtNFCelular.Name = "txtNFCelular";
+            this.txtNFCelular.Size = new System.Drawing.Size(116, 20);
+            this.txtNFCelular.TabIndex = 26;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(585, 130);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(42, 13);
+            this.label25.TabIndex = 25;
+            this.label25.Text = "Celular:";
+            // 
+            // txtNFContatoComercial
+            // 
+            this.txtNFContatoComercial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFContatoComercial.Location = new System.Drawing.Point(422, 146);
+            this.txtNFContatoComercial.Name = "txtNFContatoComercial";
+            this.txtNFContatoComercial.Size = new System.Drawing.Size(160, 20);
+            this.txtNFContatoComercial.TabIndex = 24;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(419, 128);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(47, 13);
+            this.label22.TabIndex = 23;
+            this.label22.Text = "Contato:";
+            // 
+            // txtNFTelefoneComercial
+            // 
+            this.txtNFTelefoneComercial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFTelefoneComercial.Location = new System.Drawing.Point(300, 146);
+            this.txtNFTelefoneComercial.Mask = "(00) 0000-0000";
+            this.txtNFTelefoneComercial.Name = "txtNFTelefoneComercial";
+            this.txtNFTelefoneComercial.Size = new System.Drawing.Size(116, 20);
+            this.txtNFTelefoneComercial.TabIndex = 22;
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(297, 130);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(101, 13);
+            this.label23.TabIndex = 21;
+            this.label23.Text = "Telefone Comercial:";
+            // 
+            // txtNFContato
+            // 
+            this.txtNFContato.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFContato.Location = new System.Drawing.Point(139, 146);
+            this.txtNFContato.Name = "txtNFContato";
+            this.txtNFContato.Size = new System.Drawing.Size(155, 20);
+            this.txtNFContato.TabIndex = 20;
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(136, 128);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(47, 13);
+            this.label21.TabIndex = 19;
+            this.label21.Text = "Contato:";
+            // 
+            // txtNFTelefone
+            // 
+            this.txtNFTelefone.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFTelefone.Location = new System.Drawing.Point(17, 146);
+            this.txtNFTelefone.Mask = "(00) 0000-0000";
+            this.txtNFTelefone.Name = "txtNFTelefone";
+            this.txtNFTelefone.Size = new System.Drawing.Size(116, 20);
+            this.txtNFTelefone.TabIndex = 18;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(14, 130);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(52, 13);
+            this.label20.TabIndex = 17;
+            this.label20.Text = "Telefone:";
+            // 
+            // txtNFPais
+            // 
+            this.txtNFPais.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFPais.Location = new System.Drawing.Point(686, 96);
+            this.txtNFPais.Name = "txtNFPais";
+            this.txtNFPais.Size = new System.Drawing.Size(183, 20);
+            this.txtNFPais.TabIndex = 16;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(683, 78);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(32, 13);
+            this.label19.TabIndex = 15;
+            this.label19.Text = "País:";
+            // 
+            // txtNFEstado
+            // 
+            this.txtNFEstado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFEstado.Location = new System.Drawing.Point(554, 96);
+            this.txtNFEstado.Name = "txtNFEstado";
+            this.txtNFEstado.Size = new System.Drawing.Size(126, 20);
+            this.txtNFEstado.TabIndex = 14;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(551, 78);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(43, 13);
+            this.label16.TabIndex = 13;
+            this.label16.Text = "Estado:";
+            // 
+            // txtNFCidade
+            // 
+            this.txtNFCidade.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFCidade.Location = new System.Drawing.Point(254, 96);
+            this.txtNFCidade.Name = "txtNFCidade";
+            this.txtNFCidade.Size = new System.Drawing.Size(294, 20);
+            this.txtNFCidade.TabIndex = 12;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(251, 78);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(43, 13);
+            this.label17.TabIndex = 11;
+            this.label17.Text = "Cidade:";
+            // 
+            // txtNFBairro
+            // 
+            this.txtNFBairro.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFBairro.Location = new System.Drawing.Point(17, 96);
+            this.txtNFBairro.Name = "txtNFBairro";
+            this.txtNFBairro.Size = new System.Drawing.Size(231, 20);
+            this.txtNFBairro.TabIndex = 10;
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 78);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(37, 13);
+            this.label18.TabIndex = 9;
+            this.label18.Text = "Bairro:";
+            // 
+            // txtNFComplemento
+            // 
+            this.txtNFComplemento.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFComplemento.Location = new System.Drawing.Point(686, 43);
+            this.txtNFComplemento.Name = "txtNFComplemento";
+            this.txtNFComplemento.Size = new System.Drawing.Size(183, 20);
+            this.txtNFComplemento.TabIndex = 8;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(683, 25);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(74, 13);
+            this.label14.TabIndex = 7;
+            this.label14.Text = "Complemento:";
+            // 
+            // txtNFNumero
+            // 
+            this.txtNFNumero.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFNumero.Location = new System.Drawing.Point(600, 44);
+            this.txtNFNumero.Name = "txtNFNumero";
+            this.txtNFNumero.Size = new System.Drawing.Size(80, 20);
+            this.txtNFNumero.TabIndex = 6;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(597, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Número:";
+            // 
+            // txtNFEndereco
+            // 
+            this.txtNFEndereco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFEndereco.Location = new System.Drawing.Point(254, 44);
+            this.txtNFEndereco.Name = "txtNFEndereco";
+            this.txtNFEndereco.Size = new System.Drawing.Size(340, 20);
+            this.txtNFEndereco.TabIndex = 4;
+            // 
+            // lblNFEndereco
+            // 
+            this.lblNFEndereco.AutoSize = true;
+            this.lblNFEndereco.Location = new System.Drawing.Point(251, 26);
+            this.lblNFEndereco.Name = "lblNFEndereco";
+            this.lblNFEndereco.Size = new System.Drawing.Size(56, 13);
+            this.lblNFEndereco.TabIndex = 3;
+            this.lblNFEndereco.Text = "Endereço:";
+            // 
+            // btnNFBuscarEndereco
+            // 
+            this.btnNFBuscarEndereco.BackColor = System.Drawing.Color.LightGreen;
+            this.btnNFBuscarEndereco.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFBuscarEndereco.Location = new System.Drawing.Point(97, 43);
+            this.btnNFBuscarEndereco.Name = "btnNFBuscarEndereco";
+            this.btnNFBuscarEndereco.Size = new System.Drawing.Size(106, 23);
+            this.btnNFBuscarEndereco.TabIndex = 2;
+            this.btnNFBuscarEndereco.Text = "Buscar Endereço";
+            this.btnNFBuscarEndereco.UseVisualStyleBackColor = false;
+            // 
+            // txtNFCEP
+            // 
+            this.txtNFCEP.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFCEP.Location = new System.Drawing.Point(17, 44);
+            this.txtNFCEP.Mask = "00000-000";
+            this.txtNFCEP.Name = "txtNFCEP";
+            this.txtNFCEP.Size = new System.Drawing.Size(74, 20);
+            this.txtNFCEP.TabIndex = 1;
+            // 
+            // lblNFCep
+            // 
+            this.lblNFCep.AutoSize = true;
+            this.lblNFCep.Location = new System.Drawing.Point(14, 25);
+            this.lblNFCep.Name = "lblNFCep";
+            this.lblNFCep.Size = new System.Drawing.Size(31, 13);
+            this.lblNFCep.TabIndex = 0;
+            this.lblNFCep.Text = "CEP:";
+            // 
+            // tabPageNFObservacoes
+            // 
+            this.tabPageNFObservacoes.BackColor = System.Drawing.Color.White;
+            this.tabPageNFObservacoes.Controls.Add(this.txtNFObservacoes);
+            this.tabPageNFObservacoes.Location = new System.Drawing.Point(4, 25);
+            this.tabPageNFObservacoes.Name = "tabPageNFObservacoes";
+            this.tabPageNFObservacoes.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageNFObservacoes.Size = new System.Drawing.Size(881, 331);
+            this.tabPageNFObservacoes.TabIndex = 1;
+            this.tabPageNFObservacoes.Text = "Observações";
+            // 
+            // txtNFObservacoes
+            // 
+            this.txtNFObservacoes.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFObservacoes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtNFObservacoes.Location = new System.Drawing.Point(3, 3);
+            this.txtNFObservacoes.Name = "txtNFObservacoes";
+            this.txtNFObservacoes.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.txtNFObservacoes.Size = new System.Drawing.Size(875, 325);
+            this.txtNFObservacoes.TabIndex = 0;
+            this.txtNFObservacoes.Text = "";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 8;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.btnNFNovoCadastro, 5, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnNFApagar, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnNFFechar, 7, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnNFImprimir, 4, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnNFEditar, 3, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 578);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(889, 74);
+            this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // btnNFNovoCadastro
+            // 
+            this.btnNFNovoCadastro.BackColor = System.Drawing.Color.PaleTurquoise;
+            this.btnNFNovoCadastro.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNFNovoCadastro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFNovoCadastro.Location = new System.Drawing.Point(707, 3);
+            this.btnNFNovoCadastro.Name = "btnNFNovoCadastro";
+            this.btnNFNovoCadastro.Size = new System.Drawing.Size(78, 68);
+            this.btnNFNovoCadastro.TabIndex = 1;
+            this.btnNFNovoCadastro.Text = "Novo Fornecedor";
+            this.btnNFNovoCadastro.UseVisualStyleBackColor = false;
+            // 
+            // btnNFApagar
+            // 
+            this.btnNFApagar.BackColor = System.Drawing.Color.LightCoral;
+            this.btnNFApagar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNFApagar.Enabled = false;
+            this.btnNFApagar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFApagar.Location = new System.Drawing.Point(425, 3);
+            this.btnNFApagar.Name = "btnNFApagar";
+            this.btnNFApagar.Size = new System.Drawing.Size(78, 68);
+            this.btnNFApagar.TabIndex = 4;
+            this.btnNFApagar.Text = "Apagar";
+            this.btnNFApagar.UseVisualStyleBackColor = false;
+            // 
+            // btnNFFechar
+            // 
+            this.btnNFFechar.BackColor = System.Drawing.Color.LightGreen;
+            this.btnNFFechar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNFFechar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFFechar.Location = new System.Drawing.Point(806, 3);
+            this.btnNFFechar.Name = "btnNFFechar";
+            this.btnNFFechar.Size = new System.Drawing.Size(80, 68);
+            this.btnNFFechar.TabIndex = 0;
+            this.btnNFFechar.Text = "Fechar";
+            this.btnNFFechar.UseVisualStyleBackColor = false;
+            this.btnNFFechar.Click += new System.EventHandler(this.btnNFFechar_Click);
+            // 
+            // btnNFImprimir
+            // 
+            this.btnNFImprimir.BackColor = System.Drawing.Color.Thistle;
+            this.btnNFImprimir.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNFImprimir.Enabled = false;
+            this.btnNFImprimir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFImprimir.Location = new System.Drawing.Point(623, 3);
+            this.btnNFImprimir.Name = "btnNFImprimir";
+            this.btnNFImprimir.Size = new System.Drawing.Size(78, 68);
+            this.btnNFImprimir.TabIndex = 2;
+            this.btnNFImprimir.Text = "Imprimir";
+            this.btnNFImprimir.UseVisualStyleBackColor = false;
+            // 
+            // btnNFEditar
+            // 
+            this.btnNFEditar.BackColor = System.Drawing.Color.Khaki;
+            this.btnNFEditar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNFEditar.Enabled = false;
+            this.btnNFEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNFEditar.Location = new System.Drawing.Point(539, 3);
+            this.btnNFEditar.Name = "btnNFEditar";
+            this.btnNFEditar.Size = new System.Drawing.Size(78, 68);
+            this.btnNFEditar.TabIndex = 3;
+            this.btnNFEditar.Text = "Editar";
+            this.btnNFEditar.UseVisualStyleBackColor = false;
             // 
             // panelFornecedores
             // 
@@ -1643,7 +2335,7 @@
             this.tableLayoutPanel22.ColumnCount = 3;
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 182F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
             this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1667,7 +2359,7 @@
             this.tableLayoutPanel23.RowCount = 2;
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(619, 473);
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(616, 473);
             this.tableLayoutPanel23.TabIndex = 5;
             // 
             // panelConfigBanco
@@ -1692,7 +2384,7 @@
             this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
             this.panelConfigBanco.Name = "panelConfigBanco";
-            this.panelConfigBanco.Size = new System.Drawing.Size(613, 397);
+            this.panelConfigBanco.Size = new System.Drawing.Size(610, 397);
             this.panelConfigBanco.TabIndex = 0;
             // 
             // label13
@@ -1859,7 +2551,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(613, 70);
+            this.label6.Size = new System.Drawing.Size(610, 70);
             this.label6.TabIndex = 4;
             this.label6.Text = "Parâmetros de conexão SQL";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1874,7 +2566,7 @@
             this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
             this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
             this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(628, 3);
+            this.tableLayoutPanel24.Location = new System.Drawing.Point(625, 3);
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 5;
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
@@ -2025,535 +2717,9 @@
             // 
             this.ofdAbrirArquivo.DefaultExt = "sql";
             // 
-            // tabNFDados
+            // tooltipNFBuscarDados
             // 
-            this.tabNFDados.Appearance = System.Windows.Forms.TabAppearance.FlatButtons;
-            this.tabNFDados.Controls.Add(this.tabPageNFDadosGerais);
-            this.tabNFDados.Controls.Add(this.tabPageNFObservacoes);
-            this.tabNFDados.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabNFDados.Location = new System.Drawing.Point(3, 212);
-            this.tabNFDados.Name = "tabNFDados";
-            this.tabNFDados.SelectedIndex = 0;
-            this.tabNFDados.Size = new System.Drawing.Size(896, 357);
-            this.tabNFDados.TabIndex = 2;
-            // 
-            // tabPageNFDadosGerais
-            // 
-            this.tabPageNFDadosGerais.BackColor = System.Drawing.Color.White;
-            this.tabPageNFDadosGerais.Controls.Add(this.grpNFCadastroJuridico);
-            this.tabPageNFDadosGerais.Controls.Add(this.grpEndereco);
-            this.tabPageNFDadosGerais.Location = new System.Drawing.Point(4, 25);
-            this.tabPageNFDadosGerais.Name = "tabPageNFDadosGerais";
-            this.tabPageNFDadosGerais.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageNFDadosGerais.Size = new System.Drawing.Size(888, 328);
-            this.tabPageNFDadosGerais.TabIndex = 0;
-            this.tabPageNFDadosGerais.Text = "Dados Gerais";
-            // 
-            // tabPageNFObservacoes
-            // 
-            this.tabPageNFObservacoes.BackColor = System.Drawing.Color.White;
-            this.tabPageNFObservacoes.Controls.Add(this.richTextBox1);
-            this.tabPageNFObservacoes.Location = new System.Drawing.Point(4, 25);
-            this.tabPageNFObservacoes.Name = "tabPageNFObservacoes";
-            this.tabPageNFObservacoes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageNFObservacoes.Size = new System.Drawing.Size(888, 328);
-            this.tabPageNFObservacoes.TabIndex = 1;
-            this.tabPageNFObservacoes.Text = "Observações";
-            // 
-            // grpEndereco
-            // 
-            this.grpEndereco.Controls.Add(this.textBox11);
-            this.grpEndereco.Controls.Add(this.label27);
-            this.grpEndereco.Controls.Add(this.textBox10);
-            this.grpEndereco.Controls.Add(this.label26);
-            this.grpEndereco.Controls.Add(this.textBox9);
-            this.grpEndereco.Controls.Add(this.label24);
-            this.grpEndereco.Controls.Add(this.maskedTextBox4);
-            this.grpEndereco.Controls.Add(this.label25);
-            this.grpEndereco.Controls.Add(this.textBox8);
-            this.grpEndereco.Controls.Add(this.label22);
-            this.grpEndereco.Controls.Add(this.maskedTextBox3);
-            this.grpEndereco.Controls.Add(this.label23);
-            this.grpEndereco.Controls.Add(this.textBox7);
-            this.grpEndereco.Controls.Add(this.label21);
-            this.grpEndereco.Controls.Add(this.maskedTextBox2);
-            this.grpEndereco.Controls.Add(this.label20);
-            this.grpEndereco.Controls.Add(this.textBox6);
-            this.grpEndereco.Controls.Add(this.label19);
-            this.grpEndereco.Controls.Add(this.textBox3);
-            this.grpEndereco.Controls.Add(this.label16);
-            this.grpEndereco.Controls.Add(this.textBox4);
-            this.grpEndereco.Controls.Add(this.label17);
-            this.grpEndereco.Controls.Add(this.textBox5);
-            this.grpEndereco.Controls.Add(this.label18);
-            this.grpEndereco.Controls.Add(this.textBox2);
-            this.grpEndereco.Controls.Add(this.label14);
-            this.grpEndereco.Controls.Add(this.textBox1);
-            this.grpEndereco.Controls.Add(this.label1);
-            this.grpEndereco.Controls.Add(this.txtNFEndereco);
-            this.grpEndereco.Controls.Add(this.lblNFEndereco);
-            this.grpEndereco.Controls.Add(this.btnNFBuscarEndereco);
-            this.grpEndereco.Controls.Add(this.maskedTextBox1);
-            this.grpEndereco.Controls.Add(this.lblNFCep);
-            this.grpEndereco.Dock = System.Windows.Forms.DockStyle.Top;
-            this.grpEndereco.Location = new System.Drawing.Point(3, 3);
-            this.grpEndereco.Name = "grpEndereco";
-            this.grpEndereco.Size = new System.Drawing.Size(882, 238);
-            this.grpEndereco.TabIndex = 0;
-            this.grpEndereco.TabStop = false;
-            this.grpEndereco.Text = "Endereço";
-            // 
-            // lblNFCep
-            // 
-            this.lblNFCep.AutoSize = true;
-            this.lblNFCep.Location = new System.Drawing.Point(14, 25);
-            this.lblNFCep.Name = "lblNFCep";
-            this.lblNFCep.Size = new System.Drawing.Size(31, 13);
-            this.lblNFCep.TabIndex = 0;
-            this.lblNFCep.Text = "CEP:";
-            // 
-            // maskedTextBox1
-            // 
-            this.maskedTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maskedTextBox1.Location = new System.Drawing.Point(17, 44);
-            this.maskedTextBox1.Mask = "00000-000";
-            this.maskedTextBox1.Name = "maskedTextBox1";
-            this.maskedTextBox1.Size = new System.Drawing.Size(74, 20);
-            this.maskedTextBox1.TabIndex = 1;
-            // 
-            // btnNFBuscarEndereco
-            // 
-            this.btnNFBuscarEndereco.BackColor = System.Drawing.Color.LightGreen;
-            this.btnNFBuscarEndereco.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNFBuscarEndereco.Location = new System.Drawing.Point(97, 43);
-            this.btnNFBuscarEndereco.Name = "btnNFBuscarEndereco";
-            this.btnNFBuscarEndereco.Size = new System.Drawing.Size(106, 23);
-            this.btnNFBuscarEndereco.TabIndex = 2;
-            this.btnNFBuscarEndereco.Text = "Buscar Endereço";
-            this.btnNFBuscarEndereco.UseVisualStyleBackColor = false;
-            // 
-            // lblNFEndereco
-            // 
-            this.lblNFEndereco.AutoSize = true;
-            this.lblNFEndereco.Location = new System.Drawing.Point(251, 26);
-            this.lblNFEndereco.Name = "lblNFEndereco";
-            this.lblNFEndereco.Size = new System.Drawing.Size(56, 13);
-            this.lblNFEndereco.TabIndex = 3;
-            this.lblNFEndereco.Text = "Endereço:";
-            // 
-            // txtNFEndereco
-            // 
-            this.txtNFEndereco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNFEndereco.Location = new System.Drawing.Point(254, 44);
-            this.txtNFEndereco.Name = "txtNFEndereco";
-            this.txtNFEndereco.Size = new System.Drawing.Size(340, 20);
-            this.txtNFEndereco.TabIndex = 4;
-            // 
-            // textBox1
-            // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(600, 44);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(80, 20);
-            this.textBox1.TabIndex = 6;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(597, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Número:";
-            // 
-            // textBox2
-            // 
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Location = new System.Drawing.Point(686, 43);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(184, 20);
-            this.textBox2.TabIndex = 8;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(683, 25);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(74, 13);
-            this.label14.TabIndex = 7;
-            this.label14.Text = "Complemento:";
-            // 
-            // textBox3
-            // 
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox3.Location = new System.Drawing.Point(554, 96);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(126, 20);
-            this.textBox3.TabIndex = 14;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(551, 78);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(43, 13);
-            this.label16.TabIndex = 13;
-            this.label16.Text = "Estado:";
-            // 
-            // textBox4
-            // 
-            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox4.Location = new System.Drawing.Point(254, 96);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(294, 20);
-            this.textBox4.TabIndex = 12;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(251, 78);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(43, 13);
-            this.label17.TabIndex = 11;
-            this.label17.Text = "Cidade:";
-            // 
-            // textBox5
-            // 
-            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox5.Location = new System.Drawing.Point(17, 96);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(231, 20);
-            this.textBox5.TabIndex = 10;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(14, 78);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(37, 13);
-            this.label18.TabIndex = 9;
-            this.label18.Text = "Bairro:";
-            // 
-            // textBox6
-            // 
-            this.textBox6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox6.Location = new System.Drawing.Point(686, 96);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(184, 20);
-            this.textBox6.TabIndex = 16;
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(683, 78);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(32, 13);
-            this.label19.TabIndex = 15;
-            this.label19.Text = "País:";
-            // 
-            // maskedTextBox2
-            // 
-            this.maskedTextBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maskedTextBox2.Location = new System.Drawing.Point(17, 146);
-            this.maskedTextBox2.Mask = "(00) 0000-0000";
-            this.maskedTextBox2.Name = "maskedTextBox2";
-            this.maskedTextBox2.Size = new System.Drawing.Size(116, 20);
-            this.maskedTextBox2.TabIndex = 18;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(14, 130);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(52, 13);
-            this.label20.TabIndex = 17;
-            this.label20.Text = "Telefone:";
-            // 
-            // textBox7
-            // 
-            this.textBox7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox7.Location = new System.Drawing.Point(139, 146);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(155, 20);
-            this.textBox7.TabIndex = 20;
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(136, 128);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(47, 13);
-            this.label21.TabIndex = 19;
-            this.label21.Text = "Contato:";
-            // 
-            // textBox8
-            // 
-            this.textBox8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox8.Location = new System.Drawing.Point(422, 146);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(160, 20);
-            this.textBox8.TabIndex = 24;
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(419, 128);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(47, 13);
-            this.label22.TabIndex = 23;
-            this.label22.Text = "Contato:";
-            // 
-            // maskedTextBox3
-            // 
-            this.maskedTextBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maskedTextBox3.Location = new System.Drawing.Point(300, 146);
-            this.maskedTextBox3.Mask = "(00) 0000-0000";
-            this.maskedTextBox3.Name = "maskedTextBox3";
-            this.maskedTextBox3.Size = new System.Drawing.Size(116, 20);
-            this.maskedTextBox3.TabIndex = 22;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(297, 130);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(101, 13);
-            this.label23.TabIndex = 21;
-            this.label23.Text = "Telefone Comercial:";
-            // 
-            // textBox9
-            // 
-            this.textBox9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox9.Location = new System.Drawing.Point(710, 146);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(160, 20);
-            this.textBox9.TabIndex = 28;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(707, 128);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(47, 13);
-            this.label24.TabIndex = 27;
-            this.label24.Text = "Contato:";
-            // 
-            // maskedTextBox4
-            // 
-            this.maskedTextBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maskedTextBox4.Location = new System.Drawing.Point(588, 146);
-            this.maskedTextBox4.Mask = "(00) 00000-0000";
-            this.maskedTextBox4.Name = "maskedTextBox4";
-            this.maskedTextBox4.Size = new System.Drawing.Size(116, 20);
-            this.maskedTextBox4.TabIndex = 26;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(585, 130);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(42, 13);
-            this.label25.TabIndex = 25;
-            this.label25.Text = "Celular:";
-            // 
-            // textBox10
-            // 
-            this.textBox10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox10.Location = new System.Drawing.Point(17, 198);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(407, 20);
-            this.textBox10.TabIndex = 30;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(14, 180);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(38, 13);
-            this.label26.TabIndex = 29;
-            this.label26.Text = "E-mail:";
-            // 
-            // textBox11
-            // 
-            this.textBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox11.Location = new System.Drawing.Point(430, 198);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(440, 20);
-            this.textBox11.TabIndex = 32;
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(427, 180);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(28, 13);
-            this.label27.TabIndex = 31;
-            this.label27.Text = "Site:";
-            // 
-            // grpNFCadastroJuridico
-            // 
-            this.grpNFCadastroJuridico.Controls.Add(this.textBox13);
-            this.grpNFCadastroJuridico.Controls.Add(this.label29);
-            this.grpNFCadastroJuridico.Controls.Add(this.button1);
-            this.grpNFCadastroJuridico.Controls.Add(this.comboBox1);
-            this.grpNFCadastroJuridico.Controls.Add(this.textBox12);
-            this.grpNFCadastroJuridico.Controls.Add(this.label28);
-            this.grpNFCadastroJuridico.Dock = System.Windows.Forms.DockStyle.Top;
-            this.grpNFCadastroJuridico.Location = new System.Drawing.Point(3, 241);
-            this.grpNFCadastroJuridico.Name = "grpNFCadastroJuridico";
-            this.grpNFCadastroJuridico.Size = new System.Drawing.Size(882, 81);
-            this.grpNFCadastroJuridico.TabIndex = 1;
-            this.grpNFCadastroJuridico.TabStop = false;
-            this.grpNFCadastroJuridico.Text = "Cadastro Jurídico";
-            // 
-            // textBox12
-            // 
-            this.textBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox12.Location = new System.Drawing.Point(17, 43);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(184, 20);
-            this.textBox12.TabIndex = 34;
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(14, 25);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(97, 13);
-            this.label28.TabIndex = 33;
-            this.label28.Text = "Inscrição Estadual:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(286, 41);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(169, 21);
-            this.comboBox1.TabIndex = 35;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.LightGreen;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(207, 41);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(64, 23);
-            this.button1.TabIndex = 33;
-            this.button1.Text = "Consultar";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // textBox13
-            // 
-            this.textBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox13.Location = new System.Drawing.Point(461, 41);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(415, 20);
-            this.textBox13.TabIndex = 37;
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(458, 23);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(101, 13);
-            this.label29.TabIndex = 36;
-            this.label29.Text = "Inscrição Municipal:";
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.richTextBox1.Size = new System.Drawing.Size(882, 322);
-            this.richTextBox1.TabIndex = 0;
-            this.richTextBox1.Text = "";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 8;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 15F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Controls.Add(this.button6, 5, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button5, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button7, 7, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button4, 4, 0);
-            this.tableLayoutPanel1.Controls.Add(this.button3, 3, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 575);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(896, 74);
-            this.tableLayoutPanel1.TabIndex = 3;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.Khaki;
-            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Location = new System.Drawing.Point(543, 3);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(79, 68);
-            this.button3.TabIndex = 39;
-            this.button3.Text = "Editar";
-            this.button3.UseVisualStyleBackColor = false;
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.Thistle;
-            this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(628, 3);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(79, 68);
-            this.button4.TabIndex = 40;
-            this.button4.Text = "Imprimir";
-            this.button4.UseVisualStyleBackColor = false;
-            // 
-            // button7
-            // 
-            this.button7.BackColor = System.Drawing.Color.LightGreen;
-            this.button7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Location = new System.Drawing.Point(813, 3);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(80, 68);
-            this.button7.TabIndex = 43;
-            this.button7.Text = "Fechar";
-            this.button7.UseVisualStyleBackColor = false;
-            // 
-            // button5
-            // 
-            this.button5.BackColor = System.Drawing.Color.LightCoral;
-            this.button5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Location = new System.Drawing.Point(428, 3);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(79, 68);
-            this.button5.TabIndex = 44;
-            this.button5.Text = "Apagar";
-            this.button5.UseVisualStyleBackColor = false;
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.button6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Location = new System.Drawing.Point(713, 3);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(79, 68);
-            this.button6.TabIndex = 45;
-            this.button6.Text = "Novo Fornecedor";
-            this.button6.UseVisualStyleBackColor = false;
+            this.tooltipNFBuscarDados.AutomaticDelay = 300;
             // 
             // tInicial
             // 
@@ -2590,10 +2756,20 @@
             this.tlpNFDivisorias.ResumeLayout(false);
             this.panelNFHeader.ResumeLayout(false);
             this.tlpNFTipoFornecedor.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.panelNFTipoFornecedor.ResumeLayout(false);
             this.panelNFTipoFornecedor.PerformLayout();
             this.panelNFDatas.ResumeLayout(false);
             this.panelNFDatas.PerformLayout();
+            this.tabNFDados.ResumeLayout(false);
+            this.tabPageNFDadosGerais.ResumeLayout(false);
+            this.grpNFCadastroJuridico.ResumeLayout(false);
+            this.grpNFCadastroJuridico.PerformLayout();
+            this.grpEndereco.ResumeLayout(false);
+            this.grpEndereco.PerformLayout();
+            this.tabPageNFObservacoes.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.panelFornecedores.ResumeLayout(false);
             this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel14.PerformLayout();
@@ -2632,14 +2808,6 @@
             this.panelConfigBanco.ResumeLayout(false);
             this.panelConfigBanco.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
-            this.tabNFDados.ResumeLayout(false);
-            this.tabPageNFDadosGerais.ResumeLayout(false);
-            this.tabPageNFObservacoes.ResumeLayout(false);
-            this.grpEndereco.ResumeLayout(false);
-            this.grpEndereco.PerformLayout();
-            this.grpNFCadastroJuridico.ResumeLayout(false);
-            this.grpNFCadastroJuridico.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -2762,69 +2930,84 @@
         private System.Windows.Forms.Label labelNFTitulo;
         private System.Windows.Forms.TableLayoutPanel tlpNFTipoFornecedor;
         private System.Windows.Forms.Panel panelNFTipoFornecedor;
-        private System.Windows.Forms.Label lblApelido;
+        private System.Windows.Forms.Label lblNFApelido;
         private System.Windows.Forms.Label lblNomeFornecedor;
         private System.Windows.Forms.Label lblNFCPFCNPJ;
         private System.Windows.Forms.Label lblTipoFornecedor;
-        private System.Windows.Forms.TextBox txtApelido;
-        private System.Windows.Forms.TextBox txtNome;
+        private System.Windows.Forms.TextBox txtNFApelido;
+        private System.Windows.Forms.TextBox txtNFNome;
         private System.Windows.Forms.MaskedTextBox txtNFCPFCNPJ;
         private System.Windows.Forms.ComboBox cmbTipoFornecedor;
         private System.Windows.Forms.Panel panelNFDatas;
-        private System.Windows.Forms.Label lblNFDataNascimento;
-        private System.Windows.Forms.DateTimePicker dtpNFDataNascimento;
-        private System.Windows.Forms.Label lblNFCadastro;
-        private System.Windows.Forms.DateTimePicker dtpNFCadastro;
         private System.Windows.Forms.TabControl tabNFDados;
         private System.Windows.Forms.TabPage tabPageNFDadosGerais;
         private System.Windows.Forms.TabPage tabPageNFObservacoes;
         private System.Windows.Forms.GroupBox grpEndereco;
         private System.Windows.Forms.Button btnNFBuscarEndereco;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox1;
+        private System.Windows.Forms.MaskedTextBox txtNFCEP;
         private System.Windows.Forms.Label lblNFCep;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtNFComplemento;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtNFNumero;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtNFEndereco;
         private System.Windows.Forms.Label lblNFEndereco;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox2;
+        private System.Windows.Forms.MaskedTextBox txtNFTelefone;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox txtNFPais;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox txtNFEstado;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox txtNFCidade;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox txtNFBairro;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox txtNFContato;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.GroupBox grpNFCadastroJuridico;
-        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox txtNFInscricaoMunicipal;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Button btnNFBuscarDados;
+        private System.Windows.Forms.TextBox txtNFInscricaoEstadual;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox txtNFSite;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox txtNFEmail;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox txtNFContatoCelular;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox4;
+        private System.Windows.Forms.MaskedTextBox txtNFCelular;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox txtNFContatoComercial;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.MaskedTextBox maskedTextBox3;
+        private System.Windows.Forms.MaskedTextBox txtNFTelefoneComercial;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox txtNFObservacoes;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button btnNFImprimir;
+        private System.Windows.Forms.Button btnNFEditar;
+        private System.Windows.Forms.Button btnNFFechar;
+        private System.Windows.Forms.Button btnNFNovoCadastro;
+        private System.Windows.Forms.Button btnNFApagar;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.MaskedTextBox txtNFDataCadastro;
+        private System.Windows.Forms.Label lblNFDataNascimento;
+        private System.Windows.Forms.DateTimePicker dtpNFDataNascimento;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.TextBox txtNFIDFornecedor;
+        private System.Windows.Forms.Label lblIDFornecedor;
+        private System.Windows.Forms.ComboBox cmbNFCateg1;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.ComboBox cmbNFSubCateg1;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.ComboBox cmbNFSubCateg3;
+        private System.Windows.Forms.ComboBox cmbNFCateg3;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.ComboBox cmbNFSubCateg2;
+        private System.Windows.Forms.ComboBox cmbNFCateg2;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.ToolTip tooltipNFBuscarDados;
     }
 }

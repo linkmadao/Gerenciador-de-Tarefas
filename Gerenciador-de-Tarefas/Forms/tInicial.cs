@@ -939,27 +939,37 @@ namespace Gerenciador_de_Tarefas
                         throw;
                     }
 
-                    foreach (DataGridViewRow dgvr in dgvTarefas.Rows)
+                    try
                     {
-                        if (dgvr.Cells["Prioridade"].Value.ToString() == "2")
+                        foreach (DataGridViewRow dgvr in dgvTarefas.Rows)
                         {
-                            dgvr.DefaultCellStyle.BackColor = Color.LightSalmon;
+                            if (dgvr.Cells["Prioridade"].Value.ToString() == "2")
+                            {
+                                dgvr.DefaultCellStyle.BackColor = Color.LightSalmon;
+                            }
+                            else
+                            {
+                                if (dgvr.Cells["Status"].Value.ToString() == "Em Andamento")
+                                {
+                                    dgvr.DefaultCellStyle.BackColor = Color.LightBlue;
+                                }
+                                else if (dgvr.Cells["Status"].Value.ToString() == "Aguardando outra pessoa")
+                                {
+                                    dgvr.DefaultCellStyle.BackColor = Color.Yellow;
+                                }
+                                else if (dgvr.Cells["Status"].Value.ToString() == "Adiada")
+                                {
+                                    dgvr.DefaultCellStyle.BackColor = Color.LightSeaGreen;
+                                }
+                            }
                         }
-                        else
-                        {
-                            if (dgvr.Cells["Status"].Value.ToString() == "Em Andamento")
-                            {
-                                dgvr.DefaultCellStyle.BackColor = Color.LightBlue;
-                            }
-                            else if (dgvr.Cells["Status"].Value.ToString() == "Aguardando outra pessoa")
-                            {
-                                dgvr.DefaultCellStyle.BackColor = Color.Yellow;
-                            }
-                            else if (dgvr.Cells["Status"].Value.ToString() == "Adiada")
-                            {
-                                dgvr.DefaultCellStyle.BackColor = Color.LightSeaGreen;
-                            }
-                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        string erro = ListaErro.RetornaErro(32);
+                        int separador = erro.IndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        throw;
                     }
                 }
                 else
@@ -1796,8 +1806,47 @@ namespace Gerenciador_de_Tarefas
 
             panelFornecedores.Visible = false;
             panelFornecedores.Enabled = false;
-            panelFornecedores.Hide();
+            //panelFornecedores.Hide();
+
+            tooltipNFBuscarDados.SetToolTip(btnNFBuscarDados, "Função desativada!");
         }
+
+
+        #region Novo Fornecedor
+        private void cmbTipoFornecedor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Se escolher pessoa física
+            if(cmbTipoFornecedor.SelectedIndex == 1)
+            {
+                lblNomeFornecedor.Text = "Nome:";
+                lblNFApelido.Text = "Apelido:";
+                lblNFDataNascimento.Text = "Data de Nascimento:";
+
+                lblNFCPFCNPJ.Text = "CPF:";
+                //Muda a mascara para o padrão CPF
+                txtNFCPFCNPJ.Mask = "000,000,000-00";
+            }
+            else
+            {
+                lblNomeFornecedor.Text = "Razão Social:";
+                lblNFApelido.Text = "Nome Fantasia:";
+                lblNFDataNascimento.Text = "Fundação:";
+
+                lblNFCPFCNPJ.Text = "CNPJ:";
+                //Muda a mascara para o padrão CPF
+                txtNFCPFCNPJ.Mask = "00,000,000/0000-00";
+            }
+        }
+
+        private void btnNFFechar_Click(object sender, EventArgs e)
+        {
+            panelNF.Visible = false;
+            panelNF.Enabled = false;
+
+            panelFornecedores.Enabled = true;
+            panelFornecedores.Visible = true;
+        }
+        #endregion
 
         /*
 

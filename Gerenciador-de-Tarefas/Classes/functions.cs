@@ -139,6 +139,10 @@ namespace Gerenciador_de_Tarefas
                     resultado = "Fornecedor não Encontrado : " +
                         "O fornecedor que você buscou não foi encontrado.\nPor favor, verifique o texto informado e tente novamente.";
                     break;
+                case 32:
+                    resultado = "Erro ao colorir a tabela de tarefas : " +
+                        "Por favor reportar ao suporte técnico.";
+                    break;
                 case 34:
                     resultado = "Quantidade de Caracteres Insuficiente : " +
                         "O nome do contato possui menos do que 3 caracteres!\nPor favor, insira um nome maior do que 3 caracteres.";
@@ -410,12 +414,22 @@ namespace Gerenciador_de_Tarefas
             switch (posicaoCmbFiltroFornecedores)
             {
                 default:
-                    comando = "Select tbl_contato.ID, tbl_contato.Nome as 'Razão Social / Nome', tbl_subgrupos.Nome as 'Fornecedor de', tbl_contato.Contato, " +
-                        "tbl_contato.Telefone, tbl_contato.Email as 'E-mail' " +
-                        "from tbl_contato " +
-                        "join tbl_contatosubgrupo on tbl_contatosubgrupo.Contato = tbl_contato.id " +
-                        "join tbl_subgrupos on tbl_subgrupos.ID = tbl_contatosubgrupo.SubGrupo1 " +
-                        "where Grupo = 2;";
+                    comando = "Select tbl_fornecedor.ID, tbl_fornecedor.nome as 'Razão Social / Nome', " +
+                        "IFNULL(tbl_subgrupos.nome, '') as 'Fornece', " +
+                        "IFNULL(tbl_fornecedor.Telefone, IFNULL(tbl_fornecedor.TelefoneComercial, IFNULL(tbl_fornecedor.Celular, ''))) as 'Telefone', " +
+                        "IFNULL(tbl_fornecedor.Email, '') as 'E-mail', " +
+                        "IFNULL(tbl_fornecedor.Contato, IFNULL(tbl_fornecedor.ContatoComercial, IFNULL(tbl_fornecedor.ContatoCelular, ''))) as 'Contato' " +
+                        "from tbl_fornecedor " +
+                        "join tbl_subgrupos on tbl_subgrupos.id = tbl_fornecedor.Categoria1 " +
+                        "ORDER BY tbl_fornecedor.nome ASC;";
+
+                    /*
+                    "Select tbl_contato.ID, tbl_contato.Nome as 'Razão Social / Nome', tbl_subgrupos.Nome as 'Fornecedor de', tbl_contato.Contato, " +
+                    "tbl_contato.Telefone, tbl_contato.Email as 'E-mail' " +
+                    "from tbl_contato " +
+                    "join tbl_contatosubgrupo on tbl_contatosubgrupo.Contato = tbl_contato.id " +
+                    "join tbl_subgrupos on tbl_subgrupos.ID = tbl_contatosubgrupo.SubGrupo1 " +
+                    "where Grupo = 2;";*/
                     break;
             }
 
