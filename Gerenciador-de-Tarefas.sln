@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gerenciador-de-Tarefas", "Gerenciador-de-Tarefas\Gerenciador-de-Tarefas.csproj", "{009DA218-4392-4DAF-924B-45A0C1E3CD75}"
 EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -23,13 +20,17 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_AssemblyInfoFilename = Gerenciador-de-Tarefas\Properties\AssemblyInfo.cs
-		BuildVersion_UpdateAssemblyVersion = True
-		BuildVersion_UpdateFileVersion = True
-		BuildVersion_StartDate = 2000/1/1
-		BuildVersion_UseGlobalSettings = True
-		BuildVersion_UseUniversalClock = True
 		BuildVersion_BuildVersioningStyle = None.None.None.Increment
+		BuildVersion_UseUniversalClock = True
+		BuildVersion_UseGlobalSettings = True
+		BuildVersion_StartDate = 2000/1/1
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_AssemblyInfoFilename = Gerenciador-de-Tarefas\Properties\AssemblyInfo.cs
+		SolutionGuid = {D9104F9C-80F2-4A32-9544-67EF0B0622BB}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

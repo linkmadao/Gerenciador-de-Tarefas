@@ -573,6 +573,50 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
+        /// <summary>
+        /// Método responsável por retornar se a tarefa esta bloqueada.
+        /// </summary>
+        /// <param name="idFornecedor">Qual a tarefa que deseja conferir.</param>
+        public bool FornecedorBloqueado(int idFornecedor)
+        {
+            bool resultado = false;
+
+            string comando = "Select travar from tbl_fronecedor where id = '" + idFornecedor.ToString() + "';";
+
+            try
+            {
+                AbreConexao();
+
+                MySqlCommand cmd = new MySqlCommand(comando, conexao);
+
+                if (!string.IsNullOrEmpty(cmd.ExecuteScalar().ToString()))
+                {
+                    if (cmd.ExecuteScalar().ToString() == "S")
+                    {
+                        resultado = true;
+                    }
+                }
+            }
+            catch (NullReferenceException)
+            {
+                resultado = false;
+                return resultado;
+            }
+            catch (MySqlException)
+            {
+                string erro = ListaErro.RetornaErro(52);
+                int separador = erro.LastIndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                FechaConexao();
+            }
+            finally
+            {
+                FechaConexao();
+            }
+
+            return resultado;
+        }
+
         #region Login
         /// <summary>
         /// Verifica o Login    

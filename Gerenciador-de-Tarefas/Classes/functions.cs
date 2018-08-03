@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 
 namespace Gerenciador_de_Tarefas
 {
@@ -143,9 +146,21 @@ namespace Gerenciador_de_Tarefas
                     resultado = "Erro ao colorir a tabela de tarefas : " +
                         "Por favor reportar ao suporte técnico.";
                     break;
+                case 33:
+                    resultado = "Razão Social do Fornecedor Inválido : " +
+                        "Por favor, insira a razão social do fornecedor corretamente.";
+                    break;
                 case 34:
                     resultado = "Quantidade de Caracteres Insuficiente : " +
                         "O nome do contato possui menos do que 3 caracteres!\nPor favor, insira um nome maior do que 3 caracteres.";
+                    break;
+                case 35:
+                    resultado = "Nome do Fornecedor Inválido : " +
+                        "Por favor, insira o nome do fornecedor corretamente.";
+                    break;
+                case 36:
+                    resultado = "Quantidade de Caracteres Insuficiente : " +
+                        "A razão social do fornecedor possui menos do que 3 caracteres!\nPor favor, insira uma razão social maior do que 3 caracteres.";
                     break;
                 case 37:
                     resultado = "Erro ao Apagar o Contato : " +
@@ -198,6 +213,23 @@ namespace Gerenciador_de_Tarefas
                 case 49:
                     resultado = "Erro ao filtrar a tabela de tarefas : " +
                         "Por favor reportar ao suporte técnico qual filtro foi utilizado antes de gerar esse erro.";
+                    break;
+                case 50:
+                    resultado = "Quantidade de Caracteres Insuficiente : " +
+                        "O nome do fornecedor possui menos do que 3 caracteres!\nPor favor, insira um nome maior do que 3 caracteres.";
+                    break;
+                case 51:
+                    resultado = "Erro ao Cadastrar o Fornecedor : " +
+                        "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
+                    break;
+                case 52:
+                    resultado = "Erro ao Travar o Fornecedor : " +
+                        "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
+                    break;
+                case 53:
+                    resultado = "Erro ao pesquisar o CNPJ : " +
+                        "Há duas situações:\n\nO sistema da receita federal pode estar fora do ar;\nO CNPJ informado não tem cadastro na receita federal;" +
+                        "\n\nCaso o CNPJ seja verdadeiro e o erro persista, entre em contato pelo suporte@cftva.com.br";
                     break;
             }
 
@@ -277,6 +309,10 @@ namespace Gerenciador_de_Tarefas
                 case 15:
                     resultado = "Excluir a Tarefa? : " +
                         "Tem certeza absoluta disso?\nEssa operação não poderá ser desfeita!";
+                    break;
+                case 16:
+                    resultado = "Novo Fornecedor : " +
+                        "Fornecedor cadastrado com sucesso!\n\nGostaria de cadastrar um novo fornecedor?";
                     break;
             }
 
@@ -422,14 +458,6 @@ namespace Gerenciador_de_Tarefas
                         "from tbl_fornecedor " +
                         "join tbl_subgrupos on tbl_subgrupos.id = tbl_fornecedor.Categoria1 " +
                         "ORDER BY tbl_fornecedor.nome ASC;";
-
-                    /*
-                    "Select tbl_contato.ID, tbl_contato.Nome as 'Razão Social / Nome', tbl_subgrupos.Nome as 'Fornecedor de', tbl_contato.Contato, " +
-                    "tbl_contato.Telefone, tbl_contato.Email as 'E-mail' " +
-                    "from tbl_contato " +
-                    "join tbl_contatosubgrupo on tbl_contatosubgrupo.Contato = tbl_contato.id " +
-                    "join tbl_subgrupos on tbl_subgrupos.ID = tbl_contatosubgrupo.SubGrupo1 " +
-                    "where Grupo = 2;";*/
                     break;
             }
 
@@ -1098,14 +1126,14 @@ namespace Gerenciador_de_Tarefas
             }
             finally
             {
-                if(travar)
+                if (travar)
                 {
                     textoTravar = "S";
                 }
 
                 comando = "insert into tbl_tarefas values (0," + idEmpresa + "," + idFuncionario
                     + "," + status + ",'" + assunto + "','" + dataInicio + "', '" + dataFinal
-                    + "'," + prioridade + ",'" + texto + "','"+ textoTravar +"');";
+                    + "'," + prioridade + ",'" + texto + "','" + textoTravar + "');";
                 conexao.ExecutaComando(comando);
 
                 comando = "Select ID from tbl_tarefas where empresa = '" + idEmpresa
@@ -1114,7 +1142,7 @@ namespace Gerenciador_de_Tarefas
 
                 resultado = Int32.Parse(conexao.ConsultaSimples(comando));
             }
-            
+
             return resultado;
         }
 
@@ -1146,7 +1174,7 @@ namespace Gerenciador_de_Tarefas
                 comando = "Select ID from tbl_funcionarios where nome = '" + funcionario + "';";
                 idFuncionario = Int32.Parse(conexao.ConsultaSimples(comando));
             }
-            catch (Exception )
+            catch (Exception)
             {
                 return resultado;
             }
@@ -1208,9 +1236,7 @@ namespace Gerenciador_de_Tarefas
                 comando = "Update tbl_tarefas set travar = 'N';";
                 conexao.ExecutaComando(comando);
             }
-#pragma warning disable CS0168 // A variável "e" está declarada, mas nunca é usada
-            catch (Exception e)
-#pragma warning restore CS0168 // A variável "e" está declarada, mas nunca é usada
+            catch (Exception)
             {
                 string erro = ListaErro.RetornaErro(19);
                 int separador = erro.IndexOf(":");
@@ -1249,35 +1275,114 @@ namespace Gerenciador_de_Tarefas
         }
         #endregion
 
+        #region Fornecedores
+        public int CadastraFornecedor(string tipo, string dataCadastro, string dataNascimento, string documento, string nome,
+           string apelido, string cep, string endereco, string numero, string complemento, string bairro, string cidade, string estado,
+           string pais, string telefone, string contato, string telefoneComercial, string contatoComercial, string celular, string contatoCelular,
+           string email, string site, string inscEstadual, string inscMunicipal, string obs, string categoria1, string categoria2, string categoria3,
+           string subcategoria1, string subcategoria2, string subcategoria3, bool travar)
+        {
+            string comando = null, textoTravar = "N", _dataCadastro = "", _dataNascimento = null, erro = "";
+            int resultado = 0, separador = 0;
+
+            try
+            {
+                if (travar)
+                {
+                    textoTravar = "S";
+                }
+
+                _dataCadastro = dataCadastro.Substring(6, 4) + "-" + dataCadastro.Substring(3, 2) + "-" + dataCadastro.Substring(0, 2);
+
+                if (!string.IsNullOrEmpty(dataNascimento))
+                {
+                    _dataNascimento = dataNascimento.Substring(6, 4) + "-" + dataNascimento.Substring(3, 2) + "-" + dataNascimento.Substring(0, 2);
+                }
+
+                comando = "insert into tbl_fornecedor values (0," + tipo + ", '" + _dataCadastro + "',if('" + _dataNascimento + "' = '',NULL,'" + _dataNascimento + "'),'" + documento + "','" + nome + "','" + apelido + "','" + cep + "','"
+                    + endereco + "','" + numero + "','" + complemento + "','" + bairro + "','" + cidade + "','" + estado + "','" + pais + "','" + telefone + "','" + contato + "','"
+                    + telefoneComercial + "','" + contatoComercial + "','" + celular + "','" + contatoCelular + "','" + email + "','" + site + "','" + inscEstadual + "','" + inscMunicipal + "','"
+                    + obs + "','" + categoria1 + "','" + categoria2 + "','" + categoria3 + "','" + subcategoria1 + "','" + subcategoria2 + "','" + subcategoria3 + "','" + textoTravar + "'); ";
+                conexao.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                erro = ListaErro.RetornaErro(51);
+                separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+
+            try
+            {
+                comando = "Select ID from tbl_fornecedor where tipo = '" + tipo + "'" +
+                " AND nome = '" + nome + "'" +
+                " AND datacadastro = '" + _dataCadastro + "';";
+
+                resultado = Int32.Parse(conexao.ConsultaSimples(comando));
+            }
+            catch (Exception)
+            {
+                erro = ListaErro.RetornaErro(51);
+                separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+
+            return resultado;
+        }
+
         /// <summary>
-        /// Método responsável por otimizar o banco de dados
+        /// Método responsável por travar o fornecedor
+        /// </summary>
+        /// <param name="idTarefa">ID da tarefa que deseja travar</param>
+        /// <returns></returns>
+        public bool TravaFornecedor(int _idFornecedor)
+        {
+            bool resultado = false;
+
+            if (!conexao.FornecedorBloqueado(_idFornecedor))
+            {
+                conexao.ExecutaComando("Update tbl_fornecedor set travar = 'S' where id = '" + _idFornecedor.ToString() + "';");
+                resultado = true;
+            }
+
+            return resultado;
+        }
+
+        /// <summary>
+        /// Método responsável por destravar o fornecedor
+        /// </summary>
+        /// <param name="idTarefa">ID da tarefa que deseja destravar</param>
+        /// <returns></returns>
+        public void DestravaFornecedor(int _idFornecedor)
+        {
+            if (conexao.TarefaBloqueada(_idFornecedor))
+            {
+                conexao.ExecutaComando("Update tbl_fornecedor set travar = 'N' where id = '" + _idFornecedor.ToString() + "';");
+            }
+        }
+
+        /// <summary>
+        /// Método responsável por destravar todos os Fornecedores do banco de dados.
+        /// Utilizar apenas se ocorrer algum desligamento inesperado de algum usuário.
         /// </summary>
         /// <returns>Se verdadeiro, a operação foi um sucesso.</returns>
-        public bool OtimizaBancodeDados()
+        public bool DestravaTodosFornecedores()
         {
             bool resultado = false;
             string comando = null;
 
             try
             {
-                comando = "set @a = null,@c = null,@b = concat(\"show tables where\", ifnull(concat(\" `Tables_in_\", database(), \"` like '\", @c, \"' and\"), ''), \" (@a:=concat_ws(',',@a,`Tables_in_\", database(), \"`))\"); "
-                + "Prepare `bd` from @b; "
-                    + "EXECUTE `bd`; "
-                    + "DEALLOCATE PREPARE `bd`; "
-                    + "set @a:= concat('optimize table ', @a); "
-                    + "PREPARE `sql` FROM @a; "
-                    + "EXECUTE `sql`; "
-                    + "DEALLOCATE PREPARE `sql`; "
-                    + "set @a = null, @b = null, @c = null;';";
-
+                comando = "Update tbl_fornecedor set travar = 'N';";
                 conexao.ExecutaComando(comando);
             }
-            catch (MySqlException)
+            catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(21);
+                string erro = ListaErro.RetornaErro(19);
                 int separador = erro.IndexOf(":");
                 MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return resultado;
             }
             finally
             {
@@ -1286,7 +1391,8 @@ namespace Gerenciador_de_Tarefas
 
             return resultado;
         }
-        
+        #endregion
+
         //Desativado
         /*
         /// <summary>
@@ -1373,5 +1479,28 @@ namespace Gerenciador_de_Tarefas
 
             return textoResultado;
         }*/
+
+        public struct LayoutJson
+        {
+            private string _index, _value;
+
+            public LayoutJson(String Index, String Value)
+            {
+                _index = Index;
+                _value = Value;
+            }
+
+            public string Index
+            {
+                get { return _index; }
+                set { _index = value; }
+            }
+
+            public string Value
+            {
+                get { return _value; }
+                set { _value = value; }
+            }
+        }
     }
 }

@@ -58,11 +58,11 @@
             this.labelNFTitulo = new System.Windows.Forms.Label();
             this.tlpNFTipoFornecedor = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.txtNFDataNascimento = new System.Windows.Forms.MaskedTextBox();
             this.txtNFIDFornecedor = new System.Windows.Forms.TextBox();
             this.lblIDFornecedor = new System.Windows.Forms.Label();
             this.txtNFDataCadastro = new System.Windows.Forms.MaskedTextBox();
             this.lblNFDataNascimento = new System.Windows.Forms.Label();
-            this.dtpNFDataNascimento = new System.Windows.Forms.DateTimePicker();
             this.label31 = new System.Windows.Forms.Label();
             this.panelNFTipoFornecedor = new System.Windows.Forms.Panel();
             this.lblNFApelido = new System.Windows.Forms.Label();
@@ -73,7 +73,7 @@
             this.txtNFApelido = new System.Windows.Forms.TextBox();
             this.txtNFNome = new System.Windows.Forms.TextBox();
             this.txtNFCPFCNPJ = new System.Windows.Forms.MaskedTextBox();
-            this.cmbTipoFornecedor = new System.Windows.Forms.ComboBox();
+            this.cmbNFTipoFornecedor = new System.Windows.Forms.ComboBox();
             this.panelNFDatas = new System.Windows.Forms.Panel();
             this.label35 = new System.Windows.Forms.Label();
             this.cmbNFSubCateg3 = new System.Windows.Forms.ComboBox();
@@ -224,7 +224,7 @@
             this.pPreviewTarefas = new System.Windows.Forms.PrintPreviewDialog();
             this.sfdSalvarArquivo = new System.Windows.Forms.SaveFileDialog();
             this.ofdAbrirArquivo = new System.Windows.Forms.OpenFileDialog();
-            this.tooltipNFBuscarDados = new System.Windows.Forms.ToolTip(this.components);
+            this.tooltipGeral = new System.Windows.Forms.ToolTip(this.components);
             this.tlpGeral.SuspendLayout();
             this.tlpMenuPrincipal.SuspendLayout();
             this.tlpMenu.SuspendLayout();
@@ -688,7 +688,7 @@
             this.tlpNFTipoFornecedor.ColumnCount = 3;
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 255F));
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -703,26 +703,36 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.txtNFDataNascimento);
             this.panel1.Controls.Add(this.txtNFIDFornecedor);
             this.panel1.Controls.Add(this.lblIDFornecedor);
             this.panel1.Controls.Add(this.txtNFDataCadastro);
             this.panel1.Controls.Add(this.lblNFDataNascimento);
-            this.panel1.Controls.Add(this.dtpNFDataNascimento);
             this.panel1.Controls.Add(this.label31);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(501, 3);
+            this.panel1.Location = new System.Drawing.Point(495, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(136, 147);
+            this.panel1.Size = new System.Drawing.Size(135, 147);
             this.panel1.TabIndex = 1;
+            // 
+            // txtNFDataNascimento
+            // 
+            this.txtNFDataNascimento.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNFDataNascimento.Location = new System.Drawing.Point(21, 115);
+            this.txtNFDataNascimento.Mask = "00/00/0000";
+            this.txtNFDataNascimento.Name = "txtNFDataNascimento";
+            this.txtNFDataNascimento.Size = new System.Drawing.Size(104, 20);
+            this.txtNFDataNascimento.TabIndex = 11;
             // 
             // txtNFIDFornecedor
             // 
             this.txtNFIDFornecedor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFIDFornecedor.Enabled = false;
             this.txtNFIDFornecedor.Location = new System.Drawing.Point(21, 23);
+            this.txtNFIDFornecedor.MaxLength = 99999;
             this.txtNFIDFornecedor.Name = "txtNFIDFornecedor";
             this.txtNFIDFornecedor.Size = new System.Drawing.Size(104, 20);
-            this.txtNFIDFornecedor.TabIndex = 11;
+            this.txtNFIDFornecedor.TabIndex = 0;
             // 
             // lblIDFornecedor
             // 
@@ -741,7 +751,7 @@
             this.txtNFDataCadastro.Mask = "00/00/0000";
             this.txtNFDataCadastro.Name = "txtNFDataCadastro";
             this.txtNFDataCadastro.Size = new System.Drawing.Size(104, 20);
-            this.txtNFDataCadastro.TabIndex = 0;
+            this.txtNFDataCadastro.TabIndex = 1;
             // 
             // lblNFDataNascimento
             // 
@@ -751,16 +761,6 @@
             this.lblNFDataNascimento.Size = new System.Drawing.Size(58, 13);
             this.lblNFDataNascimento.TabIndex = 9;
             this.lblNFDataNascimento.Text = "Fundação:";
-            // 
-            // dtpNFDataNascimento
-            // 
-            this.dtpNFDataNascimento.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNFDataNascimento.Location = new System.Drawing.Point(21, 117);
-            this.dtpNFDataNascimento.MinDate = new System.DateTime(1890, 1, 1, 0, 0, 0, 0);
-            this.dtpNFDataNascimento.Name = "dtpNFDataNascimento";
-            this.dtpNFDataNascimento.Size = new System.Drawing.Size(104, 20);
-            this.dtpNFDataNascimento.TabIndex = 1;
-            this.dtpNFDataNascimento.Value = new System.DateTime(2018, 7, 13, 0, 0, 0, 0);
             // 
             // label31
             // 
@@ -782,11 +782,11 @@
             this.panelNFTipoFornecedor.Controls.Add(this.txtNFApelido);
             this.panelNFTipoFornecedor.Controls.Add(this.txtNFNome);
             this.panelNFTipoFornecedor.Controls.Add(this.txtNFCPFCNPJ);
-            this.panelNFTipoFornecedor.Controls.Add(this.cmbTipoFornecedor);
+            this.panelNFTipoFornecedor.Controls.Add(this.cmbNFTipoFornecedor);
             this.panelNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(492, 147);
+            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(486, 147);
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
             // lblNFApelido
@@ -816,7 +816,9 @@
             this.btnNFBuscarDados.Size = new System.Drawing.Size(93, 23);
             this.btnNFBuscarDados.TabIndex = 2;
             this.btnNFBuscarDados.Text = "Buscar Dados";
+            this.tooltipGeral.SetToolTip(this.btnNFBuscarDados, "Busca os dados cadastrais do CNPJ na receita federal");
             this.btnNFBuscarDados.UseVisualStyleBackColor = false;
+            this.btnNFBuscarDados.Click += new System.EventHandler(this.btnNFBuscarDados_Click);
             // 
             // lblNFCPFCNPJ
             // 
@@ -840,6 +842,7 @@
             // 
             this.txtNFApelido.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFApelido.Location = new System.Drawing.Point(27, 117);
+            this.txtNFApelido.MaxLength = 120;
             this.txtNFApelido.Name = "txtNFApelido";
             this.txtNFApelido.Size = new System.Drawing.Size(451, 20);
             this.txtNFApelido.TabIndex = 4;
@@ -848,7 +851,7 @@
             // 
             this.txtNFNome.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFNome.Location = new System.Drawing.Point(27, 69);
-            this.txtNFNome.MaxLength = 100;
+            this.txtNFNome.MaxLength = 120;
             this.txtNFNome.Name = "txtNFNome";
             this.txtNFNome.Size = new System.Drawing.Size(451, 20);
             this.txtNFNome.TabIndex = 3;
@@ -860,19 +863,20 @@
             this.txtNFCPFCNPJ.Name = "txtNFCPFCNPJ";
             this.txtNFCPFCNPJ.Size = new System.Drawing.Size(148, 20);
             this.txtNFCPFCNPJ.TabIndex = 1;
+            this.txtNFCPFCNPJ.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
-            // cmbTipoFornecedor
+            // cmbNFTipoFornecedor
             // 
-            this.cmbTipoFornecedor.FormattingEnabled = true;
-            this.cmbTipoFornecedor.Items.AddRange(new object[] {
+            this.cmbNFTipoFornecedor.FormattingEnabled = true;
+            this.cmbNFTipoFornecedor.Items.AddRange(new object[] {
             "Pessoa Jurídica",
             "Pessoa Física"});
-            this.cmbTipoFornecedor.Location = new System.Drawing.Point(27, 22);
-            this.cmbTipoFornecedor.Name = "cmbTipoFornecedor";
-            this.cmbTipoFornecedor.Size = new System.Drawing.Size(121, 21);
-            this.cmbTipoFornecedor.TabIndex = 0;
-            this.cmbTipoFornecedor.Text = "Pessoa Jurídica";
-            this.cmbTipoFornecedor.SelectedIndexChanged += new System.EventHandler(this.cmbTipoFornecedor_SelectedIndexChanged);
+            this.cmbNFTipoFornecedor.Location = new System.Drawing.Point(27, 22);
+            this.cmbNFTipoFornecedor.Name = "cmbNFTipoFornecedor";
+            this.cmbNFTipoFornecedor.Size = new System.Drawing.Size(121, 21);
+            this.cmbNFTipoFornecedor.TabIndex = 0;
+            this.cmbNFTipoFornecedor.Text = "Pessoa Jurídica";
+            this.cmbNFTipoFornecedor.SelectedIndexChanged += new System.EventHandler(this.cmbTipoFornecedor_SelectedIndexChanged);
             // 
             // panelNFDatas
             // 
@@ -890,9 +894,9 @@
             this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFDatas.Location = new System.Drawing.Point(643, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(636, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(243, 147);
+            this.panelNFDatas.Size = new System.Drawing.Size(250, 147);
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -915,6 +919,7 @@
             // 
             // cmbNFCateg3
             // 
+            this.cmbNFCateg3.Enabled = false;
             this.cmbNFCateg3.FormattingEnabled = true;
             this.cmbNFCateg3.Location = new System.Drawing.Point(6, 116);
             this.cmbNFCateg3.Name = "cmbNFCateg3";
@@ -950,6 +955,7 @@
             // 
             // cmbNFCateg2
             // 
+            this.cmbNFCateg2.Enabled = false;
             this.cmbNFCateg2.FormattingEnabled = true;
             this.cmbNFCateg2.Location = new System.Drawing.Point(6, 69);
             this.cmbNFCateg2.Name = "cmbNFCateg2";
@@ -1042,9 +1048,11 @@
             // 
             this.txtNFInscricaoMunicipal.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFInscricaoMunicipal.Location = new System.Drawing.Point(430, 43);
+            this.txtNFInscricaoMunicipal.MaxLength = 15;
             this.txtNFInscricaoMunicipal.Name = "txtNFInscricaoMunicipal";
             this.txtNFInscricaoMunicipal.Size = new System.Drawing.Size(438, 20);
             this.txtNFInscricaoMunicipal.TabIndex = 37;
+            this.tooltipGeral.SetToolTip(this.txtNFInscricaoMunicipal, "Apenas Números");
             // 
             // label29
             // 
@@ -1059,9 +1067,11 @@
             // 
             this.txtNFInscricaoEstadual.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFInscricaoEstadual.Location = new System.Drawing.Point(17, 43);
+            this.txtNFInscricaoEstadual.MaxLength = 15;
             this.txtNFInscricaoEstadual.Name = "txtNFInscricaoEstadual";
             this.txtNFInscricaoEstadual.Size = new System.Drawing.Size(407, 20);
             this.txtNFInscricaoEstadual.TabIndex = 34;
+            this.tooltipGeral.SetToolTip(this.txtNFInscricaoEstadual, "Apenas Números");
             // 
             // label28
             // 
@@ -1119,6 +1129,7 @@
             // 
             this.txtNFSite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFSite.Location = new System.Drawing.Point(430, 198);
+            this.txtNFSite.MaxLength = 80;
             this.txtNFSite.Name = "txtNFSite";
             this.txtNFSite.Size = new System.Drawing.Size(439, 20);
             this.txtNFSite.TabIndex = 32;
@@ -1136,6 +1147,7 @@
             // 
             this.txtNFEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFEmail.Location = new System.Drawing.Point(17, 198);
+            this.txtNFEmail.MaxLength = 80;
             this.txtNFEmail.Name = "txtNFEmail";
             this.txtNFEmail.Size = new System.Drawing.Size(407, 20);
             this.txtNFEmail.TabIndex = 30;
@@ -1153,6 +1165,7 @@
             // 
             this.txtNFContatoCelular.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFContatoCelular.Location = new System.Drawing.Point(710, 146);
+            this.txtNFContatoCelular.MaxLength = 30;
             this.txtNFContatoCelular.Name = "txtNFContatoCelular";
             this.txtNFContatoCelular.Size = new System.Drawing.Size(159, 20);
             this.txtNFContatoCelular.TabIndex = 28;
@@ -1174,6 +1187,7 @@
             this.txtNFCelular.Name = "txtNFCelular";
             this.txtNFCelular.Size = new System.Drawing.Size(116, 20);
             this.txtNFCelular.TabIndex = 26;
+            this.txtNFCelular.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // label25
             // 
@@ -1188,6 +1202,7 @@
             // 
             this.txtNFContatoComercial.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFContatoComercial.Location = new System.Drawing.Point(422, 146);
+            this.txtNFContatoComercial.MaxLength = 30;
             this.txtNFContatoComercial.Name = "txtNFContatoComercial";
             this.txtNFContatoComercial.Size = new System.Drawing.Size(160, 20);
             this.txtNFContatoComercial.TabIndex = 24;
@@ -1209,6 +1224,7 @@
             this.txtNFTelefoneComercial.Name = "txtNFTelefoneComercial";
             this.txtNFTelefoneComercial.Size = new System.Drawing.Size(116, 20);
             this.txtNFTelefoneComercial.TabIndex = 22;
+            this.txtNFTelefoneComercial.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // label23
             // 
@@ -1223,6 +1239,7 @@
             // 
             this.txtNFContato.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFContato.Location = new System.Drawing.Point(139, 146);
+            this.txtNFContato.MaxLength = 30;
             this.txtNFContato.Name = "txtNFContato";
             this.txtNFContato.Size = new System.Drawing.Size(155, 20);
             this.txtNFContato.TabIndex = 20;
@@ -1244,6 +1261,7 @@
             this.txtNFTelefone.Name = "txtNFTelefone";
             this.txtNFTelefone.Size = new System.Drawing.Size(116, 20);
             this.txtNFTelefone.TabIndex = 18;
+            this.txtNFTelefone.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // label20
             // 
@@ -1258,6 +1276,7 @@
             // 
             this.txtNFPais.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFPais.Location = new System.Drawing.Point(686, 96);
+            this.txtNFPais.MaxLength = 30;
             this.txtNFPais.Name = "txtNFPais";
             this.txtNFPais.Size = new System.Drawing.Size(183, 20);
             this.txtNFPais.TabIndex = 16;
@@ -1275,6 +1294,7 @@
             // 
             this.txtNFEstado.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFEstado.Location = new System.Drawing.Point(554, 96);
+            this.txtNFEstado.MaxLength = 20;
             this.txtNFEstado.Name = "txtNFEstado";
             this.txtNFEstado.Size = new System.Drawing.Size(126, 20);
             this.txtNFEstado.TabIndex = 14;
@@ -1292,6 +1312,7 @@
             // 
             this.txtNFCidade.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFCidade.Location = new System.Drawing.Point(254, 96);
+            this.txtNFCidade.MaxLength = 50;
             this.txtNFCidade.Name = "txtNFCidade";
             this.txtNFCidade.Size = new System.Drawing.Size(294, 20);
             this.txtNFCidade.TabIndex = 12;
@@ -1309,6 +1330,7 @@
             // 
             this.txtNFBairro.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFBairro.Location = new System.Drawing.Point(17, 96);
+            this.txtNFBairro.MaxLength = 75;
             this.txtNFBairro.Name = "txtNFBairro";
             this.txtNFBairro.Size = new System.Drawing.Size(231, 20);
             this.txtNFBairro.TabIndex = 10;
@@ -1326,6 +1348,7 @@
             // 
             this.txtNFComplemento.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFComplemento.Location = new System.Drawing.Point(686, 43);
+            this.txtNFComplemento.MaxLength = 60;
             this.txtNFComplemento.Name = "txtNFComplemento";
             this.txtNFComplemento.Size = new System.Drawing.Size(183, 20);
             this.txtNFComplemento.TabIndex = 8;
@@ -1343,6 +1366,7 @@
             // 
             this.txtNFNumero.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFNumero.Location = new System.Drawing.Point(600, 44);
+            this.txtNFNumero.MaxLength = 10;
             this.txtNFNumero.Name = "txtNFNumero";
             this.txtNFNumero.Size = new System.Drawing.Size(80, 20);
             this.txtNFNumero.TabIndex = 6;
@@ -1360,6 +1384,7 @@
             // 
             this.txtNFEndereco.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFEndereco.Location = new System.Drawing.Point(254, 44);
+            this.txtNFEndereco.MaxLength = 200;
             this.txtNFEndereco.Name = "txtNFEndereco";
             this.txtNFEndereco.Size = new System.Drawing.Size(340, 20);
             this.txtNFEndereco.TabIndex = 4;
@@ -1382,7 +1407,9 @@
             this.btnNFBuscarEndereco.Size = new System.Drawing.Size(106, 23);
             this.btnNFBuscarEndereco.TabIndex = 2;
             this.btnNFBuscarEndereco.Text = "Buscar Endereço";
+            this.tooltipGeral.SetToolTip(this.btnNFBuscarEndereco, "Busca o endereço através do CEP informado no banco de dados do Correios");
             this.btnNFBuscarEndereco.UseVisualStyleBackColor = false;
+            this.btnNFBuscarEndereco.Click += new System.EventHandler(this.btnNFBuscarEndereco_Click);
             // 
             // txtNFCEP
             // 
@@ -1392,6 +1419,7 @@
             this.txtNFCEP.Name = "txtNFCEP";
             this.txtNFCEP.Size = new System.Drawing.Size(74, 20);
             this.txtNFCEP.TabIndex = 1;
+            this.txtNFCEP.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // lblNFCep
             // 
@@ -1458,8 +1486,9 @@
             this.btnNFNovoCadastro.Name = "btnNFNovoCadastro";
             this.btnNFNovoCadastro.Size = new System.Drawing.Size(78, 68);
             this.btnNFNovoCadastro.TabIndex = 1;
-            this.btnNFNovoCadastro.Text = "Novo Fornecedor";
+            this.btnNFNovoCadastro.Text = "Cadastrar Fornecedor";
             this.btnNFNovoCadastro.UseVisualStyleBackColor = false;
+            this.btnNFNovoCadastro.Click += new System.EventHandler(this.btnNFNovoCadastro_Click);
             // 
             // btnNFApagar
             // 
@@ -1483,7 +1512,7 @@
             this.btnNFFechar.Name = "btnNFFechar";
             this.btnNFFechar.Size = new System.Drawing.Size(80, 68);
             this.btnNFFechar.TabIndex = 0;
-            this.btnNFFechar.Text = "Fechar";
+            this.btnNFFechar.Text = "Cancelar";
             this.btnNFFechar.UseVisualStyleBackColor = false;
             this.btnNFFechar.Click += new System.EventHandler(this.btnNFFechar_Click);
             // 
@@ -2335,7 +2364,7 @@
             this.tableLayoutPanel22.ColumnCount = 3;
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 185F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 192F));
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
             this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -2359,7 +2388,7 @@
             this.tableLayoutPanel23.RowCount = 2;
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(616, 473);
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(610, 473);
             this.tableLayoutPanel23.TabIndex = 5;
             // 
             // panelConfigBanco
@@ -2384,7 +2413,7 @@
             this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
             this.panelConfigBanco.Name = "panelConfigBanco";
-            this.panelConfigBanco.Size = new System.Drawing.Size(610, 397);
+            this.panelConfigBanco.Size = new System.Drawing.Size(604, 397);
             this.panelConfigBanco.TabIndex = 0;
             // 
             // label13
@@ -2551,7 +2580,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(610, 70);
+            this.label6.Size = new System.Drawing.Size(604, 70);
             this.label6.TabIndex = 4;
             this.label6.Text = "Parâmetros de conexão SQL";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2566,7 +2595,7 @@
             this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
             this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
             this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(625, 3);
+            this.tableLayoutPanel24.Location = new System.Drawing.Point(619, 3);
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 5;
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
@@ -2575,7 +2604,7 @@
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel24.Size = new System.Drawing.Size(124, 473);
+            this.tableLayoutPanel24.Size = new System.Drawing.Size(123, 473);
             this.tableLayoutPanel24.TabIndex = 6;
             // 
             // btnDestravaTarefas
@@ -2590,7 +2619,7 @@
             this.btnDestravaTarefas.ForeColor = System.Drawing.Color.White;
             this.btnDestravaTarefas.Location = new System.Drawing.Point(3, 373);
             this.btnDestravaTarefas.Name = "btnDestravaTarefas";
-            this.btnDestravaTarefas.Size = new System.Drawing.Size(118, 97);
+            this.btnDestravaTarefas.Size = new System.Drawing.Size(117, 97);
             this.btnDestravaTarefas.TabIndex = 10;
             this.btnDestravaTarefas.Text = "Destravar Tarefas";
             this.btnDestravaTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -2609,7 +2638,7 @@
             this.btnConfiguraBD.ForeColor = System.Drawing.Color.White;
             this.btnConfiguraBD.Location = new System.Drawing.Point(3, 73);
             this.btnConfiguraBD.Name = "btnConfiguraBD";
-            this.btnConfiguraBD.Size = new System.Drawing.Size(118, 94);
+            this.btnConfiguraBD.Size = new System.Drawing.Size(117, 94);
             this.btnConfiguraBD.TabIndex = 7;
             this.btnConfiguraBD.Text = "Configurar Banco de Dados";
             this.btnConfiguraBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -2627,7 +2656,7 @@
             this.btnRestaurar.ForeColor = System.Drawing.Color.White;
             this.btnRestaurar.Location = new System.Drawing.Point(3, 273);
             this.btnRestaurar.Name = "btnRestaurar";
-            this.btnRestaurar.Size = new System.Drawing.Size(118, 94);
+            this.btnRestaurar.Size = new System.Drawing.Size(117, 94);
             this.btnRestaurar.TabIndex = 5;
             this.btnRestaurar.Text = "Restaurar";
             this.btnRestaurar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -2646,7 +2675,7 @@
             this.btnBackup.ForeColor = System.Drawing.Color.White;
             this.btnBackup.Location = new System.Drawing.Point(3, 173);
             this.btnBackup.Name = "btnBackup";
-            this.btnBackup.Size = new System.Drawing.Size(118, 94);
+            this.btnBackup.Size = new System.Drawing.Size(117, 94);
             this.btnBackup.TabIndex = 4;
             this.btnBackup.Text = "Backup";
             this.btnBackup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -2717,9 +2746,10 @@
             // 
             this.ofdAbrirArquivo.DefaultExt = "sql";
             // 
-            // tooltipNFBuscarDados
+            // tooltipGeral
             // 
-            this.tooltipNFBuscarDados.AutomaticDelay = 300;
+            this.tooltipGeral.AutomaticDelay = 300;
+            this.tooltipGeral.IsBalloon = true;
             // 
             // tInicial
             // 
@@ -2937,7 +2967,7 @@
         private System.Windows.Forms.TextBox txtNFApelido;
         private System.Windows.Forms.TextBox txtNFNome;
         private System.Windows.Forms.MaskedTextBox txtNFCPFCNPJ;
-        private System.Windows.Forms.ComboBox cmbTipoFornecedor;
+        private System.Windows.Forms.ComboBox cmbNFTipoFornecedor;
         private System.Windows.Forms.Panel panelNFDatas;
         private System.Windows.Forms.TabControl tabNFDados;
         private System.Windows.Forms.TabPage tabPageNFDadosGerais;
@@ -2992,7 +3022,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.MaskedTextBox txtNFDataCadastro;
         private System.Windows.Forms.Label lblNFDataNascimento;
-        private System.Windows.Forms.DateTimePicker dtpNFDataNascimento;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TextBox txtNFIDFornecedor;
@@ -3008,6 +3037,7 @@
         private System.Windows.Forms.ComboBox cmbNFSubCateg2;
         private System.Windows.Forms.ComboBox cmbNFCateg2;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.ToolTip tooltipNFBuscarDados;
+        private System.Windows.Forms.ToolTip tooltipGeral;
+        private System.Windows.Forms.MaskedTextBox txtNFDataNascimento;
     }
 }

@@ -14,6 +14,10 @@ using System.Collections;
 using System.Drawing.Printing;
 using System.Xml;
 using System.Xml.Linq;
+using System.Net;
+using System.Collections.Specialized;
+using Newtonsoft.Json;
+using System.Web;
 
 namespace Gerenciador_de_Tarefas
 {
@@ -22,7 +26,7 @@ namespace Gerenciador_de_Tarefas
         #region Variáveis
         private BDCONN conexao = new BDCONN();
         private FuncoesVariaveis funcoes = new FuncoesVariaveis();
-        private int idUsuario, segundos = 0;
+        private int idUsuario, segundos = 0,  _idFornecedor;
         private string tituloSoftware = "Gerenciador de Tarefas - CFTVA " + DateTime.Now.Year;
         private string nomeXML = "bdconfig.xml";
         private bool programaDesativado = false;
@@ -1806,28 +1810,186 @@ namespace Gerenciador_de_Tarefas
 
             panelFornecedores.Visible = false;
             panelFornecedores.Enabled = false;
-            //panelFornecedores.Hide();
 
-            tooltipNFBuscarDados.SetToolTip(btnNFBuscarDados, "Função desativada!");
+
+
+            txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
         }
 
-
         #region Novo Fornecedor
+        private void nfLocalizarCEP()
+        {
+            if (txtNFCEP.Text.Length > 0 && txtNFCEP.Text.Length < 8)
+            {
+                string erro = ListaErro.RetornaErro(44);
+                int separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                txtNFCEP.Clear();
+                txtNFCEP.Focus();
+            }
+            else if (txtNFCEP.Text.Length == 8)
+            {
+                try
+                {
+                    CEP cep = new CEP(txtNFCEP.Text);
+
+                    if (cep.cep != null)
+                    {
+                        txtNFEstado.Text = cep.uf;
+                        txtNFCidade.Text = cep.localidade;
+                        txtNFBairro.Text = cep.bairro;
+                        txtNFEndereco.Text = cep.logradouro;
+                        txtNFComplemento.Text = cep.complemento;
+                    }
+                    else
+                    {
+                        string erro = ListaErro.RetornaErro(45);
+                        int separador = erro.IndexOf(":");
+                        DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (resultadoDialogo == DialogResult.Yes)
+                        {
+                            txtNFCEP.Clear();
+                            txtNFCEP.Focus();
+                        }
+                        else
+                        {
+                            txtNFCEP.Clear();
+                        }
+                    }
+                }
+                catch (KeyNotFoundException)
+                {
+                    string erro = ListaErro.RetornaErro(46);
+                    int separador = erro.IndexOf(":");
+                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtNFCEP.Clear();
+                    txtNFCEP.Focus();
+                }
+                finally
+                {
+                    txtNFNumero.Focus();
+                }
+            }
+        }
+
+        private void nfPesquisaCNPJ()
+        {
+            string erro = null;
+            int separador = int.MinValue;
+
+            try
+            {
+                if (txtNFCPFCNPJ.Text.Length >= 0 && txtNFCPFCNPJ.Text.Length < 14)
+                {
+                    erro = ListaErro.RetornaErro(40);
+                    separador = erro.IndexOf(":");
+                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtNFCPFCNPJ.Clear();
+                    txtNFCPFCNPJ.Focus();
+                }
+                else if (txtNFCPFCNPJ.Text.Length == 14 && !FuncoesEstaticas.ValidaCNPJ(txtNFCPFCNPJ.Text))
+                {
+                    erro = ListaErro.RetornaErro(41);
+                    separador = erro.IndexOf(":");
+                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtNFCPFCNPJ.Clear();
+                    txtNFCPFCNPJ.Focus();
+                }
+                else if(FuncoesEstaticas.ValidaCNPJ(txtNFCPFCNPJ.Text))
+                {
+                    string url = "https://www.receitaws.com.br/v1/cnpj/" + txtNFCPFCNPJ.Text;
+
+                    try
+                    {
+                        string fileContents;
+
+                        WebRequest request = WebRequest.Create(url);
+                        WebResponse response = request.GetResponse();
+                        Stream data = response.GetResponseStream();
+
+                        string html = String.Empty;
+                        using (StreamReader sr = new StreamReader(data))
+                        {
+                            fileContents = sr.ReadToEnd();
+                        }
+
+                        JsonTextReader reader = new JsonTextReader(new StringReader(fileContents));
+                        RootObject rootobject = JsonConvert.DeserializeObject<RootObject>(fileContents);
+
+                        for (int i = 0; i < 1; i++)
+                        {
+                            txtNFNome.Text = rootobject.nome;
+                            txtNFApelido.Text = rootobject.fantasia;
+                            txtNFDataNascimento.Text = rootobject.abertura;
+                            txtNFCEP.Text = rootobject.cep.Replace(".", "").Replace("-", "");
+                            txtNFEndereco.Text = rootobject.logradouro;
+                            txtNFNumero.Text = rootobject.numero.Replace("(", "").Replace(")", "").Replace(" ", "");
+                            txtNFComplemento.Text = rootobject.complemento;
+                            txtNFBairro.Text = rootobject.bairro;
+                            txtNFCidade.Text = rootobject.municipio;
+                            txtNFEstado.Text = rootobject.uf;
+                            txtNFTelefone.Text = rootobject.telefone;
+                            txtNFEmail.Text = rootobject.email;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        erro = ListaErro.RetornaErro(53);
+                        separador = erro.IndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                erro = ListaErro.RetornaErro(41);
+                separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtNFCPFCNPJ.Clear();
+                txtNFCPFCNPJ.Focus();
+            }
+        }
+
+        public class RootObject
+        {
+            public string nome { get; set; }
+            public string fantasia { get; set; }
+            public string cnpj { get; set; }
+            public string telefone { get; set; }
+            public string email { get; set; }
+            public string abertura { get; set; }
+            public string logradouro { get; set; }
+            public string numero { get; set; }
+            public string complemento { get; set; }
+            public string bairro { get; set; }
+            public string municipio { get; set; }
+            public string uf { get; set; }
+            public string cep { get; set; }
+        }
+
         private void cmbTipoFornecedor_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Se escolher pessoa física
-            if(cmbTipoFornecedor.SelectedIndex == 1)
+            if(cmbNFTipoFornecedor.SelectedIndex == 1)
             {
+                btnNFBuscarDados.Enabled = false;
+                btnNFBuscarDados.Visible = false;
+
                 lblNomeFornecedor.Text = "Nome:";
                 lblNFApelido.Text = "Apelido:";
                 lblNFDataNascimento.Text = "Data de Nascimento:";
-
                 lblNFCPFCNPJ.Text = "CPF:";
+
                 //Muda a mascara para o padrão CPF
                 txtNFCPFCNPJ.Mask = "000,000,000-00";
             }
             else
             {
+                btnNFBuscarDados.Enabled = true;
+                btnNFBuscarDados.Visible = true;
+
                 lblNomeFornecedor.Text = "Razão Social:";
                 lblNFApelido.Text = "Nome Fantasia:";
                 lblNFDataNascimento.Text = "Fundação:";
@@ -1840,11 +2002,180 @@ namespace Gerenciador_de_Tarefas
 
         private void btnNFFechar_Click(object sender, EventArgs e)
         {
+            nfLimparCampos();
+
             panelNF.Visible = false;
             panelNF.Enabled = false;
 
+            if (_idFornecedor != 0)
+            {
+                funcoes.DestravaFornecedor(_idFornecedor);
+            }
+
+            AtualizaDGVFornecedores();
+
             panelFornecedores.Enabled = true;
             panelFornecedores.Visible = true;
+        }
+
+        private void nfLimparCampos()
+        {
+            cmbNFTipoFornecedor.SelectedIndex = 0;
+            cmbNFTipoFornecedor.Text = "Pessoa Juridica";
+            txtNFCPFCNPJ.Clear();
+            txtNFIDFornecedor.Clear();
+            txtNFApelido.Clear();
+            txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
+            txtNFDataNascimento.Clear();
+            cmbNFCateg1.ResetText();
+            cmbNFCateg2.ResetText();
+            cmbNFCateg3.ResetText();
+            cmbNFSubCateg1.ResetText();
+            cmbNFSubCateg2.ResetText();
+            cmbNFSubCateg3.ResetText();
+            txtNFCEP.Clear();
+            txtNFEndereco.Clear();
+            txtNFNumero.Clear();
+            txtNFComplemento.Clear();
+            txtNFBairro.Clear();
+            txtNFCidade.Clear();
+            txtNFEstado.Clear();
+            txtNFPais.Clear();
+            txtNFTelefone.Clear();
+            txtNFContato.Clear();
+            txtNFTelefoneComercial.Clear();
+            txtNFContatoComercial.Clear();
+            txtNFCelular.Clear();
+            txtNFContatoCelular.Clear();
+            txtNFEmail.Clear();
+            txtNFSite.Clear();
+            txtNFInscricaoEstadual.Clear();
+            txtNFInscricaoMunicipal.Clear();
+            txtNFObservacoes.Clear();
+
+            btnNFApagar.Enabled = false;
+            btnNFEditar.Enabled = false;
+            btnNFImprimir.Enabled = false;
+            btnNFNovoCadastro.Text = "Cadastrar Fornecedor";
+            btnNFFechar.Text = "Cancelar";
+        }
+
+        private void btnNFBuscarEndereco_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtNFCEP.Text))
+            {
+                nfLocalizarCEP();
+            }
+        }
+
+        private void btnNFBuscarDados_Click(object sender, EventArgs e)
+        {
+            nfPesquisaCNPJ();
+        }
+
+        private void btnNFNovoCadastro_Click(object sender, EventArgs e)
+        {
+            string erro = null;
+            string nfCategoria1 = "", nfCategoria2 = "", nfCategoria3 = "", nfSubCategoria1 = "", nfSubCategoria2 = "", nfSubCategoria3 = "";
+            int separador = 0;
+            
+            if (!string.IsNullOrEmpty(txtNFNome.Text))
+            {
+                if (txtNFNome.Text.Length > 3)
+                {
+                    if (txtNFDataNascimento.Text == "  /  /")
+                    {
+                        txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+                    }
+
+                    if(cmbNFCateg1.SelectedIndex != -1)
+                    {
+                        nfCategoria1 = cmbNFCateg1.SelectedIndex.ToString();
+                    }
+                    if (cmbNFCateg2.SelectedIndex != -1)
+                    {
+                        nfCategoria2 = cmbNFCateg2.SelectedIndex.ToString();
+                    }
+                    if (cmbNFCateg3.SelectedIndex != -1)
+                    {
+                        nfCategoria3 = cmbNFCateg3.SelectedIndex.ToString();
+                    }
+                    if (cmbNFSubCateg1.SelectedIndex != -1)
+                    {
+                        nfSubCategoria1 = cmbNFSubCateg1.SelectedIndex.ToString();
+                    }
+                    if (cmbNFSubCateg2.SelectedIndex != -1)
+                    {
+                        nfSubCategoria2 = cmbNFSubCateg2.SelectedIndex.ToString();
+                    }
+                    if (cmbNFSubCateg3.SelectedIndex != -1)
+                    {
+                        nfSubCategoria3 = cmbNFSubCateg3.SelectedIndex.ToString();
+                    }
+
+                    _idFornecedor = funcoes.CadastraFornecedor(cmbNFTipoFornecedor.SelectedIndex.ToString(), txtNFDataCadastro.Text,
+                        txtNFDataNascimento.Text, txtNFCPFCNPJ.Text, txtNFNome.Text, txtNFApelido.Text, txtNFCEP.Text,
+                        txtNFEndereco.Text, txtNFNumero.Text, txtNFComplemento.Text, txtNFBairro.Text, txtNFCidade.Text,
+                        txtNFEstado.Text, txtNFPais.Text, txtNFTelefone.Text, txtNFContato.Text, txtNFTelefoneComercial.Text,
+                        txtNFContatoComercial.Text, txtNFCelular.Text, txtNFContatoCelular.Text, txtNFEmail.Text,
+                        txtNFSite.Text, txtNFInscricaoEstadual.Text, txtNFInscricaoMunicipal.Text, txtNFObservacoes.Text,
+                        nfCategoria1, nfCategoria2, nfCategoria3, nfSubCategoria1, nfSubCategoria2, nfSubCategoria3, true);
+
+                    if (_idFornecedor != 0)
+                    {
+                        erro = ListaMensagens.RetornaMensagem(16);
+                        separador = erro.IndexOf(":");
+                        DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (resultadoDialogo == DialogResult.Yes)
+                        {
+                            nfLimparCampos();
+                            funcoes.DestravaFornecedor(_idFornecedor);
+                        }
+                        else
+                        {
+                            txtNFIDFornecedor.Text = _idFornecedor.ToString();
+
+                            btnNFNovoCadastro.Text = "Novo Cadastro";
+                            btnNFImprimir.Enabled = true;
+                            btnNFEditar.Enabled = true;
+                            btnNFApagar.Enabled = true;
+                            btnNFFechar.Text = "Fechar";
+                        }
+                    }
+                     
+                }
+                else
+                {
+                    if (cmbNFTipoFornecedor.SelectedIndex == 0)
+                    {
+                        erro = ListaErro.RetornaErro(36);
+                        separador = erro.LastIndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        erro = ListaErro.RetornaErro(50);
+                        separador = erro.LastIndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                if(cmbNFTipoFornecedor.SelectedIndex == 0)
+                {
+                    erro = ListaErro.RetornaErro(33);
+                    separador = erro.LastIndexOf(":");
+                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    erro = ListaErro.RetornaErro(35);
+                    separador = erro.LastIndexOf(":");
+                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
         #endregion
 
