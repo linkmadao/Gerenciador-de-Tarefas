@@ -331,6 +331,57 @@ namespace Gerenciador_de_Tarefas
         }
 
         /// <summary>
+        /// Método responsável por retornar a tarefa solicitada.
+        /// </summary>
+        /// <param name="comando">Comando que será consultado no banco de dados.</param>
+        public List<string> ConsultaFornecedor(string comando)
+        {
+            List<string> resultado = new List<string>();
+
+            try
+            {
+                AbreConexao();
+
+                MySqlCommand cmd = new MySqlCommand(comando, conexao);
+                MySqlDataReader dR;
+
+                dR = cmd.ExecuteReader();
+
+                while (dR.Read())
+                {
+                    for (int i = 0; i < 32; i++)
+                    {
+                        if(dR.IsDBNull(i))
+                        {
+                            resultado.Add("");
+                        }
+                        else if (dR.GetString(i) == null)
+                        {
+                            resultado.Add("");
+                        }
+                        else
+                        {
+                            resultado.Add(dR.GetString(i));
+                        }
+                    }
+                }
+            }
+            catch (MySqlException)
+            {
+                string erro = ListaErro.RetornaErro(55);
+                int separador = erro.LastIndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                FechaConexao();
+            }
+            finally
+            {
+                FechaConexao();
+            }
+
+            return resultado;
+        }
+
+        /// <summary>
         /// Método responsável por retornar o contato solicitado.
         /// </summary>
         /// <param name="comando">Comando que será consultado no banco de dados.</param>
@@ -581,7 +632,7 @@ namespace Gerenciador_de_Tarefas
         {
             bool resultado = false;
 
-            string comando = "Select travar from tbl_fronecedor where id = '" + idFornecedor.ToString() + "';";
+            string comando = "Select travar from tbl_fornecedor where id = '" + idFornecedor.ToString() + "';";
 
             try
             {

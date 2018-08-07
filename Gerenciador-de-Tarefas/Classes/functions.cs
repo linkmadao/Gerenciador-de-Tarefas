@@ -228,8 +228,18 @@ namespace Gerenciador_de_Tarefas
                     break;
                 case 53:
                     resultado = "Erro ao pesquisar o CNPJ : " +
-                        "Há duas situações:\n\nO sistema da receita federal pode estar fora do ar;\nO CNPJ informado não tem cadastro na receita federal;" +
-                        "\n\nCaso o CNPJ seja verdadeiro e o erro persista, entre em contato pelo suporte@cftva.com.br";
+                        "O sistema da receita federal pode estar fora do ar ou o CNPJ informado não tem cadastro na receita federal;" +
+                        "Caso o CNPJ seja verdadeiro e o erro persista, entre em contato pelo suporte@cftva.com.br";
+                    break;
+                case 54:
+                    resultado = "Erro ao Carregar o Fornecedor : " +
+                        "O fornecedor foi aberto por outro usuário.\n\n" +
+                        "Caso não tenha nenhum usuário utilizando o software e esta mensagem aparecer, vá no menu \"Ferramentas\" e clique em \"Destravar Fornecedores\"." +
+                        "\n\nOBS: Será solicitado uma senha, porém só os administradores possuem ela!";
+                    break;
+                case 55:
+                    resultado = "Erro ao Consultar Fornecedor : " +
+                        "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
                     break;
             }
 
@@ -1332,10 +1342,24 @@ namespace Gerenciador_de_Tarefas
             return resultado;
         }
 
+        public List<string> CarregaFornecedor(int _idFornecedor)
+        {
+            List<string> lista = conexao.ConsultaFornecedor("select * from tbl_fornecedor where tbl_fornecedor.id = '" + _idFornecedor + "';");
+
+            return lista;
+        }
+
+        public List<string> CarregaSubCategoriaFornecedor(int _idCategoria)
+        {
+            string comando = "Select nome from tbl_subgrupo_categoria where subgrupo = '" + _idCategoria + "';";
+
+            return conexao.PreencheCMB(comando);
+        }
+
         /// <summary>
         /// Método responsável por travar o fornecedor
         /// </summary>
-        /// <param name="idTarefa">ID da tarefa que deseja travar</param>
+        /// <param name="_idFornecedor">ID da tarefa que deseja travar</param>
         /// <returns></returns>
         public bool TravaFornecedor(int _idFornecedor)
         {
@@ -1353,11 +1377,11 @@ namespace Gerenciador_de_Tarefas
         /// <summary>
         /// Método responsável por destravar o fornecedor
         /// </summary>
-        /// <param name="idTarefa">ID da tarefa que deseja destravar</param>
+        /// <param name="_idFornecedor">ID da tarefa que deseja destravar</param>
         /// <returns></returns>
         public void DestravaFornecedor(int _idFornecedor)
         {
-            if (conexao.TarefaBloqueada(_idFornecedor))
+            if (conexao.FornecedorBloqueado(_idFornecedor))
             {
                 conexao.ExecutaComando("Update tbl_fornecedor set travar = 'N' where id = '" + _idFornecedor.ToString() + "';");
             }
