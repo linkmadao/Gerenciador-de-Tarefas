@@ -26,7 +26,7 @@ namespace Gerenciador_de_Tarefas
         #region Variáveis
         private BDCONN conexao = new BDCONN();
         private FuncoesVariaveis funcoes = new FuncoesVariaveis();
-        private int idUsuario, segundos = 0,  _idFornecedor;
+        private int idUsuario, segundos = 0, _idFornecedor;
         private string tituloSoftware = "Gerenciador de Tarefas - CFTVA " + DateTime.Now.Year;
         private string nomeXML = "bdconfig.xml";
         private bool programaDesativado = false;
@@ -85,14 +85,14 @@ namespace Gerenciador_de_Tarefas
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            if(!panelClientes.Visible)
+            if (!panelClientes.Visible)
             {
                 EscondePaineis();
                 panelClientes.Visible = true;
                 panelClientes.Enabled = true;
                 panelClientes.Show();
 
-                if(iniciaTelaClientes)
+                if (iniciaTelaClientes)
                 {
                     AtualizaDGVClientes();
 
@@ -166,7 +166,7 @@ namespace Gerenciador_de_Tarefas
         {
             lblHorario.Text = "Hora: " + DateTime.Now.ToShortTimeString();
 
-            if(segundos < 30)
+            if (segundos < 30)
             {
                 segundos++;
             }
@@ -223,7 +223,7 @@ namespace Gerenciador_de_Tarefas
                     //Tarefa(é uma nova tarefa?, id da tarefa);
                     //Ex tarefa nova: Tarefa(true,0);
                     //Ex tarefa já existente: Tarefa(false,1);
-                    
+
                     CadastraCliente cadastraCliente = new CadastraCliente(true, 0);
                     cadastraCliente.ShowDialog();
                     AtualizaDGVClientes();
@@ -240,7 +240,7 @@ namespace Gerenciador_de_Tarefas
                 //Se apertar CTRL + F
                 else if (e.Control && e.KeyCode == Keys.F)
                 {
-                    TelaPesquisa telaPesquisaClientes = new TelaPesquisa(dgvClientes,true);
+                    TelaPesquisa telaPesquisaClientes = new TelaPesquisa(dgvClientes, true);
                     telaPesquisaClientes.ShowDialog();
 
                     if (FuncoesEstaticas.ClientePesquisado != -1)
@@ -301,11 +301,11 @@ namespace Gerenciador_de_Tarefas
                     //Tarefa(é uma nova tarefa?, id da tarefa);
                     //Ex tarefa nova: Tarefa(true,0);
                     //Ex tarefa já existente: Tarefa(false,1);
-                    
+
                     Tarefa ntarefa = new Tarefa(true, 0, idUsuario);
                     ntarefa.ShowDialog();
                     AtualizaDGVTarefas();
-                    
+
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + P
@@ -533,9 +533,9 @@ namespace Gerenciador_de_Tarefas
 
                     //Atualiza a tabela atual temporária
                     _dgvClientesAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
-                    
+
                     //Se a tabela atualizada for diferente da tabela anterior
-                    if(_dgvClientesAtual != _dgvTemp)
+                    if (_dgvClientesAtual != _dgvTemp)
                     {
                         dgvClientes.DataSource = _dgvClientesAtual.DataSource;
                         _dgvTemp = _dgvClientesAtual;
@@ -637,10 +637,10 @@ namespace Gerenciador_de_Tarefas
 
         private void btnPesqCliente_Click(object sender, EventArgs e)
         {
-            TelaPesquisa telaPesquisaCliente = new TelaPesquisa(dgvClientes,true);
+            TelaPesquisa telaPesquisaCliente = new TelaPesquisa(dgvClientes, true);
             telaPesquisaCliente.ShowDialog();
 
-            if(FuncoesEstaticas.ClientePesquisado != -1)
+            if (FuncoesEstaticas.ClientePesquisado != -1)
             {
                 dgvClientes[0, FuncoesEstaticas.ClientePesquisado].Selected = true;
             }
@@ -712,7 +712,7 @@ namespace Gerenciador_de_Tarefas
         {
             if (pdImprimirClientes.ShowDialog() == DialogResult.OK)
             {
-                
+
 
                 pdClientes.DefaultPageSettings.Landscape = true;
                 pdClientes.DocumentName = "Lista de Clientes - CFTVA " + DateTime.Now.Date.ToShortDateString();
@@ -740,7 +740,7 @@ namespace Gerenciador_de_Tarefas
                 {
                     foreach (DataGridViewColumn GridCol in dgvClientes.Columns)
                     {
-                        if(GridCol.Name != "contrato")
+                        if (GridCol.Name != "contrato")
                         {
                             iTmpWidth = (int)(Math.Floor((double)((double)GridCol.Width /
                             (double)iTotalWidth * (double)iTotalWidth *
@@ -882,7 +882,7 @@ namespace Gerenciador_de_Tarefas
             //Tarefa(é uma nova tarefa?, id da tarefa);
             //Ex tarefa nova: Tarefa(true,0);
             //Ex tarefa já existente: Tarefa(false,1);
-            
+
             Tarefa ntarefa = new Tarefa(true, 0, idUsuario);
             ntarefa.ShowDialog();
             //AtualizaDGV();
@@ -899,7 +899,7 @@ namespace Gerenciador_de_Tarefas
 
         private void AtualizaDGVTarefas()
         {
-            if(conexao.TestaConexao())
+            if (conexao.TestaConexao())
             {
                 int linhaAtual = 0, colunaAtual = 0, posvertical = 0;
 
@@ -993,7 +993,7 @@ namespace Gerenciador_de_Tarefas
                         colunaAtual = dgvClientes.CurrentCell.ColumnIndex;
                     }
 
-                    if(cmbTipoTarefas.SelectedIndex == 0)
+                    if (cmbTipoTarefas.SelectedIndex == 0)
                     {
                         //Atualiza a tabela atual temporária
                         _dgvTarefasAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
@@ -1015,7 +1015,7 @@ namespace Gerenciador_de_Tarefas
                     }
                     else if (cmbTipoTarefas.SelectedIndex == 1)
                     {
-                        
+
                         //Atualiza a tabela atual temporária
                         _dgvTarefasConcluidas.DataSource = conexao.PreencheDGV(comando).Tables[0];
 
@@ -1095,7 +1095,7 @@ namespace Gerenciador_de_Tarefas
 
                     foreach (DataGridViewRow dgvr in dgvTarefas.Rows)
                     {
-                        if(cmbTipoTarefas.SelectedIndex == 0)
+                        if (cmbTipoTarefas.SelectedIndex == 0)
                         {
                             if (dgvr.Cells["Prioridade"].Value.ToString() == "2")
                             {
@@ -1117,11 +1117,11 @@ namespace Gerenciador_de_Tarefas
                                 }
                             }
                         }
-                        else if(cmbTipoTarefas.SelectedIndex == 1)
+                        else if (cmbTipoTarefas.SelectedIndex == 1)
                         {
-                             dgvr.DefaultCellStyle.BackColor = Color.LightGray;
+                            dgvr.DefaultCellStyle.BackColor = Color.LightGray;
                         }
-                        else if(cmbTipoTarefas.SelectedIndex == 2)
+                        else if (cmbTipoTarefas.SelectedIndex == 2)
                         {
                             if (dgvr.Cells["Status"].Value.ToString() == "Concluída")
                             {
@@ -1480,7 +1480,7 @@ namespace Gerenciador_de_Tarefas
                         //Draw Columns Contents                
                         foreach (DataGridViewCell Cel in GridRow.Cells)
                         {
-                            if(Cel.ColumnIndex != 0)
+                            if (Cel.ColumnIndex != 0)
                             {
                                 string texto = null;
 
@@ -1544,7 +1544,7 @@ namespace Gerenciador_de_Tarefas
                                         if (Cel.Value != null)
                                         {
                                             texto = Cel.Value.ToString();
-                                            
+
                                             if (Cel.ColumnIndex == 1)
                                             {
                                                 if (texto.Length > 16)
@@ -1598,7 +1598,7 @@ namespace Gerenciador_de_Tarefas
                                         if (Cel.Value != null)
                                         {
                                             texto = Cel.Value.ToString();
-                                            
+
                                             if (Cel.ColumnIndex == 1)
                                             {
                                                 if (texto.Length > 16)
@@ -1729,7 +1729,7 @@ namespace Gerenciador_de_Tarefas
                         colunaAtual = dgvFornecedores.CurrentCell.ColumnIndex;
                         posvertical = dgvFornecedores.FirstDisplayedScrollingRowIndex;
                     }
-                    catch(ArgumentOutOfRangeException)
+                    catch (ArgumentOutOfRangeException)
                     {
                         linhaAtual = dgvFornecedores.CurrentCell.RowIndex;
                         colunaAtual = dgvFornecedores.CurrentCell.ColumnIndex;
@@ -1783,6 +1783,24 @@ namespace Gerenciador_de_Tarefas
             dgvFornecedores.Columns[2].MinimumWidth = 150;
         }
 
+        private void dgvFornecedores_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                nfLimparCampos();
+
+                DataGridViewRow linha = dgvFornecedores.Rows[e.RowIndex];
+                int idFornecedor = int.Parse(linha.Cells["id"].Value.ToString());
+                nfCarregaFornecedor(idFornecedor);
+
+                string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Abriu fornecedor ID: " + idFornecedor + " - " +
+                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
+                conexao.ExecutaComando(comando);
+
+                AtualizaDGVFornecedores();
+            }
+        }
+
         private void btnPesquisaFornecedor_Click(object sender, EventArgs e)
         {
             TelaPesquisa telaPesquisaFornecedor = new TelaPesquisa(dgvFornecedores, false);
@@ -1790,7 +1808,7 @@ namespace Gerenciador_de_Tarefas
 
             if (FuncoesEstaticas.FornecedorPesquisado != -1)
             {
-                dgvFornecedores[1, FuncoesEstaticas.FornecedorPesquisado].Selected = true;                
+                dgvFornecedores[1, FuncoesEstaticas.FornecedorPesquisado].Selected = true;
             }
             else
             {
@@ -1814,24 +1832,6 @@ namespace Gerenciador_de_Tarefas
 
             panelFornecedores.Visible = false;
             panelFornecedores.Enabled = false;
-        }
-
-        private void dgvFornecedores_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex != -1)
-            {
-                nfLimparCampos();
-
-                DataGridViewRow linha = dgvFornecedores.Rows[e.RowIndex];
-                int idFornecedor = int.Parse(linha.Cells["id"].Value.ToString());
-                nfCarregaFornecedor(idFornecedor);
-
-                string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Abriu fornecedor ID: " + idFornecedor + " - " +
-                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                conexao.ExecutaComando(comando);
-
-                AtualizaDGVFornecedores();
-            }
         }
 
         #region Novo Fornecedor
@@ -1908,11 +1908,10 @@ namespace Gerenciador_de_Tarefas
                 if (!string.IsNullOrEmpty(listaFornecedor[29]))
                 {
                     cmbNFSubCateg1.SelectedIndex = int.Parse(listaFornecedor[29]) - 1;
-
                     cmbNFCateg2.Enabled = true;
                 }
                 if (!string.IsNullOrEmpty(listaFornecedor[30]))
-                {   
+                {
                     cmbNFSubCateg2.SelectedIndex = int.Parse(listaFornecedor[30]) - 1;
 
                     cmbNFCateg3.Enabled = true;
@@ -2026,7 +2025,7 @@ namespace Gerenciador_de_Tarefas
                     txtNFCPFCNPJ.Clear();
                     txtNFCPFCNPJ.Focus();
                 }
-                else if(FuncoesEstaticas.ValidaCNPJ(txtNFCPFCNPJ.Text))
+                else if (FuncoesEstaticas.ValidaCNPJ(txtNFCPFCNPJ.Text))
                 {
                     string url = "https://www.receitaws.com.br/v1/cnpj/" + txtNFCPFCNPJ.Text;
 
@@ -2134,6 +2133,8 @@ namespace Gerenciador_de_Tarefas
             btnNFNovoCadastro.Text = "Cadastrar Fornecedor";
             btnNFFechar.Text = "Cancelar";
 
+            lblNFTitulo.Text = "Novo Fornecedor";
+
             iniciaTelaNovoFornecedor = true;
         }
 
@@ -2157,7 +2158,7 @@ namespace Gerenciador_de_Tarefas
         private void cmbTipoFornecedor_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Se escolher pessoa física
-            if(cmbNFTipoFornecedor.SelectedIndex == 1)
+            if (cmbNFTipoFornecedor.SelectedIndex == 1)
             {
                 btnNFBuscarDados.Enabled = false;
                 btnNFBuscarDados.Visible = false;
@@ -2223,7 +2224,90 @@ namespace Gerenciador_de_Tarefas
 
         private void btnNFEditar_Click(object sender, EventArgs e)
         {
+            string erro = null;
+            int separador = 0;
+            string nfCategoria1 = "", nfCategoria2 = "", nfCategoria3 = "", nfSubCategoria1 = "", nfSubCategoria2 = "", nfSubCategoria3 = "";
+            if (!string.IsNullOrEmpty(txtNFNome.Text))
+            {
+                if (txtNFNome.Text.Length > 3)
+                {
+                    if (txtNFDataNascimento.Text == "  /  /")
+                    {
+                        txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+                    }
 
+                    if (cmbNFCateg1.SelectedIndex != -1)
+                    {
+                        nfCategoria1 = (cmbNFCateg1.SelectedIndex + 1).ToString();
+                    }
+                    if (cmbNFCateg2.SelectedIndex != -1)
+                    {
+                        nfCategoria2 = (cmbNFCateg2.SelectedIndex + 1).ToString();
+                    }
+                    if (cmbNFCateg3.SelectedIndex != -1)
+                    {
+                        nfCategoria3 = (cmbNFCateg3.SelectedIndex + 1).ToString();
+                    }
+                    if (cmbNFSubCateg1.SelectedIndex != -1)
+                    {
+                        nfSubCategoria1 = (cmbNFSubCateg1.SelectedIndex + 1).ToString();
+                    }
+                    if (cmbNFSubCateg2.SelectedIndex != -1)
+                    {
+                        nfSubCategoria2 = (cmbNFSubCateg2.SelectedIndex + 1).ToString();
+                    }
+                    if (cmbNFSubCateg3.SelectedIndex != -1)
+                    {
+                        nfSubCategoria3 = (cmbNFSubCateg3.SelectedIndex + 1).ToString();
+                    }
+
+                    try
+                    {
+                        funcoes.AtualizarFornecedor(txtNFIDFornecedor.Text, cmbNFTipoFornecedor.SelectedIndex.ToString(),
+                        txtNFDataNascimento.Text, txtNFCPFCNPJ.Text, txtNFNome.Text, txtNFApelido.Text, txtNFCEP.Text,
+                        txtNFEndereco.Text, txtNFNumero.Text, txtNFComplemento.Text, txtNFBairro.Text, txtNFCidade.Text,
+                        txtNFEstado.Text, txtNFPais.Text, txtNFTelefone.Text, txtNFContato.Text, txtNFTelefoneComercial.Text,
+                        txtNFContatoComercial.Text, txtNFCelular.Text, txtNFContatoCelular.Text, txtNFEmail.Text,
+                        txtNFSite.Text, txtNFInscricaoEstadual.Text, txtNFInscricaoMunicipal.Text, txtNFObservacoes.Text,
+                        nfCategoria1, nfCategoria2, nfCategoria3, nfSubCategoria1, nfSubCategoria2, nfSubCategoria3);
+
+                    }
+                    catch (Exception)
+                    {
+                        erro = ListaErro.RetornaErro(56);
+                        separador = erro.IndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw;
+                    }
+                    finally
+                    {
+                        erro = ListaMensagens.RetornaMensagem(17);
+                        separador = erro.IndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    if (cmbNFTipoFornecedor.SelectedIndex == 0)
+                    {
+                        erro = ListaErro.RetornaErro(36);
+                        separador = erro.LastIndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        erro = ListaErro.RetornaErro(50);
+                        separador = erro.LastIndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                erro = ListaErro.RetornaErro(33);
+                separador = erro.LastIndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnNFImprimir_Click(object sender, EventArgs e)
@@ -2233,12 +2317,12 @@ namespace Gerenciador_de_Tarefas
 
         private void cmbNFCateg1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(!iniciaTelaNovoFornecedor)
+            if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFSubCateg1.Enabled = true;
                 cmbNFSubCateg1.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg1.SelectedIndex + 1);
             }
-            
+
         }
 
         private void cmbNFSubCateg1_SelectedIndexChanged(object sender, EventArgs e)
@@ -2384,8 +2468,23 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
+                bool testeMudancas = false;
+                if (testeMudancas)
+                {
+                    erro = ListaMensagens.RetornaMensagem(04);
+                    separador = erro.IndexOf(":");
+                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            }
+                    if (resultadoDialogo == DialogResult.Yes)
+                    {
+                        nfLimparCampos();
+                    }
+                }
+                else
+                {
+                    nfLimparCampos();
+                }
+            } 
         }
         #endregion
 
@@ -2700,53 +2799,52 @@ namespace Gerenciador_de_Tarefas
         #endregion
 
         #region Opcoes
-        private void Backup ()
+        private void Backup()
         {
-            try
-            {
-                string dia = DateTime.Now.Day.ToString();
-                string mes = DateTime.Now.Month.ToString();
-                string ano = DateTime.Now.Year.ToString();
-                string hora = DateTime.Now.ToShortTimeString().Replace(":", "");
-                string nomeDoArquivo = ano + mes + dia + "-" + hora;
-
-                sfdSalvarArquivo.Filter = "Backup SQL|*.sql";
-                sfdSalvarArquivo.Title = "Realizar Backup";
-                sfdSalvarArquivo.FileName = nomeDoArquivo;
-
-                if (sfdSalvarArquivo.ShowDialog() == DialogResult.OK)
+                try
                 {
-                    string local = Path.GetFullPath(sfdSalvarArquivo.FileName);
-                    if (conexao.Backup(local))
-                    {
-                        if (System.IO.File.Exists(local))
-                        {
-                            string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Backup realizado - " +
-                            DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                            conexao.ExecutaComando(comando);
+                    string dia = DateTime.Now.Day.ToString();
+                    string mes = DateTime.Now.Month.ToString();
+                    string ano = DateTime.Now.Year.ToString();
+                    string hora = DateTime.Now.ToShortTimeString().Replace(":", "");
+                    string nomeDoArquivo = ano + mes + dia + "-" + hora;
 
-                            MessageBox.Show("Backup realizado com sucesso!", "Backup realizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
+                    sfdSalvarArquivo.Filter = "Backup SQL|*.sql";
+                    sfdSalvarArquivo.Title = "Realizar Backup";
+                    sfdSalvarArquivo.FileName = nomeDoArquivo;
+
+                    if (sfdSalvarArquivo.ShowDialog() == DialogResult.OK)
+                    {
+                        string local = Path.GetFullPath(sfdSalvarArquivo.FileName);
+                        if (conexao.Backup(local))
                         {
-                            string erro = ListaErro.RetornaErro(22);
-                            int separador = erro.LastIndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            if (System.IO.File.Exists(local))
+                            {
+                                string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Backup realizado - " +
+                                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
+                                conexao.ExecutaComando(comando);
+
+                                MessageBox.Show("Backup realizado com sucesso!", "Backup realizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                            else
+                            {
+                                string erro = ListaErro.RetornaErro(22);
+                                int separador = erro.LastIndexOf(":");
+                                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
                     }
+                    else
+                    {
+                        return;
+                    }
                 }
-                else
+                catch (Exception)
                 {
-                    return;
-                }
-            }
-#pragma warning disable CS0168 // A variável "ex" está declarada, mas nunca é usada
-            catch (Exception ex)
-#pragma warning restore CS0168 // A variável "ex" está declarada, mas nunca é usada
-            {
 
-                throw;
-            }
+                    throw;
+                }
+
         }
 
         private void btnTestarAplicar_Click(object sender, EventArgs e)
@@ -2817,14 +2915,14 @@ namespace Gerenciador_de_Tarefas
 
                 if (resposta == "MB8719")
                 {*/
-                    if (funcoes.DestravaTodasTarefas())
-                    {
-                        string comando = "Insert into tbl_log values (0," + idUsuario + ", 'As tarefas foram destravadas - " +
-                            DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                        conexao.ExecutaComando(comando);
+                if (funcoes.DestravaTodasTarefas())
+                {
+                    string comando = "Insert into tbl_log values (0," + idUsuario + ", 'As tarefas foram destravadas - " +
+                        DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
+                    conexao.ExecutaComando(comando);
 
-                        MessageBox.Show("As tarefas foram destravadas com sucesso.");
-                    }
+                    MessageBox.Show("As tarefas foram destravadas com sucesso.");
+                }
                 //}
             }
         }
@@ -2872,9 +2970,7 @@ namespace Gerenciador_de_Tarefas
                     return;
                 }
             }
-#pragma warning disable CS0168 // A variável "ex" está declarada, mas nunca é usada
-            catch (Exception ex)
-#pragma warning restore CS0168 // A variável "ex" está declarada, mas nunca é usada
+            catch (Exception)
             {
 
                 throw;

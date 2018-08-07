@@ -241,6 +241,10 @@ namespace Gerenciador_de_Tarefas
                     resultado = "Erro ao Consultar Fornecedor : " +
                         "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
                     break;
+                case 56:
+                    resultado = "Erro ao Atualizar Fornecedor : " +
+                        "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
+                    break;
             }
 
             return resultado;
@@ -323,6 +327,14 @@ namespace Gerenciador_de_Tarefas
                 case 16:
                     resultado = "Novo Fornecedor : " +
                         "Fornecedor cadastrado com sucesso!\n\nGostaria de cadastrar um novo fornecedor?";
+                    break;
+                case 17:
+                    resultado = "Fornecedor Alterado : " +
+                        "O fornecedor foi editado com sucesso!";
+                    break;
+                case 18:
+                    resultado = "Saír do Fornecedor : " +
+                        "Existem alterações pendentes no fornecedor atual.\n\nDeseja cancelar as alterações feitas nesse fornecedor e cadastrar um novo?";
                     break;
             }
 
@@ -1340,6 +1352,40 @@ namespace Gerenciador_de_Tarefas
             }
 
             return resultado;
+        }
+
+        public void AtualizarFornecedor(string id, string tipo, string dataNascimento, string documento, string nome,
+           string apelido, string cep, string endereco, string numero, string complemento, string bairro, string cidade, string estado,
+           string pais, string telefone, string contato, string telefoneComercial, string contatoComercial, string celular, string contatoCelular,
+           string email, string site, string inscEstadual, string inscMunicipal, string obs, string categoria1, string categoria2, string categoria3,
+           string subcategoria1, string subcategoria2, string subcategoria3)
+        {
+            string comando = null, _dataNascimento = null, erro = "";
+            int separador = 0;
+
+            try
+            {
+                if (!string.IsNullOrEmpty(dataNascimento))
+                {
+                    _dataNascimento = dataNascimento.Substring(6, 4) + "-" + dataNascimento.Substring(3, 2) + "-" + dataNascimento.Substring(0, 2);
+                }
+
+                comando = "update tbl_fornecedor set tipo = '" + tipo + "', dataNascimento = '" +_dataNascimento + "', documento = '" + documento + "'," +
+                    " nome = '" + nome + "', apelido = '" + apelido + "', cep = '" + cep + "', endereco = '" + endereco + "', numero = '" + numero + "', complemento = '" + complemento + "'," +
+                    " bairro = '" + bairro + "', cidade = '" + cidade + "', estado = '" + estado + "', pais = '" + pais + "', telefone = '" + telefone + "', contato = '" + contato + "'," +
+                    " telefoneComercial = '" + telefoneComercial + "', contatoComercial = '" + contatoComercial + "', celular = '" + celular + "', contatoCelular = '" + contatoCelular + "'," +
+                    " email = '" + email + "', site = '" + site + "', inscricaoEstadual = '" + inscEstadual + "', inscricaoMunicipal = '" + inscMunicipal + "', observacoes = '" + obs + "'," +
+                    " categoria1 = '" + categoria1 + "', categoria2 = '" + categoria2 + "', categoria3 = '" + categoria3 + "', subcategoria1 = '" + subcategoria1 + "'," +
+                    " subcategoria2 = '" + subcategoria2 + "', subcategoria3 = '" + subcategoria3 + "' where id = '" + id + "';";
+                conexao.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                erro = ListaErro.RetornaErro(51);
+                separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
         }
 
         public List<string> CarregaFornecedor(int _idFornecedor)
