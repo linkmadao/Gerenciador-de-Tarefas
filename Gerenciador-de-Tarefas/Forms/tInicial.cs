@@ -1828,9 +1828,7 @@ namespace Gerenciador_de_Tarefas
 
             panelNF.Visible = true;
             panelNF.Enabled = true;
-            panelNF.Show();
 
-            panelFornecedores.Visible = false;
             panelFornecedores.Enabled = false;
         }
 
@@ -1929,9 +1927,7 @@ namespace Gerenciador_de_Tarefas
 
                 panelNF.Visible = true;
                 panelNF.Enabled = true;
-                panelNF.Show();
 
-                panelFornecedores.Visible = false;
                 panelFornecedores.Enabled = false;
 
                 iniciaTelaNovoFornecedor = false;
@@ -2201,7 +2197,6 @@ namespace Gerenciador_de_Tarefas
             AtualizaDGVFornecedores();
 
             panelFornecedores.Enabled = true;
-            panelFornecedores.Visible = true;
         }
 
         private void btnNFBuscarEndereco_Click(object sender, EventArgs e)
