@@ -877,6 +877,7 @@
             this.txtNFCPFCNPJ.Name = "txtNFCPFCNPJ";
             this.txtNFCPFCNPJ.Size = new System.Drawing.Size(148, 22);
             this.txtNFCPFCNPJ.TabIndex = 1;
+            this.txtNFCPFCNPJ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtNFCPFCNPJ.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             // 
             // cmbNFTipoFornecedor
@@ -943,6 +944,7 @@
             this.cmbNFCateg3.Name = "cmbNFCateg3";
             this.cmbNFCateg3.Size = new System.Drawing.Size(117, 22);
             this.cmbNFCateg3.TabIndex = 10;
+            this.cmbNFCateg3.SelectedIndexChanged += new System.EventHandler(this.cmbNFCateg3_SelectedIndexChanged);
             // 
             // label36
             // 
@@ -973,6 +975,7 @@
             this.cmbNFSubCateg2.Name = "cmbNFSubCateg2";
             this.cmbNFSubCateg2.Size = new System.Drawing.Size(101, 22);
             this.cmbNFSubCateg2.TabIndex = 7;
+            this.cmbNFSubCateg2.SelectedIndexChanged += new System.EventHandler(this.cmbNFSubCateg2_SelectedIndexChanged);
             // 
             // cmbNFCateg2
             // 
@@ -983,6 +986,7 @@
             this.cmbNFCateg2.Name = "cmbNFCateg2";
             this.cmbNFCateg2.Size = new System.Drawing.Size(117, 22);
             this.cmbNFCateg2.TabIndex = 6;
+            this.cmbNFCateg2.SelectedIndexChanged += new System.EventHandler(this.cmbNFCateg2_SelectedIndexChanged);
             // 
             // label34
             // 
@@ -1013,6 +1017,7 @@
             this.cmbNFSubCateg1.Name = "cmbNFSubCateg1";
             this.cmbNFSubCateg1.Size = new System.Drawing.Size(101, 22);
             this.cmbNFSubCateg1.TabIndex = 3;
+            this.cmbNFSubCateg1.SelectedIndexChanged += new System.EventHandler(this.cmbNFSubCateg1_SelectedIndexChanged);
             // 
             // cmbNFCateg1
             // 
@@ -1022,6 +1027,7 @@
             this.cmbNFCateg1.Name = "cmbNFCateg1";
             this.cmbNFCateg1.Size = new System.Drawing.Size(117, 22);
             this.cmbNFCateg1.TabIndex = 1;
+            this.cmbNFCateg1.SelectedIndexChanged += new System.EventHandler(this.cmbNFCateg1_SelectedIndexChanged);
             // 
             // label32
             // 

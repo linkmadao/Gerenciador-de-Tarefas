@@ -30,7 +30,7 @@ namespace Gerenciador_de_Tarefas
         private string tituloSoftware = "Gerenciador de Tarefas - CFTVA " + DateTime.Now.Year;
         private string nomeXML = "bdconfig.xml";
         private bool programaDesativado = false;
-        private bool iniciaTelaClientes = true, iniciaTelaFornecedores = true, iniciaTelaTarefas = true;
+        private bool iniciaTelaClientes = true, iniciaTelaFornecedores = true, iniciaTelaTarefas = true, iniciaTelaNovoFornecedor = true;
         public static Panel pOpcoes;
         #endregion
 
@@ -1803,17 +1803,17 @@ namespace Gerenciador_de_Tarefas
         }
 
         private void btnNovoFornecedor_Click(object sender, EventArgs e)
+
         {
+            cmbNFCateg1.DataSource = nfCarregaCategoria();
+            txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
+
             panelNF.Visible = true;
             panelNF.Enabled = true;
             panelNF.Show();
 
             panelFornecedores.Visible = false;
             panelFornecedores.Enabled = false;
-
-            nfCarregaCategoria();
-
-            txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
         }
 
         private void dgvFornecedores_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -1886,31 +1886,39 @@ namespace Gerenciador_de_Tarefas
                     cmbNFCateg1.DataSource = conexao.PreencheCMB(comando);
                     cmbNFCateg1.SelectedIndex = int.Parse(listaFornecedor[26]) - 1;
 
+                    cmbNFSubCateg1.DataSource = funcoes.CarregaSubCategoriaFornecedor(int.Parse(listaFornecedor[26]));
                     cmbNFSubCateg1.Enabled = true;
                 }
                 if (!string.IsNullOrEmpty(listaFornecedor[27]))
                 {
                     cmbNFCateg2.DataSource = conexao.PreencheCMB(comando);
                     cmbNFCateg2.SelectedIndex = int.Parse(listaFornecedor[27]) - 1;
+
+                    cmbNFSubCateg2.DataSource = funcoes.CarregaSubCategoriaFornecedor(int.Parse(listaFornecedor[27]));
+                    cmbNFSubCateg2.Enabled = true;
                 }
                 if (!string.IsNullOrEmpty(listaFornecedor[28]))
                 {
                     cmbNFCateg3.DataSource = conexao.PreencheCMB(comando);
                     cmbNFCateg3.SelectedIndex = int.Parse(listaFornecedor[28]) - 1;
+
+                    cmbNFSubCateg3.DataSource = funcoes.CarregaSubCategoriaFornecedor(int.Parse(listaFornecedor[28]));
+                    cmbNFSubCateg3.Enabled = true;
                 }
                 if (!string.IsNullOrEmpty(listaFornecedor[29]))
                 {
-                    cmbNFSubCateg1.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg1.SelectedIndex);
                     cmbNFSubCateg1.SelectedIndex = int.Parse(listaFornecedor[29]) - 1;
+
+                    cmbNFCateg2.Enabled = true;
                 }
                 if (!string.IsNullOrEmpty(listaFornecedor[30]))
-                {
-                    cmbNFSubCateg2.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg2.SelectedIndex);
+                {   
                     cmbNFSubCateg2.SelectedIndex = int.Parse(listaFornecedor[30]) - 1;
+
+                    cmbNFCateg3.Enabled = true;
                 }
                 if (!string.IsNullOrEmpty(listaFornecedor[31]))
                 {
-                    cmbNFSubCateg3.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg3.SelectedIndex);
                     cmbNFSubCateg3.SelectedIndex = int.Parse(listaFornecedor[31]) - 1;
                 }
 
@@ -1926,32 +1934,16 @@ namespace Gerenciador_de_Tarefas
 
                 panelFornecedores.Visible = false;
                 panelFornecedores.Enabled = false;
+
+                iniciaTelaNovoFornecedor = false;
             }
         }
 
-        private void nfCarregaCategoria()
+        private List<string> nfCarregaCategoria()
         {
             string comando = "Select nome from tbl_subgrupos;";
 
-            cmbNFCateg1.DataSource = conexao.PreencheCMB(comando);
-            cmbNFCateg1.SelectedIndex = 0;
-            cmbNFCateg2.DataSource = cmbNFCateg1.DataSource;
-            cmbNFCateg2.SelectedIndex = 0;
-            cmbNFCateg3.DataSource = cmbNFCateg1.DataSource;
-            cmbNFCateg3.SelectedIndex = 0;
-
-            if (cmbNFCateg1.SelectedIndex != -1)
-            {
-                cmbNFSubCateg1.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg1.SelectedIndex);
-            }
-            if (cmbNFCateg2.SelectedIndex != -1)
-            {
-                cmbNFSubCateg1.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg2.SelectedIndex);
-            }
-            if (cmbNFCateg3.SelectedIndex != -1)
-            {
-                cmbNFSubCateg3.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg3.SelectedIndex);
-            }
+            return conexao.PreencheCMB(comando);
         }
 
         private void nfLocalizarCEP()
@@ -2100,11 +2092,22 @@ namespace Gerenciador_de_Tarefas
             txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
             txtNFDataNascimento.Clear();
             cmbNFCateg1.ResetText();
+            cmbNFCateg1.DataSource = null;
             cmbNFCateg2.ResetText();
+            cmbNFCateg2.DataSource = null;
+            cmbNFCateg2.Enabled = false;
             cmbNFCateg3.ResetText();
+            cmbNFCateg3.DataSource = null;
+            cmbNFCateg3.Enabled = false;
             cmbNFSubCateg1.ResetText();
+            cmbNFSubCateg1.DataSource = null;
+            cmbNFSubCateg1.Enabled = false;
             cmbNFSubCateg2.ResetText();
+            cmbNFSubCateg2.DataSource = null;
+            cmbNFSubCateg2.Enabled = false;
             cmbNFSubCateg3.ResetText();
+            cmbNFSubCateg3.DataSource = null;
+            cmbNFSubCateg3.Enabled = false;
             txtNFCEP.Clear();
             txtNFEndereco.Clear();
             txtNFNumero.Clear();
@@ -2130,6 +2133,8 @@ namespace Gerenciador_de_Tarefas
             btnNFImprimir.Enabled = false;
             btnNFNovoCadastro.Text = "Cadastrar Fornecedor";
             btnNFFechar.Text = "Cancelar";
+
+            iniciaTelaNovoFornecedor = true;
         }
 
         public class RootObject
@@ -2226,13 +2231,58 @@ namespace Gerenciador_de_Tarefas
 
         }
 
+        private void cmbNFCateg1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(!iniciaTelaNovoFornecedor)
+            {
+                cmbNFSubCateg1.Enabled = true;
+                cmbNFSubCateg1.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg1.SelectedIndex + 1);
+            }
+            
+        }
+
+        private void cmbNFSubCateg1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!iniciaTelaNovoFornecedor)
+            {
+                cmbNFCateg2.Enabled = true;
+                cmbNFCateg2.DataSource = nfCarregaCategoria();
+            }
+        }
+
+        private void cmbNFCateg2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!iniciaTelaNovoFornecedor)
+            {
+                cmbNFSubCateg2.Enabled = true;
+                cmbNFSubCateg2.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg2.SelectedIndex + 1);
+            }
+        }
+
+        private void cmbNFSubCateg2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!iniciaTelaNovoFornecedor)
+            {
+                cmbNFCateg3.Enabled = true;
+                cmbNFCateg3.DataSource = nfCarregaCategoria();
+            }
+        }
+
+        private void cmbNFCateg3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!iniciaTelaNovoFornecedor)
+            {
+                cmbNFSubCateg3.Enabled = true;
+                cmbNFSubCateg3.DataSource = funcoes.CarregaSubCategoriaFornecedor(cmbNFCateg3.SelectedIndex + 1);
+            }
+        }
+
         private void btnNFNovoCadastro_Click(object sender, EventArgs e)
         {
             string erro = null;
             int separador = 0;
             if (btnNFNovoCadastro.Text == "Cadastrar Fornecedor")
             {
-
                 string nfCategoria1 = "", nfCategoria2 = "", nfCategoria3 = "", nfSubCategoria1 = "", nfSubCategoria2 = "", nfSubCategoria3 = "";
                 if (!string.IsNullOrEmpty(txtNFNome.Text))
                 {
