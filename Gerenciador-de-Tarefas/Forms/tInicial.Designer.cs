@@ -136,6 +136,30 @@
             this.btnNFFechar = new System.Windows.Forms.Button();
             this.btnNFImprimir = new System.Windows.Forms.Button();
             this.btnNFEditar = new System.Windows.Forms.Button();
+            this.panelOpcoes = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel22 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelConfigBanco = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.btnTestarAplicar = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.rdbtnServidorLocal = new System.Windows.Forms.RadioButton();
+            this.txtPwd = new System.Windows.Forms.TextBox();
+            this.rdbtnRemoto = new System.Windows.Forms.RadioButton();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtServidor = new System.Windows.Forms.TextBox();
+            this.txtUid = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtBanco = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnDestravaTarefas = new System.Windows.Forms.Button();
+            this.btnConfiguraBD = new System.Windows.Forms.Button();
+            this.btnRestaurar = new System.Windows.Forms.Button();
+            this.btnBackup = new System.Windows.Forms.Button();
             this.panelFornecedores = new System.Windows.Forms.Panel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -191,30 +215,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.btnImprimirListaTarefas = new System.Windows.Forms.Button();
             this.btnNovaTarefa = new System.Windows.Forms.Button();
-            this.panelOpcoes = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel22 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
-            this.panelConfigBanco = new System.Windows.Forms.Panel();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnTestarAplicar = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.rdbtnServidorLocal = new System.Windows.Forms.RadioButton();
-            this.txtPwd = new System.Windows.Forms.TextBox();
-            this.rdbtnRemoto = new System.Windows.Forms.RadioButton();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtServidor = new System.Windows.Forms.TextBox();
-            this.txtUid = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtBanco = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnDestravaTarefas = new System.Windows.Forms.Button();
-            this.btnConfiguraBD = new System.Windows.Forms.Button();
-            this.btnRestaurar = new System.Windows.Forms.Button();
-            this.btnBackup = new System.Windows.Forms.Button();
             this.timerHora = new System.Windows.Forms.Timer(this.components);
             this.pdClientes = new System.Drawing.Printing.PrintDocument();
             this.pdImprimirClientes = new System.Windows.Forms.PrintDialog();
@@ -251,6 +251,11 @@
             this.grpEndereco.SuspendLayout();
             this.tabPageNFObservacoes.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panelOpcoes.SuspendLayout();
+            this.tableLayoutPanel22.SuspendLayout();
+            this.tableLayoutPanel23.SuspendLayout();
+            this.panelConfigBanco.SuspendLayout();
+            this.tableLayoutPanel24.SuspendLayout();
             this.panelFornecedores.SuspendLayout();
             this.tableLayoutPanel14.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -272,11 +277,6 @@
             this.tableLayoutPanel19.SuspendLayout();
             this.tableLayoutPanel21.SuspendLayout();
             this.tableLayoutPanel20.SuspendLayout();
-            this.panelOpcoes.SuspendLayout();
-            this.tableLayoutPanel22.SuspendLayout();
-            this.tableLayoutPanel23.SuspendLayout();
-            this.panelConfigBanco.SuspendLayout();
-            this.tableLayoutPanel24.SuspendLayout();
             this.SuspendLayout();
             // 
             // tlpGeral
@@ -688,7 +688,7 @@
             this.tlpNFTipoFornecedor.ColumnCount = 3;
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 260F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 261F));
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -712,7 +712,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(491, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(134, 147);
+            this.panel1.Size = new System.Drawing.Size(133, 147);
             this.panel1.TabIndex = 1;
             // 
             // txtNFDataNascimento
@@ -910,9 +910,9 @@
             this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFDatas.Location = new System.Drawing.Point(631, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(630, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(255, 147);
+            this.panelNFDatas.Size = new System.Drawing.Size(256, 147);
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -1626,6 +1626,339 @@
             this.btnNFEditar.Text = "Editar";
             this.btnNFEditar.UseVisualStyleBackColor = false;
             this.btnNFEditar.Click += new System.EventHandler(this.btnNFEditar_Click);
+            // 
+            // panelOpcoes
+            // 
+            this.panelOpcoes.BackColor = System.Drawing.Color.White;
+            this.panelOpcoes.Controls.Add(this.tableLayoutPanel22);
+            this.panelOpcoes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelOpcoes.Enabled = false;
+            this.panelOpcoes.Location = new System.Drawing.Point(0, 0);
+            this.panelOpcoes.Name = "panelOpcoes";
+            this.panelOpcoes.Size = new System.Drawing.Size(938, 688);
+            this.panelOpcoes.TabIndex = 3;
+            this.panelOpcoes.Visible = false;
+            // 
+            // tableLayoutPanel22
+            // 
+            this.tableLayoutPanel22.ColumnCount = 3;
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 198F));
+            this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
+            this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
+            this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel22.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel22.Name = "tableLayoutPanel22";
+            this.tableLayoutPanel22.RowCount = 2;
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.76744F));
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.23256F));
+            this.tableLayoutPanel22.Size = new System.Drawing.Size(938, 688);
+            this.tableLayoutPanel22.TabIndex = 0;
+            // 
+            // tableLayoutPanel23
+            // 
+            this.tableLayoutPanel23.ColumnCount = 1;
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel23.Controls.Add(this.panelConfigBanco, 0, 1);
+            this.tableLayoutPanel23.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel23.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel23.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
+            this.tableLayoutPanel23.RowCount = 2;
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(605, 473);
+            this.tableLayoutPanel23.TabIndex = 5;
+            // 
+            // panelConfigBanco
+            // 
+            this.panelConfigBanco.AccessibleName = "panelConfigBanco";
+            this.panelConfigBanco.BackColor = System.Drawing.Color.Transparent;
+            this.panelConfigBanco.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelConfigBanco.Controls.Add(this.label13);
+            this.panelConfigBanco.Controls.Add(this.label12);
+            this.panelConfigBanco.Controls.Add(this.label11);
+            this.panelConfigBanco.Controls.Add(this.btnTestarAplicar);
+            this.panelConfigBanco.Controls.Add(this.label7);
+            this.panelConfigBanco.Controls.Add(this.rdbtnServidorLocal);
+            this.panelConfigBanco.Controls.Add(this.txtPwd);
+            this.panelConfigBanco.Controls.Add(this.rdbtnRemoto);
+            this.panelConfigBanco.Controls.Add(this.label8);
+            this.panelConfigBanco.Controls.Add(this.txtServidor);
+            this.panelConfigBanco.Controls.Add(this.txtUid);
+            this.panelConfigBanco.Controls.Add(this.label10);
+            this.panelConfigBanco.Controls.Add(this.label9);
+            this.panelConfigBanco.Controls.Add(this.txtBanco);
+            this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
+            this.panelConfigBanco.Name = "panelConfigBanco";
+            this.panelConfigBanco.Size = new System.Drawing.Size(599, 397);
+            this.panelConfigBanco.TabIndex = 0;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(83, 200);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(111, 23);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "Conexão:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.Color.Transparent;
+            this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(101, 168);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(90, 14);
+            this.label12.TabIndex = 12;
+            this.label12.Text = "MariaDB 10.2";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(83, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(194, 23);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Tipo de conexão:";
+            // 
+            // btnTestarAplicar
+            // 
+            this.btnTestarAplicar.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnTestarAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTestarAplicar.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestarAplicar.Location = new System.Drawing.Point(414, 346);
+            this.btnTestarAplicar.Name = "btnTestarAplicar";
+            this.btnTestarAplicar.Size = new System.Drawing.Size(135, 23);
+            this.btnTestarAplicar.TabIndex = 4;
+            this.btnTestarAplicar.Text = "Testar e Aplicar";
+            this.btnTestarAplicar.UseVisualStyleBackColor = false;
+            this.btnTestarAplicar.Click += new System.EventHandler(this.btnTestarAplicar_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(177, 309);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 14);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Senha:";
+            // 
+            // rdbtnServidorLocal
+            // 
+            this.rdbtnServidorLocal.AutoSize = true;
+            this.rdbtnServidorLocal.BackColor = System.Drawing.Color.Transparent;
+            this.rdbtnServidorLocal.Checked = true;
+            this.rdbtnServidorLocal.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdbtnServidorLocal.Location = new System.Drawing.Point(104, 52);
+            this.rdbtnServidorLocal.Name = "rdbtnServidorLocal";
+            this.rdbtnServidorLocal.Size = new System.Drawing.Size(121, 18);
+            this.rdbtnServidorLocal.TabIndex = 0;
+            this.rdbtnServidorLocal.TabStop = true;
+            this.rdbtnServidorLocal.Text = "Servidor Local";
+            this.rdbtnServidorLocal.UseVisualStyleBackColor = false;
+            this.rdbtnServidorLocal.CheckedChanged += new System.EventHandler(this.rdbtnServidorLocal_Click);
+            // 
+            // txtPwd
+            // 
+            this.txtPwd.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPwd.Location = new System.Drawing.Point(236, 306);
+            this.txtPwd.Name = "txtPwd";
+            this.txtPwd.PasswordChar = '*';
+            this.txtPwd.Size = new System.Drawing.Size(207, 22);
+            this.txtPwd.TabIndex = 9;
+            this.txtPwd.Text = "A1s2d3f4";
+            // 
+            // rdbtnRemoto
+            // 
+            this.rdbtnRemoto.AutoSize = true;
+            this.rdbtnRemoto.BackColor = System.Drawing.Color.Transparent;
+            this.rdbtnRemoto.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdbtnRemoto.Location = new System.Drawing.Point(104, 83);
+            this.rdbtnRemoto.Name = "rdbtnRemoto";
+            this.rdbtnRemoto.Size = new System.Drawing.Size(80, 18);
+            this.rdbtnRemoto.TabIndex = 1;
+            this.rdbtnRemoto.Text = "Remoto:";
+            this.rdbtnRemoto.UseVisualStyleBackColor = false;
+            this.rdbtnRemoto.CheckedChanged += new System.EventHandler(this.rdbtnRemoto_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(167, 281);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(63, 14);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Usuário:";
+            // 
+            // txtServidor
+            // 
+            this.txtServidor.Enabled = false;
+            this.txtServidor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtServidor.Location = new System.Drawing.Point(190, 82);
+            this.txtServidor.Name = "txtServidor";
+            this.txtServidor.Size = new System.Drawing.Size(253, 22);
+            this.txtServidor.TabIndex = 2;
+            // 
+            // txtUid
+            // 
+            this.txtUid.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUid.Location = new System.Drawing.Point(236, 278);
+            this.txtUid.Name = "txtUid";
+            this.txtUid.Size = new System.Drawing.Size(207, 22);
+            this.txtUid.TabIndex = 7;
+            this.txtUid.Text = "root";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(83, 135);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(210, 23);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Servidor Utilizado:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(116, 253);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(114, 14);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "Nome do Banco:";
+            // 
+            // txtBanco
+            // 
+            this.txtBanco.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBanco.Location = new System.Drawing.Point(236, 250);
+            this.txtBanco.Name = "txtBanco";
+            this.txtBanco.Size = new System.Drawing.Size(207, 22);
+            this.txtBanco.TabIndex = 5;
+            this.txtBanco.Text = "gerenciatarefa";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(91)))), ((int)(((byte)(113)))));
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Location = new System.Drawing.Point(3, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(599, 70);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Parâmetros de conexão SQL";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel24
+            // 
+            this.tableLayoutPanel24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(91)))), ((int)(((byte)(113)))));
+            this.tableLayoutPanel24.ColumnCount = 1;
+            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel24.Controls.Add(this.btnDestravaTarefas, 0, 4);
+            this.tableLayoutPanel24.Controls.Add(this.btnConfiguraBD, 0, 1);
+            this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
+            this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
+            this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel24.Location = new System.Drawing.Point(614, 3);
+            this.tableLayoutPanel24.Name = "tableLayoutPanel24";
+            this.tableLayoutPanel24.RowCount = 5;
+            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
+            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
+            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
+            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
+            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
+            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel24.Size = new System.Drawing.Size(122, 473);
+            this.tableLayoutPanel24.TabIndex = 6;
+            // 
+            // btnDestravaTarefas
+            // 
+            this.btnDestravaTarefas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(102)))), ((int)(((byte)(79)))));
+            this.btnDestravaTarefas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDestravaTarefas.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(102)))), ((int)(((byte)(79)))));
+            this.btnDestravaTarefas.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(92)))), ((int)(((byte)(73)))));
+            this.btnDestravaTarefas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(130)))), ((int)(((byte)(105)))));
+            this.btnDestravaTarefas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDestravaTarefas.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
+            this.btnDestravaTarefas.ForeColor = System.Drawing.Color.White;
+            this.btnDestravaTarefas.Location = new System.Drawing.Point(3, 373);
+            this.btnDestravaTarefas.Name = "btnDestravaTarefas";
+            this.btnDestravaTarefas.Size = new System.Drawing.Size(116, 97);
+            this.btnDestravaTarefas.TabIndex = 10;
+            this.btnDestravaTarefas.Text = "Destravar Tarefas";
+            this.btnDestravaTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnDestravaTarefas.UseVisualStyleBackColor = false;
+            this.btnDestravaTarefas.Click += new System.EventHandler(this.btnDestravaTarefas_Click);
+            // 
+            // btnConfiguraBD
+            // 
+            this.btnConfiguraBD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(89)))), ((int)(((byte)(173)))));
+            this.btnConfiguraBD.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnConfiguraBD.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(89)))), ((int)(((byte)(173)))));
+            this.btnConfiguraBD.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(87)))), ((int)(((byte)(85)))), ((int)(((byte)(169)))));
+            this.btnConfiguraBD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
+            this.btnConfiguraBD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfiguraBD.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
+            this.btnConfiguraBD.ForeColor = System.Drawing.Color.White;
+            this.btnConfiguraBD.Location = new System.Drawing.Point(3, 73);
+            this.btnConfiguraBD.Name = "btnConfiguraBD";
+            this.btnConfiguraBD.Size = new System.Drawing.Size(116, 94);
+            this.btnConfiguraBD.TabIndex = 7;
+            this.btnConfiguraBD.Text = "Configurar Banco de Dados";
+            this.btnConfiguraBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnConfiguraBD.UseVisualStyleBackColor = false;
+            // 
+            // btnRestaurar
+            // 
+            this.btnRestaurar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
+            this.btnRestaurar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRestaurar.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
+            this.btnRestaurar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(163)))), ((int)(((byte)(114)))));
+            this.btnRestaurar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(172)))), ((int)(((byte)(125)))));
+            this.btnRestaurar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRestaurar.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
+            this.btnRestaurar.ForeColor = System.Drawing.Color.White;
+            this.btnRestaurar.Location = new System.Drawing.Point(3, 273);
+            this.btnRestaurar.Name = "btnRestaurar";
+            this.btnRestaurar.Size = new System.Drawing.Size(116, 94);
+            this.btnRestaurar.TabIndex = 5;
+            this.btnRestaurar.Text = "Restaurar";
+            this.btnRestaurar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnRestaurar.UseVisualStyleBackColor = false;
+            // 
+            // btnBackup
+            // 
+            this.btnBackup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(141)))), ((int)(((byte)(239)))));
+            this.btnBackup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnBackup.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(141)))), ((int)(((byte)(239)))));
+            this.btnBackup.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(148)))), ((int)(((byte)(239)))));
+            this.btnBackup.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(165)))), ((int)(((byte)(243)))));
+            this.btnBackup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBackup.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
+            this.btnBackup.ForeColor = System.Drawing.Color.White;
+            this.btnBackup.Location = new System.Drawing.Point(3, 173);
+            this.btnBackup.Name = "btnBackup";
+            this.btnBackup.Size = new System.Drawing.Size(116, 94);
+            this.btnBackup.TabIndex = 4;
+            this.btnBackup.Text = "Backup";
+            this.btnBackup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnBackup.UseVisualStyleBackColor = false;
             // 
             // panelFornecedores
             // 
@@ -2433,339 +2766,6 @@
             this.btnNovaTarefa.UseVisualStyleBackColor = false;
             this.btnNovaTarefa.Click += new System.EventHandler(this.btnNovaTarefa_Click);
             // 
-            // panelOpcoes
-            // 
-            this.panelOpcoes.BackColor = System.Drawing.Color.White;
-            this.panelOpcoes.Controls.Add(this.tableLayoutPanel22);
-            this.panelOpcoes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelOpcoes.Enabled = false;
-            this.panelOpcoes.Location = new System.Drawing.Point(0, 0);
-            this.panelOpcoes.Name = "panelOpcoes";
-            this.panelOpcoes.Size = new System.Drawing.Size(938, 688);
-            this.panelOpcoes.TabIndex = 3;
-            this.panelOpcoes.Visible = false;
-            // 
-            // tableLayoutPanel22
-            // 
-            this.tableLayoutPanel22.ColumnCount = 3;
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 197F));
-            this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
-            this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
-            this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel22.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel22.Name = "tableLayoutPanel22";
-            this.tableLayoutPanel22.RowCount = 2;
-            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.76744F));
-            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.23256F));
-            this.tableLayoutPanel22.Size = new System.Drawing.Size(938, 688);
-            this.tableLayoutPanel22.TabIndex = 0;
-            // 
-            // tableLayoutPanel23
-            // 
-            this.tableLayoutPanel23.ColumnCount = 1;
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel23.Controls.Add(this.panelConfigBanco, 0, 1);
-            this.tableLayoutPanel23.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel23.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
-            this.tableLayoutPanel23.RowCount = 2;
-            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(606, 473);
-            this.tableLayoutPanel23.TabIndex = 5;
-            // 
-            // panelConfigBanco
-            // 
-            this.panelConfigBanco.AccessibleName = "panelConfigBanco";
-            this.panelConfigBanco.BackColor = System.Drawing.Color.Transparent;
-            this.panelConfigBanco.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panelConfigBanco.Controls.Add(this.label13);
-            this.panelConfigBanco.Controls.Add(this.label12);
-            this.panelConfigBanco.Controls.Add(this.label11);
-            this.panelConfigBanco.Controls.Add(this.btnTestarAplicar);
-            this.panelConfigBanco.Controls.Add(this.label7);
-            this.panelConfigBanco.Controls.Add(this.rdbtnServidorLocal);
-            this.panelConfigBanco.Controls.Add(this.txtPwd);
-            this.panelConfigBanco.Controls.Add(this.rdbtnRemoto);
-            this.panelConfigBanco.Controls.Add(this.label8);
-            this.panelConfigBanco.Controls.Add(this.txtServidor);
-            this.panelConfigBanco.Controls.Add(this.txtUid);
-            this.panelConfigBanco.Controls.Add(this.label10);
-            this.panelConfigBanco.Controls.Add(this.label9);
-            this.panelConfigBanco.Controls.Add(this.txtBanco);
-            this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
-            this.panelConfigBanco.Name = "panelConfigBanco";
-            this.panelConfigBanco.Size = new System.Drawing.Size(600, 397);
-            this.panelConfigBanco.TabIndex = 0;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(83, 200);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(111, 23);
-            this.label13.TabIndex = 13;
-            this.label13.Text = "Conexão:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(101, 168);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(90, 14);
-            this.label12.TabIndex = 12;
-            this.label12.Text = "MariaDB 10.2";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(83, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(194, 23);
-            this.label11.TabIndex = 11;
-            this.label11.Text = "Tipo de conexão:";
-            // 
-            // btnTestarAplicar
-            // 
-            this.btnTestarAplicar.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnTestarAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTestarAplicar.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestarAplicar.Location = new System.Drawing.Point(414, 346);
-            this.btnTestarAplicar.Name = "btnTestarAplicar";
-            this.btnTestarAplicar.Size = new System.Drawing.Size(135, 23);
-            this.btnTestarAplicar.TabIndex = 4;
-            this.btnTestarAplicar.Text = "Testar e Aplicar";
-            this.btnTestarAplicar.UseVisualStyleBackColor = false;
-            this.btnTestarAplicar.Click += new System.EventHandler(this.btnTestarAplicar_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(177, 309);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 14);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Senha:";
-            // 
-            // rdbtnServidorLocal
-            // 
-            this.rdbtnServidorLocal.AutoSize = true;
-            this.rdbtnServidorLocal.BackColor = System.Drawing.Color.Transparent;
-            this.rdbtnServidorLocal.Checked = true;
-            this.rdbtnServidorLocal.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdbtnServidorLocal.Location = new System.Drawing.Point(104, 52);
-            this.rdbtnServidorLocal.Name = "rdbtnServidorLocal";
-            this.rdbtnServidorLocal.Size = new System.Drawing.Size(121, 18);
-            this.rdbtnServidorLocal.TabIndex = 0;
-            this.rdbtnServidorLocal.TabStop = true;
-            this.rdbtnServidorLocal.Text = "Servidor Local";
-            this.rdbtnServidorLocal.UseVisualStyleBackColor = false;
-            this.rdbtnServidorLocal.CheckedChanged += new System.EventHandler(this.rdbtnServidorLocal_Click);
-            // 
-            // txtPwd
-            // 
-            this.txtPwd.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPwd.Location = new System.Drawing.Point(236, 306);
-            this.txtPwd.Name = "txtPwd";
-            this.txtPwd.PasswordChar = '*';
-            this.txtPwd.Size = new System.Drawing.Size(207, 22);
-            this.txtPwd.TabIndex = 9;
-            this.txtPwd.Text = "A1s2d3f4";
-            // 
-            // rdbtnRemoto
-            // 
-            this.rdbtnRemoto.AutoSize = true;
-            this.rdbtnRemoto.BackColor = System.Drawing.Color.Transparent;
-            this.rdbtnRemoto.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdbtnRemoto.Location = new System.Drawing.Point(104, 83);
-            this.rdbtnRemoto.Name = "rdbtnRemoto";
-            this.rdbtnRemoto.Size = new System.Drawing.Size(80, 18);
-            this.rdbtnRemoto.TabIndex = 1;
-            this.rdbtnRemoto.Text = "Remoto:";
-            this.rdbtnRemoto.UseVisualStyleBackColor = false;
-            this.rdbtnRemoto.CheckedChanged += new System.EventHandler(this.rdbtnRemoto_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(167, 281);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(63, 14);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Usuário:";
-            // 
-            // txtServidor
-            // 
-            this.txtServidor.Enabled = false;
-            this.txtServidor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtServidor.Location = new System.Drawing.Point(190, 82);
-            this.txtServidor.Name = "txtServidor";
-            this.txtServidor.Size = new System.Drawing.Size(253, 22);
-            this.txtServidor.TabIndex = 2;
-            // 
-            // txtUid
-            // 
-            this.txtUid.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUid.Location = new System.Drawing.Point(236, 278);
-            this.txtUid.Name = "txtUid";
-            this.txtUid.Size = new System.Drawing.Size(207, 22);
-            this.txtUid.TabIndex = 7;
-            this.txtUid.Text = "root";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(83, 135);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(210, 23);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Servidor Utilizado:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(116, 253);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(114, 14);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "Nome do Banco:";
-            // 
-            // txtBanco
-            // 
-            this.txtBanco.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBanco.Location = new System.Drawing.Point(236, 250);
-            this.txtBanco.Name = "txtBanco";
-            this.txtBanco.Size = new System.Drawing.Size(207, 22);
-            this.txtBanco.TabIndex = 5;
-            this.txtBanco.Text = "gerenciatarefa";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(91)))), ((int)(((byte)(113)))));
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(600, 70);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Parâmetros de conexão SQL";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tableLayoutPanel24
-            // 
-            this.tableLayoutPanel24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(91)))), ((int)(((byte)(113)))));
-            this.tableLayoutPanel24.ColumnCount = 1;
-            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel24.Controls.Add(this.btnDestravaTarefas, 0, 4);
-            this.tableLayoutPanel24.Controls.Add(this.btnConfiguraBD, 0, 1);
-            this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
-            this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
-            this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(615, 3);
-            this.tableLayoutPanel24.Name = "tableLayoutPanel24";
-            this.tableLayoutPanel24.RowCount = 5;
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel24.Size = new System.Drawing.Size(122, 473);
-            this.tableLayoutPanel24.TabIndex = 6;
-            // 
-            // btnDestravaTarefas
-            // 
-            this.btnDestravaTarefas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(102)))), ((int)(((byte)(79)))));
-            this.btnDestravaTarefas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnDestravaTarefas.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(102)))), ((int)(((byte)(79)))));
-            this.btnDestravaTarefas.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(92)))), ((int)(((byte)(73)))));
-            this.btnDestravaTarefas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(130)))), ((int)(((byte)(105)))));
-            this.btnDestravaTarefas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDestravaTarefas.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnDestravaTarefas.ForeColor = System.Drawing.Color.White;
-            this.btnDestravaTarefas.Location = new System.Drawing.Point(3, 373);
-            this.btnDestravaTarefas.Name = "btnDestravaTarefas";
-            this.btnDestravaTarefas.Size = new System.Drawing.Size(116, 97);
-            this.btnDestravaTarefas.TabIndex = 10;
-            this.btnDestravaTarefas.Text = "Destravar Tarefas";
-            this.btnDestravaTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnDestravaTarefas.UseVisualStyleBackColor = false;
-            this.btnDestravaTarefas.Click += new System.EventHandler(this.btnDestravaTarefas_Click);
-            // 
-            // btnConfiguraBD
-            // 
-            this.btnConfiguraBD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(89)))), ((int)(((byte)(173)))));
-            this.btnConfiguraBD.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnConfiguraBD.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(89)))), ((int)(((byte)(173)))));
-            this.btnConfiguraBD.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(87)))), ((int)(((byte)(85)))), ((int)(((byte)(169)))));
-            this.btnConfiguraBD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
-            this.btnConfiguraBD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConfiguraBD.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnConfiguraBD.ForeColor = System.Drawing.Color.White;
-            this.btnConfiguraBD.Location = new System.Drawing.Point(3, 73);
-            this.btnConfiguraBD.Name = "btnConfiguraBD";
-            this.btnConfiguraBD.Size = new System.Drawing.Size(116, 94);
-            this.btnConfiguraBD.TabIndex = 7;
-            this.btnConfiguraBD.Text = "Configurar Banco de Dados";
-            this.btnConfiguraBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnConfiguraBD.UseVisualStyleBackColor = false;
-            // 
-            // btnRestaurar
-            // 
-            this.btnRestaurar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
-            this.btnRestaurar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRestaurar.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
-            this.btnRestaurar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(163)))), ((int)(((byte)(114)))));
-            this.btnRestaurar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(172)))), ((int)(((byte)(125)))));
-            this.btnRestaurar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRestaurar.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnRestaurar.ForeColor = System.Drawing.Color.White;
-            this.btnRestaurar.Location = new System.Drawing.Point(3, 273);
-            this.btnRestaurar.Name = "btnRestaurar";
-            this.btnRestaurar.Size = new System.Drawing.Size(116, 94);
-            this.btnRestaurar.TabIndex = 5;
-            this.btnRestaurar.Text = "Restaurar";
-            this.btnRestaurar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnRestaurar.UseVisualStyleBackColor = false;
-            // 
-            // btnBackup
-            // 
-            this.btnBackup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(141)))), ((int)(((byte)(239)))));
-            this.btnBackup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnBackup.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(141)))), ((int)(((byte)(239)))));
-            this.btnBackup.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(148)))), ((int)(((byte)(239)))));
-            this.btnBackup.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(165)))), ((int)(((byte)(243)))));
-            this.btnBackup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBackup.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnBackup.ForeColor = System.Drawing.Color.White;
-            this.btnBackup.Location = new System.Drawing.Point(3, 173);
-            this.btnBackup.Name = "btnBackup";
-            this.btnBackup.Size = new System.Drawing.Size(116, 94);
-            this.btnBackup.TabIndex = 4;
-            this.btnBackup.Text = "Backup";
-            this.btnBackup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnBackup.UseVisualStyleBackColor = false;
-            // 
             // timerHora
             // 
             this.timerHora.Enabled = true;
@@ -2884,6 +2884,13 @@
             this.grpEndereco.PerformLayout();
             this.tabPageNFObservacoes.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.panelOpcoes.ResumeLayout(false);
+            this.tableLayoutPanel22.ResumeLayout(false);
+            this.tableLayoutPanel23.ResumeLayout(false);
+            this.tableLayoutPanel23.PerformLayout();
+            this.panelConfigBanco.ResumeLayout(false);
+            this.panelConfigBanco.PerformLayout();
+            this.tableLayoutPanel24.ResumeLayout(false);
             this.panelFornecedores.ResumeLayout(false);
             this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel14.PerformLayout();
@@ -2915,13 +2922,6 @@
             this.tableLayoutPanel19.PerformLayout();
             this.tableLayoutPanel21.ResumeLayout(false);
             this.tableLayoutPanel20.ResumeLayout(false);
-            this.panelOpcoes.ResumeLayout(false);
-            this.tableLayoutPanel22.ResumeLayout(false);
-            this.tableLayoutPanel23.ResumeLayout(false);
-            this.tableLayoutPanel23.PerformLayout();
-            this.panelConfigBanco.ResumeLayout(false);
-            this.panelConfigBanco.PerformLayout();
-            this.tableLayoutPanel24.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

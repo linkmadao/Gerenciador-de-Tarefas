@@ -333,8 +333,8 @@ namespace Gerenciador_de_Tarefas
                         "O fornecedor foi editado com sucesso!";
                     break;
                 case 18:
-                    resultado = "Saír do Fornecedor : " +
-                        "Existem alterações pendentes no fornecedor atual.\n\nDeseja cancelar as alterações feitas nesse fornecedor e cadastrar um novo?";
+                    resultado = "Sair do Fornecedor : " +
+                        "Você tem certeza de que deseja sair deste fornecedor?\nTodas as alterações serão perdidas!";
                     break;
             }
 
