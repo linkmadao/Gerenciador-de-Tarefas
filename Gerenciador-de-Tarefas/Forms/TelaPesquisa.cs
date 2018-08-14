@@ -39,7 +39,7 @@ namespace Gerenciador_de_Tarefas
 
         private void btnFechar_Click(object sender, EventArgs e)
         {
-            FuncoesEstaticas.FornecedorPesquisado = 0;
+            Classes.Fornecedor.FornecedorPesquisado = 0;
             FuncoesEstaticas.ClientePesquisado = 0;
 
             Close();
@@ -76,7 +76,7 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                FuncoesEstaticas.PesquisaFornecedor(dgvTemp, listaPesquisa);
+                Classes.Fornecedor.PesquisaFornecedor(dgvTemp, listaPesquisa);
             }
             
             Close();

@@ -1388,20 +1388,6 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        public List<string> CarregaFornecedor(int _idFornecedor)
-        {
-            List<string> lista = conexao.ConsultaFornecedor("select * from tbl_fornecedor where tbl_fornecedor.id = '" + _idFornecedor + "';");
-
-            return lista;
-        }
-
-        public List<string> CarregaSubCategoriaFornecedor(int _idCategoria)
-        {
-            string comando = "Select nome from tbl_subgrupo_categoria where subgrupo = '" + _idCategoria + "';";
-
-            return conexao.PreencheCMB(comando);
-        }
-
         /// <summary>
         /// Método responsável por travar o fornecedor
         /// </summary>
