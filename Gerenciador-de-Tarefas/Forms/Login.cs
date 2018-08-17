@@ -205,9 +205,7 @@ namespace Gerenciador_de_Tarefas
         /// <param name="versaoAtual">Versão em que o software se encontra</param>
         private void AtualizaAtalho(string diretorioAlvo, string versaoAtual)
         {
-            string atalho = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\Gerenciador de Tarefas.lnk";
-
-            MessageBox.Show(atalho);
+            string atalho = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + @"\Gerenciador de Tarefas.lnk";            
 
             //Verifica se existe o atalho
             if (System.IO.File.Exists(atalho))
