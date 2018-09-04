@@ -349,29 +349,41 @@ namespace Gerenciador_de_Tarefas
 
                 while (dR.Read())
                 {
-                    for (int i = 0; i < 32; i++)
+                    for (int i = 0; i < 31; i++)
                     {
                         if(dR.IsDBNull(i))
                         {
                             resultado.Add("");
                         }
-                        else if (dR.GetString(i) == null)
-                        {
-                            resultado.Add("");
-                        }
                         else
                         {
-                            resultado.Add(dR.GetString(i));
+                            if(dR.GetString(i) == null)
+                            {
+                                resultado.Add("");
+                            }
+                            else
+                            {
+
+                            }
+                            resultado.Add(dR.GetString(i).ToString());
                         }
                     }
                 }
+
+                dR.Close();
             }
+
+
             catch (MySqlException)
             {
                 string erro = ListaErro.RetornaErro(55);
                 int separador = erro.LastIndexOf(":");
                 MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 FechaConexao();
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("AQUI");
             }
             finally
             {
