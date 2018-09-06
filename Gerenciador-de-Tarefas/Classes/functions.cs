@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Gerenciador_de_Tarefas
 {
@@ -378,6 +373,17 @@ namespace Gerenciador_de_Tarefas
             return diretorioPadrao;
         }
 
+        public static string VersaoSoftware
+        {
+            get
+            {
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+                return fvi.FileVersion;
+            }
+        }
+
         public static bool ValidaCPF(string cpf)
         {
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -486,27 +492,6 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        public static string FiltroFornecedores(int posicaoCmbFiltroFornecedores)
-        {
-            string comando = "";
-
-            switch (posicaoCmbFiltroFornecedores)
-            {
-                default:
-                    comando = "Select tbl_fornecedor.ID, tbl_fornecedor.nome as 'Razão Social / Nome', " +
-                        "IFNULL(tbl_subgrupos.nome, '') as 'Fornece', " +
-                        "IFNULL(tbl_fornecedor.Telefone, IFNULL(tbl_fornecedor.TelefoneComercial, IFNULL(tbl_fornecedor.Celular, ''))) as 'Telefone', " +
-                        "IFNULL(tbl_fornecedor.Email, '') as 'E-mail', " +
-                        "IFNULL(tbl_fornecedor.Contato, IFNULL(tbl_fornecedor.ContatoComercial, IFNULL(tbl_fornecedor.ContatoCelular, ''))) as 'Contato' " +
-                        "from tbl_fornecedor " +
-                        "join tbl_subgrupos on tbl_subgrupos.id = tbl_fornecedor.Categoria1 " +
-                        "ORDER BY tbl_fornecedor.nome ASC;";
-                    break;
-            }
-
-            return comando;
-        }
-
         #endregion
 
         #region Clientes
@@ -585,7 +570,7 @@ namespace Gerenciador_de_Tarefas
                     comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
                         "from tbl_contato " +
                         "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
-                        "where tbl_contato.Grupo = 1 order by tbl_contato.Nome ASC;";
+                        "order by tbl_contato.Nome ASC;";
                     break;
             }
 

@@ -349,7 +349,7 @@ namespace Gerenciador_de_Tarefas
 
                 while (dR.Read())
                 {
-                    for (int i = 0; i < 31; i++)
+                    for (int i = 0; i < 25; i++)
                     {
                         if(dR.IsDBNull(i))
                         {

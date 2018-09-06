@@ -264,6 +264,10 @@ namespace Gerenciador_de_Tarefas
 
                     Application.Exit();
                 }
+                else
+                {
+                    lblVersao.Text = "Versão: " + FuncoesEstaticas.VersaoSoftware;
+                }
             }
         }
 

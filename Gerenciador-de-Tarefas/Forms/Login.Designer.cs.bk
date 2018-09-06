@@ -37,7 +37,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.cmbUser = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.lblVersao = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -164,23 +164,23 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(209)))), ((int)(((byte)(244)))));
-            this.panel2.Controls.Add(this.lblVersao);
+            this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(3, 32);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(263, 18);
             this.panel2.TabIndex = 10;
             // 
-            // lblVersao
+            // label3
             // 
-            this.lblVersao.AutoSize = true;
-            this.lblVersao.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lblVersao.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVersao.Location = new System.Drawing.Point(0, 0);
-            this.lblVersao.Name = "lblVersao";
-            this.lblVersao.Size = new System.Drawing.Size(62, 14);
-            this.lblVersao.TabIndex = 9;
-            this.lblVersao.Text = "Versão: ";
-            this.lblVersao.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label3.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(0, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(62, 14);
+            this.label3.TabIndex = 9;
+            this.label3.Text = "Versão: ";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Login
             // 
@@ -223,6 +223,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox cmbUser;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label lblVersao;
+        private System.Windows.Forms.Label label3;
     }
 }
