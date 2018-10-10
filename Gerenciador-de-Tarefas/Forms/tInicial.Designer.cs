@@ -692,10 +692,14 @@
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 274F));
 =======
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 276F));
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 279F));
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -718,12 +722,16 @@
             this.panel1.Controls.Add(this.label31);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.panel1.Location = new System.Drawing.Point(480, 3);
 =======
             this.panel1.Location = new System.Drawing.Point(479, 3);
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.panel1.Location = new System.Drawing.Point(477, 3);
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(130, 147);
+            this.panel1.Size = new System.Drawing.Size(129, 147);
             this.panel1.TabIndex = 1;
             // 
             // txtNFDataNascimento
@@ -804,10 +812,14 @@
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.panelNFTipoFornecedor.Size = new System.Drawing.Size(471, 147);
 =======
             this.panelNFTipoFornecedor.Size = new System.Drawing.Size(470, 147);
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(468, 147);
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
             // lblNFApelido
@@ -926,6 +938,7 @@
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.panelNFDatas.Location = new System.Drawing.Point(617, 3);
             this.panelNFDatas.Name = "panelNFDatas";
             this.panelNFDatas.Size = new System.Drawing.Size(269, 147);
@@ -934,6 +947,11 @@
             this.panelNFDatas.Name = "panelNFDatas";
             this.panelNFDatas.Size = new System.Drawing.Size(271, 147);
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.panelNFDatas.Location = new System.Drawing.Point(612, 3);
+            this.panelNFDatas.Name = "panelNFDatas";
+            this.panelNFDatas.Size = new System.Drawing.Size(274, 147);
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -1666,10 +1684,14 @@
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 211F));
 =======
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 213F));
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
             this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1694,10 +1716,14 @@
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel23.Size = new System.Drawing.Size(595, 473);
 =======
             this.tableLayoutPanel23.Size = new System.Drawing.Size(593, 473);
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(590, 473);
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.tableLayoutPanel23.TabIndex = 5;
             // 
             // panelConfigBanco
@@ -1723,10 +1749,14 @@
             this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
             this.panelConfigBanco.Name = "panelConfigBanco";
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.panelConfigBanco.Size = new System.Drawing.Size(589, 397);
 =======
             this.panelConfigBanco.Size = new System.Drawing.Size(587, 397);
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.panelConfigBanco.Size = new System.Drawing.Size(584, 397);
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.panelConfigBanco.TabIndex = 0;
             // 
             // label13
@@ -1894,10 +1924,14 @@
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.label6.Size = new System.Drawing.Size(589, 70);
 =======
             this.label6.Size = new System.Drawing.Size(587, 70);
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.label6.Size = new System.Drawing.Size(584, 70);
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.label6.TabIndex = 4;
             this.label6.Text = "Parâmetros de conexão SQL";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1913,10 +1947,14 @@
             this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
             this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
 <<<<<<< HEAD
+<<<<<<< HEAD
             this.tableLayoutPanel24.Location = new System.Drawing.Point(604, 3);
 =======
             this.tableLayoutPanel24.Location = new System.Drawing.Point(602, 3);
 >>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
+=======
+            this.tableLayoutPanel24.Location = new System.Drawing.Point(599, 3);
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 5;
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));

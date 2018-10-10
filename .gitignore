@@ -259,5 +259,10 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+<<<<<<< HEAD
 Gerenciador-de-Tarefas/Forms/Login.Designer.cs2
 Gerenciador-de-Tarefas/Forms/Login.Designer.cs.bk
+=======
+/Gerenciador-de-Tarefas/Forms/Login.cs.bk
+/Gerenciador-de-Tarefas/Forms/Login.resx.bk
+>>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
