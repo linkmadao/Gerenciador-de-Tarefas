@@ -245,6 +245,10 @@ namespace Gerenciador_de_Tarefas
                     resultado = "Erro ao Atualizar Fornecedor : " +
                         "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
                     break;
+                case 57:
+                    resultado = "Erro ao Apagar o Fornecedor : " +
+                        "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
+                    break;
             }
 
             return resultado;
@@ -335,6 +339,23 @@ namespace Gerenciador_de_Tarefas
                 case 18:
                     resultado = "Sair do Fornecedor : " +
                         "Você tem certeza de que deseja sair deste fornecedor?\nTodas as alterações serão perdidas!";
+                    break;
+                case 19:
+                    resultado = "Excluir o Fornecedor? : " +
+                        "Você tem certeza de que deseja excluir este fornecedor?\nTodas as informações desse fornecedor serão perdidas!";
+                    break;
+                case 20:
+                    resultado = "Excluir o Fornecedor? : " +
+                        "Tem certeza absoluta disso?\nEssa operação não poderá ser desfeita!" +
+                        "\n\nPara continuar digite a senha de administrador.";
+                    break;
+                case 21:
+                    resultado = "Excluir o Fornecedor? : " +
+                        "O fornecedor foi excluído com sucesso!";
+                    break;
+                case 22:
+                    resultado = "Excluir o Fornecedor? : " +
+                        "Tem certeza absoluta disso?\nEssa operação não poderá ser desfeita!";
                     break;
             }
 

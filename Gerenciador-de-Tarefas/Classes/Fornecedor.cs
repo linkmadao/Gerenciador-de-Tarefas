@@ -260,46 +260,57 @@ namespace Gerenciador_de_Tarefas.Classes
         public static void AbrirFornecedor(int _idFornecedor)
         {
             LimparVariaveis();
-            List<string> listaFornecedor = conexao.ConsultaFornecedor("select * from tbl_fornecedor where tbl_fornecedor.id = '" + _idFornecedor + "';");
-
+            List<string> listaFornecedor = conexao.ConsultaFornecedor("select tipo, datacadastro, datanascimento, documento, nome, " +
+                "apelido, cep, endereco, numero, complemento, bairro, cidade, estado, pais, telefone, contato, telefonecomercial, " +
+                "contatocomercial, celular, contatocelular, email, site, inscricaoestadual, inscricaomunicipal, observacoes, categoria1, " +
+                "categoria2, categoria3, subcategoria1, subcategoria2, subcategoria3 " +
+                "from tbl_fornecedor where id = '" + _idFornecedor + "';");
+            
             ID = _idFornecedor;
-            Tipo = int.Parse(listaFornecedor[1]);
-            DataCadastro = listaFornecedor[2];
-            DataNascimento = listaFornecedor[3];
-            Documento = listaFornecedor[4];
-            Nome = listaFornecedor[5];
-            Apelido = listaFornecedor[6];
-            CEP = listaFornecedor[7];
-            Endereco = listaFornecedor[8];
-            Numero = listaFornecedor[9];
-            Complemento = listaFornecedor[10];
-            Bairro = listaFornecedor[11];
-            Cidade = listaFornecedor[12];
-            Estado = listaFornecedor[13];
-            Pais = listaFornecedor[14];
-            Telefone = listaFornecedor[15];
-            Contato = listaFornecedor[16];
-            TelefoneComercial = listaFornecedor[17];
-            ContatoComercial = listaFornecedor[18];
-            Celular = listaFornecedor[19];
-            ContatoCelular = listaFornecedor[20];
-            Email = listaFornecedor[21];
-            Site = listaFornecedor[22];
-            InscricaoEstadual = listaFornecedor[23];
-            InscricaoMunicipal = listaFornecedor[24];
-            Obs = listaFornecedor[25];
-            Categoria1 = int.Parse(listaFornecedor[26]);
-            Categoria2 = int.Parse(listaFornecedor[27]);
-            Categoria3 = int.Parse(listaFornecedor[28]);
-            SubCategoria1 = int.Parse(listaFornecedor[29]);
-            SubCategoria2 = int.Parse(listaFornecedor[30]);
-            SubCategoria3 = int.Parse(listaFornecedor[31]);
+            Tipo = int.Parse(listaFornecedor[0]);
+            DataCadastro = listaFornecedor[1];
+            DataNascimento = listaFornecedor[2];
+            Documento = listaFornecedor[3];
+            Nome = listaFornecedor[4];
+            Apelido = listaFornecedor[5];
+            CEP = listaFornecedor[6];
+            Endereco = listaFornecedor[7];
+            Numero = listaFornecedor[8];
+            Complemento = listaFornecedor[9];
+            Bairro = listaFornecedor[10];
+            Cidade = listaFornecedor[11];
+            Estado = listaFornecedor[12];
+            Pais = listaFornecedor[13];
+            Telefone = listaFornecedor[14];
+            Contato = listaFornecedor[15];
+            TelefoneComercial = listaFornecedor[16];
+            ContatoComercial = listaFornecedor[17];
+            Celular = listaFornecedor[18];
+            ContatoCelular = listaFornecedor[19];
+            Email = listaFornecedor[20];
+            Site = listaFornecedor[21];
+            InscricaoEstadual = listaFornecedor[22];
+            InscricaoMunicipal = listaFornecedor[23];
+            Obs = listaFornecedor[24];
+            Categoria1 = int.Parse(listaFornecedor[25]);
+            Categoria2 = int.Parse(listaFornecedor[26]);
+            Categoria3 = int.Parse(listaFornecedor[27]);
+            SubCategoria1 = int.Parse(listaFornecedor[28]);
+            SubCategoria2 = int.Parse(listaFornecedor[29]);
+            SubCategoria3 = int.Parse(listaFornecedor[30]);
             
             //Backup
             _id = ID;
             _tipo = Tipo;
             _dataCadastro = DataCadastro.Substring(0,10);
-            _dataNascimento = string.IsNullOrEmpty(DataNascimento.Substring(0, 10)) ? "" : DataNascimento.Substring(0, 10);
+            if(!string.IsNullOrEmpty(DataNascimento) && DataNascimento != "")
+            {
+                DataNascimento.Substring(0, 10);
+            }
+            else
+            {
+                _dataNascimento = DataNascimento;
+            }
             _documento = Documento;
             _nome = Nome;
             _apelido = Apelido;
@@ -328,7 +339,6 @@ namespace Gerenciador_de_Tarefas.Classes
             _subCategoria1 = SubCategoria1;
             _subCategoria2 = SubCategoria2;
             _subCategoria3 = SubCategoria3;
-
         }
 
         public static List<string> CarregarSubCategoria(int _idCategoria)
@@ -547,6 +557,25 @@ namespace Gerenciador_de_Tarefas.Classes
             }
         }
 
+        public static void ApagarFornecedor(int _id)
+        {
+            string comando = null, erro = "";
+            int separador = 0;
+
+            try
+            {
+                comando = "delete from tbl_fornecedor where ID = '" + _id + "';";
+                conexao.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                erro = ListaErro.RetornaErro(57);
+                separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw;
+            }
+        }
+
         /// <summary>
         /// Método responsável por verificar se há alterações entre os dados originais e os dados atuais
         /// </summary>
@@ -559,7 +588,7 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 Categoria1 = 0;
             }
-            else
+            else if (Categoria1 > 0)
             {
                 Categoria1++;
             }
@@ -567,7 +596,7 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 Categoria2 = 0;
             }
-            else
+            else if (Categoria2 > 0)
             {
                 Categoria2++;
             }
@@ -575,7 +604,7 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 Categoria3 = 0;
             }
-            else
+            else if (Categoria3 > 0)
             {
                 Categoria3++;
             }
@@ -583,7 +612,7 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 SubCategoria1 = 0;
             }
-            else
+            else if (SubCategoria1 > 0)
             {
                 SubCategoria1++;
             }
@@ -591,7 +620,7 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 SubCategoria2 = 0;
             }
-            else
+            else if(SubCategoria2 > 0)
             {
                 SubCategoria2++;
             }
@@ -599,7 +628,7 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 SubCategoria3 = 0;
             }
-            else
+            else if (SubCategoria3 > 0)
             {
                 SubCategoria3++;
             }
@@ -622,22 +651,22 @@ namespace Gerenciador_de_Tarefas.Classes
         /// </summary>
         public static void LimparVariaveis()
         {
-            id = int.MinValue;
-            tipo = int.MinValue;
-            categoria1 = int.MinValue;
-            categoria2 = int.MinValue;
-            categoria3 = int.MinValue;
-            subCategoria1 = int.MinValue;
-            subCategoria2 = int.MinValue;
-            subCategoria3 = int.MinValue;
-            _id = int.MinValue;
-            _tipo = int.MinValue;
-            _categoria1 = int.MinValue;
-            _categoria2 = int.MinValue;
-            _categoria3 = int.MinValue;
-            _subCategoria1 = int.MinValue;
-            _subCategoria2 = int.MinValue;
-            _subCategoria3 = int.MinValue;
+            id = 0;
+            tipo = 0;
+            categoria1 = 0;
+            categoria2 = 0;
+            categoria3 = 0;
+            subCategoria1 = 0;
+            subCategoria2 = 0;
+            subCategoria3 = 0;
+            _id = 0;
+            _tipo = 0;
+            _categoria1 = 0;
+            _categoria2 = 0;
+            _categoria3 = 0;
+            _subCategoria1 = 0;
+            _subCategoria2 = 0;
+            _subCategoria3 = 0;
 
             documento = null;
             nome = null;
@@ -780,6 +809,7 @@ namespace Gerenciador_de_Tarefas.Classes
 
             return resultado;
         }
+
 
         #endregion
     }

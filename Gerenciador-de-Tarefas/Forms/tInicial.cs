@@ -1789,6 +1789,11 @@ namespace Gerenciador_de_Tarefas
                 int idFornecedor = int.Parse(linha.Cells["id"].Value.ToString());
                 nfCarregaFornecedor(idFornecedor);
 
+                panelNF.Visible = true;
+                panelNF.Enabled = true;
+
+                panelFornecedores.Enabled = false;
+
                 string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Abriu fornecedor ID: " + idFornecedor + " - " +
                 DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
                 conexao.ExecutaComando(comando);
@@ -2223,14 +2228,90 @@ namespace Gerenciador_de_Tarefas
             nfPesquisaCNPJ();
         }
 
-        private void btnNFImprimir_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnNFApagar_Click(object sender, EventArgs e)
         {
+            string mensagem = ListaMensagens.RetornaMensagem(19);
+            int separador = mensagem.IndexOf(":");
+            DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+            if (resultadoDialogo == DialogResult.Yes)
+            {
+                if (resultadoDialogo == DialogResult.Yes)
+                {
+                    if (idUsuario != 1 && idUsuario != 2)
+                    {
+                        mensagem = ListaMensagens.RetornaMensagem(20);
+                        separador = mensagem.IndexOf(":");
+                        string resposta = Microsoft.VisualBasic.Interaction.InputBox(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), "");
+
+                        if (resposta == "MB8719")
+                        {
+                            try
+                            {
+                                Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
+                            }
+                            catch (Exception)
+                            {
+                                mensagem = ListaErro.RetornaErro(57);
+                                separador = mensagem.IndexOf(":");
+                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            finally
+                            {
+                                mensagem = ListaMensagens.RetornaMensagem(21);
+                                separador = mensagem.IndexOf(":");
+                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                nfLimparCampos();
+
+                                panelNF.Visible = false;
+                                panelNF.Enabled = false;
+
+                                AtualizaDGVFornecedores();
+
+                                panelFornecedores.Enabled = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mensagem = ListaMensagens.RetornaMensagem(22);
+                        separador = mensagem.IndexOf(":");
+                        resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                        if (resultadoDialogo == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
+                            }
+                            catch (Exception)
+                            {
+                                mensagem = ListaErro.RetornaErro(57);
+                                separador = mensagem.IndexOf(":");
+                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+                            finally
+                            {
+                                mensagem = ListaMensagens.RetornaMensagem(21);
+                                separador = mensagem.IndexOf(":");
+                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                nfLimparCampos();
+
+                                panelNF.Visible = false;
+                                panelNF.Enabled = false;
+
+                                AtualizaDGVFornecedores();
+
+                                panelFornecedores.Enabled = true;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void btnNFEditar_Click(object sender, EventArgs e)
@@ -2466,6 +2547,187 @@ namespace Gerenciador_de_Tarefas
                 cmbNFSubCateg3.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg3.SelectedIndex + 1);
             }
         }
+
+        private void btnNFImprimir_Click(object sender, EventArgs e)
+        {
+            if (pdNFConfigImpressao.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    pPreviewNF.ShowDialog();
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    string erro = ListaErro.RetornaErro(24);
+                    int separador = erro.IndexOf(":");
+                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        bool primeiraPagina = false;
+        string _textoImprimir = null;
+        int MaxCaracteres = 100;
+
+        private void pdNFDocumento_BeginPrint(object sender, PrintEventArgs e)
+        {
+            primeiraPagina = true;
+            _textoImprimir = "";
+            _textoImprimir = FuncoesEstaticas.PreparaTexto(txtNFObservacoes.Text, MaxCaracteres);
+            pdNFDocumento.DocumentName = txtNFNome.Text;
+        }
+        /*
+        private void pdNFDocumento_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            //Define a fonte do Título
+            Font fonteTitulo = new Font("Arial", 12, FontStyle.Bold);
+            //Define a fonte do texto
+            Font fontetexto = new Font("Arial", 10);
+
+            //Cria um Brush solido com a cor preta
+            SolidBrush brush = new SolidBrush(Color.Black);
+
+            //Pega a largura inicial da folha
+            int xPosition = e.MarginBounds.X;
+            //Pega a altura inicial da folha
+            int yPosition = e.MarginBounds.Y;
+
+            int maxCharacters = 0;
+            //Calcula a quantidade máxima de caracteres que a linha suporta
+            maxCharacters = e.MarginBounds.Width / (int)fontetexto.Size;
+
+            //Posição onde o texto parou
+            int position = 0;
+            // A variável "posicaoUltimoEspaco" é atribuída, mas seu valor nunca é usado
+            int posicaoUltimoEspaco = 0;
+
+            string id, nome, apelido, documento;
+
+            if(cmbNFTipoFornecedor.SelectedIndex == 0)
+            {
+                id = "ID: " + txtNFIDFornecedor.Text;
+                nome = "Razão Social: " + txtNFNome.Text;
+
+            }
+
+            //Nome da empresa que será impresso
+            string titulo = "Empresa: " + cmbEmpresa.SelectedItem.ToString();
+            //Assunto que será usado
+            string assunto = "Assunto: " + txtAssunto.Text;
+
+            g.DrawString(titulo, fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height + 20;
+
+            while (assunto.Length - position > maxCharacters)
+            {
+                if (assunto.Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = assunto.Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                    //Escreve o assunto
+                    g.DrawString(assunto.Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (assunto.Length - position > 0)
+            {
+                if (assunto.Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(assunto.Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+
+            //Configura a cor e o tamanho da linha
+            Pen blackPen = new Pen(Color.Black, 3);
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //A quem a tarefa foi atribuida
+            string atribuicao = "Atribuido a: " + cmbFuncionario.SelectedItem.ToString();
+            //Qual o período da tarefa
+            string periodo = "Data de Início: " + dtpInicio.Value.ToShortDateString() + " - Data de Conclusão: " + dtpFinal.Value.ToShortDateString();
+            //Qual o status da tarefa
+            string status = "Status: " + cmbStatus.SelectedItem.ToString();
+            //Qual a prioridade da tarefa
+            string prioridade = "Prioridade: " + cmbPrioridade.SelectedItem.ToString();
+
+            //Imprime a atribuição com a prioridade
+            g.DrawString(atribuicao + " | " + prioridade, fontetexto, brush, xPosition, yPosition);
+            yPosition += fontetexto.Height;
+            //Imprime o período
+            g.DrawString(periodo, fontetexto, brush, xPosition, yPosition);
+            yPosition += fontetexto.Height;
+            //Imprime o status da tarefa
+            g.DrawString(status, fontetexto, brush, xPosition, yPosition);
+            yPosition += fontetexto.Height;
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+
+            //Imprime o título "Texto: "
+            g.DrawString("Texto:", fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height * 2;
+
+            int linhasPorPagina = 60;
+            int contador = 0;
+
+            //Calcula a quantidade máxima de caracteres que a linha suporta
+            maxCharacters = MaxCaracteres;
+
+            //Define a fonte do texto
+            Font fonteTexto2 = new Font("Arial", 8);
+
+            if (primeiraPagina)
+            {
+                primeiraPagina = false;
+                leitor = new StringReader(_textoImprimir);
+            }
+
+            //float LeftMargin = e.MarginBounds.Left;
+            //float TopMargin = e.MarginBounds.Top;
+            string Line = null;
+
+            while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
+            {
+                yPosition += fonteTexto2.Height;
+                e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
+                contador++;
+            }
+
+            if (Line != null)
+            {
+                e.HasMorePages = true;
+            }
+            else
+            {
+                e.HasMorePages = false;
+            }
+
+            brush.Dispose();
+        }
+        */
         #endregion
         #endregion
 
