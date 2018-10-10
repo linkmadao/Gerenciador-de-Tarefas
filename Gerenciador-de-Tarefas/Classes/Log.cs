@@ -31,9 +31,9 @@ namespace Gerenciador_de_Tarefas.Classes
             conexao.ExecutaComando(comando);
         }
 
-        public static void AbrirCliente()
+        public static void AbrirCliente(int usuario, int cliente)
         {
-            string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Abriu cliente ID: " + idCliente + " - " +
+            string comando = "Insert into tbl_log values (0," + usuario + ", 'Abriu cliente ID: " + cliente + " - " +
                 DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
             conexao.ExecutaComando(comando);
         }

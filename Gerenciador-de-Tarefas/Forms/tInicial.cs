@@ -2121,7 +2121,8 @@ namespace Gerenciador_de_Tarefas
 
                         AtualizaDGVFornecedores();
 
-                         panelFornecedores.Enabled = true;
+                        panelFornecedores.Enabled = true;
+                        panelFornecedores.Visible = true;
                     }
                 }
                 else
@@ -2144,6 +2145,7 @@ namespace Gerenciador_de_Tarefas
                         AtualizaDGVFornecedores();
 
                         panelFornecedores.Enabled = true;
+                        panelFornecedores.Visible = true;
                     }
                 }
             }
@@ -2513,6 +2515,7 @@ namespace Gerenciador_de_Tarefas
 
         bool primeiraPagina = false;
         string _textoImprimir = null;
+
         int MaxCaracteres = 100;
 
         private void pdNFDocumento_BeginPrint(object sender, PrintEventArgs e)
