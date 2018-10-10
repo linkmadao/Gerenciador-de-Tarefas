@@ -49,11 +49,10 @@ namespace Gerenciador_de_Tarefas
 
         private void tInicial_Load(object sender, EventArgs e)
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
 
             //Titulo Software
-            lblVersao.Text = "Versão: " + fvi.FileVersion;
+            lblVersao.Text = "Versão: " + FuncoesEstaticas.VersaoSoftware;
 
             //Coloca a hora
             lblHorario.Text = "Hora: " + DateTime.Now.ToShortTimeString();
@@ -76,10 +75,10 @@ namespace Gerenciador_de_Tarefas
 
                 programaDesativado = false;
             }
-
-            string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Logoff efetuado - " +
-                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-            conexao.ExecutaComando(comando);
+            else
+            {
+                Classes.Log.Logoff(idUsuario);
+            }
         }
 
         private void btnClientes_Click(object sender, EventArgs e)
@@ -610,10 +609,6 @@ namespace Gerenciador_de_Tarefas
 
                 DataGridViewRow linha = dgvClientes.Rows[e.RowIndex];
                 idCliente = funcoes.AbreCliente(linha.Cells["Nome"].Value.ToString());
-
-                string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Abriu cliente ID: " + idCliente + " - " +
-                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                conexao.ExecutaComando(comando);
 
                 CadastraCliente cadastraCliente = new CadastraCliente(false, idCliente);
                 cadastraCliente.ShowDialog();
@@ -1686,7 +1681,7 @@ namespace Gerenciador_de_Tarefas
         {
             if (conexao.TestaConexao())
             {
-                string comando = FuncoesEstaticas.FiltroFornecedores(cmbGrupoFornecedor.SelectedIndex);
+                string comando = Classes.Fornecedor.FiltroFornecedores(cmbGrupoFornecedor.SelectedIndex);
 
                 DataGridView _dgvTemp = new DataGridView();
                 int linhaAtual = 0, colunaAtual = 0, posvertical = 0;
@@ -1702,9 +1697,6 @@ namespace Gerenciador_de_Tarefas
                     cmbGrupoFornecedor.DisplayMember = "Fornecedores";
                     //Seleciona a opção "Todos" no combobox
                     cmbGrupoFornecedor.Text = "Todos";
-
-                    //Reescreve o comando, dando certeza de que selecionou a opção "Todos"
-                    comando = Classes.Fornecedor.FiltroFornecedores(cmbGrupoFornecedor.SelectedIndex);
 
                     //Preenche o DataGridView Temporário
                     _dgvFornecedoresAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
@@ -1794,9 +1786,13 @@ namespace Gerenciador_de_Tarefas
 
                 panelFornecedores.Enabled = false;
 
+<<<<<<< HEAD
                 string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Abriu fornecedor ID: " + idFornecedor + " - " +
                 DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
                 conexao.ExecutaComando(comando);
+=======
+                Classes.Log.AbrirFornecedor(idUsuario, idFornecedor);
+>>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
 
                 AtualizaDGVFornecedores();
             }
@@ -1849,76 +1845,33 @@ namespace Gerenciador_de_Tarefas
             {
                 Classes.Fornecedor.AbrirFornecedor(_idFornecedor);
 
-                txtNFIDFornecedor.Text = Classes.Fornecedor.ID.ToString();
-                cmbNFTipoFornecedor.SelectedIndex = Classes.Fornecedor.Tipo;
-                txtNFDataCadastro.Text = Classes.Fornecedor.DataCadastro;
-                txtNFDataNascimento.Text = Classes.Fornecedor.DataNascimento;
-                txtNFDocumento.Text = Classes.Fornecedor.Documento;
-                lblNFTitulo.Text = Classes.Fornecedor.Nome;
-                txtNFNome.Text = Classes.Fornecedor.Nome;
-                txtNFApelido.Text = Classes.Fornecedor.Apelido;
-                txtNFCEP.Text = Classes.Fornecedor.CEP;
-                txtNFEndereco.Text = Classes.Fornecedor.Endereco;
-                txtNFNumero.Text = Classes.Fornecedor.Numero;
-                txtNFComplemento.Text = Classes.Fornecedor.Complemento;
-                txtNFBairro.Text = Classes.Fornecedor.Bairro;
-                txtNFCidade.Text = Classes.Fornecedor.Cidade;
-                txtNFEstado.Text = Classes.Fornecedor.Estado;
-                txtNFPais.Text = Classes.Fornecedor.Pais;
-                txtNFTelefone.Text = Classes.Fornecedor.Telefone;
-                txtNFContato.Text = Classes.Fornecedor.Contato;
-                txtNFTelefoneComercial.Text = Classes.Fornecedor.TelefoneComercial;
-                txtNFContatoComercial.Text = Classes.Fornecedor.ContatoComercial;
-                txtNFCelular.Text = Classes.Fornecedor.Celular;
-                txtNFContatoCelular.Text = Classes.Fornecedor.ContatoCelular;
-                txtNFEmail.Text = Classes.Fornecedor.Email;
-                txtNFSite.Text = Classes.Fornecedor.Site;
-                txtNFInscricaoEstadual.Text = Classes.Fornecedor.InscricaoEstadual;
-                txtNFInscricaoMunicipal.Text = Classes.Fornecedor.InscricaoMunicipal;
-                txtNFObservacoes.Text = Classes.Fornecedor.Obs;
-
-
-                string comando = "Select nome from tbl_subgrupos;";
-                cmbNFCateg1.DataSource = conexao.PreencheCMB(comando);
-                cmbNFCateg2.DataSource = conexao.PreencheCMB(comando);
-                cmbNFCateg3.DataSource = conexao.PreencheCMB(comando);
-
-                if (Classes.Fornecedor.Categoria1 >= 1)
-                {    
-                    cmbNFCateg1.SelectedIndex = Classes.Fornecedor.Categoria1 - 1;
-
-                    cmbNFSubCateg1.DataSource = Classes.Fornecedor.CarregarSubCategoria(Classes.Fornecedor.Categoria1);
-                    cmbNFSubCateg1.Enabled = true;
-                }
-                if (Classes.Fornecedor.Categoria2 >= 1)
-                {
-                    cmbNFCateg2.SelectedIndex = Classes.Fornecedor.Categoria2 - 1;
-
-                    cmbNFSubCateg2.DataSource = Classes.Fornecedor.CarregarSubCategoria(Classes.Fornecedor.Categoria2);
-                    cmbNFSubCateg2.Enabled = true;
-                }
-                if (Classes.Fornecedor.Categoria3 >= 1)
-                {
-                    cmbNFCateg3.SelectedIndex = Classes.Fornecedor.Categoria3 - 1;
-
-                    cmbNFSubCateg3.DataSource = Classes.Fornecedor.CarregarSubCategoria(Classes.Fornecedor.Categoria3);
-                    cmbNFSubCateg3.Enabled = true;
-                }
-                if (Classes.Fornecedor.SubCategoria1 >= 1)
-                {
-                    cmbNFSubCateg1.SelectedIndex = Classes.Fornecedor.SubCategoria1 - 1;
-                    cmbNFCateg2.Enabled = true;
-                }
-                if (Classes.Fornecedor.SubCategoria2 >= 1)
-                {
-                    cmbNFSubCateg2.SelectedIndex = Classes.Fornecedor.SubCategoria2 - 1;
-
-                    cmbNFCateg3.Enabled = true;
-                }
-                if (Classes.Fornecedor.SubCategoria3 >= 1)
-                {
-                    cmbNFSubCateg3.SelectedIndex = Classes.Fornecedor.SubCategoria3 - 1;
-                }
+                txtNFIDFornecedor.Text = Classes.Fornecedor.id.ToString();
+                cmbNFTipoFornecedor.SelectedIndex = Classes.Fornecedor.tipo;
+                txtNFDataCadastro.Text = Classes.Fornecedor.dataCadastro;
+                txtNFDataNascimento.Text = Classes.Fornecedor.dataNascimento;
+                txtNFDocumento.Text = Classes.Fornecedor.documento;
+                lblNFTitulo.Text = Classes.Fornecedor.nome;
+                txtNFNome.Text = Classes.Fornecedor.nome;
+                txtNFApelido.Text = Classes.Fornecedor.apelido;
+                txtNFCEP.Text = Classes.Fornecedor.cep;
+                txtNFEndereco.Text = Classes.Fornecedor.endereco;
+                txtNFNumero.Text = Classes.Fornecedor.numero;
+                txtNFComplemento.Text = Classes.Fornecedor.complemento;
+                txtNFBairro.Text = Classes.Fornecedor.bairro;
+                txtNFCidade.Text = Classes.Fornecedor.cidade;
+                txtNFEstado.Text = Classes.Fornecedor.estado;
+                txtNFPais.Text = Classes.Fornecedor.pais;
+                txtNFTelefone.Text = Classes.Fornecedor.telefone;
+                txtNFContato.Text = Classes.Fornecedor.contato;
+                txtNFTelefoneComercial.Text = Classes.Fornecedor.telefoneComercial;
+                txtNFContatoComercial.Text = Classes.Fornecedor.contatoComercial;
+                txtNFCelular.Text = Classes.Fornecedor.celular;
+                txtNFContatoCelular.Text = Classes.Fornecedor.contatoCelular;
+                txtNFEmail.Text = Classes.Fornecedor.email;
+                txtNFSite.Text = Classes.Fornecedor.site;
+                txtNFInscricaoEstadual.Text = Classes.Fornecedor.inscricaoEstadual;
+                txtNFInscricaoMunicipal.Text = Classes.Fornecedor.inscricaoMunicipal;
+                txtNFObservacoes.Text = Classes.Fornecedor.obs;
 
                 btnNFApagar.Enabled = true;
                 btnNFEditar.Enabled = true;
@@ -1952,13 +1905,13 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (Classes.Fornecedor.LocalizarCEP(txtNFCEP.Text))
                     {
-                        txtNFEndereco.Text = Classes.Fornecedor.Endereco;
-                        txtNFNumero.Text = Classes.Fornecedor.Numero;
-                        txtNFComplemento.Text = Classes.Fornecedor.Complemento;
-                        txtNFBairro.Text = Classes.Fornecedor.Bairro;
-                        txtNFCidade.Text = Classes.Fornecedor.Cidade;
-                        txtNFEstado.Text = Classes.Fornecedor.Estado;
-                        txtNFPais.Text = "Brasil";
+                        txtNFEndereco.Text = Classes.Fornecedor.endereco;
+                        txtNFNumero.Text = Classes.Fornecedor.numero;
+                        txtNFComplemento.Text = Classes.Fornecedor.complemento;
+                        txtNFBairro.Text = Classes.Fornecedor.bairro;
+                        txtNFCidade.Text = Classes.Fornecedor.cidade;
+                        txtNFEstado.Text = Classes.Fornecedor.estado;
+                        txtNFPais.Text = Classes.Fornecedor.pais;
                     }
                     else
                     {
@@ -2020,19 +1973,19 @@ namespace Gerenciador_de_Tarefas
                     if (Classes.Fornecedor.PesquisarCNPJ(txtNFDocumento.Text))
                     {
 
-                        txtNFNome.Text = Classes.Fornecedor.Nome;
-                        txtNFApelido.Text = Classes.Fornecedor.Apelido;
-                        txtNFDataNascimento.Text = Classes.Fornecedor.DataNascimento;
-                        txtNFCEP.Text = Classes.Fornecedor.CEP;
-                        txtNFEndereco.Text = Classes.Fornecedor.Endereco;
-                        txtNFNumero.Text = Classes.Fornecedor.Numero;
-                        txtNFComplemento.Text = Classes.Fornecedor.Endereco;
-                        txtNFBairro.Text = Classes.Fornecedor.Bairro;
-                        txtNFCidade.Text = Classes.Fornecedor.Cidade;
-                        txtNFEstado.Text = Classes.Fornecedor.Estado;
+                        txtNFNome.Text = Classes.Fornecedor.nome;
+                        txtNFApelido.Text = Classes.Fornecedor.apelido;
+                        txtNFDataNascimento.Text = Classes.Fornecedor.dataNascimento;
+                        txtNFCEP.Text = Classes.Fornecedor.cep;
+                        txtNFEndereco.Text = Classes.Fornecedor.endereco;
+                        txtNFNumero.Text = Classes.Fornecedor.numero;
+                        txtNFComplemento.Text = Classes.Fornecedor.endereco;
+                        txtNFBairro.Text = Classes.Fornecedor.bairro;
+                        txtNFCidade.Text = Classes.Fornecedor.cidade;
+                        txtNFEstado.Text = Classes.Fornecedor.estado;
                         txtNFPais.Text = "Brasil";
-                        txtNFTelefoneComercial.Text = Classes.Fornecedor.TelefoneComercial;
-                        txtNFEmail.Text = Classes.Fornecedor.Email;
+                        txtNFTelefoneComercial.Text = Classes.Fornecedor.telefoneComercial;
+                        txtNFEmail.Text = Classes.Fornecedor.email;
 
                     }
                     else
@@ -2117,37 +2070,35 @@ namespace Gerenciador_de_Tarefas
         
         private void nfEnviaDados()
         {
-            Classes.Fornecedor.Tipo = cmbNFTipoFornecedor.SelectedIndex;
-            Classes.Fornecedor.DataCadastro = txtNFDataCadastro.Text;
-            Classes.Fornecedor.DataNascimento = txtNFDataNascimento.Text;
-            Classes.Fornecedor.Documento = txtNFDocumento.Text;
-            Classes.Fornecedor.Nome = txtNFNome.Text;
-            Classes.Fornecedor.Apelido = txtNFApelido.Text;
-            Classes.Fornecedor.CEP = txtNFCEP.Text;
-            Classes.Fornecedor.Endereco = txtNFEndereco.Text;
-            Classes.Fornecedor.Numero = txtNFNumero.Text;
-            Classes.Fornecedor.Complemento = txtNFComplemento.Text;
-            Classes.Fornecedor.Bairro = txtNFBairro.Text;
-            Classes.Fornecedor.Cidade = txtNFCidade.Text;
-            Classes.Fornecedor.Estado = txtNFEstado.Text;
-            Classes.Fornecedor.Pais = txtNFPais.Text;
-            Classes.Fornecedor.Telefone = txtNFTelefone.Text;
-            Classes.Fornecedor.Contato = txtNFContato.Text;
-            Classes.Fornecedor.TelefoneComercial = txtNFTelefoneComercial.Text;
-            Classes.Fornecedor.ContatoComercial = txtNFContatoComercial.Text;
-            Classes.Fornecedor.Celular = txtNFCelular.Text;
-            Classes.Fornecedor.ContatoCelular = txtNFContatoCelular.Text;
-            Classes.Fornecedor.Email = txtNFEmail.Text;
-            Classes.Fornecedor.Site = txtNFSite.Text;
-            Classes.Fornecedor.InscricaoEstadual = txtNFInscricaoEstadual.Text;
-            Classes.Fornecedor.InscricaoMunicipal = txtNFInscricaoMunicipal.Text;
-            Classes.Fornecedor.Obs = txtNFObservacoes.Text;
-            Classes.Fornecedor.Categoria1 = cmbNFCateg1.SelectedIndex;
-            Classes.Fornecedor.Categoria2 = cmbNFCateg2.SelectedIndex;
-            Classes.Fornecedor.Categoria3 = cmbNFCateg3.SelectedIndex;
-            Classes.Fornecedor.SubCategoria1 = cmbNFSubCateg1.SelectedIndex;
-            Classes.Fornecedor.SubCategoria2 = cmbNFSubCateg2.SelectedIndex;
-            Classes.Fornecedor.SubCategoria3 = cmbNFSubCateg3.SelectedIndex;
+            Classes.Fornecedor.tipo = cmbNFTipoFornecedor.SelectedIndex;
+            Classes.Fornecedor.dataCadastro = txtNFDataCadastro.Text;
+            if (txtNFDataNascimento.Text == "  /  /")
+            {
+                txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+            }
+            Classes.Fornecedor.dataNascimento = txtNFDataNascimento.Text;
+            Classes.Fornecedor.documento = txtNFDocumento.Text;
+            Classes.Fornecedor.nome = txtNFNome.Text;
+            Classes.Fornecedor.apelido = txtNFApelido.Text;
+            Classes.Fornecedor.cep = txtNFCEP.Text;
+            Classes.Fornecedor.endereco = txtNFEndereco.Text;
+            Classes.Fornecedor.numero = txtNFNumero.Text;
+            Classes.Fornecedor.complemento = txtNFComplemento.Text;
+            Classes.Fornecedor.bairro = txtNFBairro.Text;
+            Classes.Fornecedor.cidade = txtNFCidade.Text;
+            Classes.Fornecedor.estado = txtNFEstado.Text;
+            Classes.Fornecedor.pais = txtNFPais.Text;
+            Classes.Fornecedor.telefone = txtNFTelefone.Text;
+            Classes.Fornecedor.contato = txtNFContato.Text;
+            Classes.Fornecedor.telefoneComercial = txtNFTelefoneComercial.Text;
+            Classes.Fornecedor.contatoComercial = txtNFContatoComercial.Text;
+            Classes.Fornecedor.celular = txtNFCelular.Text;
+            Classes.Fornecedor.contatoCelular = txtNFContatoCelular.Text;
+            Classes.Fornecedor.email = txtNFEmail.Text;
+            Classes.Fornecedor.site = txtNFSite.Text;
+            Classes.Fornecedor.inscricaoEstadual = txtNFInscricaoEstadual.Text;
+            Classes.Fornecedor.inscricaoMunicipal = txtNFInscricaoMunicipal.Text;
+            Classes.Fornecedor.obs = txtNFObservacoes.Text;
         }
 
         private void btnNFFechar_Click(object sender, EventArgs e)
@@ -2176,7 +2127,7 @@ namespace Gerenciador_de_Tarefas
 
                         AtualizaDGVFornecedores();
 
-                        panelFornecedores.Enabled = true;
+                         panelFornecedores.Enabled = true;
                     }
                 }
                 else
@@ -2262,6 +2213,7 @@ namespace Gerenciador_de_Tarefas
                                 mensagem = ListaMensagens.RetornaMensagem(21);
                                 separador = mensagem.IndexOf(":");
                                 MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+<<<<<<< HEAD
 
                                 nfLimparCampos();
 
@@ -2280,6 +2232,26 @@ namespace Gerenciador_de_Tarefas
                         separador = mensagem.IndexOf(":");
                         resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
+=======
+
+                                nfLimparCampos();
+
+                                panelNF.Visible = false;
+                                panelNF.Enabled = false;
+
+                                AtualizaDGVFornecedores();
+
+                                panelFornecedores.Enabled = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mensagem = ListaMensagens.RetornaMensagem(22);
+                        separador = mensagem.IndexOf(":");
+                        resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+>>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
                         if (resultadoDialogo == DialogResult.Yes)
                         {
                             try
@@ -2382,7 +2354,9 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (txtNFNome.Text.Length > 3)
                     {
-                        if (txtNFDataNascimento.Text == "  /  /")
+                        txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+
+                        if (string.IsNullOrEmpty(txtNFDataNascimento.Text))
                         {
                             txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
                         }
@@ -2392,7 +2366,7 @@ namespace Gerenciador_de_Tarefas
 
                         Classes.Fornecedor.CadastrarFornecedor();
 
-                        if (Classes.Fornecedor.ID != 0)
+                        if (Classes.Fornecedor.id != 0)
                         {
                             erro = ListaMensagens.RetornaMensagem(16);
                             separador = erro.IndexOf(":");
@@ -2401,11 +2375,11 @@ namespace Gerenciador_de_Tarefas
                             if (resultadoDialogo == DialogResult.Yes)
                             {
                                 nfLimparCampos();
-                                funcoes.DestravaFornecedor(Classes.Fornecedor.ID);
+                                funcoes.DestravaFornecedor(Classes.Fornecedor.id);
                             }
                             else
                             {
-                                txtNFIDFornecedor.Text = Classes.Fornecedor.ID.ToString();
+                                txtNFIDFornecedor.Text = Classes.Fornecedor.id.ToString();
 
                                 btnNFNovoCadastro.Text = "Novo Cadastro";
                                 btnNFImprimir.Enabled = true;
@@ -2414,7 +2388,6 @@ namespace Gerenciador_de_Tarefas
                                 btnNFFechar.Text = "Fechar";
                             }
                         }
-
                     }
                     else
                     {
@@ -2455,7 +2428,7 @@ namespace Gerenciador_de_Tarefas
 
                 if (Classes.Fornecedor.AvaliarMudancas())
                 {
-                    erro = ListaMensagens.RetornaMensagem(04);
+                    erro = ListaMensagens.RetornaMensagem(18);
                     separador = erro.IndexOf(":");
                     DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 

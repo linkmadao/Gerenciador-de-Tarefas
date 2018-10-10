@@ -127,7 +127,8 @@ namespace Gerenciador_de_Tarefas
         {
             if (!novaTarefa)
             {
-                List<string> lista = conexao.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', tbl_tarefas.`status`, tbl_tarefas.assunto, tbl_tarefas.datainicial, tbl_tarefas.datafinal, tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
+                List<string> lista = conexao.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', " +
+                    "tbl_tarefas.`status`, tbl_tarefas.assunto, tbl_tarefas.datainicial, tbl_tarefas.datafinal, tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
                     "Join tbl_contato on tbl_contato.ID = tbl_tarefas.Empresa " +
                     "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
                     "Where tbl_tarefas.id = " + idTarefa + ";");
@@ -172,7 +173,7 @@ namespace Gerenciador_de_Tarefas
 
         private void CarregaEmpresas()
         {
-            List<string> lista = conexao.PreencheCMB("Select tbl_contato.nome from tbl_contato where tbl_contato.grupo = 1;");
+            List<string> lista = conexao.PreencheCMB("Select tbl_contato.nome from tbl_contato;");
             cmbEmpresa.DataSource = lista;
         }
 

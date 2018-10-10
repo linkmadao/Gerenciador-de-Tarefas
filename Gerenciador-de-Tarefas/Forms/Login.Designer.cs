@@ -36,7 +36,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cmbUser = new System.Windows.Forms.ComboBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lblVersao = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtPwd
@@ -100,7 +103,7 @@
             this.lnkTiago.LinkArea = new System.Windows.Forms.LinkArea(0, 19);
             this.lnkTiago.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline;
             this.lnkTiago.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(103)))), ((int)(((byte)(133)))));
-            this.lnkTiago.Location = new System.Drawing.Point(133, 20);
+            this.lnkTiago.Location = new System.Drawing.Point(133, 9);
             this.lnkTiago.Name = "lnkTiago";
             this.lnkTiago.Size = new System.Drawing.Size(130, 20);
             this.lnkTiago.TabIndex = 6;
@@ -114,7 +117,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(3, 20);
+            this.label1.Location = new System.Drawing.Point(3, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(127, 14);
             this.label1.TabIndex = 7;
@@ -123,6 +126,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(209)))), ((int)(((byte)(244)))));
+            this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.lnkTiago);
             this.panel1.Location = new System.Drawing.Point(189, 232);
@@ -157,6 +161,27 @@
             this.cmbUser.TabIndex = 0;
             this.cmbUser.Text = "Manutencao";
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(209)))), ((int)(((byte)(244)))));
+            this.panel2.Controls.Add(this.lblVersao);
+            this.panel2.Location = new System.Drawing.Point(3, 32);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(263, 18);
+            this.panel2.TabIndex = 10;
+            // 
+            // lblVersao
+            // 
+            this.lblVersao.AutoSize = true;
+            this.lblVersao.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblVersao.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersao.Location = new System.Drawing.Point(0, 0);
+            this.lblVersao.Name = "lblVersao";
+            this.lblVersao.Size = new System.Drawing.Size(62, 14);
+            this.lblVersao.TabIndex = 9;
+            this.lblVersao.Text = "Versão: ";
+            this.lblVersao.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Login
             // 
             this.AcceptButton = this.btnEntrar;
@@ -182,6 +207,8 @@
             this.Load += new System.EventHandler(this.Login_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,5 +222,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox cmbUser;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label lblVersao;
     }
 }
