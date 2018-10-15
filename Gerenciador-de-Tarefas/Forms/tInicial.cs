@@ -1786,13 +1786,7 @@ namespace Gerenciador_de_Tarefas
 
                 panelFornecedores.Enabled = false;
 
-<<<<<<< HEAD
-                string comando = "Insert into tbl_log values (0," + idUsuario + ", 'Abriu fornecedor ID: " + idFornecedor + " - " +
-                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                conexao.ExecutaComando(comando);
-=======
                 Classes.Log.AbrirFornecedor(idUsuario, idFornecedor);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
 
                 AtualizaDGVFornecedores();
             }
@@ -2189,99 +2183,75 @@ namespace Gerenciador_de_Tarefas
 
             if (resultadoDialogo == DialogResult.Yes)
             {
-                if (resultadoDialogo == DialogResult.Yes)
+                if (idUsuario != 1 && idUsuario != 2)
                 {
-                    if (idUsuario != 1 && idUsuario != 2)
+                    mensagem = ListaMensagens.RetornaMensagem(20);
+                    separador = mensagem.IndexOf(":");
+                    string resposta = Microsoft.VisualBasic.Interaction.InputBox(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), "");
+
+                    if (resposta == "MB8719")
                     {
-                        mensagem = ListaMensagens.RetornaMensagem(20);
-                        separador = mensagem.IndexOf(":");
-                        string resposta = Microsoft.VisualBasic.Interaction.InputBox(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), "");
-
-                        if (resposta == "MB8719")
+                        try
                         {
-                            try
-                            {
-                                Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
-                            }
-                            catch (Exception)
-                            {
-                                mensagem = ListaErro.RetornaErro(57);
-                                separador = mensagem.IndexOf(":");
-                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                            finally
-                            {
-                                mensagem = ListaMensagens.RetornaMensagem(21);
-                                separador = mensagem.IndexOf(":");
-                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
-<<<<<<< HEAD
+                            Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
+                        }
+                        catch (Exception)
+                        {
+                            mensagem = ListaErro.RetornaErro(57);
+                            separador = mensagem.IndexOf(":");
+                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        finally
+                        {
+                            mensagem = ListaMensagens.RetornaMensagem(21);
+                            separador = mensagem.IndexOf(":");
+                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                nfLimparCampos();
+                            nfLimparCampos();
 
-                                panelNF.Visible = false;
-                                panelNF.Enabled = false;
+                            panelNF.Visible = false;
+                            panelNF.Enabled = false;
 
-                                AtualizaDGVFornecedores();
+                            AtualizaDGVFornecedores();
 
-                                panelFornecedores.Enabled = true;
-                            }
+                            panelFornecedores.Enabled = true;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    mensagem = ListaMensagens.RetornaMensagem(22);
+                    separador = mensagem.IndexOf(":");
+                    resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (resultadoDialogo == DialogResult.Yes)
                     {
-                        mensagem = ListaMensagens.RetornaMensagem(22);
-                        separador = mensagem.IndexOf(":");
-                        resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-=======
-
-                                nfLimparCampos();
-
-                                panelNF.Visible = false;
-                                panelNF.Enabled = false;
-
-                                AtualizaDGVFornecedores();
-
-                                panelFornecedores.Enabled = true;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        mensagem = ListaMensagens.RetornaMensagem(22);
-                        separador = mensagem.IndexOf(":");
-                        resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-                        if (resultadoDialogo == DialogResult.Yes)
+                        try
                         {
-                            try
-                            {
-                                Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
-                            }
-                            catch (Exception)
-                            {
-                                mensagem = ListaErro.RetornaErro(57);
-                                separador = mensagem.IndexOf(":");
-                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                return;
-                            }
-                            finally
-                            {
-                                mensagem = ListaMensagens.RetornaMensagem(21);
-                                separador = mensagem.IndexOf(":");
-                                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
+                        }
+                        catch (Exception)
+                        {
+                            mensagem = ListaErro.RetornaErro(57);
+                            separador = mensagem.IndexOf(":");
+                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                        finally
+                        {
+                            mensagem = ListaMensagens.RetornaMensagem(21);
+                            separador = mensagem.IndexOf(":");
+                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                nfLimparCampos();
+                            nfLimparCampos();
 
-                                panelNF.Visible = false;
-                                panelNF.Enabled = false;
+                            panelNF.Visible = false;
+                            panelNF.Enabled = false;
 
-                                AtualizaDGVFornecedores();
+                            AtualizaDGVFornecedores();
 
-                                panelFornecedores.Enabled = true;
-                            }
+                            panelFornecedores.Enabled = true;
                         }
                     }
                 }

@@ -691,15 +691,7 @@
             this.tlpNFTipoFornecedor.ColumnCount = 3;
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 274F));
-=======
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 276F));
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 279F));
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 275F));
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -721,45 +713,39 @@
             this.panel1.Controls.Add(this.lblNFDataNascimento);
             this.panel1.Controls.Add(this.label31);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-<<<<<<< HEAD
-<<<<<<< HEAD
             this.panel1.Location = new System.Drawing.Point(480, 3);
-=======
-            this.panel1.Location = new System.Drawing.Point(479, 3);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.panel1.Location = new System.Drawing.Point(477, 3);
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(129, 147);
+            this.panel1.Size = new System.Drawing.Size(130, 147);
             this.panel1.TabIndex = 1;
             // 
             // txtNFDataNascimento
             // 
             this.txtNFDataNascimento.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFDataNascimento.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNFDataNascimento.Location = new System.Drawing.Point(21, 115);
+            this.txtNFDataNascimento.Location = new System.Drawing.Point(13, 115);
             this.txtNFDataNascimento.Mask = "00/00/0000";
             this.txtNFDataNascimento.Name = "txtNFDataNascimento";
             this.txtNFDataNascimento.Size = new System.Drawing.Size(104, 22);
             this.txtNFDataNascimento.TabIndex = 11;
+            this.txtNFDataNascimento.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtNFIDFornecedor
             // 
             this.txtNFIDFornecedor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFIDFornecedor.Enabled = false;
             this.txtNFIDFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNFIDFornecedor.Location = new System.Drawing.Point(21, 23);
+            this.txtNFIDFornecedor.Location = new System.Drawing.Point(13, 23);
             this.txtNFIDFornecedor.MaxLength = 99999;
             this.txtNFIDFornecedor.Name = "txtNFIDFornecedor";
             this.txtNFIDFornecedor.Size = new System.Drawing.Size(104, 22);
             this.txtNFIDFornecedor.TabIndex = 0;
+            this.txtNFIDFornecedor.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblIDFornecedor
             // 
             this.lblIDFornecedor.AutoSize = true;
             this.lblIDFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIDFornecedor.Location = new System.Drawing.Point(18, 5);
+            this.lblIDFornecedor.Location = new System.Drawing.Point(10, 5);
             this.lblIDFornecedor.Name = "lblIDFornecedor";
             this.lblIDFornecedor.Size = new System.Drawing.Size(101, 14);
             this.lblIDFornecedor.TabIndex = 10;
@@ -770,17 +756,18 @@
             this.txtNFDataCadastro.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNFDataCadastro.Enabled = false;
             this.txtNFDataCadastro.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNFDataCadastro.Location = new System.Drawing.Point(21, 69);
+            this.txtNFDataCadastro.Location = new System.Drawing.Point(13, 69);
             this.txtNFDataCadastro.Mask = "00/00/0000";
             this.txtNFDataCadastro.Name = "txtNFDataCadastro";
             this.txtNFDataCadastro.Size = new System.Drawing.Size(104, 22);
             this.txtNFDataCadastro.TabIndex = 1;
+            this.txtNFDataCadastro.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // lblNFDataNascimento
             // 
             this.lblNFDataNascimento.AutoSize = true;
             this.lblNFDataNascimento.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNFDataNascimento.Location = new System.Drawing.Point(18, 100);
+            this.lblNFDataNascimento.Location = new System.Drawing.Point(10, 100);
             this.lblNFDataNascimento.Name = "lblNFDataNascimento";
             this.lblNFDataNascimento.Size = new System.Drawing.Size(73, 14);
             this.lblNFDataNascimento.TabIndex = 9;
@@ -790,7 +777,7 @@
             // 
             this.label31.AutoSize = true;
             this.label31.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label31.Location = new System.Drawing.Point(18, 53);
+            this.label31.Location = new System.Drawing.Point(10, 53);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(70, 14);
             this.label31.TabIndex = 7;
@@ -811,15 +798,7 @@
             this.panelNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
-<<<<<<< HEAD
-<<<<<<< HEAD
             this.panelNFTipoFornecedor.Size = new System.Drawing.Size(471, 147);
-=======
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(470, 147);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(468, 147);
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
             // lblNFApelido
@@ -937,21 +916,9 @@
             this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.panelNFDatas.Location = new System.Drawing.Point(617, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(616, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(269, 147);
-=======
-            this.panelNFDatas.Location = new System.Drawing.Point(615, 3);
-            this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(271, 147);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.panelNFDatas.Location = new System.Drawing.Point(612, 3);
-            this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(274, 147);
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
+            this.panelNFDatas.Size = new System.Drawing.Size(270, 147);
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -1683,15 +1650,7 @@
             this.tableLayoutPanel22.ColumnCount = 3;
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 211F));
-=======
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 213F));
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 212F));
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
             this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1715,15 +1674,7 @@
             this.tableLayoutPanel23.RowCount = 2;
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(595, 473);
-=======
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(593, 473);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(590, 473);
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(594, 473);
             this.tableLayoutPanel23.TabIndex = 5;
             // 
             // panelConfigBanco
@@ -1748,15 +1699,7 @@
             this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
             this.panelConfigBanco.Name = "panelConfigBanco";
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.panelConfigBanco.Size = new System.Drawing.Size(589, 397);
-=======
-            this.panelConfigBanco.Size = new System.Drawing.Size(587, 397);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.panelConfigBanco.Size = new System.Drawing.Size(584, 397);
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
+            this.panelConfigBanco.Size = new System.Drawing.Size(588, 397);
             this.panelConfigBanco.TabIndex = 0;
             // 
             // label13
@@ -1923,15 +1866,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.label6.Size = new System.Drawing.Size(589, 70);
-=======
-            this.label6.Size = new System.Drawing.Size(587, 70);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.label6.Size = new System.Drawing.Size(584, 70);
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
+            this.label6.Size = new System.Drawing.Size(588, 70);
             this.label6.TabIndex = 4;
             this.label6.Text = "Parâmetros de conexão SQL";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1946,15 +1881,7 @@
             this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
             this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
             this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
-<<<<<<< HEAD
-<<<<<<< HEAD
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(604, 3);
-=======
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(602, 3);
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-=======
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(599, 3);
->>>>>>> 11b2d2d81c73ecfdee0106a44ecb5f6eaa88ac0c
+            this.tableLayoutPanel24.Location = new System.Drawing.Point(603, 3);
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 5;
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));

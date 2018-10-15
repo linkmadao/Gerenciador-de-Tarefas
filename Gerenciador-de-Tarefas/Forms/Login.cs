@@ -246,6 +246,7 @@ namespace Gerenciador_de_Tarefas
 
         private void Login_Load(object sender, EventArgs e)
         {
+
             if (conexao.TestaConexao())
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();

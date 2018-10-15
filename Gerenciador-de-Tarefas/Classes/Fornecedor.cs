@@ -212,88 +212,9 @@ namespace Gerenciador_de_Tarefas.Classes
             LimparVariaveis();
             List<string> listaFornecedor = conexao.ConsultaFornecedor("select tipo, datacadastro, datanascimento, documento, nome, " +
                 "apelido, cep, endereco, numero, complemento, bairro, cidade, estado, pais, telefone, contato, telefonecomercial, " +
-<<<<<<< HEAD
-                "contatocomercial, celular, contatocelular, email, site, inscricaoestadual, inscricaomunicipal, observacoes, categoria1, " +
-                "categoria2, categoria3, subcategoria1, subcategoria2, subcategoria3 " +
-                "from tbl_fornecedor where id = '" + _idFornecedor + "';");
-            
-            ID = _idFornecedor;
-            Tipo = int.Parse(listaFornecedor[0]);
-            DataCadastro = listaFornecedor[1];
-            DataNascimento = listaFornecedor[2];
-            Documento = listaFornecedor[3];
-            Nome = listaFornecedor[4];
-            Apelido = listaFornecedor[5];
-            CEP = listaFornecedor[6];
-            Endereco = listaFornecedor[7];
-            Numero = listaFornecedor[8];
-            Complemento = listaFornecedor[9];
-            Bairro = listaFornecedor[10];
-            Cidade = listaFornecedor[11];
-            Estado = listaFornecedor[12];
-            Pais = listaFornecedor[13];
-            Telefone = listaFornecedor[14];
-            Contato = listaFornecedor[15];
-            TelefoneComercial = listaFornecedor[16];
-            ContatoComercial = listaFornecedor[17];
-            Celular = listaFornecedor[18];
-            ContatoCelular = listaFornecedor[19];
-            Email = listaFornecedor[20];
-            Site = listaFornecedor[21];
-            InscricaoEstadual = listaFornecedor[22];
-            InscricaoMunicipal = listaFornecedor[23];
-            Obs = listaFornecedor[24];
-            Categoria1 = int.Parse(listaFornecedor[25]);
-            Categoria2 = int.Parse(listaFornecedor[26]);
-            Categoria3 = int.Parse(listaFornecedor[27]);
-            SubCategoria1 = int.Parse(listaFornecedor[28]);
-            SubCategoria2 = int.Parse(listaFornecedor[29]);
-            SubCategoria3 = int.Parse(listaFornecedor[30]);
-            
-            //Backup
-            _id = ID;
-            _tipo = Tipo;
-            _dataCadastro = DataCadastro.Substring(0,10);
-            if(!string.IsNullOrEmpty(DataNascimento) && DataNascimento != "")
-            {
-                DataNascimento.Substring(0, 10);
-            }
-            else
-            {
-                _dataNascimento = DataNascimento;
-            }
-            _documento = Documento;
-            _nome = Nome;
-            _apelido = Apelido;
-            _cep = CEP;
-            _endereco = Endereco;
-            _numero = Numero;
-            _complemento = Complemento;
-            _bairro = Bairro;
-            _cidade = Cidade;
-            _estado = Estado;
-            _pais = Pais;
-            _telefone = Telefone;
-            _contato = Contato;
-            _telefoneComercial = TelefoneComercial;
-            _contatoComercial = ContatoComercial;
-            _celular = Celular;
-            _contatoCelular = ContatoCelular;
-            _email = Email;
-            _site = Site;
-            _inscricaoEstadual = InscricaoEstadual;
-            _inscricaoMunicipal = InscricaoMunicipal;
-            _obs = Obs;
-            _categoria1 = Categoria1;
-            _categoria2 = Categoria2;
-            _categoria3 = Categoria3;
-            _subCategoria1 = SubCategoria1;
-            _subCategoria2 = SubCategoria2;
-            _subCategoria3 = SubCategoria3;
-=======
                 "contatocomercial, celular, contatocelular, email, site, inscricaoestadual, inscricaomunicipal, observacoes " +
                 "from tbl_fornecedor where id = '" + _idFornecedor + "';");
-            
+
             id = _idFornecedor;
             tipo = int.Parse(listaFornecedor[0]);
             dataCadastro = listaFornecedor[1];
@@ -324,8 +245,8 @@ namespace Gerenciador_de_Tarefas.Classes
             //Backup
             _id = id;
             _tipo = tipo;
-            _dataCadastro = dataCadastro.Substring(0,10);
-            if(!string.IsNullOrEmpty(dataNascimento) && dataNascimento != "")
+            _dataCadastro = dataCadastro.Substring(0, 10);
+            if (!string.IsNullOrEmpty(dataNascimento) && dataNascimento != "")
             {
                 _dataNascimento = dataNascimento.Substring(0, 10);
             }
@@ -355,7 +276,6 @@ namespace Gerenciador_de_Tarefas.Classes
             _inscricaoEstadual = inscricaoEstadual;
             _inscricaoMunicipal = inscricaoMunicipal;
             _obs = obs;
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
         }
 
         public static List<string> CarregarSubCategoria(int _idCategoria)
@@ -544,6 +464,9 @@ namespace Gerenciador_de_Tarefas.Classes
             }
         }
 
+        /// <summary>
+        /// Método responsável por apagar o fornecedor
+        /// </summary>
         public static void ApagarFornecedor(int _id)
         {
             string comando = null, erro = "";
@@ -563,25 +486,6 @@ namespace Gerenciador_de_Tarefas.Classes
             }
         }
 
-        public static void ApagarFornecedor(int _id)
-        {
-            string comando = null, erro = "";
-            int separador = 0;
-
-            try
-            {
-                comando = "delete from tbl_fornecedor where ID = '" + _id + "';";
-                conexao.ExecutaComando(comando);
-            }
-            catch (Exception)
-            {
-                erro = ListaErro.RetornaErro(57);
-                separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw;
-            }
-        }
-
         /// <summary>
         /// Método responsável por verificar se há alterações entre os dados originais e os dados atuais
         /// </summary>
@@ -590,7 +494,7 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             bool resultado = false;
 
-<<<<<<< HEAD
+/*
             if(Categoria1 == -1)
             {
                 Categoria1 = 0;
@@ -639,20 +543,12 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 SubCategoria3++;
             }
-
-            if (Tipo != _tipo || Categoria1 != _categoria1 || Categoria2 != _categoria2 || Categoria3 != _categoria3 || SubCategoria1 != _subCategoria1 ||
-                 SubCategoria2 != _subCategoria2 || SubCategoria3 != _subCategoria3 || Documento != _documento || Nome != _nome || Apelido != _apelido ||
-                 DataNascimento != _dataNascimento ||CEP != _cep || Endereco != _endereco || Numero != _numero || Complemento != _complemento || 
-                 Bairro != _bairro || Cidade != _cidade || Estado != _estado || Pais != _pais || Telefone != _telefone || Contato != _contato || 
-                 TelefoneComercial != _telefoneComercial || ContatoComercial != _contatoComercial || Celular != _celular || ContatoCelular != _contatoCelular || 
-                 Email != _email || Site != _site ||InscricaoEstadual != _inscricaoEstadual || InscricaoMunicipal != _inscricaoMunicipal || Obs != _obs)
-=======
+            */
             if (tipo != _tipo || documento != _documento || nome != _nome || apelido != _apelido ||
                  dataNascimento != _dataNascimento || cep != _cep || endereco != _endereco || numero != _numero || complemento != _complemento || 
                  bairro != _bairro || cidade != _cidade || estado != _estado || pais != _pais || telefone != _telefone || contato != _contato || 
                  telefoneComercial != _telefoneComercial || contatoComercial != _contatoComercial || celular != _celular || contatoCelular != _contatoCelular || 
                  email != _email || site != _site || inscricaoEstadual != _inscricaoEstadual || inscricaoMunicipal != _inscricaoMunicipal || obs != _obs)
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
             {
                 resultado = true;
             }
@@ -665,73 +561,6 @@ namespace Gerenciador_de_Tarefas.Classes
         /// </summary>
         public static void LimparVariaveis()
         {
-<<<<<<< HEAD
-            id = 0;
-            tipo = 0;
-            categoria1 = 0;
-            categoria2 = 0;
-            categoria3 = 0;
-            subCategoria1 = 0;
-            subCategoria2 = 0;
-            subCategoria3 = 0;
-            _id = 0;
-            _tipo = 0;
-            _categoria1 = 0;
-            _categoria2 = 0;
-            _categoria3 = 0;
-            _subCategoria1 = 0;
-            _subCategoria2 = 0;
-            _subCategoria3 = 0;
-
-            documento = null;
-            nome = null;
-            apelido = null;
-            dataCadastro = null;
-            dataNascimento = null;
-            cep = null;
-            endereco = null;
-            numero = null;
-            complemento = null;
-            bairro = null;
-            cidade = null;
-            estado = null;
-            pais = null;
-            telefone = null;
-            contato = null;
-            telefoneComercial = null;
-            contatoComercial = null;
-            celular = null;
-            contatoCelular = null;
-            email = null;
-            site = null;
-            inscricaoEstadual = null;
-            inscricaoMunicipal = null;
-            obs = null;
-            _documento = null;
-            _nome = null;
-            _apelido = null;
-            _dataCadastro = null;
-            _dataNascimento = null;
-            _cep = null;
-            _endereco = null;
-            _numero = null;
-            _complemento = null;
-            _bairro = null;
-            _cidade = null;
-            _estado = null;
-            _pais = null;
-            _telefone = null;
-            _contato = null;
-            _telefoneComercial = null;
-            _contatoComercial = null;
-            _celular = null;
-            _contatoCelular = null;
-            _email = null;
-            _site = null;
-            _inscricaoEstadual = null;
-            _inscricaoMunicipal = null;
-            _obs = null;
-=======
             try
             {
                 id = 0;
@@ -792,10 +621,8 @@ namespace Gerenciador_de_Tarefas.Classes
             {
 
                 throw;
-            }
-            
->>>>>>> 52d342db164d391dbc84c5835e0cf98955f0a9b5
-    }
+            }  
+        }
 
         /// <summary>
         /// Método responsável por atualizar o fornecedor
@@ -887,8 +714,6 @@ namespace Gerenciador_de_Tarefas.Classes
 
             return resultado;
         }
-
-
         #endregion
     }
 }
