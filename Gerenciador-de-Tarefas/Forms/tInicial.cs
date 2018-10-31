@@ -391,7 +391,7 @@ namespace Gerenciador_de_Tarefas
                 //Se apertar CTRL + B
                 else if (e.Control && e.KeyCode == Keys.B)
                 {
-                    Backup();
+                    //Backup();
                 }
                 //Se apertar CTRL + R
                 else if (e.Control && e.KeyCode == Keys.R)
@@ -1689,11 +1689,11 @@ namespace Gerenciador_de_Tarefas
                 if (iniciaTelaFornecedores)
                 {
                     //Preenche o combobox de Grupos
-                    List<string> lista = Classes.Fornecedor.CarregarCategoria();
+                    //List<string> lista = Classes.Fornecedor.CarregarCategoria();
                     //Insere na lista uma opção "Todos"
-                    lista.Insert(lista.Count, "Todos");
+                    //lista.Insert(lista.Count, "Todos");
                     //Preenche o combobox
-                    cmbGrupoFornecedor.DataSource = lista;
+                    //cmbGrupoFornecedor.DataSource = lista;
                     cmbGrupoFornecedor.DisplayMember = "Fornecedores";
                     //Seleciona a opção "Todos" no combobox
                     cmbGrupoFornecedor.Text = "Todos";
@@ -1781,12 +1781,14 @@ namespace Gerenciador_de_Tarefas
                 int idFornecedor = int.Parse(linha.Cells["id"].Value.ToString());
                 nfCarregaFornecedor(idFornecedor);
 
+                Classes.Fornecedor.TravaFornecedor();
+
                 panelNF.Visible = true;
                 panelNF.Enabled = true;
 
                 panelFornecedores.Enabled = false;
 
-                Classes.Log.AbrirFornecedor(idUsuario, idFornecedor);
+                Classes.Log.AbrirFornecedor(idUsuario, Classes.Fornecedor.id);
 
                 AtualizaDGVFornecedores();
             }
@@ -1814,7 +1816,7 @@ namespace Gerenciador_de_Tarefas
         private void btnNovoFornecedor_Click(object sender, EventArgs e)
 
         {
-            cmbNFCateg1.DataSource = Classes.Fornecedor.CarregarCategoria();
+            //cmbNFCateg1.DataSource = Classes.Fornecedor.CarregarCategoria();
             txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
 
             panelNF.Visible = true;
@@ -1868,8 +1870,11 @@ namespace Gerenciador_de_Tarefas
                 txtNFObservacoes.Text = Classes.Fornecedor.obs;
 
                 btnNFApagar.Enabled = true;
+                btnNFApagar.Visible = true;
                 btnNFEditar.Enabled = true;
+                btnNFEditar.Visible = true;
                 btnNFImprimir.Enabled = true;
+                btnNFImprimir.Visible = true;
                 btnNFNovoCadastro.Text = "Novo Fornecedor";
                 btnNFFechar.Text = "Fechar";
 
@@ -2052,8 +2057,11 @@ namespace Gerenciador_de_Tarefas
             txtNFObservacoes.Clear();
 
             btnNFApagar.Enabled = false;
+            btnNFApagar.Visible = false;
             btnNFEditar.Enabled = false;
+            btnNFEditar.Visible = false;
             btnNFImprimir.Enabled = false;
+            btnNFImprimir.Visible = false;
             btnNFNovoCadastro.Text = "Cadastrar Fornecedor";
             btnNFFechar.Text = "Cancelar";
 
@@ -2066,10 +2074,6 @@ namespace Gerenciador_de_Tarefas
         {
             Classes.Fornecedor.tipo = cmbNFTipoFornecedor.SelectedIndex;
             Classes.Fornecedor.dataCadastro = txtNFDataCadastro.Text;
-            if (txtNFDataNascimento.Text == "  /  /")
-            {
-                txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
-            }
             Classes.Fornecedor.dataNascimento = txtNFDataNascimento.Text;
             Classes.Fornecedor.documento = txtNFDocumento.Text;
             Classes.Fornecedor.nome = txtNFNome.Text;
@@ -2132,15 +2136,15 @@ namespace Gerenciador_de_Tarefas
                     DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (resultadoDialogo == DialogResult.Yes)
                     {
+                        if (Classes.Fornecedor.id != 0)
+                        {
+                            Classes.Fornecedor.DestravaFornecedor();
+                        }
+
                         nfLimparCampos();
 
                         panelNF.Visible = false;
                         panelNF.Enabled = false;
-
-                        if (_idFornecedor != 0)
-                        {
-                            funcoes.DestravaFornecedor(_idFornecedor);
-                        }
 
                         AtualizaDGVFornecedores();
 
@@ -2151,6 +2155,14 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
+                if (btnNFFechar.Text != "Cancelar")
+                {
+                    if (Classes.Fornecedor.id != 0)
+                    {
+                        Classes.Fornecedor.DestravaFornecedor();
+                    }
+                }
+
                 nfLimparCampos();
 
                 panelNF.Visible = false;
@@ -2260,37 +2272,45 @@ namespace Gerenciador_de_Tarefas
 
         private void btnNFEditar_Click(object sender, EventArgs e)
         {
-            string erro = null;
+            string erro = null, mensagem = null;
             int separador = 0;
             if (!string.IsNullOrEmpty(txtNFNome.Text))
             {
                 if (txtNFNome.Text.Length > 3)
                 {
-                    if (txtNFDataNascimento.Text == "  /  /")
+                    txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+
+                    //Envia os dados dos campos da tela para a classe Fornecedor
+                    nfEnviaDados();
+
+                    if (Classes.Fornecedor.AvaliarMudancas())
                     {
-                        txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
+                        try
+                        {
+                            Classes.Fornecedor.AtualizarFornecedor();
+                        }
+                        catch (Exception)
+                        {
+                            erro = ListaErro.RetornaErro(56);
+                            separador = erro.IndexOf(":");
+                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            throw;
+                        }
+                        finally
+                        {
+                            mensagem = ListaMensagens.RetornaMensagem(17);
+                            separador = mensagem.IndexOf(":");
+                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    else
+                    {
+                        mensagem = ListaMensagens.RetornaMensagem(23);
+                        separador = mensagem.IndexOf(":");
+                        MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    try
-                    {
-                        //Envia os dados dos campos da tela para a classe Fornecedor
-                        nfEnviaDados();
-
-                        Classes.Fornecedor.AtualizarFornecedor();
-                    }
-                    catch (Exception)
-                    {
-                        erro = ListaErro.RetornaErro(56);
-                        separador = erro.IndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw;
-                    }
-                    finally
-                    {
-                        erro = ListaMensagens.RetornaMensagem(17);
-                        separador = erro.IndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
+                    txtNFDataNascimento.TextMaskFormat = MaskFormat.IncludePromptAndLiterals;
                 }
                 else
                 {
@@ -2318,7 +2338,7 @@ namespace Gerenciador_de_Tarefas
 
         private void btnNFNovoCadastro_Click(object sender, EventArgs e)
         {
-            string erro = null;
+            string erro = null, mensagem = null;
             int separador = 0;
             if (btnNFNovoCadastro.Text == "Cadastrar Fornecedor")
             {
@@ -2328,24 +2348,24 @@ namespace Gerenciador_de_Tarefas
                     {
                         txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
 
-                        if (string.IsNullOrEmpty(txtNFDataNascimento.Text))
-                        {
-                            txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
-                        }
-
                         //Envia os dados dos campos da tela para a classe Fornecedor
                         nfEnviaDados();
+
+                        txtNFDataNascimento.TextMaskFormat = MaskFormat.IncludePromptAndLiterals;
 
                         Classes.Fornecedor.CadastrarFornecedor();
 
                         if (Classes.Fornecedor.id != 0)
                         {
-                            erro = ListaMensagens.RetornaMensagem(16);
-                            separador = erro.IndexOf(":");
-                            DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                            mensagem = ListaMensagens.RetornaMensagem(16);
+                            separador = mensagem.IndexOf(":");
+                            DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                             if (resultadoDialogo == DialogResult.Yes)
                             {
+                                //Destrava o fornecedor cadastrado
+                                Classes.Fornecedor.DestravaFornecedor();
+
                                 nfLimparCampos();
                                 funcoes.DestravaFornecedor(Classes.Fornecedor.id);
                             }
@@ -2355,8 +2375,11 @@ namespace Gerenciador_de_Tarefas
 
                                 btnNFNovoCadastro.Text = "Novo Cadastro";
                                 btnNFImprimir.Enabled = true;
+                                btnNFImprimir.Visible = true;
                                 btnNFEditar.Enabled = true;
+                                btnNFEditar.Visible = true;
                                 btnNFApagar.Enabled = true;
+                                btnNFApagar.Visible = true;
                                 btnNFFechar.Text = "Fechar";
                             }
                         }
@@ -2400,18 +2423,32 @@ namespace Gerenciador_de_Tarefas
 
                 if (Classes.Fornecedor.AvaliarMudancas())
                 {
-                    erro = ListaMensagens.RetornaMensagem(18);
-                    separador = erro.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    mensagem = ListaMensagens.RetornaMensagem(18);
+                    separador = mensagem.IndexOf(":");
+                    DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (resultadoDialogo == DialogResult.Yes)
                     {
                         nfLimparCampos();
+
+                        btnNFImprimir.Enabled = false;
+                        btnNFImprimir.Visible = false;
+                        btnNFEditar.Enabled = false;
+                        btnNFEditar.Visible = false;
+                        btnNFApagar.Enabled = false;
+                        btnNFApagar.Visible = false;
                     }
                 }
                 else
                 {
                     nfLimparCampos();
+
+                    btnNFImprimir.Enabled = false;
+                    btnNFImprimir.Visible = false;
+                    btnNFEditar.Enabled = false;
+                    btnNFEditar.Visible = false;
+                    btnNFApagar.Enabled = false;
+                    btnNFApagar.Visible = false;
                 }
             }
         }
@@ -2421,6 +2458,8 @@ namespace Gerenciador_de_Tarefas
             //Se escolher pessoa física
             if (cmbNFTipoFornecedor.SelectedIndex == 1)
             {
+                grpNFCadastroJuridico.Visible = false;
+
                 btnNFBuscarDados.Enabled = false;
                 btnNFBuscarDados.Visible = false;
 
@@ -2434,6 +2473,8 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
+                grpNFCadastroJuridico.Visible = true;
+
                 btnNFBuscarDados.Enabled = true;
                 btnNFBuscarDados.Visible = true;
 
@@ -2452,7 +2493,7 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFSubCateg1.Enabled = true;
-                cmbNFSubCateg1.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg1.SelectedIndex + 1);
+                //cmbNFSubCateg1.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg1.SelectedIndex + 1);
             }
 
         }
@@ -2462,7 +2503,7 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFCateg2.Enabled = true;
-                cmbNFCateg2.DataSource = Classes.Fornecedor.CarregarCategoria();
+                //cmbNFCateg2.DataSource = Classes.Fornecedor.CarregarCategoria();
             }
         }
 
@@ -2471,7 +2512,7 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFSubCateg2.Enabled = true;
-                cmbNFSubCateg2.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg2.SelectedIndex + 1);
+                //cmbNFSubCateg2.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg2.SelectedIndex + 1);
             }
         }
 
@@ -2480,7 +2521,7 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFCateg3.Enabled = true;
-                cmbNFCateg3.DataSource = Classes.Fornecedor.CarregarCategoria();
+                //cmbNFCateg3.DataSource = Classes.Fornecedor.CarregarCategoria();
             }
         }
 
@@ -2489,7 +2530,7 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFSubCateg3.Enabled = true;
-                cmbNFSubCateg3.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg3.SelectedIndex + 1);
+                //cmbNFSubCateg3.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg3.SelectedIndex + 1);
             }
         }
 
@@ -2507,22 +2548,28 @@ namespace Gerenciador_de_Tarefas
                     int separador = erro.IndexOf(":");
                     MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                catch (FormatException)
+                {
+                    string erro = ListaErro.RetornaErro(58);
+                    int separador = erro.IndexOf(":");
+                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
-        bool primeiraPagina = false;
+        bool primeiraPaginaNF = false;
         string _textoImprimir = null;
-
         int MaxCaracteres = 100;
+        StringReader leitor;
 
         private void pdNFDocumento_BeginPrint(object sender, PrintEventArgs e)
         {
-            primeiraPagina = true;
+            primeiraPaginaNF = true;
             _textoImprimir = "";
             _textoImprimir = FuncoesEstaticas.PreparaTexto(txtNFObservacoes.Text, MaxCaracteres);
             pdNFDocumento.DocumentName = txtNFNome.Text;
         }
-        /*
+
         private void pdNFDocumento_PrintPage(object sender, PrintPageEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -2549,15 +2596,217 @@ namespace Gerenciador_de_Tarefas
             // A variável "posicaoUltimoEspaco" é atribuída, mas seu valor nunca é usado
             int posicaoUltimoEspaco = 0;
 
-            string id, nome, apelido, documento;
+            List<string> dados = Classes.Fornecedor.DadosImpressao();
+                        
+            //Escreve o ID do fornecedor
+            g.DrawString(dados[0], fonteTitulo, brush, xPosition, yPosition);
+            //Soma na altura atual do texto
+            yPosition += fonteTitulo.Height;
 
-            if(cmbNFTipoFornecedor.SelectedIndex == 0)
+            //Nome
+            while (dados[1].Length - position > maxCharacters)
             {
-                id = "ID: " + txtNFIDFornecedor.Text;
-                nome = "Razão Social: " + txtNFNome.Text;
+                if (dados[1].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = dados[1].Substring(position, position + maxCharacters).LastIndexOf(" ");
 
+                    //Escreve o nome
+                    g.DrawString(dados[1].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (dados[1].Length - position > 0)
+            {
+                if (dados[1].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(dados[1].Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+                position = 0;
             }
 
+            //Apelido
+            while (dados[2].Length - position > maxCharacters)
+            {
+                if (dados[2].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = dados[2].Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                    //Escreve o apelido
+                    g.DrawString(dados[2].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (dados[2].Length - position > 0)
+            {
+                if (dados[2].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(dados[2].Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+                position = 0;
+            }
+
+            //Escreve o documento
+            g.DrawString(dados[3], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve a inscrição estadual
+            g.DrawString(dados[12], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve a data de aniversario
+            g.DrawString(dados[4], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve a data de cadastro
+            g.DrawString(dados[5], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve o site
+            g.DrawString(dados[11], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Configura a cor e o tamanho da linha
+            Pen blackPen = new Pen(Color.Black, 3);
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //Endereço
+            while (dados[6].Length - position > maxCharacters)
+            {
+                if (dados[6].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = dados[6].Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                    //Escreve o endereço
+                    g.DrawString(dados[6].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (dados[6].Length - position > 0)
+            {
+                if (dados[6].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(dados[6].Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+                position = 0;
+            }
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //Escreve os telefones
+            g.DrawString("Contatos: ", fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve o contato 1
+            if(!string.IsNullOrEmpty(dados[7]))
+            {
+                g.DrawString(dados[7], fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+            //Escreve o contato 2
+            if (!string.IsNullOrEmpty(dados[8]))
+            {
+                g.DrawString(dados[8], fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+            //Escreve o celular
+            if (!string.IsNullOrEmpty(dados[9]))
+            {
+                g.DrawString(dados[9], fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+            //Escreve o e-mail
+            g.DrawString(dados[10], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //Imprime o título "Texto: "
+            g.DrawString("Observações:", fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height * 2;
+
+            int linhasPorPagina = 60;
+            int contador = 0;
+
+            //Calcula a quantidade máxima de caracteres que a linha suporta
+            maxCharacters = MaxCaracteres;
+
+            //Define a fonte do texto
+            Font fonteTexto2 = new Font("Arial", 9);
+
+            if (primeiraPaginaNF)
+            {
+                primeiraPaginaNF = false;
+                leitor = new StringReader(_textoImprimir);
+            }
+
+            string Line = null;
+
+            while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
+            {
+                yPosition += fonteTexto2.Height;
+                e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
+                contador++;
+            }
+
+            if (Line != null)
+            {
+                e.HasMorePages = true;
+            }
+            else
+            {
+                e.HasMorePages = false;
+            }
+
+            brush.Dispose();
+        }
+
+            /*
             //Nome da empresa que será impresso
             string titulo = "Empresa: " + cmbEmpresa.SelectedItem.ToString();
             //Assunto que será usado
@@ -2635,7 +2884,8 @@ namespace Gerenciador_de_Tarefas
             //Imprime o título "Texto: "
             g.DrawString("Texto:", fonteTitulo, brush, xPosition, yPosition);
             yPosition += fonteTitulo.Height * 2;
-
+            */
+            /*
             int linhasPorPagina = 60;
             int contador = 0;
 
@@ -2674,12 +2924,12 @@ namespace Gerenciador_de_Tarefas
             brush.Dispose();
         }
         */
-        #endregion
-        #endregion
-
-        #region Opcoes
-        private void Backup()
-        {
+            #endregion
+            #endregion
+            /*
+            #region Opcoes
+            private void Backup()
+            {
                 try
                 {
                     string dia = DateTime.Now.Day.ToString();
@@ -2723,7 +2973,7 @@ namespace Gerenciador_de_Tarefas
 
                     throw;
                 }
-
+            }
         }
 
         private void btnTestarAplicar_Click(object sender, EventArgs e)
@@ -2772,16 +3022,16 @@ namespace Gerenciador_de_Tarefas
 
         private void rdbtnRemoto_Click(object sender, EventArgs e)
         {
-            rdbtnRemoto.Checked = true;
-            rdbtnServidorLocal.Checked = false;
-            txtServidor.Enabled = true;
+            //rdbtnRemoto.Checked = true;
+            //rdbtnServidorLocal.Checked = false;
+            //txtServidor.Enabled = true;
         }
 
         private void rdbtnServidorLocal_Click(object sender, EventArgs e)
         {
-            rdbtnRemoto.Checked = false;
-            rdbtnServidorLocal.Checked = true;
-            txtServidor.Enabled = false;
+          //  rdbtnRemoto.Checked = false;
+           // rdbtnServidorLocal.Checked = true;
+            //txtServidor.Enabled = false;
         }
 
         private void btnDestravaTarefas_Click(object sender, EventArgs e)
@@ -2793,7 +3043,7 @@ namespace Gerenciador_de_Tarefas
                 /*string resposta = Microsoft.VisualBasic.Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
 
                 if (resposta == "MB8719")
-                {*/
+                {
                 if (funcoes.DestravaTodasTarefas())
                 {
                     string comando = "Insert into tbl_log values (0," + idUsuario + ", 'As tarefas foram destravadas - " +
@@ -2805,7 +3055,7 @@ namespace Gerenciador_de_Tarefas
                 //}
             }
         }
-
+    
         private void btnBackup_Click(object sender, EventArgs e)
         {
             Backup();
@@ -2856,7 +3106,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
         #endregion
-
-
+    
+    */
     }
 }

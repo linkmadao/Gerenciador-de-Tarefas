@@ -158,6 +158,11 @@ namespace Gerenciador_de_Tarefas.Classes
         #endregion
 
         #region Funcoes
+        /// <summary>
+        /// Método responsável por filtrar a tabela de fornecedores
+        /// </summary>
+        /// <param name="posicaoCmbFiltroFornecedores"></param>
+        /// <returns></returns>
         public static string FiltroFornecedores(int posicaoCmbFiltroFornecedores)
         {
             string comando = "";
@@ -176,6 +181,11 @@ namespace Gerenciador_de_Tarefas.Classes
             return comando;
         }
 
+        /// <summary>
+        /// Método responsável por buscar o fornecedor no datagridview e selecioná-lo
+        /// </summary>
+        /// <param name="dgvFornecedores">DataGridView dos Fornecedores</param>
+        /// <param name="listaPesquisa">Itens a serem pesquisados</param>
         public static void PesquisaFornecedor(DataGridView dgvFornecedores, List<string> listaPesquisa)
         {
             int linha = 0;
@@ -207,6 +217,10 @@ namespace Gerenciador_de_Tarefas.Classes
             }
         }
 
+        /// <summary>
+        /// Método responsável por carregar os dados do fornecedor selecionado
+        /// </summary>
+        /// <param name="_idFornecedor">ID do fornecedor</param>
         public static void AbrirFornecedor(int _idFornecedor)
         {
             LimparVariaveis();
@@ -217,8 +231,11 @@ namespace Gerenciador_de_Tarefas.Classes
 
             id = _idFornecedor;
             tipo = int.Parse(listaFornecedor[0]);
-            dataCadastro = listaFornecedor[1];
-            dataNascimento = listaFornecedor[2];
+            dataCadastro = listaFornecedor[1].Substring(0, 10);
+            if (!string.IsNullOrEmpty(listaFornecedor[2]) && listaFornecedor[2] != "")
+            {
+                dataNascimento = listaFornecedor[2].Substring(0, 10);
+            }
             documento = listaFornecedor[3];
             nome = listaFornecedor[4];
             apelido = listaFornecedor[5];
@@ -243,41 +260,40 @@ namespace Gerenciador_de_Tarefas.Classes
             obs = listaFornecedor[24];
 
             //Backup
-            _id = id;
-            _tipo = tipo;
-            _dataCadastro = dataCadastro.Substring(0, 10);
-            if (!string.IsNullOrEmpty(dataNascimento) && dataNascimento != "")
+            _id = _idFornecedor;
+            _tipo = int.Parse(listaFornecedor[0]);
+            _dataCadastro = listaFornecedor[1].Substring(0, 10);
+            if (!string.IsNullOrEmpty(listaFornecedor[2]) && listaFornecedor[2] != "")
             {
-                _dataNascimento = dataNascimento.Substring(0, 10);
+                _dataNascimento = listaFornecedor[2].Substring(0, 10);
             }
-            else
-            {
-                _dataNascimento = dataNascimento;
-            }
-            _documento = documento;
-            _nome = nome;
-            _apelido = apelido;
-            _cep = cep;
-            _endereco = endereco;
-            _numero = numero;
-            _complemento = complemento;
-            _bairro = bairro;
-            _cidade = cidade;
-            _estado = estado;
-            _pais = pais;
-            _telefone = telefone;
-            _contato = contato;
-            _telefoneComercial = telefoneComercial;
-            _contatoComercial = contatoComercial;
-            _celular = celular;
-            _contatoCelular = contatoCelular;
-            _email = email;
-            _site = site;
-            _inscricaoEstadual = inscricaoEstadual;
-            _inscricaoMunicipal = inscricaoMunicipal;
-            _obs = obs;
-        }
 
+            _documento = listaFornecedor[3];
+            _nome = listaFornecedor[4];
+            _apelido = listaFornecedor[5];
+            _cep = listaFornecedor[6];
+            _endereco = listaFornecedor[7];
+            _numero = listaFornecedor[8];
+            _complemento = listaFornecedor[9];
+            _bairro = listaFornecedor[10];
+            _cidade = listaFornecedor[11];
+            _estado = listaFornecedor[12];
+            _pais = listaFornecedor[13];
+            _telefone = listaFornecedor[14];
+            _contato = listaFornecedor[15];
+            _telefoneComercial = listaFornecedor[16];
+            _contatoComercial = listaFornecedor[17];
+            _celular = listaFornecedor[18];
+            _contatoCelular = listaFornecedor[19];
+            _email = listaFornecedor[20];
+            _site = listaFornecedor[21];
+            _inscricaoEstadual = listaFornecedor[22];
+            _inscricaoMunicipal = listaFornecedor[23];
+            _obs = listaFornecedor[24];
+        }
+        
+        //Categorias
+        /*
         public static List<string> CarregarSubCategoria(int _idCategoria)
         {
             string comando = "Select nome from tbl_subgrupo_categoria where subgrupo = '" + _idCategoria + "';";
@@ -291,6 +307,7 @@ namespace Gerenciador_de_Tarefas.Classes
 
             return conexao.PreencheCMB(comando);
         }
+        */
 
         /// <summary>
         /// Método responsável por descobrir o endereço baseado no CEP informado
@@ -390,7 +407,7 @@ namespace Gerenciador_de_Tarefas.Classes
         /// </summary>
         public static void CadastrarFornecedor()
         {
-            string comando = null, _dataCadastro = "", _dataNascimento = null, erro = "";
+            string comando = null, _dataCadastro = "", _dataNascimento = "", erro = "";
             int separador = 0;
 
             try
@@ -399,7 +416,14 @@ namespace Gerenciador_de_Tarefas.Classes
 
                 if (!string.IsNullOrEmpty(dataNascimento))
                 {
-                    _dataNascimento = dataNascimento.Substring(6, 4) + "-" + dataNascimento.Substring(3, 2) + "-" + dataNascimento.Substring(0, 2);
+                    if(dataNascimento.Length > 8)
+                    {
+                        _dataNascimento = dataNascimento.Substring(6, 4) + "-" + dataNascimento.Substring(3, 2) + "-" + dataNascimento.Substring(0, 2);
+                    }
+                    else
+                    {
+                        _dataNascimento = dataNascimento.Substring(4, 4) + "-" + dataNascimento.Substring(2, 2) + "-" + dataNascimento.Substring(0, 2);
+                    }
                 }
 
                 comando = "insert into tbl_fornecedor values (0," + tipo + ", '" + _dataCadastro + "',if('" + _dataNascimento + "' = '',NULL,'" + _dataNascimento + "'),'" + documento + "','" + nome + "','" + apelido + "','" + cep + "','"
@@ -493,57 +517,11 @@ namespace Gerenciador_de_Tarefas.Classes
         public static bool AvaliarMudancas()
         {
             bool resultado = false;
+            if(dataNascimento == "  /  /")
+            {
+                dataNascimento = "";
+            }
 
-/*
-            if(Categoria1 == -1)
-            {
-                Categoria1 = 0;
-            }
-            else if (Categoria1 > 0)
-            {
-                Categoria1++;
-            }
-            if (Categoria2 == -1)
-            {
-                Categoria2 = 0;
-            }
-            else if (Categoria2 > 0)
-            {
-                Categoria2++;
-            }
-            if (Categoria3 == -1)
-            {
-                Categoria3 = 0;
-            }
-            else if (Categoria3 > 0)
-            {
-                Categoria3++;
-            }
-            if (SubCategoria1 == -1)
-            {
-                SubCategoria1 = 0;
-            }
-            else if (SubCategoria1 > 0)
-            {
-                SubCategoria1++;
-            }
-            if (SubCategoria2 == -1)
-            {
-                SubCategoria2 = 0;
-            }
-            else if(SubCategoria2 > 0)
-            {
-                SubCategoria2++;
-            }
-            if (SubCategoria3 == -1)
-            {
-                SubCategoria3 = 0;
-            }
-            else if (SubCategoria3 > 0)
-            {
-                SubCategoria3++;
-            }
-            */
             if (tipo != _tipo || documento != _documento || nome != _nome || apelido != _apelido ||
                  dataNascimento != _dataNascimento || cep != _cep || endereco != _endereco || numero != _numero || complemento != _complemento || 
                  bairro != _bairro || cidade != _cidade || estado != _estado || pais != _pais || telefone != _telefone || contato != _contato || 
@@ -634,17 +612,36 @@ namespace Gerenciador_de_Tarefas.Classes
 
             try
             {
+
                 if (!string.IsNullOrEmpty(dataNascimento))
                 {
-                    _dataNascimento = dataNascimento.Substring(6, 4) + "-" + dataNascimento.Substring(3, 2) + "-" + dataNascimento.Substring(0, 2);
+                    if (dataNascimento.Length > 8)
+                    {
+                        _dataNascimento = dataNascimento.Substring(6, 4) + "-" + dataNascimento.Substring(3, 2) + "-" + dataNascimento.Substring(0, 2);
+                    }
+                    else
+                    {
+                        _dataNascimento = dataNascimento.Substring(4, 4) + "-" + dataNascimento.Substring(2, 2) + "-" + dataNascimento.Substring(0, 2);
+                    }
+
+                    comando = string.Format("update tbl_fornecedor set tipo = '{0}', dataNascimento = '{1}', documento = '{2}', nome = '{3}', apelido = '{4}', cep = '{5}'," +
+                    " endereco = '{6}', numero = '{7}', complemento = '{8}', bairro = '{9}', cidade = '{10}', estado = '{11}', pais = '{12}', telefone = '{13}', " +
+                    "contato = '{14}', telefoneComercial = '{15}', contatoComercial = '{16}', celular = '{17}', contatoCelular = '{18}', email = '{19}', site = '{20}'," +
+                    "inscricaoEstadual = '{21}', inscricaoMunicipal = '{22}', observacoes = '{23}' where id = '{24}';"
+                    , tipo, _dataNascimento, documento, nome, apelido, cep, endereco, numero, complemento, bairro, cidade, estado, pais, telefone, contato, telefoneComercial,
+                    contatoComercial, celular, contatoCelular, email, site, inscricaoEstadual, inscricaoMunicipal, obs, id);
+                }
+                else
+                {
+                    comando = string.Format("update tbl_fornecedor set tipo = '{0}', documento = '{2}', nome = '{3}', apelido = '{4}', cep = '{5}'," +
+                    " endereco = '{6}', numero = '{7}', complemento = '{8}', bairro = '{9}', cidade = '{10}', estado = '{11}', pais = '{12}', telefone = '{13}', " +
+                    "contato = '{14}', telefoneComercial = '{15}', contatoComercial = '{16}', celular = '{17}', contatoCelular = '{18}', email = '{19}', site = '{20}'," +
+                    "inscricaoEstadual = '{21}', inscricaoMunicipal = '{22}', observacoes = '{23}' where id = '{24}';"
+                    , tipo, _dataNascimento, documento, nome, apelido, cep, endereco, numero, complemento, bairro, cidade, estado, pais, telefone, contato, telefoneComercial,
+                    contatoComercial, celular, contatoCelular, email, site, inscricaoEstadual, inscricaoMunicipal, obs, id);
                 }
 
-                comando = "update tbl_fornecedor set tipo = '" + tipo + "', dataNascimento = '" + _dataNascimento + "', documento = '" + documento + "'," +
-                    " nome = '" + nome + "', apelido = '" + apelido + "', cep = '" + cep + "', endereco = '" + endereco + "', numero = '" + numero + "', complemento = '" + complemento + "'," +
-                    " bairro = '" + bairro + "', cidade = '" + cidade + "', estado = '" + estado + "', pais = '" + pais + "', telefone = '" + telefone + "', contato = '" + contato + "'," +
-                    " telefoneComercial = '" + telefoneComercial + "', contatoComercial = '" + contatoComercial + "', celular = '" + celular + "', contatoCelular = '" + contatoCelular + "'," +
-                    " email = '" + email + "', site = '" + site + "', inscricaoEstadual = '" + inscricaoEstadual + "', inscricaoMunicipal = '" + inscricaoMunicipal + "', observacoes = '" + obs + "'," +
-                    " where id = '" + id + "';";
+                
                 conexao.ExecutaComando(comando);
             }
             catch (Exception)
@@ -715,5 +712,266 @@ namespace Gerenciador_de_Tarefas.Classes
             return resultado;
         }
         #endregion
+
+        public static List<string> DadosImpressao()
+        {
+            List<string> lista = new List<string>();
+
+            lista.Add("ID: " + id);
+            
+            if(tipo == 0)
+            {
+                // 1
+                lista.Add("Razão Social: " + nome);
+                // 2
+                lista.Add("Nome Fantasia: " + apelido);
+                // 3
+                if (!string.IsNullOrEmpty(documento))
+                {
+                    if (documento.Contains(".") && documento.Contains("/") && documento.Contains("-"))
+                    {
+                        lista.Add("CNPJ: " + documento);
+                    }
+                    else
+                    {
+                        lista.Add("CNPJ: " + documento.FormataCNPJ());
+                    }
+                }
+                else
+                {
+                    lista.Add("CNPJ: ");
+                }
+                // 4
+                if (!string.IsNullOrEmpty(dataNascimento))
+                {
+                    if (dataNascimento.Contains("/"))
+                    {
+                        lista.Add("Fundação: " + dataNascimento);
+                    }
+                    else
+                    {
+                        lista.Add("Fundação: " + dataNascimento.FormataData());
+                    }
+                }
+                else
+                {
+                    lista.Add("Fundação: ");
+                }
+            }
+            else
+            {
+                // 1
+                lista.Add("Nome: " + nome);
+                // 2
+                lista.Add("Apelido: " + apelido);
+                // 3
+                if(!string.IsNullOrEmpty(documento))
+                {
+                    if (documento.Contains(".") && documento.Contains("-"))
+                    {
+                        lista.Add("CPF: " + documento);
+                    }
+                    else
+                    {
+                        lista.Add("CPF: " + documento.FormataCPF());
+                    }
+                }
+                else
+                {
+                    lista.Add("CPF: ");
+                }
+                if(!string.IsNullOrEmpty(dataNascimento))
+                {
+                    if (dataNascimento.Contains("/"))
+                    {
+                        lista.Add("Aniversário: " + dataNascimento);
+                    }
+                    else
+                    {
+                        lista.Add("Aniversário: " + dataNascimento.FormataData());
+                    }
+                }
+                else
+                {
+                    lista.Add("Aniversário: ");
+                }
+                
+            }
+
+            // 5
+            if (dataCadastro.Contains("/"))
+            {
+                lista.Add("Cadastrado em: " + dataCadastro);
+            }
+            else
+            {
+                lista.Add("Cadastrado em: " + dataCadastro.FormataData());
+            }
+            // 6
+            string textoEndereco = "Endereço: ";
+
+            if(!string.IsNullOrEmpty(endereco))
+            {
+                textoEndereco += endereco;
+            }
+            if (!string.IsNullOrEmpty(numero))
+            {
+                textoEndereco += ", " + numero;
+            }
+            if (!string.IsNullOrEmpty(bairro))
+            {
+                textoEndereco += " - " + bairro;
+            }
+            if (!string.IsNullOrEmpty(cidade))
+            {
+                textoEndereco += " - " + cidade;
+            }
+            if (!string.IsNullOrEmpty(estado))
+            {
+                textoEndereco += " / " + estado;
+            }
+            if (!string.IsNullOrEmpty(cep))
+            {
+                if (cep.Contains("-"))
+                {
+                    textoEndereco += " - " + cep;
+                }
+                else
+                {
+                    textoEndereco += " - " + cep.FormataCEP();
+                }
+            }
+            lista.Add(textoEndereco);
+
+            // 7
+            if (!string.IsNullOrEmpty(telefone) && !string.IsNullOrEmpty(contato))
+            {
+                if(telefone.Length > 11)
+                {
+                    lista.Add(telefone.FormataNumeroCelular() + " - " + contato);
+                }
+                else
+                {
+                    lista.Add(telefone.FormataNumeroTelefone() + " - " + contato);
+                }
+                
+            }
+            else if (!string.IsNullOrEmpty(telefone) && string.IsNullOrEmpty(contato))
+            {
+                if (telefone.Length > 11)
+                {
+                    lista.Add(telefone.FormataNumeroCelular());
+                }
+                else
+                {
+                    lista.Add(telefone.FormataNumeroTelefone());
+                }
+            }
+            else if (string.IsNullOrEmpty(telefone) && !string.IsNullOrEmpty(contato))
+            {
+                lista.Add("Contato Principal:" + contato);
+            }
+            else
+            {
+                lista.Add("");
+            }
+
+            // 8
+            if (!string.IsNullOrEmpty(telefoneComercial) && !string.IsNullOrEmpty(contatoComercial))
+            {
+                if (telefoneComercial.Length > 11)
+                {
+                    lista.Add(telefoneComercial.FormataNumeroCelular() + " - " + contatoComercial);
+                }
+                else
+                {
+                    lista.Add(telefoneComercial.FormataNumeroTelefone() + " - " + contatoComercial);
+                }
+            }
+            else if (!string.IsNullOrEmpty(telefoneComercial) && string.IsNullOrEmpty(contatoComercial))
+            {
+                if (telefoneComercial.Length > 11)
+                {
+                    lista.Add(telefoneComercial.FormataNumeroCelular());
+                }
+                else
+                {
+                    lista.Add(telefoneComercial.FormataNumeroTelefone());
+                }
+            }
+            else if (string.IsNullOrEmpty(telefoneComercial) && !string.IsNullOrEmpty(contatoComercial))
+            {
+                if(lista[7].Contains("Contato"))
+                {
+                    lista.Add("Contato 2:" + contatoComercial);
+                }
+                else
+                {
+                    lista.Add("Contato:" + contatoComercial);
+                }
+            }
+            else
+            {
+                lista.Add("");
+            }
+
+            // 9
+            if (!string.IsNullOrEmpty(celular) && !string.IsNullOrEmpty(contatoCelular))
+            {
+
+                if (celular.Length > 11)
+                {
+                    lista.Add(celular.FormataNumeroCelular() + " - " + contatoCelular);
+                }
+                else
+                {
+                    lista.Add(celular.FormataNumeroTelefone() + " - " + contatoCelular);
+                }
+            }
+            else if (!string.IsNullOrEmpty(celular) && string.IsNullOrEmpty(contatoCelular))
+            {
+                if (celular.Length > 11)
+                {
+                    lista.Add(celular.FormataNumeroCelular());
+                }
+                else
+                {
+                    lista.Add(celular.FormataNumeroTelefone());
+                }
+            }
+            else if (string.IsNullOrEmpty(celular) && !string.IsNullOrEmpty(contatoCelular))
+            {
+                if (lista[7].Contains("Contato") && lista[8].Contains("Contato 2"))
+                {
+                    lista.Add("Contato 3:" + contatoCelular);
+                }
+                else if (lista[7].Contains("Contato") || lista[8].Contains("Contato"))
+                {
+                    lista.Add("Contato 2:" + contatoCelular);
+                }
+                else
+                {
+                    lista.Add("Contato:" + contatoCelular);
+                }
+            }
+            else
+            {
+                lista.Add("");
+            }
+
+            // 10
+            lista.Add("E-mail Principal: " + email);
+            // 11
+            lista.Add("Site: " + site);
+            // 12
+            lista.Add("Inscrição Estadual: " + inscricaoMunicipal);
+
+            /*string id = "", nome = "", apelido = "", documento = "", cadastro = "", dataNascimento = "",
+               cep = "", endereco = "", numero = "", complemento = "", bairro = "", cidade = "", estado = "",
+               pais = "", telefone = "", contato = "", telefoneComercial = "", contatoComercial = "", celular = "",
+               contatoCelular = "", email = "", site = "", inscricaoEstadual = "", inscricaoMunicipal = "", obs = "";*/
+
+            return lista;
+        }
     }
 }

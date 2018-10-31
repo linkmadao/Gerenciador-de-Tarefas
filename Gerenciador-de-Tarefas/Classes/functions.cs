@@ -244,6 +244,10 @@ namespace Gerenciador_de_Tarefas
                     resultado = "Erro ao Apagar o Fornecedor : " +
                         "Há algum erro na sintaxe do comando SQL ou algum caractere que não é válido!\r\n\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
                     break;
+                case 58:
+                    resultado = "Erro ao Imprimir o Documento : " +
+                        "Erro de formato em algum texto da página!\n\nFavor entrar em contato pelo suporte@cftva.com.br";
+                    break;
             }
 
             return resultado;
@@ -352,6 +356,10 @@ namespace Gerenciador_de_Tarefas
                     resultado = "Excluir o Fornecedor? : " +
                         "Tem certeza absoluta disso?\nEssa operação não poderá ser desfeita!";
                     break;
+                case 23:
+                    resultado = "Atualizar Fornecedor : " +
+                        "Não há alterações no fornecedor!";
+                    break;
             }
 
             return resultado;
@@ -453,6 +461,66 @@ namespace Gerenciador_de_Tarefas
                 resto = 11 - resto;
             digito = digito + resto.ToString();
             return cnpj.EndsWith(digito);
+        }
+
+        public static string FormataNumeroTelefone(this long number)
+        {
+            return number.ToString(@"(000) 0000-0000");
+        }
+
+        public static string FormataNumeroTelefone(this string number)
+        {
+            return long.Parse(number).FormataNumeroTelefone();
+        }
+
+        public static string FormataNumeroCelular(this long number)
+        {
+            return number.ToString(@"(000) 00000-0000");
+        }
+
+        public static string FormataNumeroCelular(this string number)
+        {
+            return long.Parse(number).FormataNumeroCelular();
+        }
+
+        public static string FormataData(this long number)
+        {
+            return number.ToString(@"00/00/0000");
+        }
+
+        public static string FormataData(this string number)
+        {
+            return long.Parse(number).FormataData();
+        }
+
+        public static string FormataCNPJ(this long number)
+        {
+            return number.ToString(@"00,000,000/0000-00");
+        }
+
+        public static string FormataCNPJ(this string number)
+        {
+            return long.Parse(number).FormataCNPJ();
+        }
+
+        public static string FormataCPF(this long number)
+        {
+            return number.ToString(@"000,000,000-00");
+        }
+
+        public static string FormataCPF(this string number)
+        {
+            return long.Parse(number).FormataCPF();
+        }
+
+        public static string FormataCEP(this long number)
+        {
+            return number.ToString(@"00000-000");
+        }
+
+        public static string FormataCEP(this string number)
+        {
+            return long.Parse(number).FormataCEP();
         }
 
         #region Fornecedores

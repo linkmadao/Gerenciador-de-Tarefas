@@ -691,7 +691,7 @@
             this.tlpNFTipoFornecedor.ColumnCount = 3;
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 275F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 280F));
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -713,9 +713,9 @@
             this.panel1.Controls.Add(this.lblNFDataNascimento);
             this.panel1.Controls.Add(this.label31);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(480, 3);
+            this.panel1.Location = new System.Drawing.Point(476, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(130, 147);
+            this.panel1.Size = new System.Drawing.Size(129, 147);
             this.panel1.TabIndex = 1;
             // 
             // txtNFDataNascimento
@@ -798,7 +798,7 @@
             this.panelNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(471, 147);
+            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(467, 147);
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
             // lblNFApelido
@@ -916,9 +916,9 @@
             this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFDatas.Location = new System.Drawing.Point(616, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(611, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(270, 147);
+            this.panelNFDatas.Size = new System.Drawing.Size(275, 147);
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -1027,6 +1027,7 @@
             // 
             // cmbNFCateg1
             // 
+            this.cmbNFCateg1.Enabled = false;
             this.cmbNFCateg1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbNFCateg1.FormattingEnabled = true;
             this.cmbNFCateg1.Location = new System.Drawing.Point(6, 22);
@@ -1584,6 +1585,7 @@
             this.btnNFApagar.TabIndex = 4;
             this.btnNFApagar.Text = "Apagar";
             this.btnNFApagar.UseVisualStyleBackColor = false;
+            this.btnNFApagar.Visible = false;
             this.btnNFApagar.Click += new System.EventHandler(this.btnNFApagar_Click);
             // 
             // btnNFFechar
@@ -1615,6 +1617,7 @@
             this.btnNFImprimir.TabIndex = 2;
             this.btnNFImprimir.Text = "Imprimir";
             this.btnNFImprimir.UseVisualStyleBackColor = false;
+            this.btnNFImprimir.Visible = false;
             this.btnNFImprimir.Click += new System.EventHandler(this.btnNFImprimir_Click);
             // 
             // btnNFEditar
@@ -1631,6 +1634,7 @@
             this.btnNFEditar.TabIndex = 3;
             this.btnNFEditar.Text = "Editar";
             this.btnNFEditar.UseVisualStyleBackColor = false;
+            this.btnNFEditar.Visible = false;
             this.btnNFEditar.Click += new System.EventHandler(this.btnNFEditar_Click);
             // 
             // panelOpcoes
@@ -1650,7 +1654,7 @@
             this.tableLayoutPanel22.ColumnCount = 3;
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 212F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 217F));
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
             this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1674,7 +1678,7 @@
             this.tableLayoutPanel23.RowCount = 2;
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(594, 473);
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(590, 473);
             this.tableLayoutPanel23.TabIndex = 5;
             // 
             // panelConfigBanco
@@ -1699,7 +1703,7 @@
             this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
             this.panelConfigBanco.Name = "panelConfigBanco";
-            this.panelConfigBanco.Size = new System.Drawing.Size(588, 397);
+            this.panelConfigBanco.Size = new System.Drawing.Size(584, 397);
             this.panelConfigBanco.TabIndex = 0;
             // 
             // label13
@@ -1746,7 +1750,6 @@
             this.btnTestarAplicar.TabIndex = 4;
             this.btnTestarAplicar.Text = "Testar e Aplicar";
             this.btnTestarAplicar.UseVisualStyleBackColor = false;
-            this.btnTestarAplicar.Click += new System.EventHandler(this.btnTestarAplicar_Click);
             // 
             // label7
             // 
@@ -1772,7 +1775,6 @@
             this.rdbtnServidorLocal.TabStop = true;
             this.rdbtnServidorLocal.Text = "Servidor Local";
             this.rdbtnServidorLocal.UseVisualStyleBackColor = false;
-            this.rdbtnServidorLocal.CheckedChanged += new System.EventHandler(this.rdbtnServidorLocal_Click);
             // 
             // txtPwd
             // 
@@ -1795,7 +1797,6 @@
             this.rdbtnRemoto.TabIndex = 1;
             this.rdbtnRemoto.Text = "Remoto:";
             this.rdbtnRemoto.UseVisualStyleBackColor = false;
-            this.rdbtnRemoto.CheckedChanged += new System.EventHandler(this.rdbtnRemoto_Click);
             // 
             // label8
             // 
@@ -1866,7 +1867,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(588, 70);
+            this.label6.Size = new System.Drawing.Size(584, 70);
             this.label6.TabIndex = 4;
             this.label6.Text = "Parâmetros de conexão SQL";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1881,7 +1882,7 @@
             this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
             this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
             this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(603, 3);
+            this.tableLayoutPanel24.Location = new System.Drawing.Point(599, 3);
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 5;
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
@@ -1890,7 +1891,7 @@
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel24.Size = new System.Drawing.Size(119, 473);
+            this.tableLayoutPanel24.Size = new System.Drawing.Size(118, 473);
             this.tableLayoutPanel24.TabIndex = 6;
             // 
             // btnDestravaTarefas
@@ -1905,12 +1906,11 @@
             this.btnDestravaTarefas.ForeColor = System.Drawing.Color.White;
             this.btnDestravaTarefas.Location = new System.Drawing.Point(3, 373);
             this.btnDestravaTarefas.Name = "btnDestravaTarefas";
-            this.btnDestravaTarefas.Size = new System.Drawing.Size(113, 97);
+            this.btnDestravaTarefas.Size = new System.Drawing.Size(112, 97);
             this.btnDestravaTarefas.TabIndex = 10;
             this.btnDestravaTarefas.Text = "Destravar Tarefas";
             this.btnDestravaTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnDestravaTarefas.UseVisualStyleBackColor = false;
-            this.btnDestravaTarefas.Click += new System.EventHandler(this.btnDestravaTarefas_Click);
             // 
             // btnConfiguraBD
             // 
@@ -1924,7 +1924,7 @@
             this.btnConfiguraBD.ForeColor = System.Drawing.Color.White;
             this.btnConfiguraBD.Location = new System.Drawing.Point(3, 73);
             this.btnConfiguraBD.Name = "btnConfiguraBD";
-            this.btnConfiguraBD.Size = new System.Drawing.Size(113, 94);
+            this.btnConfiguraBD.Size = new System.Drawing.Size(112, 94);
             this.btnConfiguraBD.TabIndex = 7;
             this.btnConfiguraBD.Text = "Configurar Banco de Dados";
             this.btnConfiguraBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1942,7 +1942,7 @@
             this.btnRestaurar.ForeColor = System.Drawing.Color.White;
             this.btnRestaurar.Location = new System.Drawing.Point(3, 273);
             this.btnRestaurar.Name = "btnRestaurar";
-            this.btnRestaurar.Size = new System.Drawing.Size(113, 94);
+            this.btnRestaurar.Size = new System.Drawing.Size(112, 94);
             this.btnRestaurar.TabIndex = 5;
             this.btnRestaurar.Text = "Restaurar";
             this.btnRestaurar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -1960,7 +1960,7 @@
             this.btnBackup.ForeColor = System.Drawing.Color.White;
             this.btnBackup.Location = new System.Drawing.Point(3, 173);
             this.btnBackup.Name = "btnBackup";
-            this.btnBackup.Size = new System.Drawing.Size(113, 94);
+            this.btnBackup.Size = new System.Drawing.Size(112, 94);
             this.btnBackup.TabIndex = 4;
             this.btnBackup.Text = "Backup";
             this.btnBackup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -2845,6 +2845,7 @@
             // 
             this.pdNFDocumento.DocumentName = "NomeFornecedor";
             this.pdNFDocumento.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.pdNFDocumento_BeginPrint);
+            this.pdNFDocumento.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdNFDocumento_PrintPage);
             // 
             // pPreviewNF
             // 

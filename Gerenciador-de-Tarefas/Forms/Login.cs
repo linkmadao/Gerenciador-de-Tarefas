@@ -282,6 +282,21 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
+        #region Posição cursor MaskedTextBox
+        private delegate void PosicionaCursorDelegate(int posicao);
+
+        private void PosicionaCursorSenha(int posicao)
+        {
+            txtPwd.SelectionStart = posicao;
+        }
+
+        private void txtCep_Enter(object sender, EventArgs e)
+        {
+            BeginInvoke(new PosicionaCursorDelegate(PosicionaCursorSenha), new object[] { 0 });
+        }
+        #endregion
+
+
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
@@ -321,11 +336,15 @@ namespace Gerenciador_de_Tarefas
             this.txtPwd.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtPwd.Font = new System.Drawing.Font("Trebuchet MS", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtPwd.Location = new System.Drawing.Point(234, 166);
+            this.txtPwd.Mask = "0000";
             this.txtPwd.Name = "txtPwd";
             this.txtPwd.PasswordChar = '*';
+            this.txtPwd.PromptChar = ' ';
             this.txtPwd.Size = new System.Drawing.Size(221, 19);
             this.txtPwd.TabIndex = 1;
             this.txtPwd.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPwd.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
+            this.txtPwd.Enter += new System.EventHandler(this.txtCep_Enter);
             // 
             // lnkTiago
             // 
