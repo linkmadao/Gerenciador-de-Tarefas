@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas
 {
@@ -248,26 +249,31 @@ namespace Gerenciador_de_Tarefas
             {
                 try
                 {
-                    string comando = null;
-                    comando = "insert into tbl_contato values " +
-                    "(0, 1 , '" + dtpDataCadastro.Value.ToString("yyyy-MM-dd") + "', " +
-                    "'" + txtNome.Text + "', '" + txtRazaoSocial.Text + "', " +
-                    "'" + txtTelefoneComercial.Text + "', '" + txtContato.Text + "', " +
-                    "'" + txtSetor.Text + "', '" + txtCPF.Text + "', '" + txtRG.Text + "', " +
-                    "'" + txtCNPJ.Text + "', '" + txtInscEstadual.Text + "', '" + txtInscMunicipal.Text + "', " +
-                    "'" + txtSite.Text + "', '" + txtEmail.Text + "', " +
-                    "'" + txtEndereco.Text + ", " + txtNumero.Text + "', " +
-                    "'" + txtBairro.Text + "', '" + txtCidade.Text + "', '" + txtEstado.Text + "', " +
-                    "'" + txtCep.Text + "', '" + txtComplemento.Text + "', '" + txtPontoReferencia.Text + "', " +
-                    "'" + txtOBS.Text + "');";
-                    conexao.ExecutaComando(comando);
+                    Cliente.Contrato = cmbContrato.SelectedIndex + 1;
+                    Cliente.DataCadastro = dtpDataCadastro.Value.ToString("yyyy-MM-dd");
+                    Cliente.Nome = txtNome.Text;
+                    Cliente.RazaoSocial = txtRazaoSocial.Text;
+                    Cliente.TelefoneComercial = txtTelefoneComercial.Text;
+                    Cliente.Contato = txtContato.Text;
+                    Cliente.Setor = txtSetor.Text;
+                    Cliente.CPF = txtCPF.Text;
+                    Cliente.RG = txtRG.Text;
+                    Cliente.CNPJ = txtCNPJ.Text;
+                    Cliente.InscricaoEstadual = txtInscEstadual.Text;
+                    Cliente.InscricaoMunicipal = txtInscMunicipal.Text;
+                    Cliente.Site = txtSite.Text;
+                    Cliente.Email = txtEmail.Text;
+                    Cliente.Endereco = txtEndereco.Text;
+                    Cliente.Numero = txtNumero.Text;
+                    Cliente.Bairro = txtBairro.Text;
+                    Cliente.Cidade = txtCidade.Text;
+                    Cliente.Estado = txtEstado.Text;
+                    Cliente.CEP = txtCep.Text;
+                    Cliente.Complemento = txtComplemento.Text;
+                    Cliente.PontoReferencia = txtPontoReferencia.Text;
+                    Cliente.Obs = txtOBS.Text;
 
-                    comando = "Select id from tbl_contato where nome = '" + txtNome.Text + "';";
-                    _idCliente = Int32.Parse(conexao.ConsultaSimples(comando));
-
-                    comando = "insert into tbl_contato_contrato values " +
-                    "("+_idCliente.ToString() + ", " + (cmbContrato.SelectedIndex + 1) +");";
-                    conexao.ExecutaComando(comando);
+                    Cliente.CadastrarCliente();
                 }
                 catch (Exception)
                 {

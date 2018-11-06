@@ -711,15 +711,14 @@ namespace Gerenciador_de_Tarefas.Classes
 
             return resultado;
         }
-        #endregion
 
         public static List<string> DadosImpressao()
         {
             List<string> lista = new List<string>();
 
             lista.Add("ID: " + id);
-            
-            if(tipo == 0)
+
+            if (tipo == 0)
             {
                 // 1
                 lista.Add("Razão Social: " + nome);
@@ -765,7 +764,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 // 2
                 lista.Add("Apelido: " + apelido);
                 // 3
-                if(!string.IsNullOrEmpty(documento))
+                if (!string.IsNullOrEmpty(documento))
                 {
                     if (documento.Contains(".") && documento.Contains("-"))
                     {
@@ -780,7 +779,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 {
                     lista.Add("CPF: ");
                 }
-                if(!string.IsNullOrEmpty(dataNascimento))
+                if (!string.IsNullOrEmpty(dataNascimento))
                 {
                     if (dataNascimento.Contains("/"))
                     {
@@ -795,7 +794,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 {
                     lista.Add("Aniversário: ");
                 }
-                
+
             }
 
             // 5
@@ -810,7 +809,7 @@ namespace Gerenciador_de_Tarefas.Classes
             // 6
             string textoEndereco = "Endereço: ";
 
-            if(!string.IsNullOrEmpty(endereco))
+            if (!string.IsNullOrEmpty(endereco))
             {
                 textoEndereco += endereco;
             }
@@ -846,7 +845,7 @@ namespace Gerenciador_de_Tarefas.Classes
             // 7
             if (!string.IsNullOrEmpty(telefone) && !string.IsNullOrEmpty(contato))
             {
-                if(telefone.Length > 11)
+                if (telefone.Length > 11)
                 {
                     lista.Add(telefone.FormataNumeroCelular() + " - " + contato);
                 }
@@ -854,7 +853,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 {
                     lista.Add(telefone.FormataNumeroTelefone() + " - " + contato);
                 }
-                
+
             }
             else if (!string.IsNullOrEmpty(telefone) && string.IsNullOrEmpty(contato))
             {
@@ -901,7 +900,7 @@ namespace Gerenciador_de_Tarefas.Classes
             }
             else if (string.IsNullOrEmpty(telefoneComercial) && !string.IsNullOrEmpty(contatoComercial))
             {
-                if(lista[7].Contains("Contato"))
+                if (lista[7].Contains("Contato"))
                 {
                     lista.Add("Contato 2:" + contatoComercial);
                 }
@@ -973,5 +972,6 @@ namespace Gerenciador_de_Tarefas.Classes
 
             return lista;
         }
+        #endregion
     }
 }

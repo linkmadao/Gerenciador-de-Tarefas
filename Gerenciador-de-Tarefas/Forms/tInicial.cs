@@ -26,7 +26,7 @@ namespace Gerenciador_de_Tarefas
         #region Variáveis
         private BDCONN conexao = new BDCONN();
         private FuncoesVariaveis funcoes = new FuncoesVariaveis();
-        private int idUsuario, segundos = 0, _idFornecedor;
+        private int idUsuario, segundos = 0;
         private string tituloSoftware = "Gerenciador de Tarefas - CFTVA " + DateTime.Now.Year;
         private string nomeXML = "bdconfig.xml";
         private bool programaDesativado = false;
@@ -76,7 +76,7 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                Log.Logoff(idUsuario);
+                Log.Logoff();
             }
         }
 
@@ -1765,7 +1765,7 @@ namespace Gerenciador_de_Tarefas
 
                 panelFornecedores.Enabled = false;
 
-                Log.AbrirFornecedor(idUsuario, Fornecedor.id);
+                Log.AbrirFornecedor(Fornecedor.id);
 
                 AtualizaDGVFornecedores();
             }

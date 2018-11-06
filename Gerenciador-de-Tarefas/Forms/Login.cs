@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Reflection;
+using System.ComponentModel;
 using System.Diagnostics;
-using IWshRuntimeLibrary;
-using System.IO;
 using Gerenciador_de_Tarefas.Classes;
 
 
@@ -33,7 +24,7 @@ namespace Gerenciador_de_Tarefas
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(Login));
             this.txtUser = new System.Windows.Forms.TextBox();
             this.txtPwd = new System.Windows.Forms.MaskedTextBox();
             this.lnkTiago = new System.Windows.Forms.LinkLabel();
@@ -186,13 +177,14 @@ namespace Gerenciador_de_Tarefas
                         if (conexao.VerificaLogin(txtUser.Text, txtPwd.Text))
                         {
                             string comando = "select id from tbl_usuarios where user = '" + txtUser.Text + "';";
-                            int id = int.Parse(conexao.ConsultaSimples(comando));
-                            Log.Login(id);
+                            Sistema.UsuarioLogado = int.Parse(conexao.ConsultaSimples(comando));
+
+                            Log.Login();
 
                             Hide();
                             ShowInTaskbar = false;
 
-                            tInicial telaInicial = new tInicial(id);
+                            tInicial telaInicial = new tInicial(Sistema.UsuarioLogado);
                             telaInicial.ShowDialog();
                         }
                         else

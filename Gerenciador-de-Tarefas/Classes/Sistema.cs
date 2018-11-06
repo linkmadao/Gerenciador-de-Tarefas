@@ -16,7 +16,7 @@ namespace Gerenciador_de_Tarefas.Classes
 {
     public static class Sistema
     {
-        #region Variáveis
+        #region Variaveis
         private static string versaoLocal = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
         private static string versaoServidor = FileVersionInfo.GetVersionInfo(@"\\192.168.254.253\GerenciadorTarefas\Projeto\Gerenciador-de-Tarefas\Gerenciador-de-Tarefas\bin\Release\Gerenciador-de-Tarefas.exe").FileVersion;
         private static string diretorioServidor = @"\\192.168.254.253\GerenciadorTarefas\Projeto\Gerenciador-de-Tarefas\Gerenciador-de-Tarefas\bin\Release\";
@@ -25,6 +25,8 @@ namespace Gerenciador_de_Tarefas.Classes
         private static string executavel = "gerenciador-de-tarefas.exe";
         private static string atalho = @"\Gerenciador de Tarefas.lnk";
         private static string descricaoSoftware = "Gerenciador de Tarefas - ";
+
+        private static int usuarioLogado = 0;
         #endregion
 
         #region Propriedades
@@ -38,9 +40,21 @@ namespace Gerenciador_de_Tarefas.Classes
                 return versaoLocal;
             }
         }
+
+        public static int UsuarioLogado
+        {
+            get
+            {
+                return usuarioLogado;
+            }
+            set
+            {
+                usuarioLogado = value;
+            }
+        }
         #endregion
 
-        #region Funções
+        #region Funcoes
         /// <summary>
         /// Verifica se tem atualização do software, caso tenha ele realiza a atualização e fecha o programa atual
         /// </summary>
