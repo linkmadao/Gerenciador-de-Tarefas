@@ -15,6 +15,7 @@ using System.Drawing.Printing;
 using System.Xml;
 using System.Xml.Linq;
 using System.Collections.Specialized;
+using Gerenciador_de_Tarefas.Classes;
 
 using System.Web;
 
@@ -49,8 +50,6 @@ namespace Gerenciador_de_Tarefas
 
         private void tInicial_Load(object sender, EventArgs e)
         {
-
-
             //Titulo Software
             lblVersao.Text = "Versão: " + FuncoesEstaticas.VersaoSoftware;
 
@@ -77,7 +76,7 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                Classes.Log.Logoff(idUsuario);
+                Log.Logoff(idUsuario);
             }
         }
 
@@ -218,43 +217,22 @@ namespace Gerenciador_de_Tarefas
                 //Se apertar CTRL + N
                 if (e.Control && e.KeyCode == Keys.N)
                 {
-                    //Tarefa(é uma nova tarefa?, id da tarefa);
-                    //Ex tarefa nova: Tarefa(true,0);
-                    //Ex tarefa já existente: Tarefa(false,1);
-
-                    CadastraCliente cadastraCliente = new CadastraCliente(true, 0);
-                    cadastraCliente.ShowDialog();
-                    AtualizaDGVClientes();
-                    //tContador.Interval += intervaloTemporizador;
-                    //tContador.Start();
+                    // Simula o click
+                    btnAddCliente_Click(btnAddCliente, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + P
                 else if (e.Control && e.KeyCode == Keys.P)
                 {
-                    ImprimirClientes();
+                    // Simula o click
+                    btnPrintListaClientes_Click(btnPrintListaClientes, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + F
                 else if (e.Control && e.KeyCode == Keys.F)
                 {
-                    TelaPesquisa telaPesquisaClientes = new TelaPesquisa(dgvClientes, true);
-                    telaPesquisaClientes.ShowDialog();
-
-                    if (FuncoesEstaticas.ClientePesquisado != -1)
-                    {
-                        if (FuncoesEstaticas.ClientePesquisado != 0)
-                        {
-                            dgvClientes[0, FuncoesEstaticas.ClientePesquisado].Selected = true;
-                        }
-                    }
-                    else
-                    {
-                        string erro = ListaErro.RetornaErro(48);
-                        int separador = erro.LastIndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-
+                    // Simula o click
+                    btnPesqCliente_Click(btnPesqCliente, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar ESC
@@ -278,15 +256,48 @@ namespace Gerenciador_de_Tarefas
                 // Se apertar CTRL +N
                 if (e.Control && e.KeyCode == Keys.N)
                 {
+                    // Simula o click
+                    btnNovoFornecedor_Click(btnNovoFornecedor, e);
+                    e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + P
                 else if (e.Control && e.KeyCode == Keys.P)
                 {
+                    // Simula o click
+                    btnImprimeFornecedores_Click(btnImprimeFornecedores, e);
+                    e.SuppressKeyPress = true;
                 }
                 //Se apertar ESC
                 else if (e.KeyCode == Keys.Escape)
                 {
                     panelFornecedores.Visible = false;
+                    e.SuppressKeyPress = true;
+                }
+                else if (e.KeyCode == Keys.Enter)
+                {
+                    if (dgvFornecedores.Focused)
+                    {
+                        //Executa a mesma função de dar 2 cliques com o mouse no cliente
+                        dgvFornecedores_CellDoubleClick(dgvFornecedores, new DataGridViewCellEventArgs(dgvFornecedores.CurrentCell.ColumnIndex, dgvFornecedores.CurrentRow.Index));
+                    }
+                }
+            }
+            //O painel do Fornecedor/Novo Fornecedor está visível?
+            else if (panelNF.Visible && panelNF.Enabled)
+            {
+                // Se apertar CTRL +N
+                if (e.Control && e.KeyCode == Keys.N)
+                {
+                }
+                //Se apertar CTRL + P
+                else if (e.Control && e.KeyCode == Keys.P)
+                {
+                    btnNFImprimir_Click(btnNFImprimir, e);
+                }
+                //Se apertar ESC
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    panelNF.Visible = false;
                     e.SuppressKeyPress = true;
                 }
             }
@@ -413,30 +424,18 @@ namespace Gerenciador_de_Tarefas
                     //O painel de clientes não está visível?
                     if (!panelClientes.Visible)
                     {
-                        EscondePaineis();
-                        panelClientes.Visible = true;
-                        panelClientes.Show();
-
-                        AtualizaDGVClientes();
-
-                        for (int i = 0; i < dgvClientes.Columns.Count; i++)
-                        {
-                            dgvClientes.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
-                        }
-                        dgvClientes.Focus();
+                        //Simula o click
+                        btnClientes_Click(btnClientes, e);
                     }
                 }
                 //Se apertar o F2
                 else if (e.KeyCode == Keys.F2)
                 {
                     //O painel de Fornecedores não está visível?
-                    if (!panelFornecedores.Visible)
+                    if (!panelFornecedores.Visible && !panelNF.Visible)
                     {
-                        EscondePaineis();
-                        panelFornecedores.Visible = true;
-                        panelFornecedores.Show();
-
-                        AtualizaDGVFornecedores();
+                        //Simula o click
+                        btnFornecedores_Click(btnFornecedores, e);
                     }
                 }
                 //Se apertar o F3
@@ -445,38 +444,18 @@ namespace Gerenciador_de_Tarefas
                     //O painel de Tarefas não está visível?
                     if (!panelTarefas.Visible)
                     {
-                        EscondePaineis();
-                        panelTarefas.Visible = true;
-                        panelTarefas.Show();
-
-                        AtualizaDGVTarefas();
-
-                        dgvTarefas.Focus();
+                        //Simula o click
+                        btnTarefas_Click(btnTarefas, e);
                     }
                 }
-                //Se apertar o F4
-                else if (e.KeyCode == Keys.F4)
+                //Se apertar o F5
+                else if (e.KeyCode == Keys.F5)
                 {
-                    EscondePaineis();
-
-                    XElement xml = XElement.Load(nomeXML);
-                    foreach (XElement x in xml.Elements())
+                    //O painel de Tarefas não está visível?
+                    if (!panelOpcoes.Visible)
                     {
-                        if (x.Attribute("servidor").Value != "" || x.Attribute("servidor").Value != "localhost" || x.Attribute("servidor").Value != "127.0.0.1")
-                        {
-                            rdbtnRemoto.Checked = true;
-                            rdbtnServidorLocal.Checked = false;
-                            txtServidor.Text = x.Attribute("servidor").Value;
-                            txtServidor.Enabled = true;
-                        }
-
-                        txtBanco.Text = x.Attribute("banco").Value;
-                        txtUid.Text = x.Attribute("uid").Value;
-                        txtPwd.Text = x.Attribute("pwd").Value;
+                        btnOpcoes_Click(btnOpcoes, e);
                     }
-
-                    panelOpcoes.Show();
-                    panelOpcoes.Visible = true;
                 }
                 //Se apertar o ESC
                 else if (e.KeyCode == Keys.Escape)
@@ -524,6 +503,11 @@ namespace Gerenciador_de_Tarefas
                         posvertical = dgvClientes.FirstDisplayedScrollingRowIndex;
                     }
                     catch (ArgumentOutOfRangeException)
+                    {
+                        linhaAtual = dgvClientes.CurrentCell.RowIndex;
+                        colunaAtual = dgvClientes.CurrentCell.ColumnIndex;
+                    }
+                    catch (NullReferenceException)
                     {
                         linhaAtual = dgvClientes.CurrentCell.RowIndex;
                         colunaAtual = dgvClientes.CurrentCell.ColumnIndex;
@@ -668,7 +652,16 @@ namespace Gerenciador_de_Tarefas
 
         private void btnPrintListaClientes_Click(object sender, EventArgs e)
         {
-            ImprimirClientes();
+            if (pdImprimirClientes.ShowDialog() == DialogResult.OK)
+            {
+
+
+                pdClientes.DefaultPageSettings.Landscape = true;
+                pdClientes.DocumentName = "Lista de Clientes - CFTVA " + DateTime.Now.Date.ToShortDateString();
+
+                pPreviewClientes.ShowDialog();
+                AtualizaDGVClientes();
+            }
         }
 
         private void pdClientes_BeginPrint(object sender, PrintEventArgs e)
@@ -700,21 +693,6 @@ namespace Gerenciador_de_Tarefas
                 int separador = erro.LastIndexOf(":");
                 MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void ImprimirClientes()
-        {
-            if (pdImprimirClientes.ShowDialog() == DialogResult.OK)
-            {
-
-
-                pdClientes.DefaultPageSettings.Landscape = true;
-                pdClientes.DocumentName = "Lista de Clientes - CFTVA " + DateTime.Now.Date.ToShortDateString();
-
-                pPreviewClientes.ShowDialog();
-                AtualizaDGVClientes();
-            }
-
         }
 
         private void pdClientes_PrintPage(object sender, PrintPageEventArgs e)
@@ -882,15 +860,14 @@ namespace Gerenciador_de_Tarefas
             //AtualizaDGV();
             //tContador.Interval += intervaloTemporizador;
             //tContador.Start();
-        }
-
-        /// <summary>
-        /// Método responsável por atualizar a tabela da tela inicial
-        /// </summary>
+        }       
 
         private DataGridView _dgvTarefasAtual = new DataGridView(), _dgvTarefasConcluidas = new DataGridView(), _dgvTodasTarefas = new DataGridView();
         private DataGridView _dgvTempTarefas = new DataGridView(), _dgvTempTarefasConcluidas = new DataGridView(), _dgvTempTodasTarefas = new DataGridView();
 
+        /// <summary>
+        /// Método responsável por atualizar a tabela da tela inicial
+        /// </summary>
         private void AtualizaDGVTarefas()
         {
             if (conexao.TestaConexao())
@@ -1681,7 +1658,7 @@ namespace Gerenciador_de_Tarefas
         {
             if (conexao.TestaConexao())
             {
-                string comando = Classes.Fornecedor.FiltroFornecedores(cmbGrupoFornecedor.SelectedIndex);
+                string comando = Fornecedor.FiltroFornecedores(cmbGrupoFornecedor.SelectedIndex);
 
                 DataGridView _dgvTemp = new DataGridView();
                 int linhaAtual = 0, colunaAtual = 0, posvertical = 0;
@@ -1689,7 +1666,7 @@ namespace Gerenciador_de_Tarefas
                 if (iniciaTelaFornecedores)
                 {
                     //Preenche o combobox de Grupos
-                    //List<string> lista = Classes.Fornecedor.CarregarCategoria();
+                    //List<string> lista = Fornecedor.CarregarCategoria();
                     //Insere na lista uma opção "Todos"
                     //lista.Insert(lista.Count, "Todos");
                     //Preenche o combobox
@@ -1781,14 +1758,14 @@ namespace Gerenciador_de_Tarefas
                 int idFornecedor = int.Parse(linha.Cells["id"].Value.ToString());
                 nfCarregaFornecedor(idFornecedor);
 
-                Classes.Fornecedor.TravaFornecedor();
+                Fornecedor.TravaFornecedor();
 
                 panelNF.Visible = true;
                 panelNF.Enabled = true;
 
                 panelFornecedores.Enabled = false;
 
-                Classes.Log.AbrirFornecedor(idUsuario, Classes.Fornecedor.id);
+                Log.AbrirFornecedor(idUsuario, Fornecedor.id);
 
                 AtualizaDGVFornecedores();
             }
@@ -1813,10 +1790,195 @@ namespace Gerenciador_de_Tarefas
             dgvFornecedores.Focus();
         }
 
-        private void btnNovoFornecedor_Click(object sender, EventArgs e)
+        #region Impressão
 
+        private void btnImprimeFornecedores_Click(object sender, EventArgs e)
         {
-            //cmbNFCateg1.DataSource = Classes.Fornecedor.CarregarCategoria();
+            if (pdImprimirClientes.ShowDialog() == DialogResult.OK)
+            {
+                pdClientes.DefaultPageSettings.Landscape = true;
+                pdClientes.DocumentName = "Lista de Fornecedores - CFTVA " + DateTime.Now.Date.ToShortDateString();
+
+                pPreviewClientes.ShowDialog();
+                AtualizaDGVClientes();
+            }
+        }
+
+        private void pdFornecedores_BeginPrint(object sender, PrintEventArgs e)
+        {
+            try
+            {
+                strFormat = new StringFormat();
+                strFormat.Alignment = StringAlignment.Near;
+                strFormat.LineAlignment = StringAlignment.Center;
+                strFormat.Trimming = StringTrimming.EllipsisCharacter;
+
+                arrColumnLefts.Clear();
+                arrColumnWidths.Clear();
+                iCellHeight = 0;
+                iRow = 0;
+                bFirstPage = true;
+                bNewPage = true;
+
+                // Calculating Total Widths
+                iTotalWidth = 0;
+                foreach (DataGridViewColumn dgvGridCol in dgvFornecedores.Columns)
+                {
+                    iTotalWidth += dgvGridCol.Width;
+                }
+            }
+            catch (Exception)
+            {
+                string erro = ListaErro.RetornaErro(23);
+                int separador = erro.LastIndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void pdFornecedores_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            try
+            {
+                //Set the left margin
+                int iLeftMargin = e.MarginBounds.Left;
+                //Set the top margin
+                int iTopMargin = e.MarginBounds.Top;
+                //Whether more pages have to print or not
+                bool bMorePagesToPrint = false;
+                int iTmpWidth = 0;
+
+                //For the first page to print set the cell width and header height
+                if (bFirstPage)
+                {
+                    foreach (DataGridViewColumn GridCol in dgvFornecedores.Columns)
+                    {
+                        iTmpWidth = (int)(Math.Floor((double)((double)GridCol.Width /
+                            (double)iTotalWidth * (double)iTotalWidth *
+                            ((double)e.MarginBounds.Width / (double)iTotalWidth))));
+
+                        iHeaderHeight = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
+                            GridCol.InheritedStyle.Font, iTmpWidth).Height) + 11;
+
+                        // Save width and height of headers
+                        arrColumnLefts.Add(iLeftMargin);
+                        arrColumnWidths.Add(iTmpWidth);
+                        iLeftMargin += iTmpWidth;
+                    }
+                }
+                //Loop till all the grid rows not get printed
+                while (iRow <= dgvFornecedores.Rows.Count - 1)
+                {
+                    DataGridViewRow GridRow = dgvFornecedores.Rows[iRow];
+                    //Set the cell height
+                    iCellHeight = GridRow.Height + 12;
+                    int iCount = 0;
+                    //Check whether the current page settings allows more rows to print
+                    if (iTopMargin + iCellHeight >= e.MarginBounds.Height + e.MarginBounds.Top)
+                    {
+                        bNewPage = true;
+                        bFirstPage = false;
+                        bMorePagesToPrint = true;
+                        break;
+                    }
+                    else
+                    {
+                        if (bNewPage)
+                        {
+                            //Draw Header
+                            e.Graphics.DrawString("Lista de Fornecedores",
+                                new Font(dgvClientes.Font, FontStyle.Bold),
+                                Brushes.Black, e.MarginBounds.Left,
+                                e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Fornecedores",
+                                new Font(dgvClientes.Font, FontStyle.Bold),
+                                e.MarginBounds.Width).Height - 13);
+
+                            String strDate = DateTime.Now.ToLongDateString() + " " +
+                                DateTime.Now.ToShortTimeString();
+                            //Draw Date
+                            e.Graphics.DrawString(strDate,
+                                new Font(dgvClientes.Font, FontStyle.Bold), Brushes.Black,
+                                e.MarginBounds.Left +
+                                (e.MarginBounds.Width - e.Graphics.MeasureString(strDate,
+                                new Font(dgvClientes.Font, FontStyle.Bold),
+                                e.MarginBounds.Width).Width),
+                                e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Fornecedores",
+                                new Font(new Font(dgvClientes.Font, FontStyle.Bold),
+                                FontStyle.Bold), e.MarginBounds.Width).Height - 13);
+
+                            //Draw Columns                 
+                            iTopMargin = e.MarginBounds.Top;
+                            foreach (DataGridViewColumn GridCol in dgvClientes.Columns)
+                            {
+                                e.Graphics.FillRectangle(new SolidBrush(Color.LightGray),
+                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
+                                    (int)arrColumnWidths[iCount], iHeaderHeight));
+
+                                e.Graphics.DrawRectangle(Pens.Black,
+                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
+                                    (int)arrColumnWidths[iCount], iHeaderHeight));
+
+                                e.Graphics.DrawString(GridCol.HeaderText,
+                                    GridCol.InheritedStyle.Font,
+                                    new SolidBrush(GridCol.InheritedStyle.ForeColor),
+                                    new RectangleF((int)arrColumnLefts[iCount], iTopMargin,
+                                    (int)arrColumnWidths[iCount], iHeaderHeight), strFormat);
+                                iCount++;
+                            }
+                            bNewPage = false;
+                            iTopMargin += iHeaderHeight;
+                        }
+                        iCount = 0;
+                        //Draw Columns Contents                
+                        foreach (DataGridViewCell Cel in GridRow.Cells)
+                        {
+                            if (Cel.Value != null)
+                            {
+                                string texto = Cel.Value.ToString();
+
+                                if (Cel.ColumnIndex == 0)
+                                {
+                                    if (texto.Length > 50)
+                                    {
+                                        texto = texto.Substring(0, 47) + "...";
+                                    }
+                                }
+
+                                e.Graphics.DrawString(texto,
+                                Cel.InheritedStyle.Font,
+                                new SolidBrush(Cel.InheritedStyle.ForeColor),
+                                new RectangleF((int)arrColumnLefts[iCount],
+                                (float)iTopMargin,
+                                (int)arrColumnWidths[iCount], (float)iCellHeight),
+                                strFormat);
+
+                                //Drawing Cells Borders 
+                                e.Graphics.DrawRectangle(Pens.Black,
+                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
+                                    (int)arrColumnWidths[iCount], iCellHeight));
+                                iCount++;
+                            }
+                        }
+                    }
+                    iRow++;
+                    iTopMargin += iCellHeight;
+                }
+                //If more lines exist, print another page.
+                if (bMorePagesToPrint)
+                    e.HasMorePages = true;
+                else
+                    e.HasMorePages = false;
+            }
+            catch (Exception)
+            {
+                string erro = ListaErro.RetornaErro(24);
+                int separador = erro.LastIndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        private void btnNovoFornecedor_Click(object sender, EventArgs e)
+        {
             txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
 
             panelNF.Visible = true;
@@ -1839,35 +2001,35 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                Classes.Fornecedor.AbrirFornecedor(_idFornecedor);
+                Fornecedor.AbrirFornecedor(_idFornecedor);
 
-                txtNFIDFornecedor.Text = Classes.Fornecedor.id.ToString();
-                cmbNFTipoFornecedor.SelectedIndex = Classes.Fornecedor.tipo;
-                txtNFDataCadastro.Text = Classes.Fornecedor.dataCadastro;
-                txtNFDataNascimento.Text = Classes.Fornecedor.dataNascimento;
-                txtNFDocumento.Text = Classes.Fornecedor.documento;
-                lblNFTitulo.Text = Classes.Fornecedor.nome;
-                txtNFNome.Text = Classes.Fornecedor.nome;
-                txtNFApelido.Text = Classes.Fornecedor.apelido;
-                txtNFCEP.Text = Classes.Fornecedor.cep;
-                txtNFEndereco.Text = Classes.Fornecedor.endereco;
-                txtNFNumero.Text = Classes.Fornecedor.numero;
-                txtNFComplemento.Text = Classes.Fornecedor.complemento;
-                txtNFBairro.Text = Classes.Fornecedor.bairro;
-                txtNFCidade.Text = Classes.Fornecedor.cidade;
-                txtNFEstado.Text = Classes.Fornecedor.estado;
-                txtNFPais.Text = Classes.Fornecedor.pais;
-                txtNFTelefone.Text = Classes.Fornecedor.telefone;
-                txtNFContato.Text = Classes.Fornecedor.contato;
-                txtNFTelefoneComercial.Text = Classes.Fornecedor.telefoneComercial;
-                txtNFContatoComercial.Text = Classes.Fornecedor.contatoComercial;
-                txtNFCelular.Text = Classes.Fornecedor.celular;
-                txtNFContatoCelular.Text = Classes.Fornecedor.contatoCelular;
-                txtNFEmail.Text = Classes.Fornecedor.email;
-                txtNFSite.Text = Classes.Fornecedor.site;
-                txtNFInscricaoEstadual.Text = Classes.Fornecedor.inscricaoEstadual;
-                txtNFInscricaoMunicipal.Text = Classes.Fornecedor.inscricaoMunicipal;
-                txtNFObservacoes.Text = Classes.Fornecedor.obs;
+                txtNFIDFornecedor.Text = Fornecedor.id.ToString();
+                cmbNFTipoFornecedor.SelectedIndex = Fornecedor.tipo;
+                txtNFDataCadastro.Text = Fornecedor.dataCadastro;
+                txtNFDataNascimento.Text = Fornecedor.dataNascimento;
+                txtNFDocumento.Text = Fornecedor.documento;
+                lblNFTitulo.Text = Fornecedor.nome;
+                txtNFNome.Text = Fornecedor.nome;
+                txtNFApelido.Text = Fornecedor.apelido;
+                txtNFCEP.Text = Fornecedor.cep;
+                txtNFEndereco.Text = Fornecedor.endereco;
+                txtNFNumero.Text = Fornecedor.numero;
+                txtNFComplemento.Text = Fornecedor.complemento;
+                txtNFBairro.Text = Fornecedor.bairro;
+                txtNFCidade.Text = Fornecedor.cidade;
+                txtNFEstado.Text = Fornecedor.estado;
+                txtNFPais.Text = Fornecedor.pais;
+                txtNFTelefone.Text = Fornecedor.telefone;
+                txtNFContato.Text = Fornecedor.contato;
+                txtNFTelefoneComercial.Text = Fornecedor.telefoneComercial;
+                txtNFContatoComercial.Text = Fornecedor.contatoComercial;
+                txtNFCelular.Text = Fornecedor.celular;
+                txtNFContatoCelular.Text = Fornecedor.contatoCelular;
+                txtNFEmail.Text = Fornecedor.email;
+                txtNFSite.Text = Fornecedor.site;
+                txtNFInscricaoEstadual.Text = Fornecedor.inscricaoEstadual;
+                txtNFInscricaoMunicipal.Text = Fornecedor.inscricaoMunicipal;
+                txtNFObservacoes.Text = Fornecedor.obs;
 
                 btnNFApagar.Enabled = true;
                 btnNFApagar.Visible = true;
@@ -1902,15 +2064,15 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
-                    if (Classes.Fornecedor.LocalizarCEP(txtNFCEP.Text))
+                    if (Fornecedor.LocalizarCEP(txtNFCEP.Text))
                     {
-                        txtNFEndereco.Text = Classes.Fornecedor.endereco;
-                        txtNFNumero.Text = Classes.Fornecedor.numero;
-                        txtNFComplemento.Text = Classes.Fornecedor.complemento;
-                        txtNFBairro.Text = Classes.Fornecedor.bairro;
-                        txtNFCidade.Text = Classes.Fornecedor.cidade;
-                        txtNFEstado.Text = Classes.Fornecedor.estado;
-                        txtNFPais.Text = Classes.Fornecedor.pais;
+                        txtNFEndereco.Text = Fornecedor.endereco;
+                        txtNFNumero.Text = Fornecedor.numero;
+                        txtNFComplemento.Text = Fornecedor.complemento;
+                        txtNFBairro.Text = Fornecedor.bairro;
+                        txtNFCidade.Text = Fornecedor.cidade;
+                        txtNFEstado.Text = Fornecedor.estado;
+                        txtNFPais.Text = Fornecedor.pais;
                     }
                     else
                     {
@@ -1969,22 +2131,22 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
-                    if (Classes.Fornecedor.PesquisarCNPJ(txtNFDocumento.Text))
+                    if (Fornecedor.PesquisarCNPJ(txtNFDocumento.Text))
                     {
 
-                        txtNFNome.Text = Classes.Fornecedor.nome;
-                        txtNFApelido.Text = Classes.Fornecedor.apelido;
-                        txtNFDataNascimento.Text = Classes.Fornecedor.dataNascimento;
-                        txtNFCEP.Text = Classes.Fornecedor.cep;
-                        txtNFEndereco.Text = Classes.Fornecedor.endereco;
-                        txtNFNumero.Text = Classes.Fornecedor.numero;
-                        txtNFComplemento.Text = Classes.Fornecedor.endereco;
-                        txtNFBairro.Text = Classes.Fornecedor.bairro;
-                        txtNFCidade.Text = Classes.Fornecedor.cidade;
-                        txtNFEstado.Text = Classes.Fornecedor.estado;
+                        txtNFNome.Text = Fornecedor.nome;
+                        txtNFApelido.Text = Fornecedor.apelido;
+                        txtNFDataNascimento.Text = Fornecedor.dataNascimento;
+                        txtNFCEP.Text = Fornecedor.cep;
+                        txtNFEndereco.Text = Fornecedor.endereco;
+                        txtNFNumero.Text = Fornecedor.numero;
+                        txtNFComplemento.Text = Fornecedor.endereco;
+                        txtNFBairro.Text = Fornecedor.bairro;
+                        txtNFCidade.Text = Fornecedor.cidade;
+                        txtNFEstado.Text = Fornecedor.estado;
                         txtNFPais.Text = "Brasil";
-                        txtNFTelefoneComercial.Text = Classes.Fornecedor.telefoneComercial;
-                        txtNFEmail.Text = Classes.Fornecedor.email;
+                        txtNFTelefoneComercial.Text = Fornecedor.telefoneComercial;
+                        txtNFEmail.Text = Fornecedor.email;
 
                     }
                     else
@@ -2009,7 +2171,7 @@ namespace Gerenciador_de_Tarefas
 
         private void nfLimparCampos()
         {
-            Classes.Fornecedor.LimparVariaveis();
+            Fornecedor.LimparVariaveis();
 
             cmbNFTipoFornecedor.SelectedIndex = 0;
             cmbNFTipoFornecedor.Text = "Pessoa Juridica";
@@ -2072,31 +2234,31 @@ namespace Gerenciador_de_Tarefas
         
         private void nfEnviaDados()
         {
-            Classes.Fornecedor.tipo = cmbNFTipoFornecedor.SelectedIndex;
-            Classes.Fornecedor.dataCadastro = txtNFDataCadastro.Text;
-            Classes.Fornecedor.dataNascimento = txtNFDataNascimento.Text;
-            Classes.Fornecedor.documento = txtNFDocumento.Text;
-            Classes.Fornecedor.nome = txtNFNome.Text;
-            Classes.Fornecedor.apelido = txtNFApelido.Text;
-            Classes.Fornecedor.cep = txtNFCEP.Text;
-            Classes.Fornecedor.endereco = txtNFEndereco.Text;
-            Classes.Fornecedor.numero = txtNFNumero.Text;
-            Classes.Fornecedor.complemento = txtNFComplemento.Text;
-            Classes.Fornecedor.bairro = txtNFBairro.Text;
-            Classes.Fornecedor.cidade = txtNFCidade.Text;
-            Classes.Fornecedor.estado = txtNFEstado.Text;
-            Classes.Fornecedor.pais = txtNFPais.Text;
-            Classes.Fornecedor.telefone = txtNFTelefone.Text;
-            Classes.Fornecedor.contato = txtNFContato.Text;
-            Classes.Fornecedor.telefoneComercial = txtNFTelefoneComercial.Text;
-            Classes.Fornecedor.contatoComercial = txtNFContatoComercial.Text;
-            Classes.Fornecedor.celular = txtNFCelular.Text;
-            Classes.Fornecedor.contatoCelular = txtNFContatoCelular.Text;
-            Classes.Fornecedor.email = txtNFEmail.Text;
-            Classes.Fornecedor.site = txtNFSite.Text;
-            Classes.Fornecedor.inscricaoEstadual = txtNFInscricaoEstadual.Text;
-            Classes.Fornecedor.inscricaoMunicipal = txtNFInscricaoMunicipal.Text;
-            Classes.Fornecedor.obs = txtNFObservacoes.Text;
+            Fornecedor.tipo = cmbNFTipoFornecedor.SelectedIndex;
+            Fornecedor.dataCadastro = txtNFDataCadastro.Text;
+            Fornecedor.dataNascimento = txtNFDataNascimento.Text;
+            Fornecedor.documento = txtNFDocumento.Text;
+            Fornecedor.nome = txtNFNome.Text;
+            Fornecedor.apelido = txtNFApelido.Text;
+            Fornecedor.cep = txtNFCEP.Text;
+            Fornecedor.endereco = txtNFEndereco.Text;
+            Fornecedor.numero = txtNFNumero.Text;
+            Fornecedor.complemento = txtNFComplemento.Text;
+            Fornecedor.bairro = txtNFBairro.Text;
+            Fornecedor.cidade = txtNFCidade.Text;
+            Fornecedor.estado = txtNFEstado.Text;
+            Fornecedor.pais = txtNFPais.Text;
+            Fornecedor.telefone = txtNFTelefone.Text;
+            Fornecedor.contato = txtNFContato.Text;
+            Fornecedor.telefoneComercial = txtNFTelefoneComercial.Text;
+            Fornecedor.contatoComercial = txtNFContatoComercial.Text;
+            Fornecedor.celular = txtNFCelular.Text;
+            Fornecedor.contatoCelular = txtNFContatoCelular.Text;
+            Fornecedor.email = txtNFEmail.Text;
+            Fornecedor.site = txtNFSite.Text;
+            Fornecedor.inscricaoEstadual = txtNFInscricaoEstadual.Text;
+            Fornecedor.inscricaoMunicipal = txtNFInscricaoMunicipal.Text;
+            Fornecedor.obs = txtNFObservacoes.Text;
         }
 
         private void btnNFFechar_Click(object sender, EventArgs e)
@@ -2109,7 +2271,7 @@ namespace Gerenciador_de_Tarefas
             nfEnviaDados();
 
             //Se não tiver mudanças
-            if (Classes.Fornecedor.AvaliarMudancas()) 
+            if (Fornecedor.AvaliarMudancas()) 
             {
                 if (btnNFFechar.Text == "Cancelar")
                 {
@@ -2136,9 +2298,9 @@ namespace Gerenciador_de_Tarefas
                     DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                     if (resultadoDialogo == DialogResult.Yes)
                     {
-                        if (Classes.Fornecedor.id != 0)
+                        if (Fornecedor.id != 0)
                         {
-                            Classes.Fornecedor.DestravaFornecedor();
+                            Fornecedor.DestravaFornecedor();
                         }
 
                         nfLimparCampos();
@@ -2157,9 +2319,9 @@ namespace Gerenciador_de_Tarefas
             {
                 if (btnNFFechar.Text != "Cancelar")
                 {
-                    if (Classes.Fornecedor.id != 0)
+                    if (Fornecedor.id != 0)
                     {
-                        Classes.Fornecedor.DestravaFornecedor();
+                        Fornecedor.DestravaFornecedor();
                     }
                 }
 
@@ -2205,7 +2367,7 @@ namespace Gerenciador_de_Tarefas
                     {
                         try
                         {
-                            Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
+                            Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
                         }
                         catch (Exception)
                         {
@@ -2241,7 +2403,7 @@ namespace Gerenciador_de_Tarefas
                     {
                         try
                         {
-                            Classes.Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
+                            Fornecedor.ApagarFornecedor(int.Parse(txtNFIDFornecedor.Text));
                         }
                         catch (Exception)
                         {
@@ -2283,11 +2445,11 @@ namespace Gerenciador_de_Tarefas
                     //Envia os dados dos campos da tela para a classe Fornecedor
                     nfEnviaDados();
 
-                    if (Classes.Fornecedor.AvaliarMudancas())
+                    if (Fornecedor.AvaliarMudancas())
                     {
                         try
                         {
-                            Classes.Fornecedor.AtualizarFornecedor();
+                            Fornecedor.AtualizarFornecedor();
                         }
                         catch (Exception)
                         {
@@ -2353,9 +2515,9 @@ namespace Gerenciador_de_Tarefas
 
                         txtNFDataNascimento.TextMaskFormat = MaskFormat.IncludePromptAndLiterals;
 
-                        Classes.Fornecedor.CadastrarFornecedor();
+                        Fornecedor.CadastrarFornecedor();
 
-                        if (Classes.Fornecedor.id != 0)
+                        if (Fornecedor.id != 0)
                         {
                             mensagem = ListaMensagens.RetornaMensagem(16);
                             separador = mensagem.IndexOf(":");
@@ -2364,14 +2526,14 @@ namespace Gerenciador_de_Tarefas
                             if (resultadoDialogo == DialogResult.Yes)
                             {
                                 //Destrava o fornecedor cadastrado
-                                Classes.Fornecedor.DestravaFornecedor();
+                                Fornecedor.DestravaFornecedor();
 
                                 nfLimparCampos();
-                                funcoes.DestravaFornecedor(Classes.Fornecedor.id);
+                                funcoes.DestravaFornecedor(Fornecedor.id);
                             }
                             else
                             {
-                                txtNFIDFornecedor.Text = Classes.Fornecedor.id.ToString();
+                                txtNFIDFornecedor.Text = Fornecedor.id.ToString();
 
                                 btnNFNovoCadastro.Text = "Novo Cadastro";
                                 btnNFImprimir.Enabled = true;
@@ -2421,7 +2583,7 @@ namespace Gerenciador_de_Tarefas
                 //Envia os dados dos campos da tela para a classe Fornecedor
                 nfEnviaDados();
 
-                if (Classes.Fornecedor.AvaliarMudancas())
+                if (Fornecedor.AvaliarMudancas())
                 {
                     mensagem = ListaMensagens.RetornaMensagem(18);
                     separador = mensagem.IndexOf(":");
@@ -2493,7 +2655,7 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFSubCateg1.Enabled = true;
-                //cmbNFSubCateg1.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg1.SelectedIndex + 1);
+                //cmbNFSubCateg1.DataSource = Fornecedor.CarregarSubCategoria(cmbNFCateg1.SelectedIndex + 1);
             }
 
         }
@@ -2503,7 +2665,6 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFCateg2.Enabled = true;
-                //cmbNFCateg2.DataSource = Classes.Fornecedor.CarregarCategoria();
             }
         }
 
@@ -2512,7 +2673,6 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFSubCateg2.Enabled = true;
-                //cmbNFSubCateg2.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg2.SelectedIndex + 1);
             }
         }
 
@@ -2521,7 +2681,6 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFCateg3.Enabled = true;
-                //cmbNFCateg3.DataSource = Classes.Fornecedor.CarregarCategoria();
             }
         }
 
@@ -2530,7 +2689,6 @@ namespace Gerenciador_de_Tarefas
             if (!iniciaTelaNovoFornecedor)
             {
                 cmbNFSubCateg3.Enabled = true;
-                //cmbNFSubCateg3.DataSource = Classes.Fornecedor.CarregarSubCategoria(cmbNFCateg3.SelectedIndex + 1);
             }
         }
 
@@ -2596,7 +2754,7 @@ namespace Gerenciador_de_Tarefas
             // A variável "posicaoUltimoEspaco" é atribuída, mas seu valor nunca é usado
             int posicaoUltimoEspaco = 0;
 
-            List<string> dados = Classes.Fornecedor.DadosImpressao();
+            List<string> dados = Fornecedor.DadosImpressao();
                         
             //Escreve o ID do fornecedor
             g.DrawString(dados[0], fonteTitulo, brush, xPosition, yPosition);

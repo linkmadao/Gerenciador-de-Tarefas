@@ -368,17 +368,46 @@ namespace Gerenciador_de_Tarefas
 
     public static class FuncoesEstaticas
     {
-        private static string diretorioNovo = @"\\192.168.254.253\GerenciadorTarefas\";
+        
+        private static string diretorioNovo = @"\\192.168.254.253\";
         private static string diretorioPadrao = @"\\192.168.254.253\GerenciadorTarefas\Projeto\Gerenciador-de-Tarefas\Gerenciador-de-Tarefas\bin\Release\";
+        private static string nomeAplicativo = @"\gerenciador-de-tarefas.exe";
+        private static string nomeAtalho = @"\Gerenciador de Tarefas.lnk";
 
-        public static string DiretorioNovo()
+        public static string DiretorioNovo
         {
-            return diretorioNovo;
+            get
+            {
+                return diretorioNovo;
+            }
+            set
+            {
+                diretorioNovo = value;
+            }
         }
 
-        public static string DiretorioPadrao()
+        public static string DiretorioPadrao
         {
-            return diretorioPadrao;
+            get
+            {
+                return diretorioPadrao;
+            }
+        }
+
+        public static string NomeAplicativo
+        {
+            get
+            {
+                return nomeAplicativo;
+            }
+        }
+
+        public static string NomeAtalho
+        {
+            get
+            {
+                return nomeAtalho;
+            }
         }
 
         public static string VersaoSoftware

@@ -633,11 +633,11 @@ namespace Gerenciador_de_Tarefas.Classes
                 }
                 else
                 {
-                    comando = string.Format("update tbl_fornecedor set tipo = '{0}', documento = '{2}', nome = '{3}', apelido = '{4}', cep = '{5}'," +
-                    " endereco = '{6}', numero = '{7}', complemento = '{8}', bairro = '{9}', cidade = '{10}', estado = '{11}', pais = '{12}', telefone = '{13}', " +
-                    "contato = '{14}', telefoneComercial = '{15}', contatoComercial = '{16}', celular = '{17}', contatoCelular = '{18}', email = '{19}', site = '{20}'," +
-                    "inscricaoEstadual = '{21}', inscricaoMunicipal = '{22}', observacoes = '{23}' where id = '{24}';"
-                    , tipo, _dataNascimento, documento, nome, apelido, cep, endereco, numero, complemento, bairro, cidade, estado, pais, telefone, contato, telefoneComercial,
+                    comando = string.Format("update tbl_fornecedor set tipo = '{0}', documento = '{1}', nome = '{2}', apelido = '{3}', cep = '{4}'," +
+                    " endereco = '{5}', numero = '{6}', complemento = '{7}', bairro = '{8}', cidade = '{9}', estado = '{10}', pais = '{11}', telefone = '{12}', " +
+                    "contato = '{13}', telefoneComercial = '{14}', contatoComercial = '{15}', celular = '{16}', contatoCelular = '{17}', email = '{18}', site = '{19}'," +
+                    "inscricaoEstadual = '{20}', inscricaoMunicipal = '{21}', observacoes = '{22}' where id = '{23}';"
+                    , tipo, documento, nome, apelido, cep, endereco, numero, complemento, bairro, cidade, estado, pais, telefone, contato, telefoneComercial,
                     contatoComercial, celular, contatoCelular, email, site, inscricaoEstadual, inscricaoMunicipal, obs, id);
                 }
 

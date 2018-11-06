@@ -40,6 +40,7 @@
             this.lblHorario = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.tlpBotoes = new System.Windows.Forms.TableLayoutPanel();
+            this.btnOS = new System.Windows.Forms.Button();
             this.btnTarefas = new System.Windows.Forms.Button();
             this.btnOpcoes = new System.Windows.Forms.Button();
             this.btnFornecedores = new System.Windows.Forms.Button();
@@ -50,6 +51,24 @@
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.tlpAreaGeral = new System.Windows.Forms.TableLayoutPanel();
             this.panelGeral = new System.Windows.Forms.Panel();
+            this.panelFornecedores = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel8 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel10 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.dgvFornecedores = new System.Windows.Forms.DataGridView();
+            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnPesquisaFornecedor = new System.Windows.Forms.Button();
+            this.btnImprimeFornecedores = new System.Windows.Forms.Button();
+            this.btnNovoFornecedor = new System.Windows.Forms.Button();
+            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.cmbGrupoFornecedor = new System.Windows.Forms.ComboBox();
             this.panelNF = new System.Windows.Forms.Panel();
             this.tlpNFBordas = new System.Windows.Forms.TableLayoutPanel();
             this.panelNFCentro = new System.Windows.Forms.Panel();
@@ -160,24 +179,6 @@
             this.btnConfiguraBD = new System.Windows.Forms.Button();
             this.btnRestaurar = new System.Windows.Forms.Button();
             this.btnBackup = new System.Windows.Forms.Button();
-            this.panelFornecedores = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel6 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel8 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel9 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel10 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.dgvFornecedores = new System.Windows.Forms.DataGridView();
-            this.tableLayoutPanel15 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnPesquisaFornecedor = new System.Windows.Forms.Button();
-            this.btnImprimeFornecedores = new System.Windows.Forms.Button();
-            this.btnNovoFornecedor = new System.Windows.Forms.Button();
-            this.tableLayoutPanel16 = new System.Windows.Forms.TableLayoutPanel();
-            this.label15 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel17 = new System.Windows.Forms.TableLayoutPanel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbGrupoFornecedor = new System.Windows.Forms.ComboBox();
             this.panelClientes = new System.Windows.Forms.Panel();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.barraStatusClientes = new System.Windows.Forms.StatusStrip();
@@ -228,6 +229,9 @@
             this.pdNFDocumento = new System.Drawing.Printing.PrintDocument();
             this.pPreviewNF = new System.Windows.Forms.PrintPreviewDialog();
             this.pdNFConfigImpressao = new System.Windows.Forms.PrintDialog();
+            this.pPreviewFornecedores = new System.Windows.Forms.PrintPreviewDialog();
+            this.pdFornecedores = new System.Drawing.Printing.PrintDocument();
+            this.pdImprimirFornecedores = new System.Windows.Forms.PrintDialog();
             this.tlpGeral.SuspendLayout();
             this.tlpMenuPrincipal.SuspendLayout();
             this.tlpMenu.SuspendLayout();
@@ -239,6 +243,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.tlpAreaGeral.SuspendLayout();
             this.panelGeral.SuspendLayout();
+            this.panelFornecedores.SuspendLayout();
+            this.tableLayoutPanel14.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFornecedores)).BeginInit();
+            this.tableLayoutPanel15.SuspendLayout();
+            this.tableLayoutPanel16.SuspendLayout();
+            this.tableLayoutPanel17.SuspendLayout();
             this.panelNF.SuspendLayout();
             this.tlpNFBordas.SuspendLayout();
             this.panelNFCentro.SuspendLayout();
@@ -259,13 +270,6 @@
             this.tableLayoutPanel23.SuspendLayout();
             this.panelConfigBanco.SuspendLayout();
             this.tableLayoutPanel24.SuspendLayout();
-            this.panelFornecedores.SuspendLayout();
-            this.tableLayoutPanel14.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFornecedores)).BeginInit();
-            this.tableLayoutPanel15.SuspendLayout();
-            this.tableLayoutPanel16.SuspendLayout();
-            this.tableLayoutPanel17.SuspendLayout();
             this.panelClientes.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.barraStatusClientes.SuspendLayout();
@@ -422,23 +426,44 @@
             // 
             this.tlpBotoes.ColumnCount = 1;
             this.tlpBotoes.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tlpBotoes.Controls.Add(this.btnOS, 0, 3);
             this.tlpBotoes.Controls.Add(this.btnTarefas, 0, 2);
-            this.tlpBotoes.Controls.Add(this.btnOpcoes, 0, 3);
+            this.tlpBotoes.Controls.Add(this.btnOpcoes, 0, 4);
             this.tlpBotoes.Controls.Add(this.btnFornecedores, 0, 1);
             this.tlpBotoes.Controls.Add(this.btnClientes, 0, 0);
-            this.tlpBotoes.Controls.Add(this.btnSair, 0, 4);
+            this.tlpBotoes.Controls.Add(this.btnSair, 0, 6);
             this.tlpBotoes.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tlpBotoes.Location = new System.Drawing.Point(3, 3);
             this.tlpBotoes.Name = "tlpBotoes";
-            this.tlpBotoes.RowCount = 6;
-            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
-            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
-            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
-            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
-            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 17.5F));
-            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
+            this.tlpBotoes.RowCount = 7;
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.89362F));
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.89362F));
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.89362F));
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.89362F));
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.89362F));
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.89362F));
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.6383F));
+            this.tlpBotoes.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tlpBotoes.Size = new System.Drawing.Size(226, 455);
             this.tlpBotoes.TabIndex = 1;
+            // 
+            // btnOS
+            // 
+            this.btnOS.BackColor = System.Drawing.Color.Maroon;
+            this.btnOS.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOS.FlatAppearance.BorderColor = System.Drawing.Color.Maroon;
+            this.btnOS.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnOS.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnOS.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOS.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
+            this.btnOS.ForeColor = System.Drawing.Color.White;
+            this.btnOS.Location = new System.Drawing.Point(3, 204);
+            this.btnOS.Name = "btnOS";
+            this.btnOS.Size = new System.Drawing.Size(220, 61);
+            this.btnOS.TabIndex = 5;
+            this.btnOS.Text = "[F4] Ordem de Serviço";
+            this.btnOS.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnOS.UseVisualStyleBackColor = false;
             // 
             // btnTarefas
             // 
@@ -450,9 +475,9 @@
             this.btnTarefas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTarefas.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
             this.btnTarefas.ForeColor = System.Drawing.Color.White;
-            this.btnTarefas.Location = new System.Drawing.Point(3, 161);
+            this.btnTarefas.Location = new System.Drawing.Point(3, 137);
             this.btnTarefas.Name = "btnTarefas";
-            this.btnTarefas.Size = new System.Drawing.Size(220, 73);
+            this.btnTarefas.Size = new System.Drawing.Size(220, 61);
             this.btnTarefas.TabIndex = 2;
             this.btnTarefas.Text = "[F3] Tarefas";
             this.btnTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -469,11 +494,11 @@
             this.btnOpcoes.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpcoes.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
             this.btnOpcoes.ForeColor = System.Drawing.Color.White;
-            this.btnOpcoes.Location = new System.Drawing.Point(3, 240);
+            this.btnOpcoes.Location = new System.Drawing.Point(3, 271);
             this.btnOpcoes.Name = "btnOpcoes";
-            this.btnOpcoes.Size = new System.Drawing.Size(220, 73);
+            this.btnOpcoes.Size = new System.Drawing.Size(220, 61);
             this.btnOpcoes.TabIndex = 3;
-            this.btnOpcoes.Text = "[F4] Opções";
+            this.btnOpcoes.Text = "[F5] Opções";
             this.btnOpcoes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnOpcoes.UseVisualStyleBackColor = false;
             this.btnOpcoes.Click += new System.EventHandler(this.btnOpcoes_Click);
@@ -488,9 +513,9 @@
             this.btnFornecedores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFornecedores.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
             this.btnFornecedores.ForeColor = System.Drawing.Color.White;
-            this.btnFornecedores.Location = new System.Drawing.Point(3, 82);
+            this.btnFornecedores.Location = new System.Drawing.Point(3, 70);
             this.btnFornecedores.Name = "btnFornecedores";
-            this.btnFornecedores.Size = new System.Drawing.Size(220, 73);
+            this.btnFornecedores.Size = new System.Drawing.Size(220, 61);
             this.btnFornecedores.TabIndex = 1;
             this.btnFornecedores.Text = "[F2] Fornecedores";
             this.btnFornecedores.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -509,7 +534,7 @@
             this.btnClientes.ForeColor = System.Drawing.Color.White;
             this.btnClientes.Location = new System.Drawing.Point(3, 3);
             this.btnClientes.Name = "btnClientes";
-            this.btnClientes.Size = new System.Drawing.Size(220, 73);
+            this.btnClientes.Size = new System.Drawing.Size(220, 61);
             this.btnClientes.TabIndex = 0;
             this.btnClientes.Text = "[F1] Clientes";
             this.btnClientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
@@ -526,9 +551,9 @@
             this.btnSair.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSair.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
             this.btnSair.ForeColor = System.Drawing.Color.White;
-            this.btnSair.Location = new System.Drawing.Point(3, 319);
+            this.btnSair.Location = new System.Drawing.Point(3, 405);
             this.btnSair.Name = "btnSair";
-            this.btnSair.Size = new System.Drawing.Size(220, 73);
+            this.btnSair.Size = new System.Drawing.Size(220, 47);
             this.btnSair.TabIndex = 4;
             this.btnSair.Text = "[ESC] Sair";
             this.btnSair.UseVisualStyleBackColor = false;
@@ -598,9 +623,9 @@
             // panelGeral
             // 
             this.panelGeral.BackColor = System.Drawing.Color.Transparent;
+            this.panelGeral.Controls.Add(this.panelFornecedores);
             this.panelGeral.Controls.Add(this.panelNF);
             this.panelGeral.Controls.Add(this.panelOpcoes);
-            this.panelGeral.Controls.Add(this.panelFornecedores);
             this.panelGeral.Controls.Add(this.panelClientes);
             this.panelGeral.Controls.Add(this.panelTarefas);
             this.panelGeral.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -608,6 +633,263 @@
             this.panelGeral.Name = "panelGeral";
             this.panelGeral.Size = new System.Drawing.Size(938, 688);
             this.panelGeral.TabIndex = 1;
+            // 
+            // panelFornecedores
+            // 
+            this.panelFornecedores.BackColor = System.Drawing.Color.White;
+            this.panelFornecedores.Controls.Add(this.tableLayoutPanel14);
+            this.panelFornecedores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelFornecedores.Enabled = false;
+            this.panelFornecedores.Location = new System.Drawing.Point(0, 0);
+            this.panelFornecedores.Name = "panelFornecedores";
+            this.panelFornecedores.Size = new System.Drawing.Size(938, 688);
+            this.panelFornecedores.TabIndex = 1;
+            this.panelFornecedores.Visible = false;
+            // 
+            // tableLayoutPanel14
+            // 
+            this.tableLayoutPanel14.ColumnCount = 1;
+            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel14.Controls.Add(this.statusStrip1, 0, 2);
+            this.tableLayoutPanel14.Controls.Add(this.dgvFornecedores, 0, 1);
+            this.tableLayoutPanel14.Controls.Add(this.tableLayoutPanel15, 0, 0);
+            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel14.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
+            this.tableLayoutPanel14.RowCount = 3;
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel14.Size = new System.Drawing.Size(938, 688);
+            this.tableLayoutPanel14.TabIndex = 0;
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.AllowMerge = false;
+            this.statusStrip1.BackColor = System.Drawing.Color.White;
+            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statusStrip1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel4,
+            this.toolStripStatusLabel6,
+            this.toolStripStatusLabel8,
+            this.toolStripStatusLabel9,
+            this.toolStripStatusLabel10});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 658);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(938, 30);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 34;
+            this.statusStrip1.TabStop = true;
+            // 
+            // toolStripStatusLabel4
+            // 
+            this.toolStripStatusLabel4.BackColor = System.Drawing.Color.Transparent;
+            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(67, 25);
+            this.toolStripStatusLabel4.Text = "Legenda:";
+            // 
+            // toolStripStatusLabel6
+            // 
+            this.toolStripStatusLabel6.BackColor = System.Drawing.Color.White;
+            this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
+            this.toolStripStatusLabel6.Size = new System.Drawing.Size(45, 25);
+            this.toolStripStatusLabel6.Text = "Tipo 1";
+            // 
+            // toolStripStatusLabel8
+            // 
+            this.toolStripStatusLabel8.BackColor = System.Drawing.Color.LightBlue;
+            this.toolStripStatusLabel8.Name = "toolStripStatusLabel8";
+            this.toolStripStatusLabel8.Size = new System.Drawing.Size(45, 25);
+            this.toolStripStatusLabel8.Text = "Tipo 2";
+            // 
+            // toolStripStatusLabel9
+            // 
+            this.toolStripStatusLabel9.BackColor = System.Drawing.Color.Yellow;
+            this.toolStripStatusLabel9.Name = "toolStripStatusLabel9";
+            this.toolStripStatusLabel9.Size = new System.Drawing.Size(45, 25);
+            this.toolStripStatusLabel9.Text = "Tipo 3";
+            // 
+            // toolStripStatusLabel10
+            // 
+            this.toolStripStatusLabel10.BackColor = System.Drawing.Color.YellowGreen;
+            this.toolStripStatusLabel10.Name = "toolStripStatusLabel10";
+            this.toolStripStatusLabel10.Size = new System.Drawing.Size(45, 25);
+            this.toolStripStatusLabel10.Text = "Tipo 4";
+            // 
+            // dgvFornecedores
+            // 
+            this.dgvFornecedores.AllowUserToAddRows = false;
+            this.dgvFornecedores.AllowUserToDeleteRows = false;
+            this.dgvFornecedores.AllowUserToResizeColumns = false;
+            this.dgvFornecedores.AllowUserToResizeRows = false;
+            this.dgvFornecedores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvFornecedores.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvFornecedores.BackgroundColor = System.Drawing.Color.White;
+            this.dgvFornecedores.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+            this.dgvFornecedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvFornecedores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvFornecedores.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvFornecedores.Location = new System.Drawing.Point(3, 83);
+            this.dgvFornecedores.MultiSelect = false;
+            this.dgvFornecedores.Name = "dgvFornecedores";
+            this.dgvFornecedores.ReadOnly = true;
+            this.dgvFornecedores.RowHeadersVisible = false;
+            this.dgvFornecedores.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dgvFornecedores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvFornecedores.ShowCellErrors = false;
+            this.dgvFornecedores.ShowCellToolTips = false;
+            this.dgvFornecedores.ShowEditingIcon = false;
+            this.dgvFornecedores.ShowRowErrors = false;
+            this.dgvFornecedores.Size = new System.Drawing.Size(932, 572);
+            this.dgvFornecedores.TabIndex = 0;
+            this.dgvFornecedores.DataSourceChanged += new System.EventHandler(this.dgvFornecedores_DataSourceChanged);
+            this.dgvFornecedores.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFornecedores_CellDoubleClick);
+            // 
+            // tableLayoutPanel15
+            // 
+            this.tableLayoutPanel15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
+            this.tableLayoutPanel15.ColumnCount = 4;
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel15.Controls.Add(this.btnPesquisaFornecedor, 2, 0);
+            this.tableLayoutPanel15.Controls.Add(this.btnImprimeFornecedores, 1, 0);
+            this.tableLayoutPanel15.Controls.Add(this.btnNovoFornecedor, 0, 0);
+            this.tableLayoutPanel15.Controls.Add(this.tableLayoutPanel16, 3, 0);
+            this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel15.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
+            this.tableLayoutPanel15.RowCount = 1;
+            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel15.Size = new System.Drawing.Size(932, 74);
+            this.tableLayoutPanel15.TabIndex = 1;
+            // 
+            // btnPesquisaFornecedor
+            // 
+            this.btnPesquisaFornecedor.BackColor = System.Drawing.Color.Gray;
+            this.btnPesquisaFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnPesquisaFornecedor.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnPesquisaFornecedor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
+            this.btnPesquisaFornecedor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
+            this.btnPesquisaFornecedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPesquisaFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+            this.btnPesquisaFornecedor.ForeColor = System.Drawing.Color.White;
+            this.btnPesquisaFornecedor.Location = new System.Drawing.Point(203, 3);
+            this.btnPesquisaFornecedor.Name = "btnPesquisaFornecedor";
+            this.btnPesquisaFornecedor.Size = new System.Drawing.Size(94, 68);
+            this.btnPesquisaFornecedor.TabIndex = 5;
+            this.btnPesquisaFornecedor.Text = "Pesquisar Fornecedor";
+            this.btnPesquisaFornecedor.UseVisualStyleBackColor = false;
+            this.btnPesquisaFornecedor.Click += new System.EventHandler(this.btnPesquisaFornecedor_Click);
+            // 
+            // btnImprimeFornecedores
+            // 
+            this.btnImprimeFornecedores.BackColor = System.Drawing.Color.Gray;
+            this.btnImprimeFornecedores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnImprimeFornecedores.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnImprimeFornecedores.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
+            this.btnImprimeFornecedores.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
+            this.btnImprimeFornecedores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImprimeFornecedores.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+            this.btnImprimeFornecedores.ForeColor = System.Drawing.Color.White;
+            this.btnImprimeFornecedores.Location = new System.Drawing.Point(103, 3);
+            this.btnImprimeFornecedores.Name = "btnImprimeFornecedores";
+            this.btnImprimeFornecedores.Size = new System.Drawing.Size(94, 68);
+            this.btnImprimeFornecedores.TabIndex = 4;
+            this.btnImprimeFornecedores.Text = "Imprimir Lista";
+            this.btnImprimeFornecedores.UseVisualStyleBackColor = false;
+            this.btnImprimeFornecedores.Click += new System.EventHandler(this.btnImprimeFornecedores_Click);
+            // 
+            // btnNovoFornecedor
+            // 
+            this.btnNovoFornecedor.BackColor = System.Drawing.Color.Gray;
+            this.btnNovoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNovoFornecedor.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnNovoFornecedor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
+            this.btnNovoFornecedor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
+            this.btnNovoFornecedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNovoFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+            this.btnNovoFornecedor.ForeColor = System.Drawing.Color.White;
+            this.btnNovoFornecedor.Location = new System.Drawing.Point(3, 3);
+            this.btnNovoFornecedor.Name = "btnNovoFornecedor";
+            this.btnNovoFornecedor.Size = new System.Drawing.Size(94, 68);
+            this.btnNovoFornecedor.TabIndex = 3;
+            this.btnNovoFornecedor.Text = "Adicionar Fornecedor";
+            this.btnNovoFornecedor.UseVisualStyleBackColor = false;
+            this.btnNovoFornecedor.Click += new System.EventHandler(this.btnNovoFornecedor_Click);
+            // 
+            // tableLayoutPanel16
+            // 
+            this.tableLayoutPanel16.ColumnCount = 2;
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.2524F));
+            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.7476F));
+            this.tableLayoutPanel16.Controls.Add(this.label15, 0, 0);
+            this.tableLayoutPanel16.Controls.Add(this.tableLayoutPanel17, 1, 0);
+            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel16.Location = new System.Drawing.Point(303, 3);
+            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
+            this.tableLayoutPanel16.RowCount = 1;
+            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel16.Size = new System.Drawing.Size(626, 68);
+            this.tableLayoutPanel16.TabIndex = 6;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label15.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.SystemColors.Window;
+            this.label15.Location = new System.Drawing.Point(3, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(102, 68);
+            this.label15.TabIndex = 10;
+            this.label15.Text = "Exibir";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel17
+            // 
+            this.tableLayoutPanel17.ColumnCount = 2;
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel17.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel17.Controls.Add(this.cmbGrupoFornecedor, 0, 1);
+            this.tableLayoutPanel17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel17.Location = new System.Drawing.Point(111, 3);
+            this.tableLayoutPanel17.Name = "tableLayoutPanel17";
+            this.tableLayoutPanel17.RowCount = 3;
+            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.09678F));
+            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.90322F));
+            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel17.Size = new System.Drawing.Size(512, 62);
+            this.tableLayoutPanel17.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.label3.Location = new System.Drawing.Point(3, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(244, 15);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Grupo";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbGrupoFornecedor
+            // 
+            this.cmbGrupoFornecedor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.cmbGrupoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbGrupoFornecedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbGrupoFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbGrupoFornecedor.FormattingEnabled = true;
+            this.cmbGrupoFornecedor.Location = new System.Drawing.Point(3, 18);
+            this.cmbGrupoFornecedor.Name = "cmbGrupoFornecedor";
+            this.cmbGrupoFornecedor.Size = new System.Drawing.Size(244, 22);
+            this.cmbGrupoFornecedor.TabIndex = 4;
+            this.cmbGrupoFornecedor.Text = "Todos";
             // 
             // panelNF
             // 
@@ -691,7 +973,7 @@
             this.tlpNFTipoFornecedor.ColumnCount = 3;
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 280F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 283F));
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -713,7 +995,7 @@
             this.panel1.Controls.Add(this.lblNFDataNascimento);
             this.panel1.Controls.Add(this.label31);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(476, 3);
+            this.panel1.Location = new System.Drawing.Point(473, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(129, 147);
             this.panel1.TabIndex = 1;
@@ -798,7 +1080,7 @@
             this.panelNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(467, 147);
+            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(464, 147);
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
             // lblNFApelido
@@ -916,9 +1198,9 @@
             this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFDatas.Location = new System.Drawing.Point(611, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(608, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(275, 147);
+            this.panelNFDatas.Size = new System.Drawing.Size(278, 147);
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -1654,7 +1936,7 @@
             this.tableLayoutPanel22.ColumnCount = 3;
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
             this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 217F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 220F));
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
             this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
             this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1678,7 +1960,7 @@
             this.tableLayoutPanel23.RowCount = 2;
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(590, 473);
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(587, 473);
             this.tableLayoutPanel23.TabIndex = 5;
             // 
             // panelConfigBanco
@@ -1703,7 +1985,7 @@
             this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
             this.panelConfigBanco.Name = "panelConfigBanco";
-            this.panelConfigBanco.Size = new System.Drawing.Size(584, 397);
+            this.panelConfigBanco.Size = new System.Drawing.Size(581, 397);
             this.panelConfigBanco.TabIndex = 0;
             // 
             // label13
@@ -1867,7 +2149,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(3, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(584, 70);
+            this.label6.Size = new System.Drawing.Size(581, 70);
             this.label6.TabIndex = 4;
             this.label6.Text = "Parâmetros de conexão SQL";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1882,7 +2164,7 @@
             this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
             this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
             this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(599, 3);
+            this.tableLayoutPanel24.Location = new System.Drawing.Point(596, 3);
             this.tableLayoutPanel24.Name = "tableLayoutPanel24";
             this.tableLayoutPanel24.RowCount = 5;
             this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
@@ -1965,262 +2247,6 @@
             this.btnBackup.Text = "Backup";
             this.btnBackup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnBackup.UseVisualStyleBackColor = false;
-            // 
-            // panelFornecedores
-            // 
-            this.panelFornecedores.BackColor = System.Drawing.Color.White;
-            this.panelFornecedores.Controls.Add(this.tableLayoutPanel14);
-            this.panelFornecedores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelFornecedores.Enabled = false;
-            this.panelFornecedores.Location = new System.Drawing.Point(0, 0);
-            this.panelFornecedores.Name = "panelFornecedores";
-            this.panelFornecedores.Size = new System.Drawing.Size(938, 688);
-            this.panelFornecedores.TabIndex = 1;
-            this.panelFornecedores.Visible = false;
-            // 
-            // tableLayoutPanel14
-            // 
-            this.tableLayoutPanel14.ColumnCount = 1;
-            this.tableLayoutPanel14.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel14.Controls.Add(this.statusStrip1, 0, 2);
-            this.tableLayoutPanel14.Controls.Add(this.dgvFornecedores, 0, 1);
-            this.tableLayoutPanel14.Controls.Add(this.tableLayoutPanel15, 0, 0);
-            this.tableLayoutPanel14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel14.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel14.Name = "tableLayoutPanel14";
-            this.tableLayoutPanel14.RowCount = 3;
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel14.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel14.Size = new System.Drawing.Size(938, 688);
-            this.tableLayoutPanel14.TabIndex = 0;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.AllowMerge = false;
-            this.statusStrip1.BackColor = System.Drawing.Color.White;
-            this.statusStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.statusStrip1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel4,
-            this.toolStripStatusLabel6,
-            this.toolStripStatusLabel8,
-            this.toolStripStatusLabel9,
-            this.toolStripStatusLabel10});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 658);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(938, 30);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 34;
-            this.statusStrip1.TabStop = true;
-            // 
-            // toolStripStatusLabel4
-            // 
-            this.toolStripStatusLabel4.BackColor = System.Drawing.Color.Transparent;
-            this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(67, 25);
-            this.toolStripStatusLabel4.Text = "Legenda:";
-            // 
-            // toolStripStatusLabel6
-            // 
-            this.toolStripStatusLabel6.BackColor = System.Drawing.Color.White;
-            this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
-            this.toolStripStatusLabel6.Size = new System.Drawing.Size(45, 25);
-            this.toolStripStatusLabel6.Text = "Tipo 1";
-            // 
-            // toolStripStatusLabel8
-            // 
-            this.toolStripStatusLabel8.BackColor = System.Drawing.Color.LightBlue;
-            this.toolStripStatusLabel8.Name = "toolStripStatusLabel8";
-            this.toolStripStatusLabel8.Size = new System.Drawing.Size(45, 25);
-            this.toolStripStatusLabel8.Text = "Tipo 2";
-            // 
-            // toolStripStatusLabel9
-            // 
-            this.toolStripStatusLabel9.BackColor = System.Drawing.Color.Yellow;
-            this.toolStripStatusLabel9.Name = "toolStripStatusLabel9";
-            this.toolStripStatusLabel9.Size = new System.Drawing.Size(45, 25);
-            this.toolStripStatusLabel9.Text = "Tipo 3";
-            // 
-            // toolStripStatusLabel10
-            // 
-            this.toolStripStatusLabel10.BackColor = System.Drawing.Color.YellowGreen;
-            this.toolStripStatusLabel10.Name = "toolStripStatusLabel10";
-            this.toolStripStatusLabel10.Size = new System.Drawing.Size(45, 25);
-            this.toolStripStatusLabel10.Text = "Tipo 4";
-            // 
-            // dgvFornecedores
-            // 
-            this.dgvFornecedores.AllowUserToAddRows = false;
-            this.dgvFornecedores.AllowUserToDeleteRows = false;
-            this.dgvFornecedores.AllowUserToResizeColumns = false;
-            this.dgvFornecedores.AllowUserToResizeRows = false;
-            this.dgvFornecedores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.dgvFornecedores.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.dgvFornecedores.BackgroundColor = System.Drawing.Color.White;
-            this.dgvFornecedores.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
-            this.dgvFornecedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFornecedores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvFornecedores.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
-            this.dgvFornecedores.Location = new System.Drawing.Point(3, 83);
-            this.dgvFornecedores.MultiSelect = false;
-            this.dgvFornecedores.Name = "dgvFornecedores";
-            this.dgvFornecedores.ReadOnly = true;
-            this.dgvFornecedores.RowHeadersVisible = false;
-            this.dgvFornecedores.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.dgvFornecedores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvFornecedores.ShowCellErrors = false;
-            this.dgvFornecedores.ShowCellToolTips = false;
-            this.dgvFornecedores.ShowEditingIcon = false;
-            this.dgvFornecedores.ShowRowErrors = false;
-            this.dgvFornecedores.Size = new System.Drawing.Size(932, 572);
-            this.dgvFornecedores.TabIndex = 0;
-            this.dgvFornecedores.DataSourceChanged += new System.EventHandler(this.dgvFornecedores_DataSourceChanged);
-            this.dgvFornecedores.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFornecedores_CellDoubleClick);
-            // 
-            // tableLayoutPanel15
-            // 
-            this.tableLayoutPanel15.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
-            this.tableLayoutPanel15.ColumnCount = 4;
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel15.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel15.Controls.Add(this.btnPesquisaFornecedor, 2, 0);
-            this.tableLayoutPanel15.Controls.Add(this.btnImprimeFornecedores, 1, 0);
-            this.tableLayoutPanel15.Controls.Add(this.btnNovoFornecedor, 0, 0);
-            this.tableLayoutPanel15.Controls.Add(this.tableLayoutPanel16, 3, 0);
-            this.tableLayoutPanel15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel15.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel15.Name = "tableLayoutPanel15";
-            this.tableLayoutPanel15.RowCount = 1;
-            this.tableLayoutPanel15.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel15.Size = new System.Drawing.Size(932, 74);
-            this.tableLayoutPanel15.TabIndex = 1;
-            // 
-            // btnPesquisaFornecedor
-            // 
-            this.btnPesquisaFornecedor.BackColor = System.Drawing.Color.Gray;
-            this.btnPesquisaFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnPesquisaFornecedor.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.btnPesquisaFornecedor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
-            this.btnPesquisaFornecedor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
-            this.btnPesquisaFornecedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPesquisaFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
-            this.btnPesquisaFornecedor.ForeColor = System.Drawing.Color.White;
-            this.btnPesquisaFornecedor.Location = new System.Drawing.Point(203, 3);
-            this.btnPesquisaFornecedor.Name = "btnPesquisaFornecedor";
-            this.btnPesquisaFornecedor.Size = new System.Drawing.Size(94, 68);
-            this.btnPesquisaFornecedor.TabIndex = 5;
-            this.btnPesquisaFornecedor.Text = "Pesquisar Fornecedor";
-            this.btnPesquisaFornecedor.UseVisualStyleBackColor = false;
-            this.btnPesquisaFornecedor.Click += new System.EventHandler(this.btnPesquisaFornecedor_Click);
-            // 
-            // btnImprimeFornecedores
-            // 
-            this.btnImprimeFornecedores.BackColor = System.Drawing.Color.Gray;
-            this.btnImprimeFornecedores.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnImprimeFornecedores.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.btnImprimeFornecedores.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
-            this.btnImprimeFornecedores.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
-            this.btnImprimeFornecedores.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnImprimeFornecedores.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
-            this.btnImprimeFornecedores.ForeColor = System.Drawing.Color.White;
-            this.btnImprimeFornecedores.Location = new System.Drawing.Point(103, 3);
-            this.btnImprimeFornecedores.Name = "btnImprimeFornecedores";
-            this.btnImprimeFornecedores.Size = new System.Drawing.Size(94, 68);
-            this.btnImprimeFornecedores.TabIndex = 4;
-            this.btnImprimeFornecedores.Text = "Imprimir Lista";
-            this.btnImprimeFornecedores.UseVisualStyleBackColor = false;
-            // 
-            // btnNovoFornecedor
-            // 
-            this.btnNovoFornecedor.BackColor = System.Drawing.Color.Gray;
-            this.btnNovoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnNovoFornecedor.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
-            this.btnNovoFornecedor.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DimGray;
-            this.btnNovoFornecedor.FlatAppearance.MouseOverBackColor = System.Drawing.Color.DarkGray;
-            this.btnNovoFornecedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnNovoFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
-            this.btnNovoFornecedor.ForeColor = System.Drawing.Color.White;
-            this.btnNovoFornecedor.Location = new System.Drawing.Point(3, 3);
-            this.btnNovoFornecedor.Name = "btnNovoFornecedor";
-            this.btnNovoFornecedor.Size = new System.Drawing.Size(94, 68);
-            this.btnNovoFornecedor.TabIndex = 3;
-            this.btnNovoFornecedor.Text = "Adicionar Fornecedor";
-            this.btnNovoFornecedor.UseVisualStyleBackColor = false;
-            this.btnNovoFornecedor.Click += new System.EventHandler(this.btnNovoFornecedor_Click);
-            // 
-            // tableLayoutPanel16
-            // 
-            this.tableLayoutPanel16.ColumnCount = 2;
-            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.2524F));
-            this.tableLayoutPanel16.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.7476F));
-            this.tableLayoutPanel16.Controls.Add(this.label15, 0, 0);
-            this.tableLayoutPanel16.Controls.Add(this.tableLayoutPanel17, 1, 0);
-            this.tableLayoutPanel16.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel16.Location = new System.Drawing.Point(303, 3);
-            this.tableLayoutPanel16.Name = "tableLayoutPanel16";
-            this.tableLayoutPanel16.RowCount = 1;
-            this.tableLayoutPanel16.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel16.Size = new System.Drawing.Size(626, 68);
-            this.tableLayoutPanel16.TabIndex = 6;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label15.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.SystemColors.Window;
-            this.label15.Location = new System.Drawing.Point(3, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(102, 68);
-            this.label15.TabIndex = 10;
-            this.label15.Text = "Exibir";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tableLayoutPanel17
-            // 
-            this.tableLayoutPanel17.ColumnCount = 2;
-            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
-            this.tableLayoutPanel17.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel17.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel17.Controls.Add(this.cmbGrupoFornecedor, 0, 1);
-            this.tableLayoutPanel17.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel17.Location = new System.Drawing.Point(111, 3);
-            this.tableLayoutPanel17.Name = "tableLayoutPanel17";
-            this.tableLayoutPanel17.RowCount = 3;
-            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 37.09678F));
-            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 62.90322F));
-            this.tableLayoutPanel17.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel17.Size = new System.Drawing.Size(512, 62);
-            this.tableLayoutPanel17.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(244, 15);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Grupo";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cmbGrupoFornecedor
-            // 
-            this.cmbGrupoFornecedor.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
-            this.cmbGrupoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbGrupoFornecedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbGrupoFornecedor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbGrupoFornecedor.FormattingEnabled = true;
-            this.cmbGrupoFornecedor.Location = new System.Drawing.Point(3, 18);
-            this.cmbGrupoFornecedor.Name = "cmbGrupoFornecedor";
-            this.cmbGrupoFornecedor.Size = new System.Drawing.Size(244, 22);
-            this.cmbGrupoFornecedor.TabIndex = 4;
-            this.cmbGrupoFornecedor.Text = "Todos";
             // 
             // panelClientes
             // 
@@ -2863,6 +2889,30 @@
             this.pdNFConfigImpressao.Document = this.pdNFDocumento;
             this.pdNFConfigImpressao.UseEXDialog = true;
             // 
+            // pPreviewFornecedores
+            // 
+            this.pPreviewFornecedores.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.pPreviewFornecedores.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.pPreviewFornecedores.ClientSize = new System.Drawing.Size(400, 300);
+            this.pPreviewFornecedores.Document = this.pdFornecedores;
+            this.pPreviewFornecedores.Enabled = true;
+            this.pPreviewFornecedores.Icon = ((System.Drawing.Icon)(resources.GetObject("pPreviewFornecedores.Icon")));
+            this.pPreviewFornecedores.Name = "printPreviewDialog1";
+            this.pPreviewFornecedores.ShowIcon = false;
+            this.pPreviewFornecedores.UseAntiAlias = true;
+            this.pPreviewFornecedores.Visible = false;
+            // 
+            // pdFornecedores
+            // 
+            this.pdFornecedores.DocumentName = "Fornecedores";
+            this.pdFornecedores.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.pdFornecedores_BeginPrint);
+            this.pdFornecedores.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdFornecedores_PrintPage);
+            // 
+            // pdImprimirFornecedores
+            // 
+            this.pdImprimirFornecedores.Document = this.pdFornecedores;
+            this.pdImprimirFornecedores.UseEXDialog = true;
+            // 
             // tInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2893,6 +2943,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.tlpAreaGeral.ResumeLayout(false);
             this.panelGeral.ResumeLayout(false);
+            this.panelFornecedores.ResumeLayout(false);
+            this.tableLayoutPanel14.ResumeLayout(false);
+            this.tableLayoutPanel14.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvFornecedores)).EndInit();
+            this.tableLayoutPanel15.ResumeLayout(false);
+            this.tableLayoutPanel16.ResumeLayout(false);
+            this.tableLayoutPanel16.PerformLayout();
+            this.tableLayoutPanel17.ResumeLayout(false);
+            this.tableLayoutPanel17.PerformLayout();
             this.panelNF.ResumeLayout(false);
             this.tlpNFBordas.ResumeLayout(false);
             this.panelNFCentro.ResumeLayout(false);
@@ -2920,17 +2981,6 @@
             this.panelConfigBanco.ResumeLayout(false);
             this.panelConfigBanco.PerformLayout();
             this.tableLayoutPanel24.ResumeLayout(false);
-            this.panelFornecedores.ResumeLayout(false);
-            this.tableLayoutPanel14.ResumeLayout(false);
-            this.tableLayoutPanel14.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvFornecedores)).EndInit();
-            this.tableLayoutPanel15.ResumeLayout(false);
-            this.tableLayoutPanel16.ResumeLayout(false);
-            this.tableLayoutPanel16.PerformLayout();
-            this.tableLayoutPanel17.ResumeLayout(false);
-            this.tableLayoutPanel17.PerformLayout();
             this.panelClientes.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tableLayoutPanel10.PerformLayout();
@@ -3155,5 +3205,9 @@
         private System.Drawing.Printing.PrintDocument pdNFDocumento;
         private System.Windows.Forms.PrintPreviewDialog pPreviewNF;
         private System.Windows.Forms.PrintDialog pdNFConfigImpressao;
+        private System.Windows.Forms.Button btnOS;
+        private System.Windows.Forms.PrintPreviewDialog pPreviewFornecedores;
+        private System.Drawing.Printing.PrintDocument pdFornecedores;
+        private System.Windows.Forms.PrintDialog pdImprimirFornecedores;
     }
 }
