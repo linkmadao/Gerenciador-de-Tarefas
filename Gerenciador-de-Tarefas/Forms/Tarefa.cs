@@ -8,50 +8,50 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
+using Gerenciador_de_Tarefas.Classes;
+
 
 namespace Gerenciador_de_Tarefas
 {
     public partial class Tarefa : Form
     {
-        private const int MaxCaracteres = 110;
+
         #region Variáveis
-        private BDCONN conexao = new BDCONN();
-        private FuncoesVariaveis funcoesVariaveis = new FuncoesVariaveis();
-        private bool novaTarefa = false, salvar = false, primeiraPagina = true;
-        private int _idTarefa = 0, _idusuario = 0;
-        private string _empresa = null, _atribuicao = null, _assunto = null,
-            _dataInicio = null, _dataFinal = null, _status = null, _prioridade = null,
-            _texto = null, _textoImprimir = null;
+        private const int MaxCaracteres = 110;
         private StringReader leitor;
         #endregion
 
-        public Tarefa(bool fazerNovaTarefa, int idTarefa, int idusuario)
+        public Tarefa()
         {
             InitializeComponent();
             
             CarregaFuncionarios();
             CarregaEmpresas();
-            if (fazerNovaTarefa)
+            if (Classes.Tarefa.NovaTarefa)
             {
-                novaTarefa = true;
                 btnSair.Text = "Cancelar";
                 btnExcluir.Enabled = false;
                 btnImprimir.Enabled = false;
             }
             else
             {
-                _idTarefa = idTarefa;
-                CarregarTarefa(idTarefa);
+                cmbEmpresa.SelectedIndex = cmbEmpresa.FindStringExact(Classes.Tarefa.Empresa);
+                cmbFuncionario.SelectedIndex = cmbFuncionario.FindStringExact(Classes.Tarefa.Atribuicao);
+                cmbStatus.SelectedIndex = Classes.Tarefa.Status;
+                txtAssunto.Text = Classes.Tarefa.Assunto;
+                dtpInicio.Text = Classes.Tarefa.DataInicial;
+                dtpFinal.Text = Classes.Tarefa.DataFinal;
+                cmbPrioridade.SelectedIndex = Classes.Tarefa.Prioridade;
+                rtbTexto.Text = Classes.Tarefa.Texto;
+                this.Text = Classes.Tarefa.Titulo;
             }
-
-            _idusuario = idusuario;
         }
 
         private void Tarefa_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!salvar)
+            if (!Classes.Tarefa.SalvarTarefa)
             {
-                if (novaTarefa)
+                if (Classes.Tarefa.NovaTarefa)
                 {
                     string erro = ListaMensagens.RetornaMensagem(02);
                     int separador = erro.IndexOf(":");
@@ -64,11 +64,15 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
+                    Classes.Tarefa.Assunto = txtAssunto.Text;
+                    Classes.Tarefa.Atribuicao = cmbFuncionario.SelectedItem.ToString();
+                    Classes.Tarefa.DataInicial = dtpInicio.Text;
+                    Classes.Tarefa.DataFinal = dtpFinal.Text;
+                    Classes.Tarefa.Prioridade = cmbPrioridade.SelectedIndex;
+                    Classes.Tarefa.Status = cmbStatus.SelectedIndex + 1;
+                    Classes.Tarefa.Texto = rtbTexto.Text;
 
-                    if (_assunto != txtAssunto.Text || _atribuicao != cmbFuncionario.SelectedItem.ToString()
-                    || _empresa != cmbEmpresa.SelectedItem.ToString() || _dataInicio.Substring(0, 10) != dtpInicio.Text
-                    || _dataFinal.Substring(0, 10) != dtpFinal.Text || _prioridade != cmbPrioridade.SelectedIndex.ToString()
-                    || Int32.Parse(_status) != (cmbStatus.SelectedIndex + 1) || _texto != rtbTexto.Text)
+                    if (Classes.Tarefa.AvaliaMudancas())
                     {
                         string erro = ListaMensagens.RetornaMensagem(03);
                         int separador = erro.IndexOf(":");
@@ -83,7 +87,7 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                funcoesVariaveis.DestravaTarefa(_idTarefa);
+                Classes.Tarefa.DestravaTarefa();
             }
         }
 
@@ -91,12 +95,12 @@ namespace Gerenciador_de_Tarefas
         {
             if (e.Control && e.KeyCode == Keys.S)
             {
-                Salvar();
+                btnSalvar_Click(btnSalvar, e);
                 e.SuppressKeyPress = true;
             }
             else if (e.Control && e.Alt && e.KeyCode == Keys.S)
             {
-                SalvarFechar();
+                btnSalvarFechar_Click(btnSalvarFechar, e);
                 e.SuppressKeyPress = true;
             }
             else if (e.KeyCode == Keys.F1)
@@ -108,7 +112,6 @@ namespace Gerenciador_de_Tarefas
             else if (e.KeyCode == Keys.F2)
             {
                 this.Text = "Nova Tarefa";
-                novaTarefa = true;
                 cmbEmpresa.SelectedIndex = 0;
                 cmbFuncionario.SelectedIndex = 0;
                 cmbPrioridade.SelectedIndex = 1;
@@ -118,121 +121,18 @@ namespace Gerenciador_de_Tarefas
                 dtpInicio.Text = DateTime.Today.ToShortDateString();
                 dtpFinal.Text = DateTime.Today.ToShortDateString();
                 btnExcluir.Enabled = false;
-                _idTarefa = 0;
                 e.SuppressKeyPress = true;
-            }
-        }
-
-        private void CarregarTarefa(int idTarefa)
-        {
-            if (!novaTarefa)
-            {
-                List<string> lista = conexao.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', " +
-                    "tbl_tarefas.`status`, tbl_tarefas.assunto, tbl_tarefas.datainicial, tbl_tarefas.datafinal, tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
-                    "Join tbl_contato on tbl_contato.ID = tbl_tarefas.Empresa " +
-                    "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
-                    "Where tbl_tarefas.id = " + idTarefa + ";");
-
-
-                cmbEmpresa.SelectedIndex = cmbEmpresa.FindStringExact(lista[0]);
-                cmbFuncionario.SelectedIndex = cmbFuncionario.FindStringExact(lista[1]);
-                cmbStatus.SelectedIndex = Int32.Parse(lista[2]) - 1;
-                txtAssunto.Text = lista[3];
-                dtpInicio.Text = lista[4];
-                if (lista[5] == "" || lista[5] == null)
-                {
-                    dtpFinal.Text = dtpInicio.Text;
-                }
-                else
-                {
-                    dtpFinal.Text = lista[5];
-                }
-
-                cmbPrioridade.SelectedIndex = Int32.Parse(lista[6]);
-                rtbTexto.Text = lista[7];
-                this.Text = lista[0] + " - " + lista[3];
-
-                
-                _empresa = lista[0];
-                _atribuicao = lista[1];
-                _status = lista[2];
-                _assunto = lista[3];
-                _dataInicio = lista[4];
-                if (lista[5] == "" || lista[5] == null)
-                {
-                    _dataFinal = _dataInicio;
-                }
-                else
-                {
-                    _dataFinal = lista[5];
-                }
-                _prioridade = lista[6];
-                _texto = lista[7];
             }
         }
 
         private void CarregaEmpresas()
         {
-            List<string> lista = conexao.PreencheCMB("Select tbl_contato.nome from tbl_contato;");
-            cmbEmpresa.DataSource = lista;
+            cmbEmpresa.DataSource = Classes.Tarefa.ListaClientes;
         }
 
         private void CarregaFuncionarios()
         {
-            List<string> lista = conexao.PreencheCMB("Select nome from tbl_funcionarios;");
-            cmbFuncionario.DataSource = lista;
-        }
-
-        private void SalvarFechar()
-        {
-            if (txtAssunto.TextLength < 5)
-            {
-                string erro = ListaErro.RetornaErro(28);
-                int separador = erro.IndexOf(":");
-                DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtAssunto.Focus();
-            }
-            else
-            {
-                if (rtbTexto.TextLength < 1)
-                {
-                    string erro = ListaErro.RetornaErro(29);
-                    int separador = erro.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    rtbTexto.Focus();
-                }
-                else
-                {
-                    try
-                    {
-                        if (novaTarefa)
-                        {
-                            funcoesVariaveis.CadastrarTarefa(cmbEmpresa.Text, cmbFuncionario.Text, (cmbStatus.SelectedIndex + 1), txtAssunto.Text,
-                                dtpInicio.Value.ToString("yyyy-MM-dd"), dtpFinal.Value.ToString("yyyy-MM-dd"), cmbPrioridade.SelectedIndex, rtbTexto.Text, false);
-                        }
-                        else
-                        {
-                            if (!funcoesVariaveis.AtualizarTarefa(_idTarefa, cmbEmpresa.Text, cmbFuncionario.Text, (cmbStatus.SelectedIndex + 1),
-                                txtAssunto.Text, dtpInicio.Value.ToString("yyyy-MM-dd"), dtpFinal.Value.ToString("yyyy-MM-dd"), cmbPrioridade.SelectedIndex,
-                                rtbTexto.Text))
-                            {
-                                string erro = ListaErro.RetornaErro(17);
-                                int separador = erro.IndexOf(":");
-                                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    catch (NullReferenceException e)
-                    {
-                        MessageBox.Show(e.ToString());
-                        throw;
-                    }
-                    finally
-                    {
-                        this.Close();
-                    }
-                }
-            }
+            cmbFuncionario.DataSource = Classes.Tarefa.ListaFuncionarios;
         }
 
         private void btnInserirImagem_Click(object sender, EventArgs e)
@@ -308,58 +208,6 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void Salvar()
-        {
-            if (txtAssunto.TextLength < 5)
-            {
-                MessageBox.Show("A quantidade de caracteres do assunto é muito baixo,\nfavor colocar mais do que 5 caracteres!", "Poucos Caracteres", MessageBoxButtons.OK);
-                txtAssunto.Focus();
-            }
-            else
-            {
-                if (rtbTexto.TextLength < 1)
-                {
-                    MessageBox.Show("O texto não pode estar vazio, por favor coloque ao menos um ponto!", "Poucos Caracteres", MessageBoxButtons.OK);
-                    rtbTexto.Focus();
-                }
-                else
-                {
-                    if (novaTarefa)
-                    {
-                        _idTarefa = funcoesVariaveis.CadastrarTarefa(cmbEmpresa.Text, cmbFuncionario.Text, (cmbStatus.SelectedIndex + 1), txtAssunto.Text,
-                            dtpInicio.Value.ToString("yyyy-MM-dd"), dtpFinal.Value.ToString("yyyy-MM-dd"), cmbPrioridade.SelectedIndex, rtbTexto.Text, true);
-
-                        novaTarefa = false;
-                        btnImprimir.Enabled = true;
-                        btnExcluir.Enabled = true;
-                        btnSair.Text = "Sair";
-
-                        _empresa = cmbEmpresa.SelectedItem.ToString();
-                        _atribuicao = cmbFuncionario.SelectedItem.ToString();
-                        _status = (cmbStatus.SelectedIndex + 1).ToString();
-                        _assunto = txtAssunto.Text;
-                        _dataInicio = dtpInicio.Text;
-                        _dataFinal = dtpFinal.Text;
-                        _prioridade = cmbPrioridade.SelectedIndex.ToString();
-                        _texto = rtbTexto.Text;
-
-                        this.Text = cmbEmpresa.Text + " - " + txtAssunto.Text;
-                    }
-                    else
-                    {
-                        if (!funcoesVariaveis.AtualizarTarefa(_idTarefa, cmbEmpresa.Text, cmbFuncionario.Text, (cmbStatus.SelectedIndex + 1),
-                            txtAssunto.Text, dtpInicio.Value.ToString("yyyy-MM-dd"), dtpFinal.Value.ToString("yyyy-MM-dd"), cmbPrioridade.SelectedIndex,
-                            rtbTexto.Text))
-                        {
-                            string erro = ListaErro.RetornaErro(17);
-                            int separador = erro.IndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                }
-            }
-        }
-
         private void dtpInicio_ValueChanged(object sender, EventArgs e)
         {
             if(dtpFinal.Value < dtpInicio.Value)
@@ -378,13 +226,54 @@ namespace Gerenciador_de_Tarefas
         
         private void btnSair_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void btnSalvarFechar_Click(object sender, EventArgs e)
         {
-            salvar = true;
-            SalvarFechar();
+            if (txtAssunto.TextLength < 1)
+            {
+                string erro = ListaErro.RetornaErro(29);
+                int separador = erro.IndexOf(":");
+                DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAssunto.Focus();
+            }
+            else
+            {
+                if (rtbTexto.TextLength < 5)
+                {
+                    string erro = ListaErro.RetornaErro(28);
+                    int separador = erro.IndexOf(":");
+                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    rtbTexto.Focus();
+                }
+                else
+                {
+                    try
+                    {
+                        Classes.Tarefa.Assunto = txtAssunto.Text;
+                        Classes.Tarefa.Atribuicao = cmbFuncionario.Text;
+                        Classes.Tarefa.DataFinal = dtpFinal.Value.ToString("yyyy-MM-dd");
+                        Classes.Tarefa.DataInicial = dtpInicio.Value.ToString("yyyy-MM-dd");
+                        Classes.Tarefa.Empresa = cmbEmpresa.Text;
+                        Classes.Tarefa.Prioridade = cmbPrioridade.SelectedIndex;
+                        Classes.Tarefa.Status = cmbStatus.SelectedIndex + 1;
+                        Classes.Tarefa.Texto = rtbTexto.Text;
+                        Classes.Tarefa.Travar = false;
+
+                        Classes.Tarefa.Salvar();
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                        throw;
+                    }
+                    finally
+                    {
+                        Close();
+                    }
+                }
+            }
         }
 
         private void btnExcluir_Click(object sender, EventArgs e)
@@ -395,7 +284,7 @@ namespace Gerenciador_de_Tarefas
             
             if (resultadoDialogo == DialogResult.Yes)
             {
-                if (_idusuario != 1 && _idusuario != 2)
+                if (Sistema.IDUsuarioLogado != 1 && Sistema.IDUsuarioLogado != 2)
                 {
                     erro = ListaMensagens.RetornaMensagem(05);
                     separador = erro.IndexOf(":");
@@ -403,7 +292,7 @@ namespace Gerenciador_de_Tarefas
 
                     if (resposta == "MB8719")
                     {
-                        if (funcoesVariaveis.ApagarTarefa(_idTarefa))
+                        if (Classes.Tarefa.ApagarTarefa())
                         {
                             erro = ListaMensagens.RetornaMensagem(14);
                             separador = erro.IndexOf(":");
@@ -426,7 +315,7 @@ namespace Gerenciador_de_Tarefas
 
                     if (resultadoDialogo == DialogResult.Yes)
                     {
-                        if (funcoesVariaveis.ApagarTarefa(_idTarefa))
+                        if (Classes.Tarefa.ApagarTarefa())
                         {
                             erro = ListaMensagens.RetornaMensagem(14);
                             separador = erro.IndexOf(":");
@@ -446,7 +335,64 @@ namespace Gerenciador_de_Tarefas
 
         private void btnSalvar_Click(object sender, EventArgs e)
         {
-            Salvar();
+            if (txtAssunto.TextLength < 1)
+            {
+                string erro = ListaErro.RetornaErro(29);
+                int separador = erro.IndexOf(":");
+                DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtAssunto.Focus();
+            }
+            else
+            {
+                if (rtbTexto.TextLength < 5)
+                {
+                    string erro = ListaErro.RetornaErro(28);
+                    int separador = erro.IndexOf(":");
+                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    rtbTexto.Focus();
+                }
+                else
+                {
+                    try
+                    {
+                        if(Classes.Tarefa.NovaTarefa)
+                        {
+                            btnImprimir.Enabled = true;
+                            btnExcluir.Enabled = true;
+                            btnSair.Text = "Sair";
+                            this.Text = cmbEmpresa.Text + " - " + txtAssunto.Text;
+                        }
+                        else
+                        {
+                            if (Classes.Tarefa.AvaliaMudancas())
+                            {
+                                this.Text = cmbEmpresa.Text + " - " + txtAssunto.Text;
+                            }
+                        }
+
+                        Classes.Tarefa.Assunto = txtAssunto.Text;
+                        Classes.Tarefa.Atribuicao = cmbFuncionario.Text;
+                        Classes.Tarefa.DataFinal = dtpFinal.Value.ToString("yyyy-MM-dd");
+                        Classes.Tarefa.DataInicial = dtpInicio.Value.ToString("yyyy-MM-dd");
+                        Classes.Tarefa.Empresa = cmbEmpresa.Text;
+                        Classes.Tarefa.Prioridade = cmbPrioridade.SelectedIndex;
+                        Classes.Tarefa.Status = cmbStatus.SelectedIndex + 1;
+                        Classes.Tarefa.Texto = rtbTexto.Text;
+                        Classes.Tarefa.Travar = true;
+
+                        Classes.Tarefa.Salvar();
+                    }
+                    catch (NullReferenceException ex)
+                    {
+                        MessageBox.Show(ex.ToString());
+                        throw;
+                    }
+                    finally
+                    {
+                        Close();
+                    }
+                }
+            }
         }
 
         #region Impressão
@@ -469,9 +415,8 @@ namespace Gerenciador_de_Tarefas
 
         private void pdDocumento_BeginPrint(object sender, System.Drawing.Printing.PrintEventArgs e)
         {
-            primeiraPagina = true;
-            _textoImprimir = "";
-            _textoImprimir = FuncoesEstaticas.PreparaTexto(rtbTexto.Text, MaxCaracteres);
+            Classes.Tarefa.PrimeiraPagina = true;
+            Classes.Tarefa.TextoImpressao = Funcoes.PreparaTexto(rtbTexto.Text, MaxCaracteres);
             pdDocumento.DocumentName = Text;
         }
 
@@ -588,10 +533,10 @@ namespace Gerenciador_de_Tarefas
             //Define a fonte do texto
             Font fonteTexto2 = new Font("Arial", 8);
 
-            if (primeiraPagina)
+            if (Classes.Tarefa.PrimeiraPagina)
             {
-                primeiraPagina = false;
-                leitor = new StringReader(_textoImprimir);
+                Classes.Tarefa.PrimeiraPagina = false;
+                leitor = new StringReader(Classes.Tarefa.TextoImpressao);
             }
 
             //float LeftMargin = e.MarginBounds.Left;

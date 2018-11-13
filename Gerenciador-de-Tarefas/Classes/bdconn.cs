@@ -4,6 +4,7 @@ using System.Xml.Linq;
 using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System;
+using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas
 {

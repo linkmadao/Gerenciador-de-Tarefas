@@ -159,11 +159,17 @@ namespace Gerenciador_de_Tarefas
 
         private void Login_Load(object sender, EventArgs e)
         {
-        #if RELEASE
             Sistema.ChecaAtualizacao();
-        #endif
 
             lblVersao.Text = "Versão: " + Sistema.VersaoSoftware;
+
+            #if DEBUG
+            txtUser.Text = "Tiago";
+            txtPwd.Text = "2222";
+
+            //Simula o click
+            btnEntrar_Click(btnEntrar, e);
+            #endif
         }
 
         private void btnEntrar_Click(object sender, EventArgs e)
@@ -177,14 +183,14 @@ namespace Gerenciador_de_Tarefas
                         if (conexao.VerificaLogin(txtUser.Text, txtPwd.Text))
                         {
                             string comando = "select id from tbl_usuarios where user = '" + txtUser.Text + "';";
-                            Sistema.UsuarioLogado = int.Parse(conexao.ConsultaSimples(comando));
+                            Sistema.IDUsuarioLogado = int.Parse(conexao.ConsultaSimples(comando));
 
                             Log.Login();
 
                             Hide();
                             ShowInTaskbar = false;
 
-                            tInicial telaInicial = new tInicial(Sistema.UsuarioLogado);
+                            tInicial telaInicial = new tInicial();
                             telaInicial.ShowDialog();
                         }
                         else
@@ -230,7 +236,7 @@ namespace Gerenciador_de_Tarefas
             Process.Start("http://www.facebook.com/tiagosmiguel");
         }
 
-        #region Posição cursor MaskedTextBox
+#region Posição cursor MaskedTextBox
         private delegate void PosicionaCursorDelegate(int posicao);
 
         private void PosicionaCursorSenha(int posicao)
@@ -242,6 +248,6 @@ namespace Gerenciador_de_Tarefas
         {
             BeginInvoke(new PosicionaCursorDelegate(PosicionaCursorSenha), new object[] { 0 });
         }
-        #endregion
+#endregion
     }
 }

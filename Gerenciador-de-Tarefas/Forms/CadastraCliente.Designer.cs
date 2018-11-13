@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CadastraCliente));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageDadosCadastrais = new System.Windows.Forms.TabPage();
             this.label27 = new System.Windows.Forms.Label();
@@ -238,6 +237,7 @@
             this.txtTelefoneComercial.PromptChar = ' ';
             this.txtTelefoneComercial.Size = new System.Drawing.Size(131, 23);
             this.txtTelefoneComercial.TabIndex = 6;
+            this.txtTelefoneComercial.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.txtTelefoneComercial.Enter += new System.EventHandler(this.txtTelefoneComercial_Enter);
             // 
             // txtSite
@@ -447,6 +447,7 @@
             this.txtNumero.PromptChar = ' ';
             this.txtNumero.Size = new System.Drawing.Size(102, 23);
             this.txtNumero.TabIndex = 16;
+            this.txtNumero.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.txtNumero.Enter += new System.EventHandler(this.txtNumero_Enter);
             // 
             // label23
@@ -531,6 +532,7 @@
             this.txtCep.ResetOnSpace = false;
             this.txtCep.Size = new System.Drawing.Size(102, 23);
             this.txtCep.TabIndex = 14;
+            this.txtCep.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.txtCep.Enter += new System.EventHandler(this.txtCep_Enter);
             this.txtCep.Leave += new System.EventHandler(this.txtCep_Leave);
             // 
@@ -630,6 +632,7 @@
             this.txtCNPJ.PromptChar = ' ';
             this.txtCNPJ.Size = new System.Drawing.Size(146, 23);
             this.txtCNPJ.TabIndex = 11;
+            this.txtCNPJ.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.txtCNPJ.Enter += new System.EventHandler(this.txtCNPJ_Enter);
             this.txtCNPJ.Leave += new System.EventHandler(this.txtCNPJ_Leave);
             // 
@@ -679,6 +682,7 @@
             this.txtCPF.PromptChar = ' ';
             this.txtCPF.Size = new System.Drawing.Size(142, 23);
             this.txtCPF.TabIndex = 9;
+            this.txtCPF.TextMaskFormat = System.Windows.Forms.MaskFormat.ExcludePromptAndLiterals;
             this.txtCPF.Enter += new System.EventHandler(this.txtCPF_Enter);
             this.txtCPF.Leave += new System.EventHandler(this.txtCPF_Leave);
             // 
@@ -712,7 +716,6 @@
             // 
             // btnSair
             // 
-            this.btnSair.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnSair.BackgroundImage")));
             this.btnSair.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSair.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnSair.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -728,7 +731,6 @@
             // 
             // btnApagar
             // 
-            this.btnApagar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnApagar.BackgroundImage")));
             this.btnApagar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnApagar.Enabled = false;
             this.btnApagar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -744,7 +746,6 @@
             // 
             // btnCadastrar
             // 
-            this.btnCadastrar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnCadastrar.BackgroundImage")));
             this.btnCadastrar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCadastrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.btnCadastrar.Location = new System.Drawing.Point(573, 73);
@@ -759,7 +760,6 @@
             // 
             // btnNovoRegistro
             // 
-            this.btnNovoRegistro.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnNovoRegistro.BackgroundImage")));
             this.btnNovoRegistro.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnNovoRegistro.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.btnNovoRegistro.Location = new System.Drawing.Point(573, 29);
@@ -774,7 +774,6 @@
             // 
             // btnAlterar
             // 
-            this.btnAlterar.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnAlterar.BackgroundImage")));
             this.btnAlterar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnAlterar.Enabled = false;
             this.btnAlterar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
@@ -790,7 +789,6 @@
             // 
             // btnImprimir
             // 
-            this.btnImprimir.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("btnImprimir.BackgroundImage")));
             this.btnImprimir.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnImprimir.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.btnImprimir.Location = new System.Drawing.Point(573, 106);
@@ -807,7 +805,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnSair;
-            this.ClientSize = new System.Drawing.Size(696, 536);
+            this.ClientSize = new System.Drawing.Size(692, 532);
             this.ControlBox = false;
             this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.btnSair);

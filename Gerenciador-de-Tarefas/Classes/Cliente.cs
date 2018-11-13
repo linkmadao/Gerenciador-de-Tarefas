@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.Net;
 using System.IO;
+using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas.Classes
 {
@@ -12,9 +13,16 @@ namespace Gerenciador_de_Tarefas.Classes
         #region Variaveis
         private static BDCONN conexao = new BDCONN();
 
-        private static int id, contrato;
+        //Originais
+        private static int id = 0, contrato = 0;
         private static string dataCadastro, nome, razaoSocial, telefoneComercial, contato, setor, cpf, rg, cnpj, inscricaoEstadual, inscricaoMunicipal,
-            site, email, endereco, numero, bairro, cidade, estado, cep, complemento, pontoReferencia, obs;
+            site, email, endereco, numero, bairro, cidade, estado, cep, complemento, pontoReferencia, obs, numeroTarefas;
+        private static bool novoCadastro = false;
+
+        //Backup
+        private static int _contrato = 0;
+        private static string _dataCadastro, _nome, _razaoSocial, _telefoneComercial, _contato, _setor, _cpf, _rg, _cnpj, _inscricaoEstadual, _inscricaoMunicipal,
+            _site, _email, _endereco, _numero, _bairro, _cidade, _estado, _cep, _complemento, _pontoReferencia, _obs;
         #endregion
 
         #region Propriedades
@@ -38,6 +46,17 @@ namespace Gerenciador_de_Tarefas.Classes
             set
             {
                 contrato = value;
+            }
+        }
+        public static bool NovoCadastro
+        {
+            get
+            {
+                return novoCadastro;
+            }
+            set
+            {
+                novoCadastro = value;
             }
         }
         public static string DataCadastro
@@ -73,7 +92,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 razaoSocial = value;
             }
         }
-        public static string TelefoneComercial
+        public static string Telefone
         {
             get
             {
@@ -283,25 +302,304 @@ namespace Gerenciador_de_Tarefas.Classes
                 obs = value;
             }
         }
-
+        public static string NumeroTarefas
+        {
+            get
+            {
+                return numeroTarefas;
+            }
+        }
+        public static int ClientePesquisado
+        {
+            get; set;
+        }
         #endregion
 
         #region Funcoes
-        public static void CadastrarCliente()
+        public static void PesquisaCliente(DataGridView dgvClientes, List<string> listaPesquisa)
         {
-            string comando = string.Format("insert into tbl_contato values " +
-            "(0,'{0},'{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}');",
-            DataCadastro,Nome,RazaoSocial,TelefoneComercial,Contato,Setor,CPF,RG,CNPJ,InscricaoEstadual,InscricaoMunicipal,Site,Email,Endereco, Numero, Bairro, 
-            Cidade, Estado, CEP, Complemento, PontoReferencia, Obs);
-            conexao.ExecutaComando(comando);
+            int linha = 0;
+            bool resultado = false;
 
-            comando = string.Format("Select id from tbl_contato where nome = '{0}';",Nome);
-            ID = Int32.Parse(conexao.ConsultaSimples(comando));
+            for (int i = 0; i < dgvClientes.Rows.Count; i++)
+            {
+                for (int x = 0; x < listaPesquisa.Count; x++)
+                {
+                    if (dgvClientes[0, i].Value.ToString().ToUpper().Contains(listaPesquisa[x].ToUpper()))
+                    {
+                        linha = dgvClientes[0, i].RowIndex;
+                        resultado = true;
+                    }
+                }
+                if (resultado)
+                {
+                    break;
+                }
+            }
 
-            comando = string.Format("insert into tbl_contato_contrato values ({0},{1});", ID, Contrato);
-            conexao.ExecutaComando(comando);
+            if (resultado)
+            {
+                ClientePesquisado = linha;
+            }
+            else
+            {
+                ClientePesquisado = -1;
+            }
+        }
 
-            Log.CadastrarCliente(ID);
+        /// <summary>
+        /// Método responsável por verificar como está os combobox na tela inicial e realizar os filtros. 
+        /// </summary>
+        /// <param name="posicaoCmbFiltroClientes">Posição da comboBox tipo tarefas na tela de clientes</param>
+        public static string FiltroClientes(int posicaoCmbFiltroClientes)
+        {
+            string comando = "";
+
+            switch (posicaoCmbFiltroClientes)
+            {
+                case 0:
+                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                        "from tbl_contato " +
+                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                        "where tbl_contato_contrato.Contrato = 3;";
+                    break;
+                case 1:
+                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                        "from tbl_contato " +
+                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                        "where tbl_contato_contrato.Contrato = 2 OR tbl_contato_contrato.Contrato = 3 OR tbl_contato_contrato.Contrato = 4;";
+                    break;
+                case 2:
+                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                        "from tbl_contato " +
+                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                        "where tbl_contato_contrato.Contrato = 2;";
+                    break;
+
+                case 3:
+                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                       "from tbl_contato " +
+                       "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                       "where tbl_contato_contrato.Contrato = 1;";
+                    break;
+                default:
+                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                        "from tbl_contato " +
+                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                        "order by tbl_contato.Nome ASC;";
+                    break;
+            }
+
+            return comando;
+        }
+
+
+        public static void PreCarregaCliente(string nome)
+        {
+            try
+            {
+                LimparVariaveis();
+
+                string comando = "Select ID from tbl_contato" + " where nome = '" + nome + "';";
+                ID = int.Parse(conexao.ConsultaSimples(comando));
+            }
+            catch (Exception)
+            {
+                string erro = ListaErro.RetornaErro(20);
+                int separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
+
+        public static void AbrirCliente()
+        {
+            List<string> lista = new List<string>();
+            try
+            {
+                //Carrega os dados
+                lista = conexao.ConsultaContato("select nome, razaosocial, telefone, contato, setor, datacadastro, email, site, obs, cpf, "
+                    + "rg, cnpj, inscricaomunicipal, inscricaoestadual, cep, endereco, bairro, cidade, "
+                    + "estado, complemento, pontoreferencia "
+                    + "from tbl_contato where id = " + ID + ";");
+
+                //Originais
+                Nome = lista[0];
+                RazaoSocial = lista[1];
+                Telefone = lista[2];
+                Contato = lista[3];
+                Setor = lista[4];
+                DataCadastro = lista[5];
+                Email = lista[6];
+                Site = lista[7];
+                Obs = lista[8];
+                CPF = lista[9];
+                RG = lista[10];
+                CNPJ = lista[11];
+                InscricaoMunicipal = lista[12];
+                InscricaoEstadual = lista[13];
+                CEP = lista[14];
+                if (lista[15].Contains(","))
+                {
+                    Endereco = lista[15].Substring(0, lista[15].LastIndexOf(','));
+                    Numero = lista[15].Substring(lista[15].LastIndexOf(',') + 2, (lista[15].Length - (lista[15].LastIndexOf(',') + 2)));
+                }
+                else
+                {
+                    Endereco = lista[15];
+                }
+                Bairro = lista[16];
+                Cidade = lista[17];
+                Estado = lista[18];
+                Complemento = lista[19];
+                PontoReferencia = lista[20];
+
+                Contrato = Convert.ToInt32(conexao.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
+                numeroTarefas = conexao.ConsultaSimples("select count(id) from tbl_tarefas where empresa = " + ID + ";");
+
+                //Backup
+                _nome = lista[0];
+                _razaoSocial = lista[1];
+                _telefoneComercial = lista[2];
+                _contato = lista[3];
+                _setor = lista[4];
+                _dataCadastro = lista[5];
+                _email = lista[6];
+                _site = lista[7];
+                _obs = lista[8];
+                _cpf = lista[9];
+                _rg = lista[10];
+                _cnpj = lista[11];
+                _inscricaoMunicipal = lista[12];
+                _inscricaoEstadual = lista[13];
+                _cep = lista[14];
+                if (lista[15].Contains(","))
+                {
+                    _endereco = lista[15].Substring(0, lista[15].LastIndexOf(','));
+                    _numero = lista[15].Substring(lista[15].LastIndexOf(',') + 2, (lista[15].Length - (lista[15].LastIndexOf(',') + 2)));
+                }
+                else
+                {
+                    _endereco = lista[15];
+                }
+                _bairro = lista[16];
+                _cidade = lista[17];
+                _estado = lista[18];
+                _complemento = lista[19];
+                _pontoReferencia = lista[20];
+
+                _contrato = Convert.ToInt32(conexao.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
+
+                Log.AbrirCliente();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public static bool CadastrarCliente()
+        {
+            bool resultado = false;
+
+            try
+            {
+                string comando = string.Format("insert into tbl_contato values " +
+                "(0,'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}');",
+                DataCadastro, Nome, RazaoSocial, Telefone, Contato, Setor, CPF, RG, CNPJ, InscricaoEstadual, InscricaoMunicipal, Site, Email, Endereco + ", " + Numero, Bairro,
+                Cidade, Estado, CEP, Complemento, PontoReferencia, Obs);
+                conexao.ExecutaComando(comando);
+
+                comando = string.Format("Select id from tbl_contato where nome = '{0}';", Nome);
+                ID = Int32.Parse(conexao.ConsultaSimples(comando));
+
+                comando = string.Format("insert into tbl_contato_contrato values ({0},{1});", ID, Contrato);
+                conexao.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                string erro = ListaErro.RetornaErro(39);
+                int separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                resultado = false;
+            }
+            finally
+            {
+                _nome = Nome;
+                _razaoSocial = RazaoSocial;
+                _telefoneComercial = Telefone;
+                _contato = Contato;
+                _setor = Setor;
+                _dataCadastro = DataCadastro;
+                _email = Email;
+                _site = Site;
+                _obs = Obs;
+                _cpf = CPF;
+                _rg = RG;
+                _cnpj = CNPJ;
+                _inscricaoMunicipal = InscricaoMunicipal;
+                _inscricaoEstadual = InscricaoEstadual;
+                _cep = CEP;
+                if (Endereco.Contains(","))
+                {
+                    _endereco = Endereco.Substring(0, Endereco.LastIndexOf(','));
+                    _numero = Endereco.Substring(Endereco.LastIndexOf(',') + 2, (Endereco.Length - (Endereco.LastIndexOf(',') + 2)));
+                }
+                else
+                {
+                    _endereco = Endereco;
+                }
+                _bairro = Bairro;
+                _cidade = Cidade;
+                _estado = Estado;
+                _complemento = Complemento;
+                _pontoReferencia = PontoReferencia;
+
+                _contrato = Convert.ToInt32(conexao.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
+
+                Log.CadastrarCliente();
+                resultado = true;
+            }
+
+            return resultado;
+        }
+
+        public static void AtualizarCliente()
+        {
+            try
+            {
+
+                string comando = "Update tbl_contato set nome = '" + Nome + "', " +
+                    "razaosocial = '" + RazaoSocial + "', telefone = '" + Telefone + "', " +
+                    "contato = '" + Contato + "', setor = '" + Setor + "', " +
+                    "cpf = '" + CPF + "', rg = '" + RG + "', cnpj = '" + CNPJ + "', " +
+                    "inscricaoestadual = '" + InscricaoEstadual + "', inscricaomunicipal = '" + InscricaoMunicipal + "', " +
+                    "site = '" + Site + "', email = '" + Email + "', endereco = '" + Endereco + "', " +
+                    "bairro = '" + Bairro + "', cidade = '" + Cidade + "', estado = '" + Estado + "', " +
+                    "cep = '" + CEP + "', complemento = '" + Complemento + "', " +
+                    "pontoreferencia = '" + PontoReferencia + "', obs = '" + Obs + "'" +
+                    "where id = '" + ID + "';";
+                conexao.ExecutaComando(comando);
+
+                comando = "Update tbl_contato_contrato set contrato = " + Contrato + " where contato = " + ID + ";";
+                conexao.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                string erro = ListaErro.RetornaErro(38);
+                int separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            finally
+            {
+                Log.AlterarCliente();
+
+                string mensagem = ListaMensagens.RetornaMensagem(11);
+                int separador = mensagem.IndexOf(":");
+                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         public static void ApagarCliente()
@@ -313,7 +611,55 @@ namespace Gerenciador_de_Tarefas.Classes
             conexao.ExecutaComando("delete from tbl_contato_contrato where contato = " + ID + ";");
             conexao.ExecutaComando("delete from tbl_contato where id = " + ID + ";");
 
-            Log.ApagarCliente(ID);
+            Log.ApagarCliente();
+
+            LimparVariaveis();
+        }
+
+        public static bool AvaliarMudancas()
+        {
+            bool resultado = false;
+
+            if (DataCadastro == "  /  /")
+            {
+                DataCadastro = "";
+            }
+
+            if (_contrato != Contrato || _nome != Nome || _razaoSocial != RazaoSocial || _telefoneComercial != Telefone ||
+                    _contato != Contato || _setor != Setor || _email != Email || _site != Site || _obs != Obs ||
+                    _cpf != CPF || _rg != RG || _cnpj != CNPJ || _inscricaoMunicipal != InscricaoMunicipal ||
+                    _inscricaoEstadual != InscricaoEstadual || _cep != CEP || _endereco != Endereco ||
+                    _numero != Numero || _bairro != Bairro || _cidade != Cidade || _estado != Estado ||
+                    _complemento != Complemento || _pontoReferencia != PontoReferencia)
+            {
+                resultado = true;
+            }
+
+                return resultado;
+        }
+
+        /// <summary>
+        /// Limpa as variáveis na classe Cliente
+        /// </summary>
+        public static void LimparVariaveis()
+        {
+            //Originais
+            id = 0; contrato = 0;
+            numeroTarefas = ""; dataCadastro = "";
+            nome = ""; razaoSocial = ""; telefoneComercial = ""; contato = ""; setor = "";
+            cpf = ""; rg = ""; cnpj = ""; inscricaoEstadual = ""; inscricaoMunicipal = "";
+            site = ""; email = ""; endereco = ""; numero = ""; bairro = ""; cidade = "";
+            cep = ""; complemento = ""; pontoReferencia = ""; obs = "";
+
+            novoCadastro = false;
+
+            //Backup
+            _contrato = 0;
+            _dataCadastro = "";
+            _nome = ""; _razaoSocial = ""; _telefoneComercial = ""; _contato = ""; _setor = "";
+            _cpf = ""; _rg = ""; _cnpj = ""; _inscricaoEstadual = ""; _inscricaoMunicipal = "";
+            _site = ""; _email = ""; _endereco = ""; _numero = ""; _bairro = ""; _cidade = "";
+            _cep = ""; _complemento = ""; _pontoReferencia = ""; _obs = "";
         }
         #endregion
     }

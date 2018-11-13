@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas
 {
@@ -39,8 +40,8 @@ namespace Gerenciador_de_Tarefas
 
         private void btnFechar_Click(object sender, EventArgs e)
         {
-            Classes.Fornecedor.FornecedorPesquisado = 0;
-            FuncoesEstaticas.ClientePesquisado = 0;
+            Fornecedor.FornecedorPesquisado = 0;
+            Cliente.ClientePesquisado = 0;
 
             Close();
         }
@@ -71,12 +72,12 @@ namespace Gerenciador_de_Tarefas
             }
             if(!fornecedor)
             {
-                FuncoesEstaticas.PesquisaCliente(dgvTemp, listaPesquisa);
+                Cliente.PesquisaCliente(dgvTemp, listaPesquisa);
                 
             }
             else
             {
-                Classes.Fornecedor.PesquisaFornecedor(dgvTemp, listaPesquisa);
+                Fornecedor.PesquisaFornecedor(dgvTemp, listaPesquisa);
             }
             
             Close();

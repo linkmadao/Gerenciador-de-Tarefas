@@ -24,6 +24,29 @@ namespace Gerenciador_de_Tarefas.Classes
         public string cep { get; set; }
     }
 
+    public struct LayoutJson
+    {
+        private string _index, _value;
+
+        public LayoutJson(String Index, String Value)
+        {
+            _index = Index;
+            _value = Value;
+        }
+
+        public string Index
+        {
+            get { return _index; }
+            set { _index = value; }
+        }
+
+        public string Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+    }
+
     public static class Fornecedor
     {
         #region Variaveis
@@ -31,7 +54,7 @@ namespace Gerenciador_de_Tarefas.Classes
 
         // Variáveis de Backup
         private static int _id, _tipo;
-        private static List<int> _categorias, _subcategorias;
+        //private static List<int> _categorias, _subcategorias;
         private static string _documento, _nome, _apelido, _dataCadastro, _dataNascimento, _cep, _endereco, _numero, _complemento, _bairro, _cidade, _estado, _pais,
            _telefone, _contato, _telefoneComercial, _contatoComercial, _celular, _contatoCelular, _email, _site, _inscricaoEstadual, _inscricaoMunicipal, _obs;
         #endregion
@@ -150,7 +173,6 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             get; set;
         }
-
         public static int FornecedorPesquisado
         {
             get; set;
@@ -350,7 +372,7 @@ namespace Gerenciador_de_Tarefas.Classes
             int separador = int.MinValue;
 
 
-            if (FuncoesEstaticas.ValidaCNPJ(_CNPJ))
+            if (Funcoes.ValidaCNPJ(_CNPJ))
             {
                 string url = "https://www.receitaws.com.br/v1/cnpj/" + _CNPJ;
 

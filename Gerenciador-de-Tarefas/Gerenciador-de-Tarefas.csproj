@@ -126,8 +126,11 @@
   <ItemGroup>
     <Compile Include="Classes\Cliente.cs" />
     <Compile Include="Classes\Fornecedor.cs" />
+    <Compile Include="Classes\ListaErro.cs" />
+    <Compile Include="Classes\ListaMensagens.cs" />
     <Compile Include="Classes\Log.cs" />
     <Compile Include="Classes\Sistema.cs" />
+    <Compile Include="Classes\Tarefa.cs" />
     <Compile Include="Forms\Ajuda.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -153,7 +156,7 @@
     <Compile Include="Forms\Funcionarios.Designer.cs">
       <DependentUpon>Funcionarios.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\functions.cs" />
+    <Compile Include="Classes\Funcoes.cs" />
     <Compile Include="Forms\Login.cs">
       <SubType>Form</SubType>
     </Compile>

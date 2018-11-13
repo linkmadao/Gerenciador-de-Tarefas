@@ -1,30 +1,43 @@
 ﻿using IWshRuntimeLibrary;
 using Shell32;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
+using System.Xml.Linq;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 using File = System.IO.File;
 using Folder = Shell32.Folder;
+using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas.Classes
 {
     public static class Sistema
     {
         #region Variaveis
-        private static string versaoLocal = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
-        private static string versaoServidor = FileVersionInfo.GetVersionInfo(@"\\192.168.254.253\GerenciadorTarefas\Projeto\Gerenciador-de-Tarefas\Gerenciador-de-Tarefas\bin\Release\Gerenciador-de-Tarefas.exe").FileVersion;
-        private static string diretorioServidor = @"\\192.168.254.253\GerenciadorTarefas\Projeto\Gerenciador-de-Tarefas\Gerenciador-de-Tarefas\bin\Release\";
-        private static string diretorioPadrao = @"\\192.168.254.253\GerenciadorTarefas\";
-        private static string diretorioAtalho = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        private static string executavel = "gerenciador-de-tarefas.exe";
-        private static string atalho = @"\Gerenciador de Tarefas.lnk";
-        private static string descricaoSoftware = "Gerenciador de Tarefas - ";
+        private static BDCONN conexao = new BDCONN();
+
+        private static string versaoLocal = "", versaoAtalho = "";
+        private static readonly string versaoServidor = FileVersionInfo.GetVersionInfo(@"\\192.168.254.253\GerenciadorTarefas\Projeto\Gerenciador-de-Tarefas\Gerenciador-de-Tarefas\bin\Release\Gerenciador-de-Tarefas.exe").FileVersion;
+        private static readonly string diretorioServidor = @"\\192.168.254.253\GerenciadorTarefas\Projeto\Gerenciador-de-Tarefas\Gerenciador-de-Tarefas\bin\Release\";
+        private static readonly string diretorioPadrao = @"\\192.168.254.253\GerenciadorTarefas\";
+        private static readonly string diretorioAtalho = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        private static readonly string executavel = "gerenciador-de-tarefas.exe";
+        private static readonly string nomeAtalho = @"\Gerenciador de Tarefas.lnk";
+        private static readonly string descricaoSoftware = "Gerenciador de Tarefas - ";
+
+        //Variaveis XML
+        private static readonly string arquivoXML = "bdconfig.xml";
+        private static string enderecoServidor = "";
+        private static string nomeBanco = "";
+        private static string nomeUsuario = "";
+        private static string senhaUsuario = "";
+        private static bool servidorLocal = false;
 
         private static int usuarioLogado = 0;
         #endregion
@@ -40,8 +53,42 @@ namespace Gerenciador_de_Tarefas.Classes
                 return versaoLocal;
             }
         }
-
-        public static int UsuarioLogado
+        public static string EnderecoServidor
+        {
+            get
+            {
+                return Convert.ToBase64String(Encoding.UTF8.GetBytes(enderecoServidor));
+            }
+        }
+        public static string NomeBanco
+        {
+            get
+            {
+                return Convert.ToBase64String(Encoding.UTF8.GetBytes(nomeBanco));
+            }
+        }
+        public static string NomeUsuario
+        {
+            get
+            {
+                return Convert.ToBase64String(Encoding.UTF8.GetBytes(nomeUsuario));
+            }
+        }
+        public static string SenhaUsuario
+        {
+            get
+            {
+                return Convert.ToBase64String(Encoding.UTF8.GetBytes(senhaUsuario));
+            }
+        }
+        public static bool ServidorLocal
+        {
+            get
+            {
+                return servidorLocal;
+            }
+        }
+        public static int IDUsuarioLogado
         {
             get
             {
@@ -52,6 +99,29 @@ namespace Gerenciador_de_Tarefas.Classes
                 usuarioLogado = value;
             }
         }
+        public static string NomeUsuarioLogado
+        {
+            get
+            {
+                string comando = "select user from tbl_usuarios where id = " + usuarioLogado + ";";
+                return conexao.ConsultaSimples(comando).ToUpper();
+            }
+        }
+        public static string Hora
+        {
+            get
+            {
+                return DateTime.Now.ToShortTimeString();
+            }
+        }
+        public static string Ano
+        {
+            get
+            {
+                return DateTime.Now.Year.ToString();
+            }
+        }
+
         #endregion
 
         #region Funcoes
@@ -60,36 +130,73 @@ namespace Gerenciador_de_Tarefas.Classes
         /// </summary>
         public static void ChecaAtualizacao()
         {
-            string versaoAtalho = "";
-
             try
             {
-                 versaoAtalho = FileVersionInfo.GetVersionInfo(GetShortcutTargetFile(diretorioAtalho + atalho)).FileVersion;
+                if(File.Exists(Assembly.GetExecutingAssembly().Location) && Assembly.GetExecutingAssembly().Location.Contains(".exe"))
+                {
+                    versaoLocal = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
+                }
+                else
+                {
+                    versaoLocal = FileVersionInfo.GetVersionInfo(GetShortcutTargetFile(diretorioAtalho + nomeAtalho)).FileVersion;
+                }
+                 versaoAtalho = FileVersionInfo.GetVersionInfo(GetShortcutTargetFile(diretorioAtalho + nomeAtalho)).FileVersion;
             }
             catch (ArgumentException)
             {
                 versaoAtalho = "";
             }
-
-            if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoLocal.Replace(".", "")))
-            {
-                if (Directory.Exists(diretorioPadrao + versaoServidor + @"\"))
+            #if RELEASE
+                if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoLocal.Replace(".", "")))
                 {
-                    if (!File.Exists(diretorioAtalho + atalho))
+                    if (Directory.Exists(diretorioPadrao + versaoServidor + @"\"))
                     {
-                        CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoServidor, versaoServidor);
+                        if (!File.Exists(diretorioAtalho + atalho))
+                        {
+                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoServidor, versaoServidor);
+                        }
+                        else
+                        {
+                            if(!string.IsNullOrEmpty(versaoAtalho))
+                            {
+                                if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                                {
+                                    //Atualiza/Cria o Atalho
+                                    AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
+                                }
+                            }
+                        
+
+                            //Abre o executável existente
+                            Process process = Process.Start(diretorioPadrao + versaoServidor + @"\" + executavel);
+
+                            //Fecha o aplicativo atual
+                            Application.Exit();
+                        }
                     }
                     else
                     {
-                        if(!string.IsNullOrEmpty(versaoAtalho))
+                        //Cria a pasta
+                        Directory.CreateDirectory(diretorioPadrao + versaoServidor + @"\");
+
+                        //Copia todos os arquivos
+                        CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoServidor + @"\", true);
+
+                        if (!File.Exists(diretorioAtalho + atalho))
                         {
-                            if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoServidor, versaoServidor);
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(versaoAtalho))
                             {
-                                //Atualiza/Cria o Atalho
-                                AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
+                                if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                                {
+                                    //Atualiza/Cria o Atalho
+                                    AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
+                                }
                             }
                         }
-                        
 
                         //Abre o executável existente
                         Process process = Process.Start(diretorioPadrao + versaoServidor + @"\" + executavel);
@@ -100,80 +207,52 @@ namespace Gerenciador_de_Tarefas.Classes
                 }
                 else
                 {
-                    //Cria a pasta
-                    Directory.CreateDirectory(diretorioPadrao + versaoServidor + @"\");
-
-                    //Copia todos os arquivos
-                    CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoServidor + @"\", true);
-
-                    if (!File.Exists(diretorioAtalho + atalho))
+                    if (Directory.Exists(diretorioPadrao + versaoLocal + @"\"))
                     {
-                        CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoServidor, versaoServidor);
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(versaoAtalho))
+                        if (!File.Exists(diretorioAtalho + atalho))
                         {
-                            if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoLocal, versaoServidor);
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(versaoAtalho))
                             {
-                                //Atualiza/Cria o Atalho
-                                AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
+                                if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                                {
+                                    //Atualiza/Cria o Atalho
+                                    AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
+                                }
                             }
                         }
                     }
-
-                    //Abre o executável existente
-                    Process process = Process.Start(diretorioPadrao + versaoServidor + @"\" + executavel);
-
-                    //Fecha o aplicativo atual
-                    Application.Exit();
-                }
-            }
-            else
-            {
-                if (Directory.Exists(diretorioPadrao + versaoLocal + @"\"))
-                {
-                    if (!File.Exists(diretorioAtalho + atalho))
-                    {
-                        CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoLocal, versaoServidor);
-                    }
                     else
                     {
-                        if (!string.IsNullOrEmpty(versaoAtalho))
+                        //Cria a pasta
+                        Directory.CreateDirectory(diretorioPadrao + versaoLocal + @"\");
+
+                        //Copia todos os arquivos
+                        CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoLocal + @"\", true);
+
+                        if (!File.Exists(diretorioAtalho + atalho))
                         {
-                            if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoLocal, versaoServidor);
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(versaoAtalho))
                             {
-                                //Atualiza/Cria o Atalho
-                                AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
+                                if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                                {
+                                    //Atualiza/Cria o Atalho
+                                    AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
+                                }
                             }
                         }
                     }
                 }
-                else
-                {
-                    //Cria a pasta
-                    Directory.CreateDirectory(diretorioPadrao + versaoLocal + @"\");
 
-                    //Copia todos os arquivos
-                    CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoLocal + @"\", true);
-
-                    if (!File.Exists(diretorioAtalho + atalho))
-                    {
-                        CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoLocal, versaoServidor);
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(versaoAtalho))
-                        {
-                            if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
-                            {
-                                //Atualiza/Cria o Atalho
-                                AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
-                            }
-                        }
-                    }
-                }
-            }
+                LerDadosXML();
+                #endif
         }
 
         private static string GetShortcutTargetFile(string nomeAtalho)
@@ -261,7 +340,7 @@ namespace Gerenciador_de_Tarefas.Classes
         /// <param name="versaoAtual">Versão em que o software se encontra</param>
         private static void AtualizaAtalho(string diretorioAlvo, string versaoAtual)
         {
-            string atalho = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + FuncoesEstaticas.NomeAtalho;
+            string atalho = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + nomeAtalho;
 
             //Verifica se existe o atalho
             if (File.Exists(atalho))
@@ -281,6 +360,88 @@ namespace Gerenciador_de_Tarefas.Classes
                 CriaAtalho(atalho, diretorioAlvo, versaoAtual);
             }
         }
-        #endregion
+
+        private static void LerDadosXML()
+        {
+            XElement xml = XElement.Load(arquivoXML);
+            foreach (XElement x in xml.Elements())
+            {
+                if (x.Attribute("servidor").Value != "" || x.Attribute("servidor").Value != "localhost" || x.Attribute("servidor").Value != "127.0.0.1")
+                {
+                    servidorLocal = false;
+                    enderecoServidor = x.Attribute("servidor").Value;
+                }
+
+                nomeBanco = x.Attribute("banco").Value;
+                nomeUsuario = x.Attribute("uid").Value;
+                senhaUsuario = x.Attribute("pwd").Value;
+            }
+        }
+
+        public static void SalvarDadosXML(bool rdbtnRemoto, string servidor, string banco, string uid, string pwd)
+        {
+            bool resultado = false;
+
+            if (!rdbtnRemoto)
+            {
+                if (conexao.TestaConexao(banco, uid, pwd))
+                {
+                    resultado = true;
+                }
+            }
+            else
+            {
+                if (conexao.TestaConexao(servidor, banco, uid, pwd))
+                {
+                    resultado = true;
+                }
+            }
+
+            if (resultado)
+            {
+                if ((rdbtnRemoto && servidor != enderecoServidor) || banco != nomeBanco || uid != nomeUsuario || pwd != senhaUsuario)
+                {
+                    try
+                    {
+                        XElement xml = XElement.Load(arquivoXML);
+                        XElement x = xml.Elements().First();
+                        if (x != null)
+                        {
+                            if (rdbtnRemoto && servidor != "")
+                            {
+                                x.Attribute("servidor").SetValue(servidor);
+                            }
+                            x.Attribute("banco").SetValue(banco);
+                            x.Attribute("uid").SetValue(uid);
+                            x.Attribute("pwd").SetValue(pwd);
+                        }
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                    finally
+                    {
+                        string mensagem = ListaMensagens.RetornaMensagem(24);
+                        int separador = mensagem.IndexOf(":");
+                        MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+                else
+                {
+                    string mensagem = ListaMensagens.RetornaMensagem(24);
+                    int separador = mensagem.IndexOf(":");
+                    MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                string erro = ListaErro.RetornaErro(59);
+                int separador = erro.IndexOf(":");
+                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }    
+        }
+#endregion
     }
 }

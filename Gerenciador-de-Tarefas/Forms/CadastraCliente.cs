@@ -14,44 +14,66 @@ namespace Gerenciador_de_Tarefas
     public partial class CadastraCliente : Form
     {
         private BDCONN conexao = new BDCONN();
-        private bool novoCadastro = false;
-        private int _idCliente = 0, _contrato = 0;
-
-        private string _nome = null, _razaoSocial = null, _telefone = null,
-            _contato = null, _setor = null, _email = null, _site = null, _obs = null, _cpf = null,
-            _rg = null, _cnpj = null, _inscMunicipal = null, _inscEstadual = null, _cep = null, 
-            _endereco = null, _numero = null, _bairro = null, _cidade = null, _estado = null,
-            _complemento = null, _pontoReferencia = null;
-
 
         /// <summary>
         /// Controle de clientes
         /// </summary>
         /// <param name="fazerNovoCadastro">Fazer novo cadastro?</param>
         /// <param name="idCliente">ID do Cliente</param>
-        public CadastraCliente(bool fazerNovoCadastro, int idCliente)
+        public CadastraCliente()
         {
             InitializeComponent();
 
-            if(fazerNovoCadastro)
+            if(Cliente.NovoCadastro)
             {
-                novoCadastro = true;
+                Cliente.NovoCadastro = true;
                 btnSair.Text = "Cancelar";
                 btnImprimir.Enabled = false;
                 btnApagar.Enabled = false;
                 btnAlterar.Enabled = false;
-
             }
             else
             {
-                _idCliente = idCliente;
-                CarregarCliente(_idCliente);
+                Cliente.AbrirCliente();
+
+                lblNumeroTarefas.Text = Cliente.NumeroTarefas;
+                Text = "Cliente - " + Cliente.Nome;
+
+                txtCodigo.Text = Cliente.ID.ToString();
+                txtNome.Text = Cliente.Nome;
+                txtRazaoSocial.Text = Cliente.RazaoSocial;
+                txtTelefoneComercial.Text = Cliente.Telefone;
+                txtContato.Text = Cliente.Contato;
+                txtSetor.Text = Cliente.Setor;
+                dtpDataCadastro.Text = Cliente.DataCadastro;
+                txtEmail.Text = Cliente.Email;
+                txtSite.Text = Cliente.Site;
+                txtOBS.Text = Cliente.Obs;
+                txtCPF.Text = Cliente.CPF;
+                txtRG.Text = Cliente.RG;
+                txtCNPJ.Text = Cliente.CNPJ;
+                txtInscMunicipal.Text = Cliente.InscricaoMunicipal;
+                txtInscEstadual.Text = Cliente.InscricaoEstadual;
+                txtCep.Text = Cliente.CEP;
+                txtEndereco.Text = Cliente.Endereco;
+                txtNumero.Text = Cliente.Numero;
+                txtBairro.Text = Cliente.Bairro;
+                txtCidade.Text = Cliente.Cidade;
+                txtEstado.Text = Cliente.Estado;
+                txtComplemento.Text = Cliente.Complemento;
+                txtPontoReferencia.Text = Cliente.PontoReferencia;
+                cmbContrato.SelectedIndex = Cliente.Contrato;
+
+                btnCadastrar.Enabled = false;
+                btnImprimir.Enabled = true;
+                btnAlterar.Enabled = true;
+                btnApagar.Enabled = true;
             }            
         }
 
         private void CadastraCliente_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (novoCadastro)
+            if (Cliente.NovoCadastro)
             {
                 string erro = ListaMensagens.RetornaMensagem(06);
                 int separador = erro.IndexOf(":");
@@ -64,19 +86,11 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                if (_contrato != (cmbContrato.SelectedIndex + 1) || _nome != txtNome.Text ||
-                    _razaoSocial != txtRazaoSocial.Text || _telefone != txtTelefoneComercial.Text ||
-                    _contato != txtContato.Text || _setor != txtSetor.Text || _email != txtEmail.Text ||
-                    _site != txtSite.Text || _obs != txtOBS.Text || _cpf != txtCPF.Text ||
-                    _rg != txtRG.Text || _cnpj != txtCNPJ.Text || _inscMunicipal != txtInscMunicipal.Text ||
-                    _inscEstadual != txtInscEstadual.Text || _cep != txtCep.Text || _endereco != txtEndereco.Text ||
-                    _numero != txtNumero.Text || _bairro != txtBairro.Text || _cidade != txtCidade.Text ||
-                    _estado != txtEstado.Text || _complemento != txtComplemento.Text ||
-                    _pontoReferencia != txtPontoReferencia.Text)
+                if (Cliente.AvaliarMudancas())
                 {
-                    string erro = ListaMensagens.RetornaMensagem(07);
-                    int separador = erro.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    string mensagem = ListaMensagens.RetornaMensagem(07);
+                    int separador = mensagem.IndexOf(":");
+                    DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (resultadoDialogo == DialogResult.No)
                     {
@@ -136,27 +150,21 @@ namespace Gerenciador_de_Tarefas
 
         private void btnApagar_Click(object sender, EventArgs e)
         {
-            string erro = ListaMensagens.RetornaMensagem(08);
-            int separador = erro.IndexOf(":");
-            DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            string mensagem = ListaMensagens.RetornaMensagem(08), erro = "";
+            int separador = mensagem.IndexOf(":");
+            DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (resultadoDialogo == DialogResult.Yes)
             {
-                Console.Beep(1000, 2000);
-                erro = ListaMensagens.RetornaMensagem(09);
-                separador = erro.IndexOf(":");
-                string resposta = Microsoft.VisualBasic.Interaction.InputBox(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), "");
+                mensagem = ListaMensagens.RetornaMensagem(09);
+                separador = mensagem.IndexOf(":");
+                string resposta = Microsoft.VisualBasic.Interaction.InputBox(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), "");
 
                 if (resposta == "MB8719")
                 {
                     try
                     {
-                        conexao.ExecutaComando("delete from tbl_tarefas where empresa = " + _idCliente + ";");
-                        conexao.ExecutaComando("delete from tbl_contato_subsubgrupo where contato = " + _idCliente + ";");
-                        conexao.ExecutaComando("delete from tbl_contato_subgrupo where contato = " + _idCliente + ";");
-                        conexao.ExecutaComando("delete from tbl_contato_telefone where contato = " + _idCliente + ";");
-                        conexao.ExecutaComando("delete from tbl_contato_contrato where contato = " + _idCliente + ";");
-                        conexao.ExecutaComando("delete from tbl_contato where id = " + _idCliente + ";");
+                        Cliente.ApagarCliente();
                     }
                     catch (Exception)
                     {
@@ -167,9 +175,9 @@ namespace Gerenciador_de_Tarefas
                     }
                     finally
                     {
-                        erro = ListaMensagens.RetornaMensagem(10);
-                        separador = erro.IndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        mensagem = ListaMensagens.RetornaMensagem(10);
+                        separador = mensagem.IndexOf(":");
+                        MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
                 }
@@ -183,6 +191,7 @@ namespace Gerenciador_de_Tarefas
 
         private void btnNovoRegistro_Click(object sender, EventArgs e)
         {
+            Cliente.LimparVariaveis();
             LimpaCampos();
         }
 
@@ -198,40 +207,30 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                try
-                {
-                    string comando = null;
+                Cliente.Nome = txtNome.Text;
+                Cliente.RazaoSocial = txtRazaoSocial.Text;
+                Cliente.Telefone = txtTelefoneComercial.Text;
+                Cliente.Contato = txtContato.Text;
+                Cliente.Setor = txtSetor.Text;
+                Cliente.CPF = txtCPF.Text;
+                Cliente.RG = txtRG.Text;
+                Cliente.CNPJ = txtCNPJ.Text;
+                Cliente.InscricaoEstadual = txtInscEstadual.Text;
+                Cliente.InscricaoMunicipal = txtInscMunicipal.Text;
+                Cliente.Site = txtSite.Text;
+                Cliente.Email = txtEmail.Text;
+                Cliente.Endereco = txtEndereco.Text;
+                Cliente.Numero = txtNumero.Text;
+                Cliente.Bairro = txtBairro.Text;
+                Cliente.Cidade = txtCidade.Text;
+                Cliente.Estado = txtEstado.Text;
+                Cliente.CEP = txtCep.Text;
+                Cliente.Complemento = txtComplemento.Text;
+                Cliente.PontoReferencia = txtPontoReferencia.Text;
+                Cliente.Obs = txtOBS.Text;
+                Cliente.Contrato = cmbContrato.SelectedIndex + 1;
 
-                    comando = "Update tbl_contato set nome = '" + txtNome.Text + "', " +
-                        "razaosocial = '" + txtRazaoSocial.Text + "', telefone = '" + txtTelefoneComercial.Text +"', " +
-                        "contato = '" + txtContato.Text + "', setor = '" + txtSetor.Text + "', " +
-                        "cpf = '" + txtCPF.Text + "', rg = '" + txtRG.Text + "', cnpj = '" + txtCNPJ.Text +"', " +
-                        "inscricaoestadual = '" + txtInscEstadual.Text + "', inscricaomunicipal = '" + txtInscMunicipal.Text +"', " +
-                        "site = '" + txtSite.Text + "', email = '" + txtEmail.Text + "', endereco = '" + txtEndereco.Text +"', " +
-                        "bairro = '" + txtBairro.Text + "', cidade = '" + txtCidade.Text + "', estado = '" + txtEstado.Text +"', " +
-                        "cep = '" + txtCep.Text + "', complemento = '" + txtComplemento.Text + "', " +
-                        "pontoreferencia = '" + txtPontoReferencia.Text + "', obs = '" + txtOBS.Text +"'" +
-                        "where id = " + _idCliente + ";";
-                    conexao.ExecutaComando(comando);
-
-                    comando = "Update tbl_contato_contrato set contrato = " + (cmbContrato.SelectedIndex + 1).ToString()
-                        + " where contato = " + _idCliente.ToString() + ";";
-                    conexao.ExecutaComando(comando);
-                }
-                catch (Exception)
-                {
-                    string erro = ListaErro.RetornaErro(38);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                finally
-                {
-                    string erro = ListaMensagens.RetornaMensagem(11);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    SalvaCampos();
-                }
+                Cliente.AtualizarCliente();
             }
         }
 
@@ -247,49 +246,40 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                try
+                Cliente.Contrato = cmbContrato.SelectedIndex + 1;
+                Cliente.DataCadastro = dtpDataCadastro.Value.ToString("yyyy-MM-dd");
+                Cliente.Nome = txtNome.Text;
+                Cliente.RazaoSocial = txtRazaoSocial.Text;
+                Cliente.Telefone = txtTelefoneComercial.Text;
+                Cliente.Contato = txtContato.Text;
+                Cliente.Setor = txtSetor.Text;
+                Cliente.CPF = txtCPF.Text;
+                Cliente.RG = txtRG.Text;
+                Cliente.CNPJ = txtCNPJ.Text;
+                Cliente.InscricaoEstadual = txtInscEstadual.Text;
+                Cliente.InscricaoMunicipal = txtInscMunicipal.Text;
+                Cliente.Site = txtSite.Text;
+                Cliente.Email = txtEmail.Text;
+                Cliente.Endereco = txtEndereco.Text;
+                Cliente.Numero = txtNumero.Text;
+                Cliente.Bairro = txtBairro.Text;
+                Cliente.Cidade = txtCidade.Text;
+                Cliente.Estado = txtEstado.Text;
+                Cliente.CEP = txtCep.Text;
+                Cliente.Complemento = txtComplemento.Text;
+                Cliente.PontoReferencia = txtPontoReferencia.Text;
+                Cliente.Obs = txtOBS.Text;
+                
+                if(Cliente.CadastrarCliente())
                 {
-                    Cliente.Contrato = cmbContrato.SelectedIndex + 1;
-                    Cliente.DataCadastro = dtpDataCadastro.Value.ToString("yyyy-MM-dd");
-                    Cliente.Nome = txtNome.Text;
-                    Cliente.RazaoSocial = txtRazaoSocial.Text;
-                    Cliente.TelefoneComercial = txtTelefoneComercial.Text;
-                    Cliente.Contato = txtContato.Text;
-                    Cliente.Setor = txtSetor.Text;
-                    Cliente.CPF = txtCPF.Text;
-                    Cliente.RG = txtRG.Text;
-                    Cliente.CNPJ = txtCNPJ.Text;
-                    Cliente.InscricaoEstadual = txtInscEstadual.Text;
-                    Cliente.InscricaoMunicipal = txtInscMunicipal.Text;
-                    Cliente.Site = txtSite.Text;
-                    Cliente.Email = txtEmail.Text;
-                    Cliente.Endereco = txtEndereco.Text;
-                    Cliente.Numero = txtNumero.Text;
-                    Cliente.Bairro = txtBairro.Text;
-                    Cliente.Cidade = txtCidade.Text;
-                    Cliente.Estado = txtEstado.Text;
-                    Cliente.CEP = txtCep.Text;
-                    Cliente.Complemento = txtComplemento.Text;
-                    Cliente.PontoReferencia = txtPontoReferencia.Text;
-                    Cliente.Obs = txtOBS.Text;
-
-                    Cliente.CadastrarCliente();
-                }
-                catch (Exception)
-                {
-                    string erro = ListaErro.RetornaErro(39);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                finally
-                {
-                    string erro = ListaMensagens.RetornaMensagem(12);
-                    int separador = erro.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    string mensagem = ListaMensagens.RetornaMensagem(12);
+                    int separador = mensagem.IndexOf(":");
+                    DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (resultadoDialogo == DialogResult.Yes)
                     {
                         LimpaCampos();
+
                         tabPageDadosCadastrais.Select();
                         tabPageDadosCadastrais.Show();
                         txtNome.Focus();
@@ -303,12 +293,10 @@ namespace Gerenciador_de_Tarefas
                         btnAlterar.Enabled = true;
                         btnApagar.Enabled = true;
 
-                        txtCodigo.Text = _idCliente.ToString();
+                        txtCodigo.Text = Cliente.ID.ToString();
 
                         btnSair.Text = "Sair";
-                        novoCadastro = false;
-
-                        SalvaCampos();
+                        Cliente.NovoCadastro = false;
                     }
                 }
             }
@@ -336,7 +324,7 @@ namespace Gerenciador_de_Tarefas
                     txtCNPJ.Clear();
                     txtCNPJ.Focus();
                 }
-                else if (txtCNPJ.Text.Length == 14 && !FuncoesEstaticas.ValidaCNPJ(txtCNPJ.Text))
+                else if (txtCNPJ.Text.Length == 14 && !Funcoes.ValidaCNPJ(txtCNPJ.Text))
                 {
                     string erro = ListaErro.RetornaErro(41);
                     int separador = erro.IndexOf(":");
@@ -369,7 +357,7 @@ namespace Gerenciador_de_Tarefas
                     txtCPF.Clear();
                     txtCPF.Focus();
                 }
-                else if (txtCPF.Text.Length == 11 && !FuncoesEstaticas.ValidaCPF(txtCPF.Text))
+                else if (txtCPF.Text.Length == 11 && !Funcoes.ValidaCPF(txtCPF.Text))
                 {
                     string erro = ListaErro.RetornaErro(43);
                     int separador = erro.IndexOf(":");
@@ -416,30 +404,6 @@ namespace Gerenciador_de_Tarefas
             txtComplemento.Clear();
             txtPontoReferencia.Clear();
 
-            _idCliente = 0;
-            _nome = null;
-            _razaoSocial = null;
-            _contrato = 0;
-            _telefone = null;
-            _contato = null;
-            _setor = null;
-            _email = null;
-            _site = null;
-            _obs = null;
-            _cpf = null;
-            _rg = null;
-            _cnpj = null;
-            _inscMunicipal = null;
-            _inscEstadual = null;
-            _cep = null;
-            _endereco = null;
-            _numero = null;
-            _bairro = null;
-            _cidade = null;
-            _estado = null;
-            _complemento = null;
-            _pontoReferencia = null;
-
             btnAlterar.Enabled = false;
             btnApagar.Enabled = false;
             btnImprimir.Enabled = false;
@@ -449,9 +413,11 @@ namespace Gerenciador_de_Tarefas
             tabPageDadosCadastrais.Show();
             txtNome.Focus();
 
+            Cliente.LimparVariaveis();
+
             btnSair.Text = "Cancelar";
 
-            novoCadastro = true;
+            Cliente.NovoCadastro = true;
         }
 
         private void LocalizarCEP()
@@ -480,6 +446,7 @@ namespace Gerenciador_de_Tarefas
                         txtBairro.Text = cep.bairro;
                         txtEndereco.Text = cep.logradouro;
                         txtComplemento.Text = cep.complemento;
+                        txtNumero.Focus();
                     }
                     else
                     {
@@ -509,91 +476,12 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void CarregarCliente(int idCliente)
+        private void CarregarCliente()
         {
-            if (!novoCadastro)
+            if (!Cliente.NovoCadastro)
             {
-                string comando = null;
-
-                comando = "select nome, razaosocial, telefone, contato, setor, datacadastro, email, site, obs, cpf, " 
-                    + "rg, cnpj, inscricaomunicipal, inscricaoestadual, cep, endereco, bairro, cidade, "
-                    + "estado, complemento, pontoreferencia " 
-                    + "from tbl_contato where id = " + idCliente + ";";
-
-                List<string> lista = conexao.ConsultaContato(comando);
-
-                comando = "select count(id) from tbl_tarefas where empresa = " + idCliente + ";";
-                lblNumeroTarefas.Text = conexao.ConsultaSimples(comando);
-
-                Text = "Cliente - " + lista[0];
-
-                txtCodigo.Text = idCliente.ToString();
-                txtNome.Text = lista[0];
-                txtRazaoSocial.Text = lista[1];
-                txtTelefoneComercial.Text = lista[2];
-                txtContato.Text = lista[3];
-                txtSetor.Text = lista[4];
-                dtpDataCadastro.Text = lista[5];
-                txtEmail.Text = lista[6];
-                txtSite.Text = lista[7];
-                txtOBS.Text = lista[8];
-                txtCPF.Text = lista[9];
-                txtRG.Text = lista[10];
-                txtCNPJ.Text = lista[11];
-                txtInscMunicipal.Text = lista[12];
-                txtInscEstadual.Text = lista[13];
-                txtCep.Text = lista[14];
-                if(txtEndereco.Text.Contains(','))
-                {
-                    txtEndereco.Text = lista[15].Substring(0, lista[15].LastIndexOf(','));
-                    txtNumero.Text = lista[15].Substring(lista[15].LastIndexOf(',') + 2, (lista[15].Length - (lista[15].LastIndexOf(',') + 2)));
-                }
-                else
-                {
-                    txtEndereco.Text = lista[15];
-                }
-                txtBairro.Text = lista[16];
-                txtCidade.Text = lista[17];
-                txtEstado.Text = lista[18];
-                txtComplemento.Text = lista[19];
-                txtPontoReferencia.Text = lista[20];
-
-                comando = "select contrato from tbl_contato_contrato where contato = " + idCliente + ";";
-                cmbContrato.SelectedIndex = Convert.ToInt32(conexao.ConsultaSimples(comando)) - 1;
-
-                btnCadastrar.Enabled = false;
-                btnImprimir.Enabled = true;
-                btnAlterar.Enabled = true;
-                btnApagar.Enabled = true;
-
-                SalvaCampos();
+                
             }
-        }
-
-        private void SalvaCampos()
-        {
-            _nome = txtNome.Text;
-            _razaoSocial = txtRazaoSocial.Text;
-            _contrato = cmbContrato.SelectedIndex + 1;
-            _telefone = txtTelefoneComercial.Text;
-            _contato = txtContato.Text;
-            _setor = txtSetor.Text;
-            _email = txtEmail.Text;
-            _site = txtSite.Text;
-            _obs = txtOBS.Text;
-            _cpf = txtCPF.Text;
-            _rg = txtRG.Text;
-            _cnpj = txtCNPJ.Text;
-            _inscMunicipal = txtInscMunicipal.Text;
-            _inscEstadual = txtInscEstadual.Text;
-            _cep = txtCep.Text;
-            _endereco = txtEndereco.Text;
-            _numero = txtNumero.Text;
-            _bairro = txtBairro.Text;
-            _cidade = txtCidade.Text;
-            _estado = txtEstado.Text;
-            _complemento = txtComplemento.Text;
-            _pontoReferencia = txtPontoReferencia.Text;
         }
     }
 }
