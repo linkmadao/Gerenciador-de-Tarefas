@@ -10,17 +10,17 @@ namespace Gerenciador_de_Tarefas.Classes
     public class RootObject
     {
         public string Nome { get; set; }
-        public string fantasia { get; set; }
-        public string cnpj { get; set; }
+        public string Fantasia { get; set; }
+        public string CNPJ { get; set; }
         public string Telefone { get; set; }
         public string Email { get; set; }
-        public string abertura { get; set; }
-        public string logradouro { get; set; }
+        public string Abertura { get; set; }
+        public string Logradouro { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
         public string Bairro { get; set; }
-        public string municipio { get; set; }
-        public string uf { get; set; }
+        public string Municipio { get; set; }
+        public string UF { get; set; }
         public string CEP { get; set; }
     }
 
@@ -389,15 +389,15 @@ namespace Gerenciador_de_Tarefas.Classes
                     for (int i = 0; i < 1; i++)
                     {
                         Nome = rootobject.Nome;
-                        Apelido = rootobject.fantasia;
-                        DataNascimento = rootobject.abertura;
+                        Apelido = rootobject.Fantasia;
+                        DataNascimento = rootobject.Abertura;
                         CEP = rootobject.CEP.Replace(".", "").Replace("-", "");
-                        Endereco = rootobject.logradouro;
+                        Endereco = rootobject.Logradouro;
                         Numero = rootobject.Numero.Replace("(", "").Replace(")", "").Replace(" ", "");
                         Complemento = rootobject.Complemento;
                         Bairro = rootobject.Bairro;
-                        Cidade = rootobject.municipio;
-                        Estado = rootobject.uf;
+                        Cidade = rootobject.Municipio;
+                        Estado = rootobject.UF;
                         TelefoneComercial = rootobject.Telefone;
                         Email = rootobject.Email;
                     }
@@ -712,9 +712,10 @@ namespace Gerenciador_de_Tarefas.Classes
 
         public static List<string> DadosImpressao()
         {
-            List<string> lista = new List<string>();
-
-            lista.Add("ID: " + ID);
+            List<string> lista = new List<string>
+            {
+                "ID: " + ID
+            };
 
             if (Tipo == 0)
             {

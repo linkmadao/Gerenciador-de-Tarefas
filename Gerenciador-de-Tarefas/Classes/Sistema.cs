@@ -41,12 +41,12 @@ namespace Gerenciador_de_Tarefas.Classes
         private static string senhaUsuario = "";
 
         // Variáveis de Backup Conexao Banco de Dados
-        #pragma warning disable 414
+        #pragma warning disable 414, IDE0044
         private static string _enderecoServidor = "";
         private static string _nomeBanco = "";
         private static string _nomeUsuario = "";
         private static string _senhaUsuario = "";
-        #pragma warning restore 414
+        #pragma warning restore 414, IDE0044
         #endregion
 
         #region Propriedades

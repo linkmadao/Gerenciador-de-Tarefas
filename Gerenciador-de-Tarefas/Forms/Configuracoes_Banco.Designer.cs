@@ -239,7 +239,7 @@
             this.rdbtnServidorLocal.TabStop = true;
             this.rdbtnServidorLocal.Text = "Servidor Local";
             this.rdbtnServidorLocal.UseVisualStyleBackColor = true;
-            this.rdbtnServidorLocal.Click += new System.EventHandler(this.rdbtnServidorLocal_Click);
+            this.rdbtnServidorLocal.Click += new System.EventHandler(this.RdbtnServidorLocal_Click);
             // 
             // rdbtnRemoto
             // 
@@ -250,7 +250,7 @@
             this.rdbtnRemoto.TabIndex = 1;
             this.rdbtnRemoto.Text = "Remoto:";
             this.rdbtnRemoto.UseVisualStyleBackColor = true;
-            this.rdbtnRemoto.Click += new System.EventHandler(this.rdbtnRemoto_Click);
+            this.rdbtnRemoto.Click += new System.EventHandler(this.RdbtnRemoto_Click);
             // 
             // btnFechar
             // 
@@ -261,7 +261,7 @@
             this.btnFechar.TabIndex = 2;
             this.btnFechar.Text = "Fechar";
             this.btnFechar.UseVisualStyleBackColor = true;
-            this.btnFechar.Click += new System.EventHandler(this.btnFechar_Click);
+            this.btnFechar.Click += new System.EventHandler(this.BtnFechar_Click);
             // 
             // btnTestarAplicar
             // 
@@ -271,7 +271,7 @@
             this.btnTestarAplicar.TabIndex = 3;
             this.btnTestarAplicar.Text = "Testar e Aplicar";
             this.btnTestarAplicar.UseVisualStyleBackColor = true;
-            this.btnTestarAplicar.Click += new System.EventHandler(this.btnTestarAplicar_Click);
+            this.btnTestarAplicar.Click += new System.EventHandler(this.BtnTestarAplicar_Click);
             // 
             // ofdAbrirArquivo
             // 

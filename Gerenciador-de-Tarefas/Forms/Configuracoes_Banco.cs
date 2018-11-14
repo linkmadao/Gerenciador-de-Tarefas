@@ -23,12 +23,12 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void btnFechar_Click(object sender, EventArgs e)
+        private void BtnFechar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void btnTestarAplicar_Click(object sender, EventArgs e)
+        private void BtnTestarAplicar_Click(object sender, EventArgs e)
         {
             bool abreprograma = false;
 
@@ -58,14 +58,14 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void rdbtnRemoto_Click(object sender, EventArgs e)
+        private void RdbtnRemoto_Click(object sender, EventArgs e)
         {
             rdbtnRemoto.Checked = true;
             rdbtnServidorLocal.Checked = false;
             txtServidor.Enabled = true;
         }
 
-        private void rdbtnServidorLocal_Click(object sender, EventArgs e)
+        private void RdbtnServidorLocal_Click(object sender, EventArgs e)
         {
             rdbtnRemoto.Checked = false;
             rdbtnServidorLocal.Checked = true;
