@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 using Gerenciador_de_Tarefas.Classes;
+using Microsoft.VisualBasic;
 
 
 namespace Gerenciador_de_Tarefas
@@ -27,9 +22,12 @@ namespace Gerenciador_de_Tarefas
             
             CarregaFuncionarios();
             CarregaEmpresas();
+
             if (Classes.Tarefa.NovaTarefa)
             {
                 btnSair.Text = "Cancelar";
+                btnSalvar.Text = "Cadastrar";
+                btnSalvarFechar.Text = "Cadastrar \ne Fechar";
                 btnExcluir.Enabled = false;
                 btnImprimir.Enabled = false;
             }
@@ -49,45 +47,34 @@ namespace Gerenciador_de_Tarefas
 
         private void Tarefa_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (!Classes.Tarefa.SalvarTarefa)
+            Classes.Tarefa.Assunto = txtAssunto.Text;
+            Classes.Tarefa.Atribuicao = cmbFuncionario.SelectedItem.ToString();
+            Classes.Tarefa.DataInicial = dtpInicio.Text;
+            Classes.Tarefa.DataFinal = dtpFinal.Text;
+            Classes.Tarefa.Prioridade = cmbPrioridade.SelectedIndex;
+            Classes.Tarefa.Status = cmbStatus.SelectedIndex;
+            Classes.Tarefa.Texto = rtbTexto.Text;
+
+            if (Classes.Tarefa.AvaliaMudancas())
             {
                 if (Classes.Tarefa.NovaTarefa)
                 {
-                    string erro = ListaMensagens.RetornaMensagem(02);
-                    int separador = erro.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    
-                    if (resultadoDialogo == DialogResult.No)
+                    if (ListaMensagens.RetornaDialogo(02) == DialogResult.No)
                     {
                         e.Cancel = true;
                     }
                 }
                 else
                 {
-                    Classes.Tarefa.Assunto = txtAssunto.Text;
-                    Classes.Tarefa.Atribuicao = cmbFuncionario.SelectedItem.ToString();
-                    Classes.Tarefa.DataInicial = dtpInicio.Text;
-                    Classes.Tarefa.DataFinal = dtpFinal.Text;
-                    Classes.Tarefa.Prioridade = cmbPrioridade.SelectedIndex;
-                    Classes.Tarefa.Status = cmbStatus.SelectedIndex + 1;
-                    Classes.Tarefa.Texto = rtbTexto.Text;
-
-                    if (Classes.Tarefa.AvaliaMudancas())
+                    if (ListaMensagens.RetornaDialogo(03) == DialogResult.No)
                     {
-                        string erro = ListaMensagens.RetornaMensagem(03);
-                        int separador = erro.IndexOf(":");
-                        DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                        if (resultadoDialogo == DialogResult.No)
-                        {
-                            e.Cancel = true;
-                        }
+                        e.Cancel = true;
+                    }
+                    else
+                    {
+                        Classes.Tarefa.DestravaTarefa();
                     }
                 }
-            }
-            else
-            {
-                Classes.Tarefa.DestravaTarefa();
             }
         }
 
@@ -233,18 +220,14 @@ namespace Gerenciador_de_Tarefas
         {
             if (txtAssunto.TextLength < 1)
             {
-                string erro = ListaErro.RetornaErro(29);
-                int separador = erro.IndexOf(":");
-                DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ListaErro.RetornaErro(29);
                 txtAssunto.Focus();
             }
             else
             {
                 if (rtbTexto.TextLength < 5)
                 {
-                    string erro = ListaErro.RetornaErro(28);
-                    int separador = erro.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ListaErro.RetornaErro(28);
                     rtbTexto.Focus();
                 }
                 else
@@ -278,54 +261,36 @@ namespace Gerenciador_de_Tarefas
 
         private void btnExcluir_Click(object sender, EventArgs e)
         {
-            string erro = ListaMensagens.RetornaMensagem(04);
-            int separador = erro.IndexOf(":");
-            DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            
-            if (resultadoDialogo == DialogResult.Yes)
+            if (ListaMensagens.RetornaDialogo(04) == DialogResult.Yes)
             {
                 if (Sistema.IDUsuarioLogado != 1 && Sistema.IDUsuarioLogado != 2)
                 {
-                    erro = ListaMensagens.RetornaMensagem(05);
-                    separador = erro.IndexOf(":");
-                    string resposta = Microsoft.VisualBasic.Interaction.InputBox(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), "");
+                    string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(05)[0], ListaMensagens.RetornaInputBox(05)[1], "");
 
                     if (resposta == "MB8719")
                     {
                         if (Classes.Tarefa.ApagarTarefa())
                         {
-                            erro = ListaMensagens.RetornaMensagem(14);
-                            separador = erro.IndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ListaMensagens.RetornaMensagem(14);
                         }
                         else
                         {
-                            erro = ListaErro.RetornaErro(18);
-                            separador = erro.IndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ListaErro.RetornaErro(18);
                         }
                         this.Close();
                     }
                 }
                 else
                 {
-                    erro = ListaMensagens.RetornaMensagem(15);
-                    separador = erro.IndexOf(":");
-                    resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (resultadoDialogo == DialogResult.Yes)
+                    if (ListaMensagens.RetornaDialogo(15) == DialogResult.Yes)
                     {
                         if (Classes.Tarefa.ApagarTarefa())
                         {
-                            erro = ListaMensagens.RetornaMensagem(14);
-                            separador = erro.IndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ListaMensagens.RetornaMensagem(14);
                         }
                         else
                         {
-                            erro = ListaErro.RetornaErro(18);
-                            separador = erro.IndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ListaErro.RetornaErro(18);
                         }
                         this.Close();
                     }
@@ -337,18 +302,14 @@ namespace Gerenciador_de_Tarefas
         {
             if (txtAssunto.TextLength < 1)
             {
-                string erro = ListaErro.RetornaErro(29);
-                int separador = erro.IndexOf(":");
-                DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ListaErro.RetornaErro(29);
                 txtAssunto.Focus();
             }
             else
             {
                 if (rtbTexto.TextLength < 5)
                 {
-                    string erro = ListaErro.RetornaErro(28);
-                    int separador = erro.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ListaErro.RetornaErro(28);
                     rtbTexto.Focus();
                 }
                 else
@@ -387,10 +348,6 @@ namespace Gerenciador_de_Tarefas
                         MessageBox.Show(ex.ToString());
                         throw;
                     }
-                    finally
-                    {
-                        Close();
-                    }
                 }
             }
         }
@@ -406,9 +363,7 @@ namespace Gerenciador_de_Tarefas
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    string erro = ListaErro.RetornaErro(24);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListaErro.RetornaErro(24);
                 }
             }
         }

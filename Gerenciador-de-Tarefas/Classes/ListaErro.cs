@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Gerenciador_de_Tarefas.Classes
 {
     public static class ListaErro
     {
         #region Funcoes
-        public static string RetornaErro(int erro)
+        private static string Lista(int erro)
         {
             string resultado = "";
 
@@ -187,10 +186,6 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "CEP Inválido : " +
                         "O CEP informado é inválido!\nPor favor, digite-o novamente.";
                     break;
-                case 45:
-                    resultado = "Corrigir CEP? : " +
-                        "O CEP informado não foi encontrado.\nDeseja corrigir o número do CEP?";
-                    break;
                 case 46:
                     resultado = "CEP Inexistente : " +
                         "O CEP informado existe.\nPor favor, digite um CEP válido.";
@@ -250,9 +245,26 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "Erro na Conexão com o Banco de Dados : " +
                         "Não foi possível conectar ao banco de dados!\r\n\nVerifique se os dados digitados estão corretos e tente novamente.\nCaso o erro persista, entre em contato pelo suporte@cftva.com.br";
                     break;
+                case 60:
+                    resultado = "Erro ao Ler as Informações do Arquivo de Conexão com o Banco de Dados : " +
+                        "Não foi possível ler os dados de conexão com o banco de dados!\r\n\nFavor reportar esse erro pelo suporte@cftva.com.br";
+                    break;
             }
 
+            
             return resultado;
+        }
+
+        /// <summary>
+        /// Retorna um MessageBox com o erro solicitado
+        /// </summary>
+        /// <param name="erro"></param>
+        public static void RetornaErro(int erro)
+        {
+            string texto = Lista(erro);
+            int separador = 0;
+            separador = texto.IndexOf(":");
+            MessageBox.Show(texto.Substring((separador + 2)), texto.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         #endregion
     }

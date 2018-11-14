@@ -395,7 +395,7 @@
             this.btnSalvarFechar.UseVisualStyleBackColor = true;
             this.btnSalvarFechar.Click += new System.EventHandler(this.btnSalvarFechar_Click);
             // 
-            // TelaTarefa
+            // Tarefa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;

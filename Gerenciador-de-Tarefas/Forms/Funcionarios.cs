@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas
 {
     public partial class Funcionarios : Form
     {
-        private BDCONN conexao = new BDCONN();
         private string nomeFuncionarioAtual = "";
 
         public Funcionarios()
@@ -31,7 +25,7 @@ namespace Gerenciador_de_Tarefas
 
         private void AtualizaLista()
         {
-            List<string> lista = conexao.PreencheCMB("Select nome from tbl_funcionarios;");
+            List<string> lista = Sistema.PreencheCMB("Select nome from tbl_funcionarios;");
             lstbFuncionarios.DataSource = lista;
 
             LimpaCampos();
@@ -44,7 +38,7 @@ namespace Gerenciador_de_Tarefas
                 DialogResult dialogResult = MessageBox.Show("Você tem certeza de que quer apagar o funcionário " + txtFuncionario.Text + "?", "Apagar usuário", MessageBoxButtons.YesNo,MessageBoxIcon.Question);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    conexao.ExecutaComando("delete from tbl_funcionarios where nome = '" + txtFuncionario.Text + "';");
+                    Sistema.ExecutaComando("delete from tbl_funcionarios where nome = '" + txtFuncionario.Text + "';");
                     MessageBox.Show("O funcionário " + txtFuncionario.Text + " foi apagado com sucesso!");
                     AtualizaLista();
                     btnAlterarN.Enabled = false;
@@ -61,7 +55,7 @@ namespace Gerenciador_de_Tarefas
         {
             if ((txtFuncionario.Text != lstbFuncionarios.SelectedItem.ToString()) && (txtFuncionario.Text != ""))
             {
-                conexao.ExecutaComando("Update tbl_funcionarios set nome='" + txtFuncionario.Text +
+                Sistema.ExecutaComando("Update tbl_funcionarios set nome='" + txtFuncionario.Text +
                     "' where nome ='" + lstbFuncionarios.SelectedItem.ToString() + "';");
                 MessageBox.Show("O funcionário " + lstbFuncionarios.SelectedItem.ToString() + " foi atualizado para " + txtFuncionario.Text + " com sucesso!");
                 AtualizaLista();
@@ -77,7 +71,7 @@ namespace Gerenciador_de_Tarefas
         {
             if (txtFuncionario.Text != lstbFuncionarios.SelectedIndex.ToString())
             {
-                conexao.ExecutaComando("Update tbl_funcionarios set nome='" + txtFuncionario.Text +
+                Sistema.ExecutaComando("Update tbl_funcionarios set nome='" + txtFuncionario.Text +
                     "' where nome ='" + lstbFuncionarios.SelectedItem.ToString() + "';");
                 MessageBox.Show("O funcionário " + lstbFuncionarios.SelectedItem.ToString() + " foi atualizado para " + txtFuncionario.Text + " com sucesso!");
                 AtualizaLista();
@@ -88,7 +82,7 @@ namespace Gerenciador_de_Tarefas
         {
             if (txtFuncionario.Text != "")
             {
-                conexao.ExecutaComando("insert into tbl_funcionarios values (null,'" + txtFuncionario.Text +"');");
+                Sistema.ExecutaComando("insert into tbl_funcionarios values (null,'" + txtFuncionario.Text +"');");
                 MessageBox.Show("O funcionário " + txtFuncionario.Text + " foi inserido com sucesso!");
                 AtualizaLista();
                 btnAlterarN.Enabled = false;

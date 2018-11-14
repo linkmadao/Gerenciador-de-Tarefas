@@ -11,8 +11,6 @@ namespace Gerenciador_de_Tarefas.Classes
     public static class Cliente
     {
         #region Variaveis
-        private static BDCONN conexao = new BDCONN();
-
         //Originais
         private static int id = 0, contrato = 0;
         private static string dataCadastro, nome, razaoSocial, telefoneComercial, contato, setor, cpf, rg, cnpj, inscricaoEstadual, inscricaoMunicipal,
@@ -401,13 +399,11 @@ namespace Gerenciador_de_Tarefas.Classes
                 LimparVariaveis();
 
                 string comando = "Select ID from tbl_contato" + " where nome = '" + nome + "';";
-                ID = int.Parse(conexao.ConsultaSimples(comando));
+                ID = int.Parse(Sistema.ConsultaSimples(comando));
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(20);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(20);
                 return;
             }
         }
@@ -418,7 +414,7 @@ namespace Gerenciador_de_Tarefas.Classes
             try
             {
                 //Carrega os dados
-                lista = conexao.ConsultaContato("select nome, razaosocial, telefone, contato, setor, datacadastro, email, site, obs, cpf, "
+                lista = Sistema.ConsultaContato("select nome, razaosocial, telefone, contato, setor, datacadastro, email, site, obs, cpf, "
                     + "rg, cnpj, inscricaomunicipal, inscricaoestadual, cep, endereco, bairro, cidade, "
                     + "estado, complemento, pontoreferencia "
                     + "from tbl_contato where id = " + ID + ";");
@@ -454,8 +450,8 @@ namespace Gerenciador_de_Tarefas.Classes
                 Complemento = lista[19];
                 PontoReferencia = lista[20];
 
-                Contrato = Convert.ToInt32(conexao.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
-                numeroTarefas = conexao.ConsultaSimples("select count(id) from tbl_tarefas where empresa = " + ID + ";");
+                Contrato = Convert.ToInt32(Sistema.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
+                numeroTarefas = Sistema.ConsultaSimples("select count(id) from tbl_tarefas where empresa = " + ID + ";");
 
                 //Backup
                 _nome = lista[0];
@@ -488,7 +484,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 _complemento = lista[19];
                 _pontoReferencia = lista[20];
 
-                _contrato = Convert.ToInt32(conexao.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
+                _contrato = Convert.ToInt32(Sistema.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
 
                 Log.AbrirCliente();
             }
@@ -509,19 +505,17 @@ namespace Gerenciador_de_Tarefas.Classes
                 "(0,'{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}');",
                 DataCadastro, Nome, RazaoSocial, Telefone, Contato, Setor, CPF, RG, CNPJ, InscricaoEstadual, InscricaoMunicipal, Site, Email, Endereco + ", " + Numero, Bairro,
                 Cidade, Estado, CEP, Complemento, PontoReferencia, Obs);
-                conexao.ExecutaComando(comando);
+                Sistema.ExecutaComando(comando);
 
                 comando = string.Format("Select id from tbl_contato where nome = '{0}';", Nome);
-                ID = Int32.Parse(conexao.ConsultaSimples(comando));
+                ID = Int32.Parse(Sistema.ConsultaSimples(comando));
 
                 comando = string.Format("insert into tbl_contato_contrato values ({0},{1});", ID, Contrato);
-                conexao.ExecutaComando(comando);
+                Sistema.ExecutaComando(comando);
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(39);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(39);
                 resultado = false;
             }
             finally
@@ -556,7 +550,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 _complemento = Complemento;
                 _pontoReferencia = PontoReferencia;
 
-                _contrato = Convert.ToInt32(conexao.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
+                _contrato = Convert.ToInt32(Sistema.ConsultaSimples("select contrato from tbl_contato_contrato where contato = " + ID + ";")) - 1;
 
                 Log.CadastrarCliente();
                 resultado = true;
@@ -580,36 +574,32 @@ namespace Gerenciador_de_Tarefas.Classes
                     "cep = '" + CEP + "', complemento = '" + Complemento + "', " +
                     "pontoreferencia = '" + PontoReferencia + "', obs = '" + Obs + "'" +
                     "where id = '" + ID + "';";
-                conexao.ExecutaComando(comando);
+                Sistema.ExecutaComando(comando);
 
                 comando = "Update tbl_contato_contrato set contrato = " + Contrato + " where contato = " + ID + ";";
-                conexao.ExecutaComando(comando);
+                Sistema.ExecutaComando(comando);
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(38);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(38);
                 return;
             }
             finally
             {
                 Log.AlterarCliente();
 
-                string mensagem = ListaMensagens.RetornaMensagem(11);
-                int separador = mensagem.IndexOf(":");
-                MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ListaMensagens.RetornaMensagem(11);
             }
         }
 
         public static void ApagarCliente()
         {
-            conexao.ExecutaComando("delete from tbl_tarefas where empresa = " + ID + ";");
-            conexao.ExecutaComando("delete from tbl_contato_subsubgrupo where contato = " + ID + ";");
-            conexao.ExecutaComando("delete from tbl_contato_subgrupo where contato = " + ID + ";");
-            conexao.ExecutaComando("delete from tbl_contato_telefone where contato = " + ID + ";");
-            conexao.ExecutaComando("delete from tbl_contato_contrato where contato = " + ID + ";");
-            conexao.ExecutaComando("delete from tbl_contato where id = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_tarefas where empresa = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_subsubgrupo where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_subgrupo where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_telefone where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_contrato where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato where id = " + ID + ";");
 
             Log.ApagarCliente();
 
@@ -660,6 +650,22 @@ namespace Gerenciador_de_Tarefas.Classes
             _cpf = ""; _rg = ""; _cnpj = ""; _inscricaoEstadual = ""; _inscricaoMunicipal = "";
             _site = ""; _email = ""; _endereco = ""; _numero = ""; _bairro = ""; _cidade = "";
             _cep = ""; _complemento = ""; _pontoReferencia = ""; _obs = "";
+        }
+
+        /// <summary>
+        /// Método responsável por retornar o tipo de contrato do contato solicitado.
+        /// </summary>
+        /// <param name="nomeEmpresa">Nome da empresa</param>
+        public static string ConsultaTipoContrato(string nomeEmpresa)
+        {
+            int idCliente = 0;
+            string comando = null;
+
+            comando = "Select ID from tbl_contato where nome = '" + nomeEmpresa + "';";
+            idCliente = int.Parse(Sistema.ConsultaSimples(comando));
+
+            comando = "Select contrato from tbl_contato_contrato where contato = " + idCliente + ";";
+            return Sistema.ConsultaSimples(comando);
         }
         #endregion
     }

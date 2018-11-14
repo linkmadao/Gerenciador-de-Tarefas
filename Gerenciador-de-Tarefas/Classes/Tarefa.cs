@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Gerenciador_de_Tarefas.Classes
@@ -10,17 +7,15 @@ namespace Gerenciador_de_Tarefas.Classes
     public static class Tarefa
     {
         #region Variaveis
-        private static BDCONN conexao = new BDCONN();
-        
-        private static bool novaTarefa = true, primeiraPagina = true, salvar = false, travar = true;
+        private static bool novaTarefa = true, primeiraPagina = true, travar = true;
 
         //Originais
-        private static int id = 0, prioridade = 0, status = 0;
+        private static int id = 0, prioridade = 1, status = 0;
         private static string assunto = "", atribuicao = "", dataFinal = "",
             dataInicial = "", empresa = "", texto = "", textoImpressao = "", titulo = "";
 
         //Backup
-        private static int _prioridade = 0, _status = 0;
+        private static int _prioridade = 1, _status = 0;
         private static string _assunto = "", _atribuicao = "", _dataFinal = "",
             _dataInicial = "", _empresa = "", _texto = "";
         #endregion
@@ -159,23 +154,8 @@ namespace Gerenciador_de_Tarefas.Classes
                 primeiraPagina = value;
             }
         }
-        public static bool SalvarTarefa
-        {
-            get
-            {
-                return salvar;
-            }
-            set
-            {
-                salvar = value;
-            }
-        }
         public static bool Travar
         {
-            get
-            {
-                return travar;
-            }
             set
             {
                 travar = value;
@@ -186,14 +166,14 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             get
             {
-                return conexao.PreencheCMB("Select tbl_contato.nome from tbl_contato;");
+                return Sistema.PreencheCMB("Select tbl_contato.nome from tbl_contato;");
             }
         }
         public static List<string> ListaFuncionarios
         {
             get
             {
-                return conexao.PreencheCMB("Select nome from tbl_funcionarios;");
+                return Sistema.PreencheCMB("Select nome from tbl_funcionarios;");
             }
         }
         #endregion
@@ -203,19 +183,184 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             try
             {
-                if (_assunto != Assunto || _atribuicao != Atribuicao || _empresa != Empresa || _dataInicial != DataInicial
-                            || _dataFinal != DataFinal || _prioridade != Prioridade|| _status != Status || _texto != Texto)
+                if(NovaTarefa)
                 {
-                    return true;
+                    if (_assunto != Assunto || _prioridade != Prioridade || _status != Status || _texto != Texto)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                    return false;
+                    if (_dataInicial.Length > 10)
+                    {
+                        _dataInicial = _dataInicial.Substring(0, 10);
+                    }
+                    if (_dataFinal.Length > 10)
+                    {
+                        _dataFinal = _dataFinal.Substring(0, 10);
+                    }
+
+                    if (_assunto != Assunto || _atribuicao != Atribuicao || _empresa != Empresa || _dataInicial != DataInicial
+                                || _dataFinal != DataFinal || _prioridade != Prioridade || _status != Status || _texto != Texto)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             catch (Exception)
             {
                 return false;
+            }
+        }
+        /// <summary>
+        /// Método responsável por atualizar uma tarefa
+        /// </summary>
+        /// <param name="tarefa">ID da tarefa</param>
+        /// <param name="empresa">Nome da empresa</param>
+        /// <param name="funcionario">Nome do funcionário</param>
+        /// <param name="status">Status da tarefa</param>
+        /// <param name="assunto">Assunto da tarefa</param>
+        /// <param name="dataInicio">Data quando a tarefa iniciou</param>
+        /// <param name="dataFinal">Data quando a tarefa irá terminar/terminou</param>
+        /// <param name="prioridade">Prioridade da tarefa</param>
+        /// <param name="texto">Texto relatado na tarefa</param>
+        /// <returns>Se verdadeiro, a operação foi um sucesso</returns>
+        public static bool AtualizarTarefa()
+        {
+            string comando = null;
+            int idEmpresa = 0, idFuncionario = 0;
+
+            try
+            {
+                comando = "Select ID from tbl_contato where nome = '" + empresa + "';";
+                idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
+
+                comando = "Select ID from tbl_funcionarios where nome = '" + atribuicao + "';";
+                idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            try
+            {
+                comando = "update tbl_tarefas " +
+                        "SET empresa = " + idEmpresa + ", funcionario = " + idFuncionario + ", " +
+                        "status = " + status + ", assunto = '" + assunto + "', " +
+                        "datainicial = '" + dataInicial + "', datafinal = '" + dataFinal + "', " +
+                        "prioridade = " + prioridade + ", texto = '" + texto + "' " +
+                        "Where id = " + ID + ";";
+
+                Sistema.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            //Atualiza variáveis
+            _assunto = Assunto;
+            _atribuicao = Atribuicao;
+            _dataFinal = DataFinal;
+            _dataInicial = DataInicial;
+            _empresa = Empresa;
+            _prioridade = Prioridade;
+            _status = Status;
+            _texto = Texto;
+
+            return true;
+        }
+
+        /// <summary>
+        /// Método responsável por apagar uma tarefa
+        /// </summary>
+        /// <param name="tarefa">ID da tarefa que deseja apagar</param>
+        public static bool ApagarTarefa()
+        {
+            try
+            {
+                Sistema.ExecutaComando("delete from tbl_tarefas where id = " + ID + ";");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Método responsável por cadastrar uma tarefa
+        /// </summary>
+        /// <param name="empresa">Nome da empresa</param>
+        /// <param name="funcionario">Nome do funcionário</param>
+        /// <param name="status">Status da tarefa</param>
+        /// <param name="assunto">Assunto da tarefa</param>
+        /// <param name="dataInicio">Data quando a tarefa iniciou</param>
+        /// <param name="dataFinal">Data quando a tarefa irá terminar/terminou</param>
+        /// <param name="prioridade">Prioridade da tarefa</param>
+        /// <param name="texto">Texto relatado na tarefa</param>
+        /// <param name="travar">Travar a tarefa?</param>
+        /// <returns></returns>
+        public static void CadastrarTarefa()
+        {
+            string comando = null;
+            int idEmpresa = 0, idFuncionario = 0;
+
+            try
+            {
+                comando = "Select ID from tbl_contato where nome = '" + empresa + "';";
+                idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
+
+                comando = "Select ID from tbl_funcionarios where nome = '" + atribuicao + "';";
+                idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
+            }
+            catch (Exception)
+            {
+                ListaErro.RetornaErro(16);
+                return;
+            }
+            finally
+            {
+                //Atualiza variáveis
+                _assunto = Assunto;
+                _atribuicao = Atribuicao;
+                _dataFinal = DataFinal;
+                _dataInicial = DataInicial;
+                _empresa = Empresa;
+                _prioridade = Prioridade;
+                _status = Status;
+                _texto = Texto;
+
+                if (travar)
+                {
+                    comando = "insert into tbl_tarefas values (0," + idEmpresa + "," + idFuncionario
+                    + "," + status + ",'" + assunto + "','" + dataInicial + "', '" + dataFinal
+                    + "'," + prioridade + ",'" + texto + "','S');";
+                    Sistema.ExecutaComando(comando);
+
+                    comando = "Select ID from tbl_tarefas where empresa = '" + idEmpresa
+                   + "' AND funcionario = '" + idFuncionario
+                   + "' AND assunto = '" + assunto + "';";
+                    id = int.Parse(Sistema.ConsultaSimples(comando));
+                }
+                else
+                {
+                    comando = "insert into tbl_tarefas values (0," + idEmpresa + "," + idFuncionario
+                    + "," + status + ",'" + assunto + "','" + dataInicial + "', '" + dataFinal
+                    + "'," + prioridade + ",'" + texto + "','N');";
+                    Sistema.ExecutaComando(comando);
+                }
             }
         }
 
@@ -227,23 +372,21 @@ namespace Gerenciador_de_Tarefas.Classes
 
                 string comando = "Select ID from tbl_contato"
                     + " where nome = '" + empresa + "';";
-                idEmpresa = Int32.Parse(conexao.ConsultaSimples(comando));
+                idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
 
                 comando = "Select ID from tbl_funcionarios"
                     + " where nome = '" + atribuicao + "';";
-                idFuncionario = Int32.Parse(conexao.ConsultaSimples(comando));
+                idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
 
                 comando = "Select ID from tbl_tarefas"
                    + " where empresa = '" + idEmpresa + "' AND funcionario = '" + idFuncionario +
                    "' AND assunto = '" + assunto + "';";
 
-                id = Int32.Parse(conexao.ConsultaSimples(comando));
+                id = int.Parse(Sistema.ConsultaSimples(comando));
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(15);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(15);
                 return;
             }
             finally
@@ -252,7 +395,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 
                 if (!NovaTarefa)
                 {
-                    List<string> lista = conexao.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', " +
+                    List<string> lista = Sistema.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', " +
                         "tbl_tarefas.`status`, tbl_tarefas.assunto, tbl_tarefas.datainicial, tbl_tarefas.datafinal, tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
                         "Join tbl_contato on tbl_contato.ID = tbl_tarefas.Empresa " +
                         "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
@@ -280,7 +423,7 @@ namespace Gerenciador_de_Tarefas.Classes
 
                     _empresa = lista[0];
                     _atribuicao = lista[1];
-                    _status = int.Parse(lista[2]);
+                    _status = int.Parse(lista[2]) - 1;
                     _assunto = lista[3];
                     _dataInicial = lista[4];
                     if (lista[5] == "" || lista[5] == null)
@@ -298,15 +441,48 @@ namespace Gerenciador_de_Tarefas.Classes
             
         }
 
+        /// <summary>
+        /// Método responsável por destravar a tarefa
+        /// </summary>
+        /// <param name="idTarefa">ID da tarefa que deseja destravar</param>
+        /// <returns></returns>
+        public static void DestravaTarefa()
+        {
+            if (TarefaBloqueada())
+            {
+                Sistema.ExecutaComando("Update tbl_tarefas set travar = 'N' where id = " + ID + ";");
+            }
+        }
+
+        /// <summary>
+        /// Método responsável por destravar todas as tarefas do banco de dados.
+        /// Utilizar apenas se ocorrer algum desligamento inesperado de algum usuário.
+        /// </summary>
+        /// <returns>Se verdadeiro, a operação foi um sucesso.</returns>
+        public static bool DestravaTodasTarefas()
+        {
+            try
+            {
+                string comando = "Update tbl_tarefas set travar = 'N';";
+                Sistema.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                ListaErro.RetornaErro(19);
+                return false;
+            }
+
+            return true;
+        }
+
         public static void LimparVariaveis()
         {
             //Originais
             novaTarefa = true;
-            salvar = false;
             primeiraPagina = true;
 
             id = 0;
-            prioridade = 0;
+            prioridade = 1;
             status = 0;
             assunto = "";
             atribuicao = "";
@@ -318,7 +494,7 @@ namespace Gerenciador_de_Tarefas.Classes
             titulo = "";
 
             //Backup
-            _prioridade = 0;
+            _prioridade = 1;
             _status = 0;
             _assunto = "";
             _atribuicao = "";
@@ -336,12 +512,51 @@ namespace Gerenciador_de_Tarefas.Classes
             }
             else
             {
-                if(AtualizarTarefa())
+                if(!AtualizarTarefa())
                 {
-                    string erro = ListaErro.RetornaErro(17);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListaErro.RetornaErro(17);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Método responsável por travar a tarefa
+        /// </summary>
+        /// <param name="idTarefa">ID da tarefa que deseja travar</param>
+        /// <returns></returns>
+        public static bool TravaTarefa()
+        {
+            bool resultado = false;
+
+            if (!TarefaBloqueada())
+            {
+                Sistema.ExecutaComando("Update tbl_tarefas set travar = 'S' where id = " + ID + ";");
+                resultado = true;
+            }
+
+            return resultado;
+        }
+
+        /// <summary>
+        /// Método responsável por retornar se a tarefa esta bloqueada.
+        /// </summary>
+        public static bool TarefaBloqueada()
+        {
+            try
+            {
+                string comando = "Select travar from tbl_tarefas where id = " + ID + ";";
+                if (Sistema.ConsultaSimples(comando) == "S")
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return false;
             }
         }
 
@@ -492,189 +707,29 @@ namespace Gerenciador_de_Tarefas.Classes
             return comando;
         }
 
-        /// <summary>
-        /// Método responsável por travar a tarefa
-        /// </summary>
-        /// <param name="idTarefa">ID da tarefa que deseja travar</param>
-        /// <returns></returns>
-        public static bool TravaTarefa()
-        {
-            bool resultado = false;
-
-            if (!conexao.TarefaBloqueada(ID))
-            {
-                conexao.ExecutaComando("Update tbl_tarefas set travar = 'S' where id = " + ID + ";");
-                resultado = true;
-            }
-
-            return resultado;
-        }
 
         /// <summary>
-        /// Método responsável por destravar a tarefa
+        /// Método responsável por retornar a prioridade da tarefa solicitada.
         /// </summary>
-        /// <param name="idTarefa">ID da tarefa que deseja destravar</param>
-        /// <returns></returns>
-        public static void DestravaTarefa()
+        public static string ConsultaPrioridade()
         {
-            if (conexao.TarefaBloqueada(ID))
-            {
-                conexao.ExecutaComando("Update tbl_tarefas set travar = 'N' where id = " + ID + ";");
-            }
-        }
-
-        /// <summary>
-        /// Método responsável por cadastrar uma tarefa
-        /// </summary>
-        /// <param name="empresa">Nome da empresa</param>
-        /// <param name="funcionario">Nome do funcionário</param>
-        /// <param name="status">Status da tarefa</param>
-        /// <param name="assunto">Assunto da tarefa</param>
-        /// <param name="dataInicio">Data quando a tarefa iniciou</param>
-        /// <param name="dataFinal">Data quando a tarefa irá terminar/terminou</param>
-        /// <param name="prioridade">Prioridade da tarefa</param>
-        /// <param name="texto">Texto relatado na tarefa</param>
-        /// <param name="travar">Travar a tarefa?</param>
-        /// <returns></returns>
-        public static void CadastrarTarefa()
-        {
-            string comando = null;
-            int idEmpresa = 0, idFuncionario = 0;
-
-            try
-            {
-                comando = "Select ID from tbl_contato where nome = '" + empresa + "';";
-                idEmpresa = int.Parse(conexao.ConsultaSimples(comando));
-
-                comando = "Select ID from tbl_funcionarios where nome = '" + atribuicao + "';";
-                idFuncionario = int.Parse(conexao.ConsultaSimples(comando));
-            }
-            catch (Exception)
-            {
-                string erro = ListaErro.RetornaErro(16);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-            finally
-            {
-                if(travar)
-                {
-                    comando = "insert into tbl_tarefas values (0," + idEmpresa + "," + idFuncionario
-                    + "," + status + ",'" + assunto + "','" + dataInicial + "', '" + dataFinal
-                    + "'," + prioridade + ",'" + texto + "','S');";
-                    conexao.ExecutaComando(comando);
-                }
-                else
-                {
-                    comando = "insert into tbl_tarefas values (0," + idEmpresa + "," + idFuncionario
-                    + "," + status + ",'" + assunto + "','" + dataInicial + "', '" + dataFinal
-                    + "'," + prioridade + ",'" + texto + "','N');";
-                    conexao.ExecutaComando(comando);
-
-                    comando = "Select ID from tbl_tarefas where empresa = '" + idEmpresa
-                   + "' AND funcionario = '" + idFuncionario
-                   + "' AND assunto = '" + assunto + "';";
-                    id = int.Parse(conexao.ConsultaSimples(comando));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Método responsável por atualizar uma tarefa
-        /// </summary>
-        /// <param name="tarefa">ID da tarefa</param>
-        /// <param name="empresa">Nome da empresa</param>
-        /// <param name="funcionario">Nome do funcionário</param>
-        /// <param name="status">Status da tarefa</param>
-        /// <param name="assunto">Assunto da tarefa</param>
-        /// <param name="dataInicio">Data quando a tarefa iniciou</param>
-        /// <param name="dataFinal">Data quando a tarefa irá terminar/terminou</param>
-        /// <param name="prioridade">Prioridade da tarefa</param>
-        /// <param name="texto">Texto relatado na tarefa</param>
-        /// <returns>Se verdadeiro, a operação foi um sucesso</returns>
-        public static bool AtualizarTarefa()
-        {
-            bool resultado = false;
-
-            string comando = null;
-            int idEmpresa = 0, idFuncionario = 0;
-
-            try
-            {
-                comando = "Select ID from tbl_contato where nome = '" + empresa + "';";
-                idEmpresa = Int32.Parse(conexao.ConsultaSimples(comando));
-
-                comando = "Select ID from tbl_funcionarios where nome = '" + atribuicao + "';";
-                idFuncionario = Int32.Parse(conexao.ConsultaSimples(comando));
-            }
-            catch (Exception)
-            {
-                return resultado;
-            }
-            finally
-            {
-                comando = "update tbl_tarefas " +
-                            "SET empresa = " + idEmpresa + ", funcionario = " + idFuncionario + ", " +
-                            "status = " + status + ", assunto = '" + assunto + "', " +
-                            "datainicial = '" + dataInicial + "', datafinal = '" + dataFinal + "', " +
-                            "prioridade = " + prioridade + ", texto = '" + texto + "' " +
-                            "Where id = " + ID + ";";
-
-                conexao.ExecutaComando(comando);
-
-                resultado = true;
-            }
-
-            return resultado;
-        }
-
-        /// <summary>
-        /// Método responsável por apagar uma tarefa
-        /// </summary>
-        /// <param name="tarefa">ID da tarefa que deseja apagar</param>
-        public static bool ApagarTarefa()
-        {
-            try
-            {
-                conexao.ExecutaComando("delete from tbl_tarefas where id = " + ID + ";");
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Método responsável por destravar todas as tarefas do banco de dados.
-        /// Utilizar apenas se ocorrer algum desligamento inesperado de algum usuário.
-        /// </summary>
-        /// <returns>Se verdadeiro, a operação foi um sucesso.</returns>
-        public static bool DestravaTodasTarefas()
-        {
-            bool resultado = false;
+            int idEmpresa = 0, idFuncionario = 0, idTarefa = 0;
             string comando = null;
 
-            try
-            {
-                comando = "Update tbl_tarefas set travar = 'N';";
-                conexao.ExecutaComando(comando);
-            }
-            catch (Exception)
-            {
-                string erro = ListaErro.RetornaErro(19);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                resultado = true;
-            }
+            comando = "Select ID from tbl_contato where nome = '" + Empresa + "';";
+            idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
 
-            return resultado;
+            comando = "Select ID from tbl_funcionarios where nome = '" + Atribuicao + "';";
+            idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
+
+            comando = "Select ID from tbl_tarefas where empresa = '" + idEmpresa + "'"
+                + " AND funcionario = '" + idFuncionario + "' AND assunto = '" + Assunto + "';";
+            idTarefa = int.Parse(Sistema.ConsultaSimples(comando));
+
+            comando = "Select prioridade from tbl_tarefas where id = " + idTarefa + ";";
+            return Sistema.ConsultaSimples(comando);
         }
+
         #endregion
         /*
         /// <summary>

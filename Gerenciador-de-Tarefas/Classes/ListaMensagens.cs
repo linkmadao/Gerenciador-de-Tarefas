@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Gerenciador_de_Tarefas.Classes
 {
     public static class ListaMensagens
     {
-        public static string RetornaMensagem(int mensagem)
+        private static string Lista(int mensagem)
         {
             string resultado = "";
 
@@ -116,7 +117,52 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "Alterar Dados de Conexão SQL : " +
                         "Os dados foram alterados com sucesso!";
                     break;
+                case 25:
+                    resultado = "Corrigir CEP? : " +
+                        "O CEP informado não foi encontrado.\nDeseja corrigir o número do CEP?";
+                    break;
             }
+
+            return resultado;
+        }
+
+        /// <summary>
+        /// Retorna um MessageBox com o a mensagem solicitada
+        /// </summary>
+        /// <param name="mensagem"></param>
+        public static void RetornaMensagem(int mensagem)
+        {
+            string texto = Lista(mensagem);
+            int separador = 0;
+            separador = texto.IndexOf(":");
+            MessageBox.Show(texto.Substring((separador + 2)), texto.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        /// <summary>
+        /// Retorna um DialogResult com o a mensagem solicitada
+        /// </summary>
+        /// <param name="mensagem"></param>
+        public static DialogResult RetornaDialogo(int mensagem)
+        {
+            string texto = Lista(mensagem);
+            int separador = 0;
+            separador = texto.IndexOf(":");
+            return MessageBox.Show(texto.Substring((separador + 2)), texto.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+
+        /// <summary>
+        /// Retorna uma matris de string com o a mensagem solicitada
+        /// </summary>
+        /// <param name="mensagem"></param>
+        public static string[] RetornaInputBox(int mensagem)
+        {
+            string[] resultado = new string[2];
+            string texto = Lista(mensagem);
+            int separador = 0;
+            separador = texto.IndexOf(":");
+
+            resultado[0] = texto.Substring(separador + 2);
+            resultado[1] = texto.Substring(0, (separador - 1));
 
             return resultado;
         }

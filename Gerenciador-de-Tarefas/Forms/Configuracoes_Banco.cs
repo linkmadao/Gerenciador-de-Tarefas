@@ -1,23 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
 using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas
 {
     public partial class Configuracoes_Banco: Form
     {
-        private BDCONN conexao = new BDCONN();
-        private string nomeXML = "bdconfig.xml";
         private bool programaDesativado = false;
 
         /// <summary>
@@ -45,7 +34,7 @@ namespace Gerenciador_de_Tarefas
 
             if(rdbtnServidorLocal.Checked)
             {
-                if (conexao.TestaConexao(txtBanco.Text, txtUid.Text, txtPwd.Text))
+                if (Sistema.TestaConexao())
                 {
                     programaDesativado = false;
                     abreprograma = true;
@@ -53,7 +42,7 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                if (conexao.TestaConexao(txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text))
+                if (Sistema.TestaConexao())
                 {
                     programaDesativado = false;
                     abreprograma = true;
@@ -62,20 +51,7 @@ namespace Gerenciador_de_Tarefas
 
             if(abreprograma)
             {
-                XElement xml = XElement.Load(nomeXML);
-                XElement x = xml.Elements().First();
-                if (x != null)
-                {
-                    if (rdbtnRemoto.Checked && txtServidor.Text != "")
-                    {
-                        x.Attribute("servidor").SetValue(txtServidor.Text);
-                    }
-                    x.Attribute("banco").SetValue(txtBanco.Text);
-                    x.Attribute("uid").SetValue(txtUid.Text);
-                    x.Attribute("pwd").SetValue(txtPwd.Text);
-                }
-
-                xml.Save(nomeXML);
+               
 
                 MessageBox.Show("Dados atualizados com sucesso!");
                 this.Close();
@@ -100,9 +76,7 @@ namespace Gerenciador_de_Tarefas
         {
             if(programaDesativado)
             {
-                string erro = ListaErro.RetornaErro(14);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(14);
 
                 programaDesativado = false;
             }
@@ -110,6 +84,7 @@ namespace Gerenciador_de_Tarefas
 
         private void Configuracoes_Banco_Load(object sender, EventArgs e)
         {
+            /*
             XElement xml = XElement.Load(nomeXML);
             foreach (XElement x in xml.Elements())
             {
@@ -125,6 +100,7 @@ namespace Gerenciador_de_Tarefas
                 txtUid.Text = x.Attribute("uid").Value;
                 txtPwd.Text = x.Attribute("pwd").Value;
             }
+            */
         }
     }
 }

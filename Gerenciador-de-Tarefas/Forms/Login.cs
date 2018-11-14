@@ -4,12 +4,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Gerenciador_de_Tarefas.Classes;
 
-
 namespace Gerenciador_de_Tarefas
 {
     public partial class Login : Form
     {
-        private BDCONN conexao = new BDCONN();
         private TextBox txtUser;
         private MaskedTextBox txtPwd;
         private LinkLabel lnkTiago;
@@ -180,10 +178,10 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (txtPwd.Text.Length > 3)
                     {
-                        if (conexao.VerificaLogin(txtUser.Text, txtPwd.Text))
+                        if (Sistema.VerificaLogin(txtUser.Text, txtPwd.Text))
                         {
                             string comando = "select id from tbl_usuarios where user = '" + txtUser.Text + "';";
-                            Sistema.IDUsuarioLogado = int.Parse(conexao.ConsultaSimples(comando));
+                            Sistema.IDUsuarioLogado = int.Parse(Sistema.ConsultaSimples(comando));
 
                             Log.Login();
 
@@ -201,26 +199,20 @@ namespace Gerenciador_de_Tarefas
                     }
                     else
                     {
-                        string erro = ListaErro.RetornaErro(27);
-                        int separador = erro.LastIndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        ListaErro.RetornaErro(27);
                         txtPwd.Clear();
                         txtPwd.Focus();
                     }
                 }
                 else
                 {
-                    string erro = ListaErro.RetornaErro(26);
-                    int separador = erro.LastIndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    ListaErro.RetornaErro(26);
                     txtPwd.Focus();
                 }
             }
             else
             {
-                string erro = ListaErro.RetornaErro(25);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                ListaErro.RetornaErro(25);
                 txtUser.Focus();
             }
         }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections;
 using System.Drawing.Printing;
+using Microsoft.VisualBasic;
 using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas
@@ -14,7 +15,6 @@ namespace Gerenciador_de_Tarefas
     public partial class tInicial : Form
     {
         #region Variáveis
-        private BDCONN conexao = new BDCONN();
         private int segundos = 0;
         private bool programaDesativado = false;
         private bool iniciaTelaClientes = true, iniciaTelaFornecedores = true, iniciaTelaTarefas = true, iniciaTelaNovoFornecedor = true;
@@ -54,10 +54,7 @@ namespace Gerenciador_de_Tarefas
         {
             if (programaDesativado)
             {
-                string erro = ListaErro.RetornaErro(14);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-
+                ListaErro.RetornaErro(14);
                 programaDesativado = false;
             }
             else
@@ -322,7 +319,8 @@ namespace Gerenciador_de_Tarefas
                 //Se apertar CTRL + S
                 if (e.Control && e.KeyCode == Keys.S)
                 {
-                    Sistema.SalvarDadosXML(rdbtnRemoto.Checked, txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text);
+
+                    //Sistema.SalvarDadosXML(rdbtnRemoto.Checked, txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text);
                 }
                 //Se apertar CTRL + D
                 else if (e.Control && e.KeyCode == Keys.D)
@@ -419,7 +417,7 @@ namespace Gerenciador_de_Tarefas
 
         private void AtualizaDGVClientes()
         {
-            if (conexao.TestaConexao())
+            if (Sistema.TestaConexao())
             {
                 string comando = Cliente.FiltroClientes(cmbFiltroClientes.SelectedIndex);
 
@@ -428,8 +426,8 @@ namespace Gerenciador_de_Tarefas
 
                 if (iniciaTelaClientes)
                 {
-                    _dgvClientesAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
-                    _dgvTemp.DataSource = conexao.PreencheDGV(comando).Tables[0];
+                    _dgvClientesAtual.DataSource = Sistema.PreencheDGV(comando);
+                    _dgvTemp.DataSource = Sistema.PreencheDGV(comando);
                     dgvClientes.DataSource = _dgvClientesAtual.DataSource;
 
                     dgvClientes.Rows[0].Selected = false;
@@ -457,7 +455,7 @@ namespace Gerenciador_de_Tarefas
                     }
 
                     //Atualiza a tabela atual temporária
-                    _dgvClientesAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
+                    _dgvClientesAtual.DataSource = Sistema.PreencheDGV(comando);
 
                     //Se a tabela atualizada for diferente da tabela anterior
                     if (_dgvClientesAtual != _dgvTemp)
@@ -569,9 +567,7 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                string erro = ListaErro.RetornaErro(48);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(48);
             }
 
             dgvClientes.Focus();
@@ -634,9 +630,7 @@ namespace Gerenciador_de_Tarefas
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(23);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(23);
             }
         }
 
@@ -784,9 +778,7 @@ namespace Gerenciador_de_Tarefas
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(24);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(24);
             }
         }
         #endregion
@@ -810,23 +802,23 @@ namespace Gerenciador_de_Tarefas
         /// </summary>
         private void AtualizaDGVTarefas()
         {
-            if (conexao.TestaConexao())
+            if (Sistema.TestaConexao())
             {
                 int linhaAtual = 0, colunaAtual = 0, posvertical = 0;
 
                 if (iniciaTelaTarefas)
                 {
                     //Atualiza a tabela tarefas pendentes
-                    _dgvTarefasAtual.DataSource = conexao.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(0)).Tables[0];
+                    _dgvTarefasAtual.DataSource = Sistema.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(0));
                     _dgvTempTarefas.DataSource = _dgvTarefasAtual.DataSource;
                     dgvTarefas.DataSource = _dgvTarefasAtual.DataSource;
 
                     //Atualiza a tabela tarefas concluidas
-                    _dgvTarefasConcluidas.DataSource = conexao.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(1)).Tables[0];
+                    _dgvTarefasConcluidas.DataSource = Sistema.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(1));
                     _dgvTempTarefasConcluidas.DataSource = _dgvTarefasConcluidas.DataSource;
 
                     //Atualiza a tabela tarefas temporária
-                    _dgvTodasTarefas.DataSource = conexao.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(2)).Tables[0];
+                    _dgvTodasTarefas.DataSource = Sistema.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(2));
                     _dgvTempTodasTarefas.DataSource = _dgvTodasTarefas.DataSource;
 
                     iniciaTelaTarefas = false;
@@ -848,10 +840,8 @@ namespace Gerenciador_de_Tarefas
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        string erro = ListaErro.RetornaErro(49);
-                        int separador = erro.IndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        throw;
+                        ListaErro.RetornaErro(49);
+                        return;
                     }
 
                     try
@@ -881,10 +871,8 @@ namespace Gerenciador_de_Tarefas
                     }
                     catch (NullReferenceException)
                     {
-                        string erro = ListaErro.RetornaErro(32);
-                        int separador = erro.IndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        throw;
+                        ListaErro.RetornaErro(32);
+                        return;
                     }
                 }
                 else
@@ -907,7 +895,7 @@ namespace Gerenciador_de_Tarefas
                     if (cmbTipoTarefas.SelectedIndex == 0)
                     {
                         //Atualiza a tabela atual temporária
-                        _dgvTarefasAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
+                        _dgvTarefasAtual.DataSource = Sistema.PreencheDGV(comando);
 
                         //Se a tabela atualizada for diferente da tabela anterior
                         if (_dgvTarefasAtual != _dgvTempTarefas)
@@ -928,7 +916,7 @@ namespace Gerenciador_de_Tarefas
                     {
 
                         //Atualiza a tabela atual temporária
-                        _dgvTarefasConcluidas.DataSource = conexao.PreencheDGV(comando).Tables[0];
+                        _dgvTarefasConcluidas.DataSource = Sistema.PreencheDGV(comando);
 
                         //Se a tabela atualizada for diferente da tabela anterior
                         if (_dgvTarefasConcluidas != _dgvTempTarefasConcluidas)
@@ -948,7 +936,7 @@ namespace Gerenciador_de_Tarefas
                     else if (cmbTipoTarefas.SelectedIndex == 2)
                     {
                         //Atualiza a tabela atual temporária
-                        _dgvTodasTarefas.DataSource = conexao.PreencheDGV(comando).Tables[0];
+                        _dgvTodasTarefas.DataSource = Sistema.PreencheDGV(comando);
 
                         //Se a tabela atualizada for diferente da tabela anterior
                         if (_dgvTodasTarefas != _dgvTempTodasTarefas)
@@ -998,10 +986,8 @@ namespace Gerenciador_de_Tarefas
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        string erro = ListaErro.RetornaErro(49);
-                        int separador = erro.IndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        throw;
+                        ListaErro.RetornaErro(49);
+                        return;
                     }
 
                     foreach (DataGridViewRow dgvr in dgvTarefas.Rows)
@@ -1096,7 +1082,8 @@ namespace Gerenciador_de_Tarefas
                         try
                         {
                             dgvTarefas[colunaAtual, linhaAtual].Selected = true;
-                            dgvTarefas.FirstDisplayedScrollingRowIndex = 0;
+                            dgvTarefas.FirstDisplayedScrollingRowIndex = linhaAtual;
+                            //dgvTarefas.FirstDisplayedScrollingRowIndex = 0;
                         }
                         catch (ArgumentOutOfRangeException)
                         {
@@ -1129,13 +1116,11 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
-                    string erro = ListaMensagens.RetornaMensagem(01);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ListaMensagens.RetornaMensagem(01);
                 }
 
                 AtualizaDGVTarefas();
-                dgvTarefas.FirstDisplayedScrollingRowIndex = posicaoAtualScroll;
+                //dgvTarefas.FirstDisplayedScrollingRowIndex = posicaoAtualScroll;
             }
         }
 
@@ -1188,9 +1173,7 @@ namespace Gerenciador_de_Tarefas
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(23);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(23);
             }
         }
 
@@ -1576,9 +1559,7 @@ namespace Gerenciador_de_Tarefas
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(24);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(24);
             }
         }
         #endregion
@@ -1595,7 +1576,7 @@ namespace Gerenciador_de_Tarefas
 
         private void AtualizaDGVFornecedores()
         {
-            if (conexao.TestaConexao())
+            if (Sistema.TestaConexao())
             {
                 string comando = Fornecedor.FiltroFornecedores(cmbGrupoFornecedor.SelectedIndex);
 
@@ -1615,7 +1596,7 @@ namespace Gerenciador_de_Tarefas
                     cmbGrupoFornecedor.Text = "Todos";
 
                     //Preenche o DataGridView Temporário
-                    _dgvFornecedoresAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
+                    _dgvFornecedoresAtual.DataSource = Sistema.PreencheDGV(comando);
                     //Preenche o DataGridView de Backup
                     _dgvTemp.DataSource = _dgvFornecedoresAtual.DataSource;
                     //Preenche o DataGridView Oficial
@@ -1643,7 +1624,7 @@ namespace Gerenciador_de_Tarefas
                     }
 
                     //Atualiza a tabela atual temporária
-                    _dgvFornecedoresAtual.DataSource = conexao.PreencheDGV(comando).Tables[0];
+                    _dgvFornecedoresAtual.DataSource = Sistema.PreencheDGV(comando);
 
                     //Se a tabela atualizada for diferente da tabela anterior
                     if (_dgvFornecedoresAtual != _dgvTemp)
@@ -1694,8 +1675,8 @@ namespace Gerenciador_de_Tarefas
                 nfLimparCampos();
 
                 DataGridViewRow linha = dgvFornecedores.Rows[e.RowIndex];
-                int idFornecedor = int.Parse(linha.Cells["id"].Value.ToString());
-                nfCarregaFornecedor(idFornecedor);
+                Fornecedor.ID = int.Parse(linha.Cells["id"].Value.ToString());
+                nfCarregaFornecedor();
 
                 Fornecedor.TravaFornecedor();
 
@@ -1704,7 +1685,7 @@ namespace Gerenciador_de_Tarefas
                 panelFornecedores.Visible = false;
                 panelFornecedores.Enabled = false;
 
-                Log.AbrirFornecedor(Fornecedor.id);
+                Log.AbrirFornecedor(Fornecedor.ID);
 
                 AtualizaDGVFornecedores();
             }
@@ -1721,9 +1702,7 @@ namespace Gerenciador_de_Tarefas
             }
             else
             {
-                string erro = ListaErro.RetornaErro(31);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(31);
             }
 
             dgvFornecedores.Focus();
@@ -1768,9 +1747,7 @@ namespace Gerenciador_de_Tarefas
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(23);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(23);
             }
         }
 
@@ -1909,9 +1886,7 @@ namespace Gerenciador_de_Tarefas
             }
             catch (Exception)
             {
-                string erro = ListaErro.RetornaErro(24);
-                int separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(24);
             }
         }
         #endregion
@@ -1927,48 +1902,43 @@ namespace Gerenciador_de_Tarefas
         }
 
         #region Novo Fornecedor
-        private void nfCarregaFornecedor(int _idFornecedor)
+        private void nfCarregaFornecedor()
         {
-            string erro = null;
-            int separador = 0;
-
-            if (conexao.FornecedorBloqueado(_idFornecedor))
+            if (Fornecedor.FornecedorBloqueado())
             {
-                erro = ListaErro.RetornaErro(54);
-                separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(54);
             }
             else
             {
-                Fornecedor.AbrirFornecedor(_idFornecedor);
+                Fornecedor.AbrirFornecedor();
 
-                txtNFIDFornecedor.Text = Fornecedor.id.ToString();
-                cmbNFTipoFornecedor.SelectedIndex = Fornecedor.tipo;
-                txtNFDataCadastro.Text = Fornecedor.dataCadastro;
-                txtNFDataNascimento.Text = Fornecedor.dataNascimento;
-                txtNFDocumento.Text = Fornecedor.documento;
-                lblNFTitulo.Text = Fornecedor.nome;
-                txtNFNome.Text = Fornecedor.nome;
-                txtNFApelido.Text = Fornecedor.apelido;
-                txtNFCEP.Text = Fornecedor.cep;
-                txtNFEndereco.Text = Fornecedor.endereco;
-                txtNFNumero.Text = Fornecedor.numero;
-                txtNFComplemento.Text = Fornecedor.complemento;
-                txtNFBairro.Text = Fornecedor.bairro;
-                txtNFCidade.Text = Fornecedor.cidade;
-                txtNFEstado.Text = Fornecedor.estado;
-                txtNFPais.Text = Fornecedor.pais;
-                txtNFTelefone.Text = Fornecedor.telefone;
-                txtNFContato.Text = Fornecedor.contato;
-                txtNFTelefoneComercial.Text = Fornecedor.telefoneComercial;
-                txtNFContatoComercial.Text = Fornecedor.contatoComercial;
-                txtNFCelular.Text = Fornecedor.celular;
-                txtNFContatoCelular.Text = Fornecedor.contatoCelular;
-                txtNFEmail.Text = Fornecedor.email;
-                txtNFSite.Text = Fornecedor.site;
-                txtNFInscricaoEstadual.Text = Fornecedor.inscricaoEstadual;
-                txtNFInscricaoMunicipal.Text = Fornecedor.inscricaoMunicipal;
-                txtNFObservacoes.Text = Fornecedor.obs;
+                txtNFIDFornecedor.Text = Fornecedor.ID.ToString();
+                cmbNFTipoFornecedor.SelectedIndex = Fornecedor.Tipo;
+                txtNFDataCadastro.Text = Fornecedor.DataCadastro;
+                txtNFDataNascimento.Text = Fornecedor.DataNascimento;
+                txtNFDocumento.Text = Fornecedor.Documento;
+                lblNFTitulo.Text = Fornecedor.Nome;
+                txtNFNome.Text = Fornecedor.Nome;
+                txtNFApelido.Text = Fornecedor.Apelido;
+                txtNFCEP.Text = Fornecedor.CEP;
+                txtNFEndereco.Text = Fornecedor.Endereco;
+                txtNFNumero.Text = Fornecedor.Numero;
+                txtNFComplemento.Text = Fornecedor.Complemento;
+                txtNFBairro.Text = Fornecedor.Bairro;
+                txtNFCidade.Text = Fornecedor.Cidade;
+                txtNFEstado.Text = Fornecedor.Estado;
+                txtNFPais.Text = Fornecedor.Pais;
+                txtNFTelefone.Text = Fornecedor.Telefone;
+                txtNFContato.Text = Fornecedor.Contato;
+                txtNFTelefoneComercial.Text = Fornecedor.TelefoneComercial;
+                txtNFContatoComercial.Text = Fornecedor.ContatoComercial;
+                txtNFCelular.Text = Fornecedor.Celular;
+                txtNFContatoCelular.Text = Fornecedor.ContatoCelular;
+                txtNFEmail.Text = Fornecedor.Email;
+                txtNFSite.Text = Fornecedor.Site;
+                txtNFInscricaoEstadual.Text = Fornecedor.InscricaoEstadual;
+                txtNFInscricaoMunicipal.Text = Fornecedor.InscricaoMunicipal;
+                txtNFObservacoes.Text = Fornecedor.Obs;
 
                 btnNFApagar.Enabled = true;
                 btnNFApagar.Visible = true;
@@ -1994,9 +1964,7 @@ namespace Gerenciador_de_Tarefas
             {
                 if (txtNFCEP.Text.Length > 0 && txtNFCEP.Text.Length < 8)
                 {
-                    string erro = ListaErro.RetornaErro(44);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListaErro.RetornaErro(44);
 
                     txtNFCEP.Clear();
                     txtNFCEP.Focus();
@@ -2005,21 +1973,17 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (Fornecedor.LocalizarCEP(txtNFCEP.Text))
                     {
-                        txtNFEndereco.Text = Fornecedor.endereco;
-                        txtNFNumero.Text = Fornecedor.numero;
-                        txtNFComplemento.Text = Fornecedor.complemento;
-                        txtNFBairro.Text = Fornecedor.bairro;
-                        txtNFCidade.Text = Fornecedor.cidade;
-                        txtNFEstado.Text = Fornecedor.estado;
-                        txtNFPais.Text = Fornecedor.pais;
+                        txtNFEndereco.Text = Fornecedor.Endereco;
+                        txtNFNumero.Text = Fornecedor.Numero;
+                        txtNFComplemento.Text = Fornecedor.Complemento;
+                        txtNFBairro.Text = Fornecedor.Bairro;
+                        txtNFCidade.Text = Fornecedor.Cidade;
+                        txtNFEstado.Text = Fornecedor.Estado;
+                        txtNFPais.Text = Fornecedor.Pais;
                     }
                     else
                     {
-                        string erro = ListaErro.RetornaErro(45);
-                        int separador = erro.IndexOf(":");
-                        DialogResult resultadoDialogo = MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                        if (resultadoDialogo == DialogResult.Yes)
+                        if (ListaMensagens.RetornaDialogo(25) == DialogResult.Yes)
                         {
                             txtNFCEP.Clear();
                             txtNFCEP.Focus();
@@ -2033,9 +1997,8 @@ namespace Gerenciador_de_Tarefas
             }
             catch (KeyNotFoundException)
             {
-                string erro = ListaErro.RetornaErro(46);
-                int separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(46);
+
                 txtNFCEP.Clear();
                 txtNFCEP.Focus();
             }
@@ -2047,24 +2010,17 @@ namespace Gerenciador_de_Tarefas
 
         private void nfPesquisaCNPJ()
         {
-            string erro = null;
-            int separador = int.MinValue;
-
             try
             {
                 if (txtNFDocumento.Text.Length >= 0 && txtNFDocumento.Text.Length < 14)
                 {
-                    erro = ListaErro.RetornaErro(40);
-                    separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListaErro.RetornaErro(40);
                     txtNFDocumento.Clear();
                     txtNFDocumento.Focus();
                 }
                 else if (txtNFDocumento.Text.Length == 14 && !Funcoes.ValidaCNPJ(txtNFDocumento.Text))
                 {
-                    erro = ListaErro.RetornaErro(41);
-                    separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListaErro.RetornaErro(41);
                     txtNFDocumento.Clear();
                     txtNFDocumento.Focus();
                 }
@@ -2072,27 +2028,24 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (Fornecedor.PesquisarCNPJ(txtNFDocumento.Text))
                     {
-
-                        txtNFNome.Text = Fornecedor.nome;
-                        txtNFApelido.Text = Fornecedor.apelido;
-                        txtNFDataNascimento.Text = Fornecedor.dataNascimento;
-                        txtNFCEP.Text = Fornecedor.cep;
-                        txtNFEndereco.Text = Fornecedor.endereco;
-                        txtNFNumero.Text = Fornecedor.numero;
-                        txtNFComplemento.Text = Fornecedor.endereco;
-                        txtNFBairro.Text = Fornecedor.bairro;
-                        txtNFCidade.Text = Fornecedor.cidade;
-                        txtNFEstado.Text = Fornecedor.estado;
+                        txtNFNome.Text = Fornecedor.Nome;
+                        txtNFApelido.Text = Fornecedor.Apelido;
+                        txtNFDataNascimento.Text = Fornecedor.DataNascimento;
+                        txtNFCEP.Text = Fornecedor.CEP;
+                        txtNFEndereco.Text = Fornecedor.Endereco;
+                        txtNFNumero.Text = Fornecedor.Numero;
+                        txtNFComplemento.Text = Fornecedor.Endereco;
+                        txtNFBairro.Text = Fornecedor.Bairro;
+                        txtNFCidade.Text = Fornecedor.Cidade;
+                        txtNFEstado.Text = Fornecedor.Estado;
                         txtNFPais.Text = "Brasil";
-                        txtNFTelefoneComercial.Text = Fornecedor.telefoneComercial;
-                        txtNFEmail.Text = Fornecedor.email;
+                        txtNFTelefoneComercial.Text = Fornecedor.TelefoneComercial;
+                        txtNFEmail.Text = Fornecedor.Email;
 
                     }
                     else
                     {
-                        erro = ListaErro.RetornaErro(41);
-                        separador = erro.IndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ListaErro.RetornaErro(41);
                         txtNFDocumento.Clear();
                         txtNFDocumento.Focus();
                     }
@@ -2100,9 +2053,7 @@ namespace Gerenciador_de_Tarefas
             }
             catch (Exception)
             {
-                erro = ListaErro.RetornaErro(41);
-                separador = erro.IndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(41);
                 txtNFDocumento.Clear();
                 txtNFDocumento.Focus();
             }
@@ -2173,39 +2124,35 @@ namespace Gerenciador_de_Tarefas
         
         private void nfEnviaDados()
         {
-            Fornecedor.tipo = cmbNFTipoFornecedor.SelectedIndex;
-            Fornecedor.dataCadastro = txtNFDataCadastro.Text;
-            Fornecedor.dataNascimento = txtNFDataNascimento.Text;
-            Fornecedor.documento = txtNFDocumento.Text;
-            Fornecedor.nome = txtNFNome.Text;
-            Fornecedor.apelido = txtNFApelido.Text;
-            Fornecedor.cep = txtNFCEP.Text;
-            Fornecedor.endereco = txtNFEndereco.Text;
-            Fornecedor.numero = txtNFNumero.Text;
-            Fornecedor.complemento = txtNFComplemento.Text;
-            Fornecedor.bairro = txtNFBairro.Text;
-            Fornecedor.cidade = txtNFCidade.Text;
-            Fornecedor.estado = txtNFEstado.Text;
-            Fornecedor.pais = txtNFPais.Text;
-            Fornecedor.telefone = txtNFTelefone.Text;
-            Fornecedor.contato = txtNFContato.Text;
-            Fornecedor.telefoneComercial = txtNFTelefoneComercial.Text;
-            Fornecedor.contatoComercial = txtNFContatoComercial.Text;
-            Fornecedor.celular = txtNFCelular.Text;
-            Fornecedor.contatoCelular = txtNFContatoCelular.Text;
-            Fornecedor.email = txtNFEmail.Text;
-            Fornecedor.site = txtNFSite.Text;
-            Fornecedor.inscricaoEstadual = txtNFInscricaoEstadual.Text;
-            Fornecedor.inscricaoMunicipal = txtNFInscricaoMunicipal.Text;
-            Fornecedor.obs = txtNFObservacoes.Text;
+            Fornecedor.Tipo = cmbNFTipoFornecedor.SelectedIndex;
+            Fornecedor.DataCadastro = txtNFDataCadastro.Text;
+            Fornecedor.DataNascimento = txtNFDataNascimento.Text;
+            Fornecedor.Documento = txtNFDocumento.Text;
+            Fornecedor.Nome = txtNFNome.Text;
+            Fornecedor.Apelido = txtNFApelido.Text;
+            Fornecedor.CEP = txtNFCEP.Text;
+            Fornecedor.Endereco = txtNFEndereco.Text;
+            Fornecedor.Numero = txtNFNumero.Text;
+            Fornecedor.Complemento = txtNFComplemento.Text;
+            Fornecedor.Bairro = txtNFBairro.Text;
+            Fornecedor.Cidade = txtNFCidade.Text;
+            Fornecedor.Estado = txtNFEstado.Text;
+            Fornecedor.Pais = txtNFPais.Text;
+            Fornecedor.Telefone = txtNFTelefone.Text;
+            Fornecedor.Contato = txtNFContato.Text;
+            Fornecedor.TelefoneComercial = txtNFTelefoneComercial.Text;
+            Fornecedor.ContatoComercial = txtNFContatoComercial.Text;
+            Fornecedor.Celular = txtNFCelular.Text;
+            Fornecedor.ContatoCelular = txtNFContatoCelular.Text;
+            Fornecedor.Email = txtNFEmail.Text;
+            Fornecedor.Site = txtNFSite.Text;
+            Fornecedor.InscricaoEstadual = txtNFInscricaoEstadual.Text;
+            Fornecedor.InscricaoMunicipal = txtNFInscricaoMunicipal.Text;
+            Fornecedor.Obs = txtNFObservacoes.Text;
         }
 
         private void btnNFFechar_Click(object sender, EventArgs e)
         {
-            string mensagem = "";
-            int separador = 0;
-
-
             //Envia os dados dos campos da tela para a classe Fornecedor
             nfEnviaDados();
 
@@ -2214,10 +2161,7 @@ namespace Gerenciador_de_Tarefas
             {
                 if (btnNFFechar.Text == "Cancelar")
                 {
-                    mensagem = ListaMensagens.RetornaMensagem(06);
-                    separador = mensagem.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (resultadoDialogo == DialogResult.Yes)
+                    if (ListaMensagens.RetornaDialogo(06) == DialogResult.Yes)
                     {
                         nfLimparCampos();
 
@@ -2232,12 +2176,9 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
-                    mensagem = ListaMensagens.RetornaMensagem(18);
-                    separador = mensagem.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (resultadoDialogo == DialogResult.Yes)
+                    if (ListaMensagens.RetornaDialogo(18) == DialogResult.Yes)
                     {
-                        if (Fornecedor.id != 0)
+                        if (Fornecedor.ID != 0)
                         {
                             Fornecedor.DestravaFornecedor();
                         }
@@ -2258,7 +2199,7 @@ namespace Gerenciador_de_Tarefas
             {
                 if (btnNFFechar.Text != "Cancelar")
                 {
-                    if (Fornecedor.id != 0)
+                    if (Fornecedor.ID != 0)
                     {
                         Fornecedor.DestravaFornecedor();
                     }
@@ -2290,17 +2231,11 @@ namespace Gerenciador_de_Tarefas
 
         private void btnNFApagar_Click(object sender, EventArgs e)
         {
-            string mensagem = ListaMensagens.RetornaMensagem(19);
-            int separador = mensagem.IndexOf(":");
-            DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (resultadoDialogo == DialogResult.Yes)
+            if (ListaMensagens.RetornaDialogo(19) == DialogResult.Yes)
             {
                 if (Sistema.IDUsuarioLogado != 1 && Sistema.IDUsuarioLogado != 2)
                 {
-                    mensagem = ListaMensagens.RetornaMensagem(20);
-                    separador = mensagem.IndexOf(":");
-                    string resposta = Microsoft.VisualBasic.Interaction.InputBox(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), "");
+                    string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(20)[0], ListaMensagens.RetornaInputBox(20)[1], "");
 
                     if (resposta == "MB8719")
                     {
@@ -2310,16 +2245,12 @@ namespace Gerenciador_de_Tarefas
                         }
                         catch (Exception)
                         {
-                            mensagem = ListaErro.RetornaErro(57);
-                            separador = mensagem.IndexOf(":");
-                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ListaErro.RetornaErro(57);
                             return;
                         }
                         finally
                         {
-                            mensagem = ListaMensagens.RetornaMensagem(21);
-                            separador = mensagem.IndexOf(":");
-                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ListaMensagens.RetornaMensagem(21);
 
                             nfLimparCampos();
 
@@ -2334,11 +2265,7 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
-                    mensagem = ListaMensagens.RetornaMensagem(22);
-                    separador = mensagem.IndexOf(":");
-                    resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (resultadoDialogo == DialogResult.Yes)
+                    if (ListaMensagens.RetornaDialogo(22) == DialogResult.Yes)
                     {
                         try
                         {
@@ -2346,16 +2273,12 @@ namespace Gerenciador_de_Tarefas
                         }
                         catch (Exception)
                         {
-                            mensagem = ListaErro.RetornaErro(57);
-                            separador = mensagem.IndexOf(":");
-                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ListaErro.RetornaErro(57);
                             return;
                         }
                         finally
                         {
-                            mensagem = ListaMensagens.RetornaMensagem(21);
-                            separador = mensagem.IndexOf(":");
-                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ListaMensagens.RetornaMensagem(21);
 
                             nfLimparCampos();
 
@@ -2373,8 +2296,6 @@ namespace Gerenciador_de_Tarefas
 
         private void btnNFEditar_Click(object sender, EventArgs e)
         {
-            string erro = null, mensagem = null;
-            int separador = 0;
             if (!string.IsNullOrEmpty(txtNFNome.Text))
             {
                 if (txtNFNome.Text.Length > 3)
@@ -2392,23 +2313,17 @@ namespace Gerenciador_de_Tarefas
                         }
                         catch (Exception)
                         {
-                            erro = ListaErro.RetornaErro(56);
-                            separador = erro.IndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            throw;
+                            ListaErro.RetornaErro(56);
+                            return;
                         }
                         finally
                         {
-                            mensagem = ListaMensagens.RetornaMensagem(17);
-                            separador = mensagem.IndexOf(":");
-                            MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            ListaMensagens.RetornaMensagem(17);
                         }
                     }
                     else
                     {
-                        mensagem = ListaMensagens.RetornaMensagem(23);
-                        separador = mensagem.IndexOf(":");
-                        MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ListaMensagens.RetornaMensagem(23);
                     }
 
                     txtNFDataNascimento.TextMaskFormat = MaskFormat.IncludePromptAndLiterals;
@@ -2417,30 +2332,22 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (cmbNFTipoFornecedor.SelectedIndex == 0)
                     {
-                        erro = ListaErro.RetornaErro(36);
-                        separador = erro.LastIndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ListaErro.RetornaErro(36);
                     }
                     else
                     {
-                        erro = ListaErro.RetornaErro(50);
-                        separador = erro.LastIndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ListaErro.RetornaErro(50);
                     }
                 }
             }
             else
             {
-                erro = ListaErro.RetornaErro(33);
-                separador = erro.LastIndexOf(":");
-                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ListaErro.RetornaErro(33);
             }
         }
 
         private void btnNFNovoCadastro_Click(object sender, EventArgs e)
         {
-            string erro = null, mensagem = null;
-            int separador = 0;
             if (btnNFNovoCadastro.Text == "Cadastrar Fornecedor")
             {
                 if (!string.IsNullOrEmpty(txtNFNome.Text))
@@ -2456,13 +2363,9 @@ namespace Gerenciador_de_Tarefas
 
                         Fornecedor.CadastrarFornecedor();
 
-                        if (Fornecedor.id != 0)
+                        if (Fornecedor.ID != 0)
                         {
-                            mensagem = ListaMensagens.RetornaMensagem(16);
-                            separador = mensagem.IndexOf(":");
-                            DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                            if (resultadoDialogo == DialogResult.Yes)
+                            if (ListaMensagens.RetornaDialogo(16) == DialogResult.Yes)
                             {
                                 //Destrava o fornecedor cadastrado
                                 Fornecedor.DestravaFornecedor();
@@ -2471,7 +2374,7 @@ namespace Gerenciador_de_Tarefas
                             }
                             else
                             {
-                                txtNFIDFornecedor.Text = Fornecedor.id.ToString();
+                                txtNFIDFornecedor.Text = Fornecedor.ID.ToString();
 
                                 btnNFNovoCadastro.Text = "Novo Cadastro";
                                 btnNFImprimir.Enabled = true;
@@ -2488,15 +2391,11 @@ namespace Gerenciador_de_Tarefas
                     {
                         if (cmbNFTipoFornecedor.SelectedIndex == 0)
                         {
-                            erro = ListaErro.RetornaErro(36);
-                            separador = erro.LastIndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ListaErro.RetornaErro(36);
                         }
                         else
                         {
-                            erro = ListaErro.RetornaErro(50);
-                            separador = erro.LastIndexOf(":");
-                            MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            ListaErro.RetornaErro(50);
                         }
                     }
                 }
@@ -2504,15 +2403,11 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (cmbNFTipoFornecedor.SelectedIndex == 0)
                     {
-                        erro = ListaErro.RetornaErro(33);
-                        separador = erro.LastIndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ListaErro.RetornaErro(33);
                     }
                     else
                     {
-                        erro = ListaErro.RetornaErro(35);
-                        separador = erro.LastIndexOf(":");
-                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        ListaErro.RetornaErro(35);
                     }
                 }
             }
@@ -2523,11 +2418,7 @@ namespace Gerenciador_de_Tarefas
 
                 if (Fornecedor.AvaliarMudancas())
                 {
-                    mensagem = ListaMensagens.RetornaMensagem(18);
-                    separador = mensagem.IndexOf(":");
-                    DialogResult resultadoDialogo = MessageBox.Show(mensagem.Substring((separador + 2)), mensagem.Substring(0, (separador - 1)), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (resultadoDialogo == DialogResult.Yes)
+                    if (ListaMensagens.RetornaDialogo(18) == DialogResult.Yes)
                     {
                         nfLimparCampos();
 
@@ -2640,15 +2531,11 @@ namespace Gerenciador_de_Tarefas
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    string erro = ListaErro.RetornaErro(24);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListaErro.RetornaErro(24);
                 }
                 catch (FormatException)
                 {
-                    string erro = ListaErro.RetornaErro(58);
-                    int separador = erro.IndexOf(":");
-                    MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ListaErro.RetornaErro(58);
                 }
             }
         }
@@ -3041,13 +2928,13 @@ namespace Gerenciador_de_Tarefas
                     if (sfdSalvarArquivo.ShowDialog() == DialogResult.OK)
                     {
                         string local = Path.GetFullPath(sfdSalvarArquivo.FileName);
-                        if (conexao.Backup(local))
+                        if (Sistema.Backup(local))
                         {
                             if (System.IO.File.Exists(local))
                             {
                                 string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Backup realizado - " +
                                 DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                                conexao.ExecutaComando(comando);
+                                Sistema.ExecutaComando(comando);
 
                                 MessageBox.Show("Backup realizado com sucesso!", "Backup realizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             }
@@ -3078,14 +2965,14 @@ namespace Gerenciador_de_Tarefas
 
             if (rdbtnServidorLocal.Checked)
             {
-                if (conexao.TestaConexao(txtBanco.Text, txtUid.Text, txtPwd.Text))
+                if (Sistema.TestaConexao(txtBanco.Text, txtUid.Text, txtPwd.Text))
                 {
                     abreprograma = true;
                 }
             }
             else
             {
-                if (conexao.TestaConexao(txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text))
+                if (Sistema.TestaConexao(txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text))
                 {
                     abreprograma = true;
                 }
@@ -3110,7 +2997,7 @@ namespace Gerenciador_de_Tarefas
 
                 string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Informações de conexão SQL alteradas - " +
                 DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                conexao.ExecutaComando(comando);
+                Sistema.ExecutaComando(comando);
 
                 MessageBox.Show("Dados atualizados com sucesso!");
             }
@@ -3144,7 +3031,7 @@ namespace Gerenciador_de_Tarefas
                 {
                     string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'As tarefas foram destravadas - " +
                         DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                    conexao.ExecutaComando(comando);
+                    Sistema.ExecutaComando(comando);
 
                     MessageBox.Show("As tarefas foram destravadas com sucesso.");
                 }
@@ -3173,13 +3060,13 @@ namespace Gerenciador_de_Tarefas
                 if (ofdAbrirArquivo.ShowDialog() == DialogResult.OK)
                 {
                     string local = Path.GetFullPath(ofdAbrirArquivo.FileName);
-                    if (conexao.Backup(local))
+                    if (Sistema.Backup(local))
                     {
                         if (System.IO.File.Exists(local))
                         {
                             string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Restauração realizada - " +
                             DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                            conexao.ExecutaComando(comando);
+                            Sistema.ExecutaComando(comando);
                             MessageBox.Show("Restauração realizada com sucesso!", "Restauração realizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else

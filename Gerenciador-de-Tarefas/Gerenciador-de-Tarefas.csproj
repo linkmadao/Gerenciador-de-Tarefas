@@ -137,7 +137,6 @@
     <Compile Include="Forms\Ajuda.Designer.cs">
       <DependentUpon>Ajuda.cs</DependentUpon>
     </Compile>
-    <Compile Include="Classes\bdconn.cs" />
     <Compile Include="Forms\CadastraCliente.cs">
       <SubType>Form</SubType>
     </Compile>
