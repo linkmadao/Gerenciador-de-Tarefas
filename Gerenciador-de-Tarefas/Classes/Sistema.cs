@@ -3,7 +3,6 @@ using Shell32;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
@@ -40,24 +39,81 @@ namespace Gerenciador_de_Tarefas.Classes
         private static string nomeUsuario = "";
         private static string senhaUsuario = "";
 
-        // Variáveis de Backup Conexao Banco de Dados
+        // Backup Conexao Banco de Dados
         #pragma warning disable 414, IDE0044
         private static string _enderecoServidor = "";
         private static string _nomeBanco = "";
         private static string _nomeUsuario = "";
         private static string _senhaUsuario = "";
         #pragma warning restore 414, IDE0044
+
+        // Tela Principal
+        private static bool programaDesativado = false;
+        private static bool iniciaTelaClientes = true, iniciaTelaFornecedores = true, iniciaTelaTarefas = true;
+        // Quantidade de segundos 
+        private static int contadorSegundos = 0;
+        // Senha administrador
+        private static readonly string senhaAdministrador = "MB8719";
+
         #endregion
 
         #region Propriedades
         /// <summary>
         /// Retorna a versão do software em questão
         /// </summary>
+        public static bool IniciaTelaClientes
+        {
+            get
+            {
+                return iniciaTelaClientes;
+            }
+            set
+            {
+                iniciaTelaClientes = value;
+            }
+        }
+        public static bool IniciaTelaFornecedores
+        {
+            get
+            {
+                return iniciaTelaFornecedores;
+            }
+            set
+            {
+                iniciaTelaFornecedores = value;
+            }
+        }
+        public static bool IniciaTelaTarefas
+        {
+            get
+            {
+                return iniciaTelaTarefas;
+            }
+            set
+            {
+                iniciaTelaTarefas = value;
+            }
+        }
+        public static bool ProgramaDesativado
+        {
+            get
+            {
+                return programaDesativado;
+            }
+            set
+            {
+                programaDesativado = value;
+            }
+        }
         public static bool ServidorLocal
         {
             get
             {
                 return servidorLocal;
+            }
+            set
+            {
+                servidorLocal = value;
             }
         }
         public static int IDUsuarioLogado
@@ -69,6 +125,22 @@ namespace Gerenciador_de_Tarefas.Classes
             set
             {
                 usuarioLogado = value;
+            }
+        }
+        public static int ContadorSegundos
+        {
+            get
+            {
+                if(contadorSegundos < 30)
+                {
+                    contadorSegundos++;
+                }
+                else
+                {
+                    contadorSegundos = 0;
+                }
+
+                return contadorSegundos;
             }
         }
         public static string Ano
@@ -121,6 +193,13 @@ namespace Gerenciador_de_Tarefas.Classes
                 return Convert.ToBase64String(Encoding.UTF8.GetBytes(senhaUsuario));
             }
         }
+        public static string SenhaADM
+        {
+            get
+            {
+                return senhaAdministrador;
+            }
+        }
         public static string VersaoSoftware
         {
             get
@@ -153,14 +232,14 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 versaoAtalho = "";
             }
-            #if RELEASE
+            //#if RELEASE
                 if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoLocal.Replace(".", "")))
                 {
                     if (Directory.Exists(diretorioPadrao + versaoServidor + @"\"))
                     {
-                        if (!File.Exists(diretorioAtalho + atalho))
+                        if (!File.Exists(diretorioAtalho + nomeAtalho))
                         {
-                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoServidor, versaoServidor);
+                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoServidor, versaoServidor);
                         }
                         else
                         {
@@ -189,9 +268,9 @@ namespace Gerenciador_de_Tarefas.Classes
                         //Copia todos os arquivos
                         CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoServidor + @"\", true);
 
-                        if (!File.Exists(diretorioAtalho + atalho))
+                        if (!File.Exists(diretorioAtalho + nomeAtalho))
                         {
-                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoServidor, versaoServidor);
+                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoServidor, versaoServidor);
                         }
                         else
                         {
@@ -216,9 +295,9 @@ namespace Gerenciador_de_Tarefas.Classes
                 {
                     if (Directory.Exists(diretorioPadrao + versaoLocal + @"\"))
                     {
-                        if (!File.Exists(diretorioAtalho + atalho))
+                        if (!File.Exists(diretorioAtalho + nomeAtalho))
                         {
-                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoLocal, versaoServidor);
+                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoLocal, versaoServidor);
                         }
                         else
                         {
@@ -240,9 +319,9 @@ namespace Gerenciador_de_Tarefas.Classes
                         //Copia todos os arquivos
                         CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoLocal + @"\", true);
 
-                        if (!File.Exists(diretorioAtalho + atalho))
+                        if (!File.Exists(diretorioAtalho + nomeAtalho))
                         {
-                            CriaAtalho(diretorioAtalho + atalho, diretorioPadrao + versaoLocal, versaoServidor);
+                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoLocal, versaoServidor);
                         }
                         else
                         {
@@ -259,7 +338,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 }
 
                 LerDadosXML();
-                #endif
+                //#endif
         }
 
         /// <summary>

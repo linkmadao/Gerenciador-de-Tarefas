@@ -13,14 +13,25 @@ namespace Gerenciador_de_Tarefas.Classes
         private static int id = 0, prioridade = 1, status = 0;
         private static string assunto = "", atribuicao = "", dataFinal = "",
             dataInicial = "", empresa = "", texto = "", textoImpressao = "", titulo = "";
+        private static DataGridView dgvTarefasAtualizada = new DataGridView();
 
         //Backup
         private static int _prioridade = 1, _status = 0;
         private static string _assunto = "", _atribuicao = "", _dataFinal = "",
             _dataInicial = "", _empresa = "", _texto = "";
+        private static DataGridView _dgvTarefasAtual = new DataGridView();
+
+
         #endregion
 
         #region Propriedades
+        public static DataGridView DGVAtualizada
+        {
+            get
+            {
+                return dgvTarefasAtualizada;
+            }
+        }
         public static int ID
         {
             get
@@ -179,6 +190,7 @@ namespace Gerenciador_de_Tarefas.Classes
         #endregion
 
         #region Funcoes
+
         public static bool AvaliaMudancas()
         {
             try
@@ -279,6 +291,81 @@ namespace Gerenciador_de_Tarefas.Classes
             _texto = Texto;
 
             return true;
+        }
+
+        /// <summary>
+        /// Método responsável por atualizar a tabela da tela inicial
+        /// </summary>
+        public static bool AtualizaDGVTarefas(int posicaoCmbFiltroTarefas)
+        {
+            if (Sistema.TestaConexao())
+            {
+                string comando = "";
+
+                switch (posicaoCmbFiltroTarefas)
+                {
+                    case 0:
+                        comando = "select tbl_contato.ID, tbl_contato.Nome AS `Empresa`, tbl_funcionarios.Nome AS 'Atribuido a', tbl_tarefas.Assunto, tbl_status.`Status`, tbl_tarefas.DataFinal AS 'Data Conclusão', tbl_tarefas.prioridade " +
+                        "from tbl_tarefas " +
+                        "Join tbl_contato on tbl_contato.ID = tbl_tarefas.empresa " +
+                        "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
+                        "Join tbl_status on tbl_status.id = tbl_tarefas.`Status` " +
+                        "Where tbl_tarefas.`Status` = 1 OR tbl_tarefas.`Status` = 2 OR tbl_tarefas.`Status` = 3 OR tbl_tarefas.`Status` = 4 " +
+                        "order by tbl_tarefas.id desc;";
+                        break;
+                    case 1:
+                        comando = "select tbl_contato.ID, tbl_contato.Nome AS `Empresa`, tbl_funcionarios.Nome AS 'Atribuido a', tbl_tarefas.Assunto, tbl_status.`Status`, tbl_tarefas.DataFinal AS 'Data Conclusão', tbl_tarefas.prioridade " +
+                        "from tbl_tarefas " +
+                        "Join tbl_contato on tbl_contato.ID = tbl_tarefas.empresa " +
+                        "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
+                        "Join tbl_status on tbl_status.id = tbl_tarefas.`Status` " +
+                        "Where tbl_tarefas.`Status` = 5 " +
+                        "order by tbl_tarefas.id desc;";
+                        break;
+                    case 2:
+                        comando = "select tbl_contato.ID, tbl_contato.Nome AS `Empresa`, tbl_funcionarios.Nome AS 'Atribuido a', tbl_tarefas.Assunto, tbl_status.`Status`, tbl_tarefas.DataFinal AS 'Data Conclusão', tbl_tarefas.prioridade " +
+                        "from tbl_tarefas " +
+                        "Join tbl_contato on tbl_contato.ID = tbl_tarefas.empresa " +
+                        "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
+                        "Join tbl_status on tbl_status.id = tbl_tarefas.`Status` " +
+                        "order by tbl_tarefas.id desc;";
+                        break;
+                }
+
+
+                if (Sistema.IniciaTelaTarefas)
+                {
+                    // Atualiza a tabela tarefas pendentes
+                    _dgvTarefasAtual.DataSource = Sistema.PreencheDGV(comando);
+                    dgvTarefasAtualizada.DataSource = _dgvTarefasAtual.DataSource;
+
+                    return true;
+                }
+                else
+                {
+                    DataGridView _dgvTemp = new DataGridView()
+                    {
+                        //Atualiza a tabela atual temporária
+                        DataSource = Sistema.PreencheDGV(comando)
+                    };
+
+                    //Se a tabela atualizada for diferente da tabela anterior
+                    if (_dgvTarefasAtual != _dgvTemp)
+                    {
+                        dgvTarefasAtualizada.DataSource = _dgvTemp.DataSource;
+                        _dgvTarefasAtual.DataSource = _dgvTemp.DataSource;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -558,47 +645,6 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Verifica como está os combobox na tela inicial e realiza os filtros. 
-        /// </summary>
-        /// <param name="posicaoCmbTipoTarefas">Posição da comboBox tipo tarefas na tela de tarefas</param>
-        public static string VerificaComboBoxTarefas(int posicaoCmbTipoTarefas)
-        {
-            string comando = "";
-
-            switch (posicaoCmbTipoTarefas)
-            {
-                case 0:
-                    comando = "select tbl_contato.ID, tbl_contato.Nome AS `Empresa`, tbl_funcionarios.Nome AS 'Atribuido a', tbl_tarefas.Assunto, tbl_status.`Status`, tbl_tarefas.DataFinal AS 'Data Conclusão', tbl_tarefas.prioridade " +
-                    "from tbl_tarefas " +
-                    "Join tbl_contato on tbl_contato.ID = tbl_tarefas.empresa " +
-                    "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
-                    "Join tbl_status on tbl_status.id = tbl_tarefas.`Status` " +
-                    "Where tbl_tarefas.`Status` = 1 OR tbl_tarefas.`Status` = 2 OR tbl_tarefas.`Status` = 3 OR tbl_tarefas.`Status` = 4 " +
-                    "order by tbl_tarefas.id desc;";
-                    break;
-                case 1:
-                    comando = "select tbl_contato.ID, tbl_contato.Nome AS `Empresa`, tbl_funcionarios.Nome AS 'Atribuido a', tbl_tarefas.Assunto, tbl_status.`Status`, tbl_tarefas.DataFinal AS 'Data Conclusão', tbl_tarefas.prioridade " +
-                    "from tbl_tarefas " +
-                    "Join tbl_contato on tbl_contato.ID = tbl_tarefas.empresa " +
-                    "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
-                    "Join tbl_status on tbl_status.id = tbl_tarefas.`Status` " +
-                    "Where tbl_tarefas.`Status` = 5 " +
-                    "order by tbl_tarefas.id desc;";
-                    break;
-                case 2:
-                    comando = "select tbl_contato.ID, tbl_contato.Nome AS `Empresa`, tbl_funcionarios.Nome AS 'Atribuido a', tbl_tarefas.Assunto, tbl_status.`Status`, tbl_tarefas.DataFinal AS 'Data Conclusão', tbl_tarefas.prioridade " +
-                    "from tbl_tarefas " +
-                    "Join tbl_contato on tbl_contato.ID = tbl_tarefas.empresa " +
-                    "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
-                    "Join tbl_status on tbl_status.id = tbl_tarefas.`Status` " +
-                    "order by tbl_tarefas.id desc;";
-                    break;
-            }
-
-            return comando;
         }
 
         /// <summary>

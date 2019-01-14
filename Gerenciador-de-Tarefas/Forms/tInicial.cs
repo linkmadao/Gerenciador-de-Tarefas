@@ -12,50 +12,39 @@ using Gerenciador_de_Tarefas.Classes;
 
 namespace Gerenciador_de_Tarefas
 {
-    public partial class tInicial : Form
+    public partial class TInicial : Form
     {
-        #region Variáveis
-        private int segundos = 0;
-        private bool programaDesativado = false;
-        private bool iniciaTelaClientes = true, iniciaTelaFornecedores = true, iniciaTelaTarefas = true, iniciaTelaNovoFornecedor = true;
-        public static Panel pOpcoes;
-        #endregion
-
         #region telaInicial
-        public tInicial()
+        public TInicial()
         {
             InitializeComponent();
-            pOpcoes = panelOpcoes;
         }
 
-        private void tInicial_Load(object sender, EventArgs e)
+        private void TInicial_Load(object sender, EventArgs e)
         {
             //Título do Software 
-            this.Text = "Gerenciador de Tarefas - CFTVA " + Sistema.Ano;
-
+            Text = "Gerenciador de Tarefas - CFTVA " + Sistema.Ano;
             //Versão do Software
             lblVersao.Text = "Versão: " + Sistema.VersaoSoftware;
-
             //Coloca a hora
             lblHorario.Text = "Hora: " + Sistema.Hora;
-
             //Seta o nome do usuário logado
             lblUsuario.Text = "Usuário: " + Sistema.NomeUsuarioLogado;
 
             EscondePaineis();
         }
 
-        private void btnSair_Click(object sender, EventArgs e)
+        private void BtnSair_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void tInicial_FormClosing(object sender, FormClosingEventArgs e)
+        private void TInicial_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (programaDesativado)
+            if (Sistema.ProgramaDesativado)
             {
                 ListaErro.RetornaErro(14);
-                programaDesativado = false;
+                Sistema.ProgramaDesativado = false;
             }
             else
             {
@@ -63,7 +52,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void btnClientes_Click(object sender, EventArgs e)
+        private void BtnClientes_Click(object sender, EventArgs e)
         {
             if (!panelClientes.Visible)
             {
@@ -72,21 +61,25 @@ namespace Gerenciador_de_Tarefas
                 panelClientes.Enabled = true;
                 panelClientes.Show();
 
-                if (iniciaTelaClientes)
+                if (!Sistema.IniciaTelaClientes)
                 {
-                    AtualizaDGVClientes();
+                    AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
 
                     for (int i = 0; i < dgvClientes.Columns.Count; i++)
                     {
                         dgvClientes.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
                     }
                 }
+                else
+                {
+                    AtualizaDGVClientes(0);
+                }
 
                 dgvClientes.Focus();
             }
         }
 
-        private void btnFornecedores_Click(object sender, EventArgs e)
+        private void BtnFornecedores_Click(object sender, EventArgs e)
         {
             if (!panelFornecedores.Visible)
             {
@@ -95,12 +88,25 @@ namespace Gerenciador_de_Tarefas
                 panelFornecedores.Enabled = true;
                 panelFornecedores.Show();
 
-                AtualizaDGVFornecedores();
+                if (!Sistema.IniciaTelaFornecedores)
+                {
+                    AtualizaDGVFornecedores(dgvFornecedores.CurrentCell.RowIndex);
+
+                    for (int i = 0; i < dgvFornecedores.Columns.Count; i++)
+                    {
+                        dgvFornecedores.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    }
+                }
+                else
+                {
+                    AtualizaDGVFornecedores(0);
+                }
+
                 dgvFornecedores.Focus();
             }
         }
 
-        private void btnTarefas_Click(object sender, EventArgs e)
+        private void BtnTarefas_Click(object sender, EventArgs e)
         {
             if (!panelTarefas.Visible)
             {
@@ -109,12 +115,25 @@ namespace Gerenciador_de_Tarefas
                 panelTarefas.Enabled = true;
                 panelTarefas.Show();
 
-                AtualizaDGVTarefas();
+                if (!Sistema.IniciaTelaTarefas)
+                {
+                    AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
+
+                    for (int i = 0; i < dgvTarefas.Columns.Count; i++)
+                    {
+                        dgvTarefas.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    }
+                }
+                else
+                {
+                    AtualizaDGVTarefas(0);
+                }
+
                 dgvTarefas.Focus();
             }
         }
 
-        private void btnOpcoes_Click(object sender, EventArgs e)
+        private void BtnOpcoes_Click(object sender, EventArgs e)
         {
             if (!panelOpcoes.Visible)
             {
@@ -138,30 +157,24 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void timerHora_Tick(object sender, EventArgs e)
+        private void TimerHora_Tick(object sender, EventArgs e)
         {
             lblHorario.Text = "Hora: " + Sistema.Hora;
 
-            if (segundos < 30)
-            {
-                segundos++;
-            }
-            else
+            if (Sistema.ContadorSegundos == 30)
             {
                 if (panelClientes.Visible)
                 {
-                    AtualizaDGVClientes();
+                    AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
                 }
                 else if (panelFornecedores.Visible)
                 {
-                    AtualizaDGVFornecedores();
+                    AtualizaDGVFornecedores(dgvFornecedores.CurrentCell.RowIndex);
                 }
                 else if (panelTarefas.Visible)
                 {
-                    AtualizaDGVTarefas();
+                    AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
                 }
-
-                segundos = 0;
             }
         }
 
@@ -172,7 +185,7 @@ namespace Gerenciador_de_Tarefas
             panelClientes.Hide();
 
             panelFornecedores.Visible = false;
-            panelClientes.Enabled = false;
+            panelFornecedores.Enabled = false;
             panelFornecedores.Hide();
 
             panelNF.Visible = false;
@@ -188,7 +201,7 @@ namespace Gerenciador_de_Tarefas
             panelOpcoes.Hide();
         }
 
-        private void tInicial_KeyDown(object sender, KeyEventArgs e)
+        private void TInicial_KeyDown(object sender, KeyEventArgs e)
         {
             //O painel de clientes está visível?
             if (panelClientes.Visible)
@@ -197,21 +210,21 @@ namespace Gerenciador_de_Tarefas
                 if (e.Control && e.KeyCode == Keys.N)
                 {
                     // Simula o click
-                    btnAddCliente_Click(btnAddCliente, e);
+                    BtnAddCliente_Click(btnAddCliente, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + P
                 else if (e.Control && e.KeyCode == Keys.P)
                 {
                     // Simula o click
-                    btnPrintListaClientes_Click(btnPrintListaClientes, e);
+                    BtnPrintListaClientes_Click(btnPrintListaClientes, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + F
                 else if (e.Control && e.KeyCode == Keys.F)
                 {
                     // Simula o click
-                    btnPesqCliente_Click(btnPesqCliente, e);
+                    BtnPesqCliente_Click(btnPesqCliente, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar ESC
@@ -225,7 +238,7 @@ namespace Gerenciador_de_Tarefas
                     if (dgvClientes.Focused)
                     {
                         //Executa a mesma função de dar 2 cliques com o mouse no cliente
-                        dgvClientes_CellDoubleClick(dgvClientes, new DataGridViewCellEventArgs(dgvClientes.CurrentCell.ColumnIndex, dgvClientes.CurrentRow.Index));
+                        DgvClientes_CellDoubleClick(dgvClientes, new DataGridViewCellEventArgs(dgvClientes.CurrentCell.ColumnIndex, dgvClientes.CurrentRow.Index));
                     }
                 }
             }
@@ -236,14 +249,14 @@ namespace Gerenciador_de_Tarefas
                 if (e.Control && e.KeyCode == Keys.N)
                 {
                     // Simula o click
-                    btnNovoFornecedor_Click(btnNovoFornecedor, e);
+                    BtnNovoFornecedor_Click(btnNovoFornecedor, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + P
                 else if (e.Control && e.KeyCode == Keys.P)
                 {
                     // Simula o click
-                    btnImprimeFornecedores_Click(btnImprimeFornecedores, e);
+                    BtnImprimeFornecedores_Click(btnImprimeFornecedores, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar ESC
@@ -257,7 +270,7 @@ namespace Gerenciador_de_Tarefas
                     if (dgvFornecedores.Focused)
                     {
                         //Executa a mesma função de dar 2 cliques com o mouse no cliente
-                        dgvFornecedores_CellDoubleClick(dgvFornecedores, new DataGridViewCellEventArgs(dgvFornecedores.CurrentCell.ColumnIndex, dgvFornecedores.CurrentRow.Index));
+                        DgvFornecedores_CellDoubleClick(dgvFornecedores, new DataGridViewCellEventArgs(dgvFornecedores.CurrentCell.ColumnIndex, dgvFornecedores.CurrentRow.Index));
                     }
                 }
             }
@@ -267,13 +280,13 @@ namespace Gerenciador_de_Tarefas
                 // Se apertar CTRL +N
                 if (e.Control && e.KeyCode == Keys.N)
                 {
-                    btnNFNovoCadastro_Click(btnNFNovoCadastro, e);
+                    BtnNFNovoCadastro_Click(btnNFNovoCadastro, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + P
                 else if (e.Control && e.KeyCode == Keys.P)
                 {
-                    btnNFImprimir_Click(btnNFImprimir, e);
+                    BtnNFImprimir_Click(btnNFImprimir, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar ESC
@@ -289,13 +302,13 @@ namespace Gerenciador_de_Tarefas
                 // Se apertar CTRL +N
                 if (e.Control && e.KeyCode == Keys.N)
                 {
-                    btnNovaTarefa_Click(btnNovaTarefa, e);
+                    BtnNovaTarefa_Click(btnNovaTarefa, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + P
                 else if (e.Control && e.KeyCode == Keys.P)
                 {
-                    btnImprimirListaTarefas_Click(btnImprimirListaTarefas, e);
+                    BtnImprimirListaTarefas_Click(btnImprimirListaTarefas, e);
                     e.SuppressKeyPress = true;
                 }
                 //Se apertar ESC
@@ -309,7 +322,7 @@ namespace Gerenciador_de_Tarefas
                     if (dgvTarefas.Focused)
                     {
                         //Executa a mesma função de dar 2 cliques com o mouse na tarefa
-                        dgvTarefas_CellDoubleClick(dgvTarefas, new DataGridViewCellEventArgs(dgvTarefas.CurrentCell.ColumnIndex, dgvTarefas.CurrentRow.Index));
+                        DgvTarefas_CellDoubleClick(dgvTarefas, new DataGridViewCellEventArgs(dgvTarefas.CurrentCell.ColumnIndex, dgvTarefas.CurrentRow.Index));
                     }
                 }
             }
@@ -329,9 +342,9 @@ namespace Gerenciador_de_Tarefas
 
                     if (resultadoDialogo == DialogResult.Yes)
                     {
-                        string resposta = Microsoft.VisualBasic.Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
+                        string resposta = Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
 
-                        if (resposta == "MB8719")
+                        if (resposta == Sistema.SenhaADM)
                         {
                             if (Classes.Tarefa.DestravaTodasTarefas())
                             {
@@ -366,7 +379,7 @@ namespace Gerenciador_de_Tarefas
                     if (!panelClientes.Visible)
                     {
                         //Simula o click
-                        btnClientes_Click(btnClientes, e);
+                        BtnClientes_Click(btnClientes, e);
                     }
                 }
                 //Se apertar o F2
@@ -376,7 +389,7 @@ namespace Gerenciador_de_Tarefas
                     if (!panelFornecedores.Visible && !panelNF.Visible)
                     {
                         //Simula o click
-                        btnFornecedores_Click(btnFornecedores, e);
+                        BtnFornecedores_Click(btnFornecedores, e);
                     }
                 }
                 //Se apertar o F3
@@ -386,7 +399,7 @@ namespace Gerenciador_de_Tarefas
                     if (!panelTarefas.Visible)
                     {
                         //Simula o click
-                        btnTarefas_Click(btnTarefas, e);
+                        BtnTarefas_Click(btnTarefas, e);
                     }
                 }
                 //Se apertar o F5
@@ -395,7 +408,7 @@ namespace Gerenciador_de_Tarefas
                     //O painel de Tarefas não está visível?
                     if (!panelOpcoes.Visible)
                     {
-                        btnOpcoes_Click(btnOpcoes, e);
+                        BtnOpcoes_Click(btnOpcoes, e);
                     }
                 }
                 //Se apertar o ESC
@@ -410,91 +423,50 @@ namespace Gerenciador_de_Tarefas
 
         #region Clientes
         /// <summary>
-        /// Método responsável por atualizar a tabela da tela inicial
+        /// Método responsável por atualizar a tabela da tela de clientes
         /// </summary>
         /// 
-        private DataGridView _dgvClientesAtual = new DataGridView();
-
-        private void AtualizaDGVClientes()
+        private void AtualizaDGVClientes(int linha)
         {
-            if (Sistema.TestaConexao())
+            if (Cliente.AtualizaDGVClientes(cmbFiltroClientes.SelectedIndex))
             {
-                string comando = Cliente.FiltroClientes(cmbFiltroClientes.SelectedIndex);
+                dgvClientes.DataSource = Cliente.DGVAtualizada.DataSource;
 
-                DataGridView _dgvTemp = new DataGridView();
-                int linhaAtual = 0, colunaAtual = 0, posvertical = 0;
+                //Desmarca a primeira linha
+                dgvClientes.Rows[0].Selected = false;
 
-                if (iniciaTelaClientes)
+                //Tenta selecionar a linha
+                try
                 {
-                    _dgvClientesAtual.DataSource = Sistema.PreencheDGV(comando);
-                    _dgvTemp.DataSource = Sistema.PreencheDGV(comando);
-                    dgvClientes.DataSource = _dgvClientesAtual.DataSource;
-
-                    dgvClientes.Rows[0].Selected = false;
-
-                    iniciaTelaClientes = false;
+                    dgvClientes[0, linha].Selected = true;
+                    dgvClientes.FirstDisplayedScrollingRowIndex = 0;
                 }
-                else
+                catch (ArgumentOutOfRangeException)
                 {
-                    //Tenta pegar as posições de onde estava antes de atualizar.
-                    try
-                    {
-                        linhaAtual = dgvClientes.CurrentCell.RowIndex;
-                        colunaAtual = dgvClientes.CurrentCell.ColumnIndex;
-                        posvertical = dgvClientes.FirstDisplayedScrollingRowIndex;
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        linhaAtual = dgvClientes.CurrentCell.RowIndex;
-                        colunaAtual = dgvClientes.CurrentCell.ColumnIndex;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        linhaAtual = dgvClientes.CurrentCell.RowIndex;
-                        colunaAtual = dgvClientes.CurrentCell.ColumnIndex;
-                    }
-
-                    //Atualiza a tabela atual temporária
-                    _dgvClientesAtual.DataSource = Sistema.PreencheDGV(comando);
-
-                    //Se a tabela atualizada for diferente da tabela anterior
-                    if (_dgvClientesAtual != _dgvTemp)
-                    {
-                        dgvClientes.DataSource = _dgvClientesAtual.DataSource;
-                        _dgvTemp = _dgvClientesAtual;
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    //Desmarca a primeira linha
-                    dgvClientes.Rows[0].Selected = false;
-
-                    //Tenta selecionar a linha
-                    try
-                    {
-                        dgvClientes[colunaAtual, linhaAtual].Selected = true;
-                        dgvClientes.FirstDisplayedScrollingRowIndex = posvertical;
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        try
-                        {
-                            dgvClientes[colunaAtual, linhaAtual].Selected = true;
-                        }
-                        catch (ArgumentOutOfRangeException)
-                        {
-                            dgvClientes[0, 0].Selected = true;
-                            dgvClientes.FirstDisplayedScrollingRowIndex = 0;
-                        }
-                    }
+                    dgvClientes[0, 0].Selected = true;
+                    dgvClientes.FirstDisplayedScrollingRowIndex = 0;
                 }
 
                 try
                 {
                     foreach (DataGridViewRow dgvr in dgvClientes.Rows)
                     {
+                        if(dgvr.Cells["Telefone"].Value.ToString() != "")
+                        {
+                            if(dgvr.Cells["Telefone"].Value.ToString().Length > 7 && dgvr.Cells["Telefone"].Value.ToString().Length < 11)
+                            {
+                                dgvr.Cells["Telefone"].Value = "(" + dgvr.Cells["Telefone"].Value.ToString().Substring(0, 2) + ") " +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(2, 4) + "-" +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(6, 4);
+                            }
+                            else if(dgvr.Cells["Telefone"].Value.ToString().Length > 8 && dgvr.Cells["Telefone"].Value.ToString().Length < 12)
+                            {
+                                dgvr.Cells["Telefone"].Value = "(" + dgvr.Cells["Telefone"].Value.ToString().Substring(0, 2) + ") " +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(2, 5) + "-" +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(7, 4);
+                            }
+                        }
+
                         if (dgvr.Cells["contrato"].Value.ToString() == "2")
                         {
                             dgvr.DefaultCellStyle.BackColor = Color.LightBlue;
@@ -519,13 +491,13 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void dgvClientes_DataSourceChanged(object sender, EventArgs e)
+        private void DgvClientes_DataSourceChanged(object sender, EventArgs e)
         {
             dgvClientes.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvClientes.Columns[2].MinimumWidth = 150;
         }
 
-        private void dgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvClientes_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
             {
@@ -534,15 +506,14 @@ namespace Gerenciador_de_Tarefas
                 DataGridViewRow linha = dgvClientes.Rows[e.RowIndex];
                 Cliente.PreCarregaCliente(linha.Cells["Nome"].Value.ToString());
 
-                Tarefa cadastraCliente = new Tarefa();
+                CadastraCliente cadastraCliente = new CadastraCliente();
                 cadastraCliente.ShowDialog();
 
-                AtualizaDGVClientes();
-                dgvClientes.FirstDisplayedScrollingRowIndex = posicaoAtualScroll;
+                AtualizaDGVClientes(linha.Index);
             }
         }
 
-        private void btnAddCliente_Click(object sender, EventArgs e)
+        private void BtnAddCliente_Click(object sender, EventArgs e)
         {
             int posicaoAtualScroll = dgvClientes.FirstDisplayedScrollingRowIndex;
 
@@ -552,11 +523,11 @@ namespace Gerenciador_de_Tarefas
             CadastraCliente cadastraCliente = new CadastraCliente();
             cadastraCliente.ShowDialog();
 
-            AtualizaDGVClientes();
+            AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
             dgvClientes.FirstDisplayedScrollingRowIndex = posicaoAtualScroll;
         }
 
-        private void btnPesqCliente_Click(object sender, EventArgs e)
+        private void BtnPesqCliente_Click(object sender, EventArgs e)
         {
             TelaPesquisa telaPesquisaCliente = new TelaPesquisa(dgvClientes, true);
             telaPesquisaCliente.ShowDialog();
@@ -573,9 +544,9 @@ namespace Gerenciador_de_Tarefas
             dgvClientes.Focus();
         }
 
-        private void cmbFiltroClientes_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbFiltroClientes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AtualizaDGVClientes();
+            AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
             dgvClientes.Focus();
         }
 
@@ -591,28 +562,28 @@ namespace Gerenciador_de_Tarefas
         bool bNewPage = false;// Used to check whether we are printing a new page
         int iHeaderHeight = 0; //Used for the header height
 
-        private void btnPrintListaClientes_Click(object sender, EventArgs e)
+        private void BtnPrintListaClientes_Click(object sender, EventArgs e)
         {
             if (pdImprimirClientes.ShowDialog() == DialogResult.OK)
             {
-
-
                 pdClientes.DefaultPageSettings.Landscape = true;
                 pdClientes.DocumentName = "Lista de Clientes - CFTVA " + DateTime.Now.Date.ToShortDateString();
 
                 pPreviewClientes.ShowDialog();
-                AtualizaDGVClientes();
+                AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
             }
         }
 
-        private void pdClientes_BeginPrint(object sender, PrintEventArgs e)
+        private void PdClientes_BeginPrint(object sender, PrintEventArgs e)
         {
             try
             {
-                strFormat = new StringFormat();
-                strFormat.Alignment = StringAlignment.Near;
-                strFormat.LineAlignment = StringAlignment.Center;
-                strFormat.Trimming = StringTrimming.EllipsisCharacter;
+                strFormat = new StringFormat
+                {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Center,
+                    Trimming = StringTrimming.EllipsisCharacter
+                };
 
                 arrColumnLefts.Clear();
                 arrColumnWidths.Clear();
@@ -634,7 +605,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void pdClientes_PrintPage(object sender, PrintPageEventArgs e)
+        private void PdClientes_PrintPage(object sender, PrintPageEventArgs e)
         {
             try
             {
@@ -786,53 +757,56 @@ namespace Gerenciador_de_Tarefas
         #endregion 
 
         #region Tarefas
-        private void btnNovaTarefa_Click(object sender, EventArgs e)
+        private void BtnNovaTarefa_Click(object sender, EventArgs e)
         {
             Classes.Tarefa.LimparVariaveis();
 
             Tarefa ntarefa = new Tarefa();
             ntarefa.ShowDialog();
-        }       
+        }
 
-        private DataGridView _dgvTarefasAtual = new DataGridView(), _dgvTarefasConcluidas = new DataGridView(), _dgvTodasTarefas = new DataGridView();
-        private DataGridView _dgvTempTarefas = new DataGridView(), _dgvTempTarefasConcluidas = new DataGridView(), _dgvTempTodasTarefas = new DataGridView();
 
         /// <summary>
         /// Método responsável por atualizar a tabela da tela inicial
         /// </summary>
-        private void AtualizaDGVTarefas()
+        /// 
+        private void AtualizaDGVTarefas(int linha)
         {
-            if (Sistema.TestaConexao())
+            if (Classes.Tarefa.AtualizaDGVTarefas(cmbTipoTarefas.SelectedIndex))
             {
-                int linhaAtual = 0, colunaAtual = 0, posvertical = 0;
-
-                if (iniciaTelaTarefas)
+                try
                 {
-                    //Atualiza a tabela tarefas pendentes
-                    _dgvTarefasAtual.DataSource = Sistema.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(0));
-                    _dgvTempTarefas.DataSource = _dgvTarefasAtual.DataSource;
-                    dgvTarefas.DataSource = _dgvTarefasAtual.DataSource;
+                    dgvTarefas.DataSource = Classes.Tarefa.DGVAtualizada.DataSource;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    //ListaErro.RetornaErro(61);
+                    return;
+                }
 
-                    //Atualiza a tabela tarefas concluidas
-                    _dgvTarefasConcluidas.DataSource = Sistema.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(1));
-                    _dgvTempTarefasConcluidas.DataSource = _dgvTarefasConcluidas.DataSource;
-
-                    //Atualiza a tabela tarefas temporária
-                    _dgvTodasTarefas.DataSource = Sistema.PreencheDGV(Classes.Tarefa.VerificaComboBoxTarefas(2));
-                    _dgvTempTodasTarefas.DataSource = _dgvTodasTarefas.DataSource;
-
-                    iniciaTelaTarefas = false;
+                //desmarca a primeira linha
+                dgvTarefas.Rows[0].Selected = false;
 
 
-                    //Esconde a coluna ID
-                    dgvTarefas.Columns[0].Visible = false;
-                    //Esconde a coluna Prioridade
-                    dgvTarefas.Columns["Prioridade"].Visible = false;
-                    //Esconde a coluna Data Conclusão
-                    dgvTarefas.Columns["Data Conclusão"].Visible = false;
-                    //Exibe a coluna de Status
-                    dgvTarefas.Columns["Status"].Visible = true;
-
+                if (Sistema.IniciaTelaTarefas)
+                {
+                    try
+                    {
+                        //Esconde a coluna ID
+                        dgvTarefas.Columns["ID"].Visible = false;
+                        //Esconde a coluna Prioridade
+                        dgvTarefas.Columns["Prioridade"].Visible = false;
+                        //Esconde a coluna Data Conclusão
+                        dgvTarefas.Columns["Data Conclusão"].Visible = false;
+                        //Exibe a coluna de Status
+                        dgvTarefas.Columns["Status"].Visible = true;
+                    }
+                    catch (Exception e)
+                    {
+                        ListaErro.RetornaErro(61);
+                        return;
+                    }
+                    
                     try
                     {
                         //Filtra os resultados da DGV
@@ -874,86 +848,11 @@ namespace Gerenciador_de_Tarefas
                         ListaErro.RetornaErro(32);
                         return;
                     }
+
+                    Sistema.IniciaTelaTarefas = false;
                 }
                 else
                 {
-                    string comando = Classes.Tarefa.VerificaComboBoxTarefas(cmbTipoTarefas.SelectedIndex);
-
-                    //Tenta pegar as posições de onde estava antes de atualizar
-                    try
-                    {
-                        linhaAtual = dgvTarefas.CurrentCell.RowIndex;
-                        colunaAtual = dgvTarefas.CurrentCell.ColumnIndex;
-                        posvertical = dgvClientes.FirstDisplayedScrollingRowIndex;
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        linhaAtual = dgvClientes.CurrentCell.RowIndex;
-                        colunaAtual = dgvClientes.CurrentCell.ColumnIndex;
-                    }
-
-                    if (cmbTipoTarefas.SelectedIndex == 0)
-                    {
-                        //Atualiza a tabela atual temporária
-                        _dgvTarefasAtual.DataSource = Sistema.PreencheDGV(comando);
-
-                        //Se a tabela atualizada for diferente da tabela anterior
-                        if (_dgvTarefasAtual != _dgvTempTarefas)
-                        {
-                            dgvTarefas.DataSource = _dgvTarefasAtual.DataSource;
-                            _dgvTempTarefas = _dgvTarefasAtual;
-                        }
-                        else if (dgvTarefas.DataSource != _dgvTempTarefas)
-                        {
-                            dgvTarefas.DataSource = _dgvTarefasAtual.DataSource;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else if (cmbTipoTarefas.SelectedIndex == 1)
-                    {
-
-                        //Atualiza a tabela atual temporária
-                        _dgvTarefasConcluidas.DataSource = Sistema.PreencheDGV(comando);
-
-                        //Se a tabela atualizada for diferente da tabela anterior
-                        if (_dgvTarefasConcluidas != _dgvTempTarefasConcluidas)
-                        {
-                            dgvTarefas.DataSource = _dgvTarefasConcluidas.DataSource;
-                            _dgvTempTarefasConcluidas = _dgvTarefasConcluidas;
-                        }
-                        else if (dgvTarefas.DataSource != _dgvTempTarefasConcluidas)
-                        {
-                            dgvTarefas.DataSource = _dgvTempTarefasConcluidas.DataSource;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else if (cmbTipoTarefas.SelectedIndex == 2)
-                    {
-                        //Atualiza a tabela atual temporária
-                        _dgvTodasTarefas.DataSource = Sistema.PreencheDGV(comando);
-
-                        //Se a tabela atualizada for diferente da tabela anterior
-                        if (_dgvTodasTarefas != _dgvTempTodasTarefas)
-                        {
-                            dgvTarefas.DataSource = _dgvTodasTarefas.DataSource;
-                            _dgvTempTodasTarefas = _dgvTodasTarefas;
-                        }
-                        else if (dgvTarefas.DataSource != _dgvTempTodasTarefas)
-                        {
-                            dgvTarefas.DataSource = _dgvTempTodasTarefas.DataSource;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-
                     try
                     {
                         switch (cmbFiltros.SelectedIndex)
@@ -1049,52 +948,55 @@ namespace Gerenciador_de_Tarefas
                         }
                     }
 
-                    //Esconde a coluna ID
-                    dgvTarefas.Columns[0].Visible = false;
-
-                    //Esconde a coluna prioridade
-                    dgvTarefas.Columns["Prioridade"].Visible = false;
-
+                    if(dgvTarefas.Columns[0].Visible)
+                    {
+                        //Esconde a coluna ID
+                        dgvTarefas.Columns[0].Visible = false;
+                    }
+                    if(dgvTarefas.Columns["Prioridade"].Visible)
+                    {
+                        //Esconde a coluna prioridade
+                        dgvTarefas.Columns["Prioridade"].Visible = false;
+                    }
                     //Esconde a coluna DataFinal
                     if (cmbTipoTarefas.SelectedIndex == 0)
                     {
-                        dgvTarefas.Columns["Data Conclusão"].Visible = false;
-                        dgvTarefas.Columns["Status"].Visible = true;
+                        if (dgvTarefas.Columns["Data Conclusão"].Visible)
+                        {
+                            dgvTarefas.Columns["Data Conclusão"].Visible = false;
+                        }
+                        if (!dgvTarefas.Columns["Status"].Visible)
+                        {
+                            dgvTarefas.Columns["Status"].Visible = true;
+                        }
                     }
                     //Esconde a coluna Status
                     else if (cmbTipoTarefas.SelectedIndex == 1)
                     {
-                        dgvTarefas.Columns["Data Conclusão"].Visible = true;
-                        dgvTarefas.Columns["Status"].Visible = false;
+                        if (!dgvTarefas.Columns["Data Conclusão"].Visible)
+                        {
+                            dgvTarefas.Columns["Data Conclusão"].Visible = true;
+                        }
+                        if (dgvTarefas.Columns["Status"].Visible)
+                        {
+                            dgvTarefas.Columns["Status"].Visible = false;
+                        }
                     }
-
-                    //desmarca a primeira linha
-                    dgvTarefas.Rows[0].Selected = false;
-
-                    //Tenta selecionar as linhas
                     try
                     {
-                        dgvTarefas[colunaAtual, linhaAtual].Selected = true;
-                        dgvTarefas.FirstDisplayedScrollingRowIndex = posvertical;
+                        //Tenta selecionar a linha
+                        dgvFornecedores[0, linha].Selected = true;
+                        dgvFornecedores.FirstDisplayedScrollingRowIndex = 0;
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        try
-                        {
-                            dgvTarefas[colunaAtual, linhaAtual].Selected = true;
-                            dgvTarefas.FirstDisplayedScrollingRowIndex = linhaAtual;
-                            //dgvTarefas.FirstDisplayedScrollingRowIndex = 0;
-                        }
-                        catch (ArgumentOutOfRangeException)
-                        {
-                            dgvTarefas[0, 0].Selected = true;
-                        }
+                        return;
                     }
                 }
             }
         }
 
-        private void dgvTarefas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvTarefas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
             {
@@ -1116,46 +1018,48 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
-                    ListaMensagens.RetornaMensagem(01);
+                    ListaMensagens.RetornaMensagem(01, MessageBoxIcon.Warning);
                 }
 
-                AtualizaDGVTarefas();
-                //dgvTarefas.FirstDisplayedScrollingRowIndex = posicaoAtualScroll;
+                AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
+                dgvTarefas.FirstDisplayedScrollingRowIndex = posicaoAtualScroll;
             }
         }
 
-        private void dgvTarefas_DataSourceChanged(object sender, EventArgs e)
+        private void DgvTarefas_DataSourceChanged(object sender, EventArgs e)
         {
             dgvTarefas.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
         }
 
-        private void cmbTipoTarefas_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbTipoTarefas_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AtualizaDGVTarefas();
+            AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
             dgvTarefas.Focus();
         }
 
-        private void cmbFiltros_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbFiltros_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AtualizaDGVTarefas();
+            AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
             dgvTarefas.Focus();
         }
 
         #region Impressão
 
-        private void btnImprimirListaTarefas_Click(object sender, EventArgs e)
+        private void BtnImprimirListaTarefas_Click(object sender, EventArgs e)
         {
             ImprimirTarefas();
         }
 
-        private void pdTarefas_BeginPrint(object sender, PrintEventArgs e)
+        private void PdTarefas_BeginPrint(object sender, PrintEventArgs e)
         {
             try
             {
-                strFormat = new StringFormat();
-                strFormat.Alignment = StringAlignment.Near;
-                strFormat.LineAlignment = StringAlignment.Center;
-                strFormat.Trimming = StringTrimming.EllipsisCharacter;
+                strFormat = new StringFormat
+                {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Center,
+                    Trimming = StringTrimming.EllipsisCharacter
+                };
 
                 arrColumnLefts.Clear();
                 arrColumnWidths.Clear();
@@ -1186,12 +1090,12 @@ namespace Gerenciador_de_Tarefas
 
                 pPreviewTarefas.ShowDialog();
 
-                AtualizaDGVTarefas();
+                AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
             }
 
         }
 
-        private void pdTarefas_PrintPage(object sender, PrintPageEventArgs e)
+        private void PdTarefas_PrintPage(object sender, PrintPageEventArgs e)
         {
             try
             {
@@ -1572,126 +1476,72 @@ namespace Gerenciador_de_Tarefas
         /// Método responsável por atualizar a tela de Fornecedores
         /// </summary>
         /// 
-        private DataGridView _dgvFornecedoresAtual = new DataGridView();
-
-        private void AtualizaDGVFornecedores()
+        private void AtualizaDGVFornecedores(int linha)
         {
-            if (Sistema.TestaConexao())
+            if (Fornecedor.AtualizaDGVFornecedores(cmbGrupoFornecedor.SelectedIndex))
             {
-                string comando = Fornecedor.FiltroFornecedores(cmbGrupoFornecedor.SelectedIndex);
+                dgvFornecedores.DataSource = Fornecedor.DGVAtualizada.DataSource;
 
-                DataGridView _dgvTemp = new DataGridView();
-                int linhaAtual = 0, colunaAtual = 0, posvertical = 0;
+                //Desmarca a primeira linha
+                dgvFornecedores.Rows[0].Selected = false;
 
-                if (iniciaTelaFornecedores)
+                //Tenta selecionar a linha
+                try
                 {
-                    //Preenche o combobox de Grupos
-                    //List<string> lista = Fornecedor.CarregarCategoria();
-                    //Insere na lista uma opção "Todos"
-                    //lista.Insert(lista.Count, "Todos");
-                    //Preenche o combobox
-                    //cmbGrupoFornecedor.DataSource = lista;
-                    cmbGrupoFornecedor.DisplayMember = "Fornecedores";
-                    //Seleciona a opção "Todos" no combobox
-                    cmbGrupoFornecedor.Text = "Todos";
-
-                    //Preenche o DataGridView Temporário
-                    _dgvFornecedoresAtual.DataSource = Sistema.PreencheDGV(comando);
-                    //Preenche o DataGridView de Backup
-                    _dgvTemp.DataSource = _dgvFornecedoresAtual.DataSource;
-                    //Preenche o DataGridView Oficial
-                    dgvFornecedores.DataSource = _dgvFornecedoresAtual.DataSource;
-
-                    //Deseleciona a primeira linha
-                    dgvFornecedores.Rows[0].Selected = false;
-
-                    //Seta que a tela já foi aberta
-                    iniciaTelaFornecedores = false;
+                    dgvFornecedores[0, linha].Selected = true;
+                    dgvFornecedores.FirstDisplayedScrollingRowIndex = 0;
                 }
-                else
+                catch (ArgumentOutOfRangeException)
                 {
-                    //Tenta pegar as posições de onde estava antes de atualizar.
-                    try
-                    {
-                        linhaAtual = dgvFornecedores.CurrentCell.RowIndex;
-                        colunaAtual = dgvFornecedores.CurrentCell.ColumnIndex;
-                        posvertical = dgvFornecedores.FirstDisplayedScrollingRowIndex;
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        linhaAtual = dgvFornecedores.CurrentCell.RowIndex;
-                        colunaAtual = dgvFornecedores.CurrentCell.ColumnIndex;
-                    }
+                    dgvFornecedores[0, 0].Selected = true;
+                    dgvFornecedores.FirstDisplayedScrollingRowIndex = 0;
+                }
 
-                    //Atualiza a tabela atual temporária
-                    _dgvFornecedoresAtual.DataSource = Sistema.PreencheDGV(comando);
-
-                    //Se a tabela atualizada for diferente da tabela anterior
-                    if (_dgvFornecedoresAtual != _dgvTemp)
+                try
+                {
+                    foreach (DataGridViewRow dgvr in dgvFornecedores.Rows)
                     {
-                        dgvFornecedores.DataSource = _dgvFornecedoresAtual.DataSource;
-                        _dgvTemp = _dgvFornecedoresAtual;
-                    }
-                    else
-                    {
-                        return;
-                    }
-
-                    //Desmarca a primeira linha
-                    dgvFornecedores.Rows[0].Selected = false;
-
-                    //tenta selecionar a linha
-                    try
-                    {
-                        dgvFornecedores[colunaAtual, linhaAtual].Selected = true;
-                        dgvFornecedores.FirstDisplayedScrollingRowIndex = posvertical;
-                    }
-                    catch (ArgumentOutOfRangeException)
-                    {
-                        try
+                        if (dgvr.Cells["Telefone"].Value.ToString() != "")
                         {
-                            dgvFornecedores[colunaAtual, linhaAtual].Selected = true;
-                        }
-                        catch (ArgumentOutOfRangeException)
-                        {
-                            dgvFornecedores[0, 0].Selected = true;
-                            dgvFornecedores.FirstDisplayedScrollingRowIndex = 0;
+                            if (dgvr.Cells["Telefone"].Value.ToString().Length > 7 && dgvr.Cells["Telefone"].Value.ToString().Length < 11)
+                            {
+                                dgvr.Cells["Telefone"].Value = "(" + dgvr.Cells["Telefone"].Value.ToString().Substring(0, 2) + ") " +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(2, 4) + "-" +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(6, 4);
+                            }
+                            else if (dgvr.Cells["Telefone"].Value.ToString().Length > 8 && dgvr.Cells["Telefone"].Value.ToString().Length < 12)
+                            {
+                                dgvr.Cells["Telefone"].Value = "(" + dgvr.Cells["Telefone"].Value.ToString().Substring(0, 2) + ") " +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(2, 5) + "-" +
+                                    dgvr.Cells["Telefone"].Value.ToString().Substring(7, 4);
+                            }
                         }
                     }
+                }
+                catch
+                {
+
                 }
             }
         }
 
-        private void dgvFornecedores_DataSourceChanged(object sender, EventArgs e)
+        private void DgvFornecedores_DataSourceChanged(object sender, EventArgs e)
         {
             dgvFornecedores.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             dgvFornecedores.Columns[2].MinimumWidth = 150;
         }
 
-        private void dgvFornecedores_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvFornecedores_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1)
             {
-                nfLimparCampos();
+                NfLimparCampos();
 
-                DataGridViewRow linha = dgvFornecedores.Rows[e.RowIndex];
-                Fornecedor.ID = int.Parse(linha.Cells["id"].Value.ToString());
-                nfCarregaFornecedor();
-
-                Fornecedor.TravaFornecedor();
-
-                panelNF.Visible = true;
-                panelNF.Enabled = true;
-                panelFornecedores.Visible = false;
-                panelFornecedores.Enabled = false;
-
-                Log.AbrirFornecedor(Fornecedor.ID);
-
-                AtualizaDGVFornecedores();
+                NfCarregaFornecedor(int.Parse(dgvFornecedores.Rows[e.RowIndex].Cells["id"].Value.ToString()));
             }
         }
 
-        private void btnPesquisaFornecedor_Click(object sender, EventArgs e)
+        private void BtnPesquisaFornecedor_Click(object sender, EventArgs e)
         {
             TelaPesquisa telaPesquisaFornecedor = new TelaPesquisa(dgvFornecedores, false);
             telaPesquisaFornecedor.ShowDialog();
@@ -1710,7 +1560,7 @@ namespace Gerenciador_de_Tarefas
 
         #region Impressão
 
-        private void btnImprimeFornecedores_Click(object sender, EventArgs e)
+        private void BtnImprimeFornecedores_Click(object sender, EventArgs e)
         {
             if (pdImprimirClientes.ShowDialog() == DialogResult.OK)
             {
@@ -1718,18 +1568,20 @@ namespace Gerenciador_de_Tarefas
                 pdClientes.DocumentName = "Lista de Fornecedores - CFTVA " + DateTime.Now.Date.ToShortDateString();
 
                 pPreviewClientes.ShowDialog();
-                AtualizaDGVClientes();
+                AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
             }
         }
 
-        private void pdFornecedores_BeginPrint(object sender, PrintEventArgs e)
+        private void PdFornecedores_BeginPrint(object sender, PrintEventArgs e)
         {
             try
             {
-                strFormat = new StringFormat();
-                strFormat.Alignment = StringAlignment.Near;
-                strFormat.LineAlignment = StringAlignment.Center;
-                strFormat.Trimming = StringTrimming.EllipsisCharacter;
+                strFormat = new StringFormat
+                {
+                    Alignment = StringAlignment.Near,
+                    LineAlignment = StringAlignment.Center,
+                    Trimming = StringTrimming.EllipsisCharacter
+                };
 
                 arrColumnLefts.Clear();
                 arrColumnWidths.Clear();
@@ -1751,7 +1603,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void pdFornecedores_PrintPage(object sender, PrintPageEventArgs e)
+        private void PdFornecedores_PrintPage(object sender, PrintPageEventArgs e)
         {
             try
             {
@@ -1890,20 +1742,22 @@ namespace Gerenciador_de_Tarefas
             }
         }
         #endregion
-
-        private void btnNovoFornecedor_Click(object sender, EventArgs e)
+        #region Novo Fornecedor
+        private void BtnNovoFornecedor_Click(object sender, EventArgs e)
         {
             txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
 
             panelNF.Visible = true;
             panelNF.Enabled = true;
 
+            panelFornecedores.Visible = false;
             panelFornecedores.Enabled = false;
         }
 
-        #region Novo Fornecedor
-        private void nfCarregaFornecedor()
+        private void NfCarregaFornecedor(int idFornecedor)
         {
+            Fornecedor.ID = idFornecedor;
+
             if (Fornecedor.FornecedorBloqueado())
             {
                 ListaErro.RetornaErro(54);
@@ -1952,13 +1806,14 @@ namespace Gerenciador_de_Tarefas
                 panelNF.Visible = true;
                 panelNF.Enabled = true;
 
+                panelFornecedores.Visible = false;
                 panelFornecedores.Enabled = false;
 
-                iniciaTelaNovoFornecedor = false;
+                Fornecedor.TravaFornecedor();
             }
         }
 
-        private void nfLocalizarCEP()
+        private void NfLocalizarCEP()
         {
             try
             {
@@ -2008,7 +1863,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void nfPesquisaCNPJ()
+        private void NfPesquisaCNPJ()
         {
             try
             {
@@ -2059,7 +1914,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void nfLimparCampos()
+        private void NfLimparCampos()
         {
             Fornecedor.LimparVariaveis();
 
@@ -2118,11 +1973,9 @@ namespace Gerenciador_de_Tarefas
             btnNFFechar.Text = "Cancelar";
 
             lblNFTitulo.Text = "Novo Fornecedor";
-
-            iniciaTelaNovoFornecedor = true;
         }
         
-        private void nfEnviaDados()
+        private void NfEnviaDados()
         {
             Fornecedor.Tipo = cmbNFTipoFornecedor.SelectedIndex;
             Fornecedor.DataCadastro = txtNFDataCadastro.Text;
@@ -2151,10 +2004,10 @@ namespace Gerenciador_de_Tarefas
             Fornecedor.Obs = txtNFObservacoes.Text;
         }
 
-        private void btnNFFechar_Click(object sender, EventArgs e)
+        private void BtnNFFechar_Click(object sender, EventArgs e)
         {
             //Envia os dados dos campos da tela para a classe Fornecedor
-            nfEnviaDados();
+            NfEnviaDados();
 
             //Se não tiver mudanças
             if (Fornecedor.AvaliarMudancas()) 
@@ -2163,12 +2016,12 @@ namespace Gerenciador_de_Tarefas
                 {
                     if (ListaMensagens.RetornaDialogo(06) == DialogResult.Yes)
                     {
-                        nfLimparCampos();
+                        NfLimparCampos();
 
                         panelNF.Visible = false;
                         panelNF.Enabled = false;
 
-                        AtualizaDGVFornecedores();
+                        AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
 
                         panelFornecedores.Enabled = true;
                         panelFornecedores.Visible = true;
@@ -2183,12 +2036,12 @@ namespace Gerenciador_de_Tarefas
                             Fornecedor.DestravaFornecedor();
                         }
 
-                        nfLimparCampos();
+                        NfLimparCampos();
 
                         panelNF.Visible = false;
                         panelNF.Enabled = false;
 
-                        AtualizaDGVFornecedores();
+                        AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
 
                         panelFornecedores.Enabled = true;
                         panelFornecedores.Visible = true;
@@ -2205,31 +2058,31 @@ namespace Gerenciador_de_Tarefas
                     }
                 }
 
-                nfLimparCampos();
+                NfLimparCampos();
 
                 panelNF.Visible = false;
                 panelNF.Enabled = false;
-
-                AtualizaDGVFornecedores();
-
                 panelFornecedores.Enabled = true;
+                panelFornecedores.Visible = true;
+
+                AtualizaDGVFornecedores(dgvFornecedores.CurrentCell.RowIndex);
             }   
         }
 
-        private void btnNFBuscarEndereco_Click(object sender, EventArgs e)
+        private void BtnNFBuscarEndereco_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtNFCEP.Text))
             {
-                nfLocalizarCEP();
+                NfLocalizarCEP();
             }
         }
 
-        private void btnNFBuscarDados_Click(object sender, EventArgs e)
+        private void BtnNFBuscarDados_Click(object sender, EventArgs e)
         {
-            nfPesquisaCNPJ();
+            NfPesquisaCNPJ();
         }
 
-        private void btnNFApagar_Click(object sender, EventArgs e)
+        private void BtnNFApagar_Click(object sender, EventArgs e)
         {
             if (ListaMensagens.RetornaDialogo(19) == DialogResult.Yes)
             {
@@ -2237,7 +2090,7 @@ namespace Gerenciador_de_Tarefas
                 {
                     string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(20)[0], ListaMensagens.RetornaInputBox(20)[1], "");
 
-                    if (resposta == "MB8719")
+                    if (resposta == Sistema.SenhaADM)
                     {
                         try
                         {
@@ -2250,14 +2103,14 @@ namespace Gerenciador_de_Tarefas
                         }
                         finally
                         {
-                            ListaMensagens.RetornaMensagem(21);
+                            ListaMensagens.RetornaMensagem(21, MessageBoxIcon.Information);
 
-                            nfLimparCampos();
+                            NfLimparCampos();
 
                             panelNF.Visible = false;
                             panelNF.Enabled = false;
 
-                            AtualizaDGVFornecedores();
+                            AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
 
                             panelFornecedores.Enabled = true;
                         }
@@ -2278,14 +2131,14 @@ namespace Gerenciador_de_Tarefas
                         }
                         finally
                         {
-                            ListaMensagens.RetornaMensagem(21);
+                            ListaMensagens.RetornaMensagem(21, MessageBoxIcon.Information);
 
-                            nfLimparCampos();
+                            NfLimparCampos();
 
                             panelNF.Visible = false;
                             panelNF.Enabled = false;
 
-                            AtualizaDGVFornecedores();
+                            AtualizaDGVClientes(dgvClientes.CurrentCell.RowIndex);
 
                             panelFornecedores.Enabled = true;
                         }
@@ -2294,7 +2147,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void btnNFEditar_Click(object sender, EventArgs e)
+        private void BtnNFEditar_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtNFNome.Text))
             {
@@ -2303,7 +2156,7 @@ namespace Gerenciador_de_Tarefas
                     txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
 
                     //Envia os dados dos campos da tela para a classe Fornecedor
-                    nfEnviaDados();
+                    NfEnviaDados();
 
                     if (Fornecedor.AvaliarMudancas())
                     {
@@ -2318,12 +2171,12 @@ namespace Gerenciador_de_Tarefas
                         }
                         finally
                         {
-                            ListaMensagens.RetornaMensagem(17);
+                            ListaMensagens.RetornaMensagem(17, MessageBoxIcon.Information);
                         }
                     }
                     else
                     {
-                        ListaMensagens.RetornaMensagem(23);
+                        ListaMensagens.RetornaMensagem(23, MessageBoxIcon.Information);
                     }
 
                     txtNFDataNascimento.TextMaskFormat = MaskFormat.IncludePromptAndLiterals;
@@ -2346,7 +2199,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void btnNFNovoCadastro_Click(object sender, EventArgs e)
+        private void BtnNFNovoCadastro_Click(object sender, EventArgs e)
         {
             if (btnNFNovoCadastro.Text == "Cadastrar Fornecedor")
             {
@@ -2357,7 +2210,7 @@ namespace Gerenciador_de_Tarefas
                         txtNFDataNascimento.TextMaskFormat = MaskFormat.ExcludePromptAndLiterals;
 
                         //Envia os dados dos campos da tela para a classe Fornecedor
-                        nfEnviaDados();
+                        NfEnviaDados();
 
                         txtNFDataNascimento.TextMaskFormat = MaskFormat.IncludePromptAndLiterals;
 
@@ -2370,7 +2223,7 @@ namespace Gerenciador_de_Tarefas
                                 //Destrava o fornecedor cadastrado
                                 Fornecedor.DestravaFornecedor();
 
-                                nfLimparCampos();
+                                NfLimparCampos();
                             }
                             else
                             {
@@ -2414,13 +2267,13 @@ namespace Gerenciador_de_Tarefas
             else
             {
                 //Envia os dados dos campos da tela para a classe Fornecedor
-                nfEnviaDados();
+                NfEnviaDados();
 
                 if (Fornecedor.AvaliarMudancas())
                 {
                     if (ListaMensagens.RetornaDialogo(18) == DialogResult.Yes)
                     {
-                        nfLimparCampos();
+                        NfLimparCampos();
 
                         btnNFImprimir.Enabled = false;
                         btnNFImprimir.Visible = false;
@@ -2432,7 +2285,7 @@ namespace Gerenciador_de_Tarefas
                 }
                 else
                 {
-                    nfLimparCampos();
+                    NfLimparCampos();
 
                     btnNFImprimir.Enabled = false;
                     btnNFImprimir.Visible = false;
@@ -2444,7 +2297,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void cmbTipoFornecedor_SelectedIndexChanged(object sender, EventArgs e)
+        private void CmbTipoFornecedor_SelectedIndexChanged(object sender, EventArgs e)
         {
             //Se escolher pessoa física
             if (cmbNFTipoFornecedor.SelectedIndex == 1)
@@ -2479,6 +2332,7 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
+        /*
         private void cmbNFCateg1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!iniciaTelaNovoFornecedor)
@@ -2519,9 +2373,9 @@ namespace Gerenciador_de_Tarefas
             {
                 cmbNFSubCateg3.Enabled = true;
             }
-        }
+        }*/
 
-        private void btnNFImprimir_Click(object sender, EventArgs e)
+        private void BtnNFImprimir_Click(object sender, EventArgs e)
         {
             if (pdNFConfigImpressao.ShowDialog() == DialogResult.OK)
             {
@@ -2545,7 +2399,7 @@ namespace Gerenciador_de_Tarefas
         int MaxCaracteres = 100;
         StringReader leitor;
 
-        private void pdNFDocumento_BeginPrint(object sender, PrintEventArgs e)
+        private void PdNFDocumento_BeginPrint(object sender, PrintEventArgs e)
         {
             primeiraPaginaNF = true;
             _textoImprimir = "";
@@ -2553,7 +2407,7 @@ namespace Gerenciador_de_Tarefas
             pdNFDocumento.DocumentName = txtNFNome.Text;
         }
 
-        private void pdNFDocumento_PrintPage(object sender, PrintPageEventArgs e)
+        private void PdNFDocumento_PrintPage(object sender, PrintPageEventArgs e)
         {
             Graphics g = e.Graphics;
 
@@ -3023,9 +2877,9 @@ namespace Gerenciador_de_Tarefas
 
             if (resultadoDialogo == DialogResult.Yes)
             {
-                /*string resposta = Microsoft.VisualBasic.Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
+                /*string resposta = Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
 
-                if (resposta == "MB8719")
+                if (resposta == Sistema.SenhaADM)
                 {
                 if (funcoes.DestravaTodasTarefas())
                 {

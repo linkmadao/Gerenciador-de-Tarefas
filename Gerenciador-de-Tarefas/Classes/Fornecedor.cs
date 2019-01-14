@@ -50,14 +50,26 @@ namespace Gerenciador_de_Tarefas.Classes
     public static class Fornecedor
     {
         #region Variaveis
-        // Variáveis de Backup
+        // Originais
+        private static DataGridView dgvFornecedoresAtualizada = new DataGridView();
+
+        // Backup
+        private static DataGridView _dgvFornecedoresAtual = new DataGridView();
         private static int _id, _tipo;
         //private static List<int> _categorias, _subcategorias;
         private static string _documento, _nome, _apelido, _dataCadastro, _dataNascimento, _cep, _endereco, _numero, _complemento, _bairro, _cidade, _estado, _pais,
            _telefone, _contato, _telefoneComercial, _contatoComercial, _celular, _contatoCelular, _email, _site, _inscricaoEstadual, _inscricaoMunicipal, _obs;
+
         #endregion
 
         #region Propriedades
+        public static DataGridView DGVAtualizada
+        {
+            get
+            {
+                return _dgvFornecedoresAtual;
+            }
+        }
         public static int ID
         {
             get; set;
@@ -78,15 +90,39 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             get ; set ;
         }
-        public static string Documento
-        {
-            get; set;
-        } 
-        public static string Nome
+        public static string Apelido
         {
             get; set;
         }
-        public static string Apelido
+        public static string Bairro
+        {
+            get; set;
+        }
+        public static string CEP
+        {
+            get; set;
+        }
+        public static string Celular
+        {
+            get; set;
+        }
+        public static string Cidade
+        {
+            get; set;
+        }
+        public static string Contato
+        {
+            get; set;
+        }
+        public static string ContatoCelular
+        {
+            get; set;
+        }
+        public static string ContatoComercial
+        {
+            get; set;
+        }
+        public static string Complemento
         {
             get; set;
         }
@@ -98,59 +134,7 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             get; set;
         }
-        public static string CEP
-        {
-            get; set;
-        }
-        public static string Endereco
-        {
-            get; set;
-        }
-        public static string Numero
-        {
-            get; set;
-        }
-        public static string Complemento
-        {
-            get; set;
-        }
-        public static string Bairro
-        {
-            get; set;
-        }
-        public static string Cidade
-        {
-            get; set;
-        }
-        public static string Estado
-        {
-            get; set;
-        }
-        public static string Pais
-        {
-            get; set;
-        }
-        public static string Telefone
-        {
-            get; set;
-        }
-        public static string Contato
-        {
-            get; set;
-        }
-        public static string TelefoneComercial
-        {
-            get; set;
-        }
-        public static string ContatoComercial
-        {
-            get; set;
-        }
-        public static string Celular
-        {
-            get; set;
-        }
-        public static string ContatoCelular
+        public static string Documento
         {
             get; set;
         }
@@ -158,7 +142,11 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             get; set;
         }
-        public static string Site
+        public static string Endereco
+        {
+            get; set;
+        }
+        public static string Estado
         {
             get; set;
         }
@@ -170,13 +158,96 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             get; set;
         }
+        public static string Nome
+        {
+            get; set;
+        }
+        public static string Numero
+        {
+            get; set;
+        }
         public static string Obs
+        {
+            get; set;
+        }
+        public static string Pais
+        {
+            get; set;
+        }
+        public static string Telefone
+        {
+            get; set;
+        }
+        public static string TelefoneComercial
+        {
+            get; set;
+        }
+        public static string Site
         {
             get; set;
         }
         #endregion
 
         #region Funcoes
+        /// <summary>
+        /// Método responsável por atualizar a tela de Fornecedores
+        /// </summary>
+        /// 
+        public static bool AtualizaDGVFornecedores(int posicaoCmbFiltroFornecedores)
+        {
+            if (Sistema.TestaConexao())
+            {
+                string comando = "";
+
+                switch (posicaoCmbFiltroFornecedores)
+                {
+                    default:
+                        comando = "Select tbl_fornecedor.ID as 'ID', tbl_fornecedor.Nome as 'Razão Social / Nome', " +
+                            "IFNULL(tbl_fornecedor.Contato, IFNULL(tbl_fornecedor.ContatoComercial, IFNULL(tbl_fornecedor.ContatoCelular, ''))) as 'Contato', " +
+                            "IFNULL(tbl_fornecedor.Telefone, IFNULL(tbl_fornecedor.TelefoneComercial, IFNULL(tbl_fornecedor.Celular, ''))) as 'Telefone', " +
+                            "IFNULL(tbl_fornecedor.Email, '') as 'E-mail' " +
+                            "from tbl_fornecedor ORDER BY tbl_fornecedor.Nome ASC;";
+                        break;
+                }
+
+                if (Sistema.IniciaTelaFornecedores)
+                {
+                    _dgvFornecedoresAtual.DataSource = Sistema.PreencheDGV(comando);
+                    dgvFornecedoresAtualizada.DataSource = _dgvFornecedoresAtual.DataSource;
+
+                    //Seta que a tela já foi aberta
+                    Sistema.IniciaTelaFornecedores = false;
+
+                    return true;
+                }
+                else
+                {
+                    DataGridView _dgvTemp = new DataGridView
+                    {
+                        //Atualiza a tabela atual temporária
+                        DataSource = Sistema.PreencheDGV(comando)
+                    };
+
+                    //Se a tabela atualizada for diferente da tabela anterior
+                    if (_dgvFornecedoresAtual != _dgvTemp)
+                    {
+                        dgvFornecedoresAtualizada.DataSource = _dgvTemp.DataSource;
+                        _dgvFornecedoresAtual = _dgvTemp;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
         /// <summary>
         /// Método responsável por filtrar a tabela de fornecedores
         /// </summary>
@@ -186,16 +257,7 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             string comando = "";
 
-            switch (posicaoCmbFiltroFornecedores)
-            {
-                default:
-                    comando = "Select tbl_fornecedor.ID as 'ID', tbl_fornecedor.Nome as 'Razão Social / Nome', " +
-                        "IFNULL(tbl_fornecedor.Contato, IFNULL(tbl_fornecedor.ContatoComercial, IFNULL(tbl_fornecedor.ContatoCelular, ''))) as 'Contato', " +
-                        "IFNULL(tbl_fornecedor.Telefone, IFNULL(tbl_fornecedor.TelefoneComercial, IFNULL(tbl_fornecedor.Celular, ''))) as 'Telefone', " +
-                        "IFNULL(tbl_fornecedor.Email, '') as 'E-mail' " +
-                        "from tbl_fornecedor ORDER BY tbl_fornecedor.Nome ASC;";
-                    break;
-            }
+            
 
             return comando;
         }
@@ -242,72 +304,81 @@ namespace Gerenciador_de_Tarefas.Classes
         /// <param name="_idFornecedor">ID do fornecedor</param>
         public static void AbrirFornecedor()
         {
-            LimparVariaveis();
             List<string> listaFornecedor = Sistema.ConsultaFornecedor("select Tipo, datacadastro, datanascimento, Documento, Nome, " +
                 "Apelido, CEP, Endereco, Numero, Complemento, Bairro, Cidade, Estado, Pais, Telefone, Contato, Telefonecomercial, " +
                 "Contatocomercial, Celular, ContatoCelular, Email, Site, inscricaoestadual, inscricaomunicipal, Observacoes " +
                 "from tbl_fornecedor where ID = '" + ID + "';");
 
-            Tipo = int.Parse(listaFornecedor[0]);
-            DataCadastro = listaFornecedor[1].Substring(0, 10);
-            if (!string.IsNullOrEmpty(listaFornecedor[2]) && listaFornecedor[2] != "")
+            try
             {
-                DataNascimento = listaFornecedor[2].Substring(0, 10);
-            }
-            Documento = listaFornecedor[3];
-            Nome = listaFornecedor[4];
-            Apelido = listaFornecedor[5];
-            CEP = listaFornecedor[6];
-            Endereco = listaFornecedor[7];
-            Numero = listaFornecedor[8];
-            Complemento = listaFornecedor[9];
-            Bairro = listaFornecedor[10];
-            Cidade = listaFornecedor[11];
-            Estado = listaFornecedor[12];
-            Pais = listaFornecedor[13];
-            Telefone = listaFornecedor[14];
-            Contato = listaFornecedor[15];
-            TelefoneComercial = listaFornecedor[16];
-            ContatoComercial = listaFornecedor[17];
-            Celular = listaFornecedor[18];
-            ContatoCelular = listaFornecedor[19];
-            Email = listaFornecedor[20];
-            Site = listaFornecedor[21];
-            InscricaoEstadual = listaFornecedor[22];
-            InscricaoMunicipal = listaFornecedor[23];
-            Obs = listaFornecedor[24];
+                Tipo = int.Parse(listaFornecedor[0]);
+                DataCadastro = listaFornecedor[1].Substring(0, 10);
+                if (!string.IsNullOrEmpty(listaFornecedor[2]) && listaFornecedor[2] != "")
+                {
+                    DataNascimento = listaFornecedor[2].Substring(0, 10);
+                }
+                Documento = listaFornecedor[3];
+                Nome = listaFornecedor[4];
+                Apelido = listaFornecedor[5];
+                CEP = listaFornecedor[6];
+                Endereco = listaFornecedor[7];
+                Numero = listaFornecedor[8];
+                Complemento = listaFornecedor[9];
+                Bairro = listaFornecedor[10];
+                Cidade = listaFornecedor[11];
+                Estado = listaFornecedor[12];
+                Pais = listaFornecedor[13];
+                Telefone = listaFornecedor[14];
+                Contato = listaFornecedor[15];
+                TelefoneComercial = listaFornecedor[16];
+                ContatoComercial = listaFornecedor[17];
+                Celular = listaFornecedor[18];
+                ContatoCelular = listaFornecedor[19];
+                Email = listaFornecedor[20];
+                Site = listaFornecedor[21];
+                InscricaoEstadual = listaFornecedor[22];
+                InscricaoMunicipal = listaFornecedor[23];
+                Obs = listaFornecedor[24];
 
-            //Backup
-            _id = ID;
-            _tipo = int.Parse(listaFornecedor[0]);
-            _dataCadastro = listaFornecedor[1].Substring(0, 10);
-            if (!string.IsNullOrEmpty(listaFornecedor[2]) && listaFornecedor[2] != "")
+                //Backup
+                _id = ID;
+                _tipo = int.Parse(listaFornecedor[0]);
+                _dataCadastro = listaFornecedor[1].Substring(0, 10);
+                if (!string.IsNullOrEmpty(listaFornecedor[2]) && listaFornecedor[2] != "")
+                {
+                    _dataNascimento = listaFornecedor[2].Substring(0, 10);
+                }
+
+                _documento = listaFornecedor[3];
+                _nome = listaFornecedor[4];
+                _apelido = listaFornecedor[5];
+                _cep = listaFornecedor[6];
+                _endereco = listaFornecedor[7];
+                _numero = listaFornecedor[8];
+                _complemento = listaFornecedor[9];
+                _bairro = listaFornecedor[10];
+                _cidade = listaFornecedor[11];
+                _estado = listaFornecedor[12];
+                _pais = listaFornecedor[13];
+                _telefone = listaFornecedor[14];
+                _contato = listaFornecedor[15];
+                _telefoneComercial = listaFornecedor[16];
+                _contatoComercial = listaFornecedor[17];
+                _celular = listaFornecedor[18];
+                _contatoCelular = listaFornecedor[19];
+                _email = listaFornecedor[20];
+                _site = listaFornecedor[21];
+                _inscricaoEstadual = listaFornecedor[22];
+                _inscricaoMunicipal = listaFornecedor[23];
+                _obs = listaFornecedor[24];
+
+                Log.AbrirFornecedor(ID);
+            }
+            catch (ArgumentOutOfRangeException x)
             {
-                _dataNascimento = listaFornecedor[2].Substring(0, 10);
+                MessageBox.Show(x.ToString());
+                throw;
             }
-
-            _documento = listaFornecedor[3];
-            _nome = listaFornecedor[4];
-            _apelido = listaFornecedor[5];
-            _cep = listaFornecedor[6];
-            _endereco = listaFornecedor[7];
-            _numero = listaFornecedor[8];
-            _complemento = listaFornecedor[9];
-            _bairro = listaFornecedor[10];
-            _cidade = listaFornecedor[11];
-            _estado = listaFornecedor[12];
-            _pais = listaFornecedor[13];
-            _telefone = listaFornecedor[14];
-            _contato = listaFornecedor[15];
-            _telefoneComercial = listaFornecedor[16];
-            _contatoComercial = listaFornecedor[17];
-            _celular = listaFornecedor[18];
-            _contatoCelular = listaFornecedor[19];
-            _email = listaFornecedor[20];
-            _site = listaFornecedor[21];
-            _inscricaoEstadual = listaFornecedor[22];
-            _inscricaoMunicipal = listaFornecedor[23];
-            _obs = listaFornecedor[24];
         }
         
         //Categorias

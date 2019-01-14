@@ -121,6 +121,10 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "Corrigir CEP? : " +
                         "O CEP informado não foi encontrado.\nDeseja corrigir o número do CEP?";
                     break;
+                case 26:
+                    resultado = "Excluir o Contato? : " +
+                        "Tem certeza absoluta disso?\nEssa operação não poderá ser desfeita!";
+                    break;
             }
 
             return resultado;
@@ -130,12 +134,12 @@ namespace Gerenciador_de_Tarefas.Classes
         /// Retorna um MessageBox com o a mensagem solicitada
         /// </summary>
         /// <param name="mensagem"></param>
-        public static void RetornaMensagem(int mensagem)
+        public static void RetornaMensagem(int mensagem, MessageBoxIcon icone)
         {
             string texto = Lista(mensagem);
             int separador = 0;
             separador = texto.IndexOf(":");
-            MessageBox.Show(texto.Substring((separador + 2)), texto.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(texto.Substring((separador + 2)), texto.Substring(0, (separador - 1)), MessageBoxButtons.OK, icone);
         }
 
         /// <summary>

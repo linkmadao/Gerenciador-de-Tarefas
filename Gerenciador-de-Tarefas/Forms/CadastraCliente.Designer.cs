@@ -805,7 +805,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnSair;
-            this.ClientSize = new System.Drawing.Size(692, 532);
+            this.ClientSize = new System.Drawing.Size(688, 528);
             this.ControlBox = false;
             this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.btnSair);

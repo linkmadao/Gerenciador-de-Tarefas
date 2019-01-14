@@ -11,29 +11,42 @@ namespace Gerenciador_de_Tarefas.Classes
     public static class Cliente
     {
         #region Variaveis
-        //Originais
-        private static int id = 0, contrato = 0;
+        // Originais
+        private static int id = 0, contrato = 1;
         private static string dataCadastro, nome, razaoSocial, telefoneComercial, contato, setor, cpf, rg, cnpj, inscricaoEstadual, inscricaoMunicipal,
             site, email, endereco, numero, bairro, cidade, estado, cep, complemento, pontoReferencia, obs, numeroTarefas;
         private static bool novoCadastro = false;
+        private static DataGridView dgvClientesAtualizada = new DataGridView();
 
-        //Backup
-        private static int _contrato = 0;
+        // Backup
+        private static int _contrato = 1;
         private static string _dataCadastro, _nome, _razaoSocial, _telefoneComercial, _contato, _setor, _cpf, _rg, _cnpj, _inscricaoEstadual, _inscricaoMunicipal,
             _site, _email, _endereco, _numero, _bairro, _cidade, _estado, _cep, _complemento, _pontoReferencia, _obs;
+        private static DataGridView _dgvClientesAtual = new DataGridView();
         #endregion
 
         #region Propriedades
-        public static int ID
+        public static bool NovoCadastro
         {
             get
             {
-                return id;
+                return novoCadastro;
             }
             set
             {
-                id = value;
+                novoCadastro = value;
             }
+        }
+        public static DataGridView DGVAtualizada
+        {
+            get
+            {
+                return dgvClientesAtualizada;
+            }
+        }
+        public static int ClientePesquisado
+        {
+            get; set;
         }
         public static int Contrato
         {
@@ -46,59 +59,48 @@ namespace Gerenciador_de_Tarefas.Classes
                 contrato = value;
             }
         }
-        public static bool NovoCadastro
+        public static int ID
         {
             get
             {
-                return novoCadastro;
+                return id;
             }
             set
             {
-                novoCadastro = value;
+                id = value;
             }
         }
-        public static string DataCadastro
+        public static string Bairro
         {
             get
             {
-                return dataCadastro;
+                return bairro;
             }
             set
             {
-                dataCadastro = value;
+                bairro = value;
             }
         }
-        public static string Nome
+        public static string CEP
         {
             get
             {
-                return nome;
+                return cep;
             }
             set
             {
-                nome = value;
+                cep = value;
             }
         }
-        public static string RazaoSocial
+        public static string Cidade
         {
             get
             {
-                return razaoSocial;
+                return cidade;
             }
             set
             {
-                razaoSocial = value;
-            }
-        }
-        public static string Telefone
-        {
-            get
-            {
-                return telefoneComercial;
-            }
-            set
-            {
-                telefoneComercial = value;
+                cidade = value;
             }
         }
         public static string Contato
@@ -112,16 +114,26 @@ namespace Gerenciador_de_Tarefas.Classes
                 contato = value;
             }
         }
-        public static string Setor
+        public static string Complemento
         {
             get
             {
-                return setor;
+                return complemento;
             }
             set
             {
-                setor = value;
-
+                complemento = value;
+            }
+        }
+        public static string CNPJ
+        {
+            get
+            {
+                return cnpj;
+            }
+            set
+            {
+                cnpj = value;
             }
         }
         public static string CPF
@@ -135,26 +147,48 @@ namespace Gerenciador_de_Tarefas.Classes
                 cpf = value;
             }
         }
-        public static string RG
+        public static string DataCadastro
         {
             get
             {
-                return rg;
+                return dataCadastro;
             }
             set
             {
-                rg = value;
+                dataCadastro = value;
             }
         }
-        public static string CNPJ
+        public static string Endereco
         {
             get
             {
-                return cnpj;
+                return endereco;
             }
             set
             {
-                cnpj = value;
+                endereco = value;
+            }
+        }
+        public static string Email
+        {
+            get
+            {
+                return email;
+            }
+            set
+            {
+                email = value;
+            }
+        }
+        public static string Estado
+        {
+            get
+            {
+                return estado;
+            }
+            set
+            {
+                estado = value;
             }
         }
         public static string InscricaoEstadual
@@ -179,37 +213,15 @@ namespace Gerenciador_de_Tarefas.Classes
                 inscricaoMunicipal = value;
             }
         }
-        public static string Site
+        public static string Nome
         {
             get
             {
-                return site;
+                return nome;
             }
             set
             {
-                site = value;
-            }
-        }
-        public static string Email
-        {
-            get
-            {
-                return email;
-            }
-            set
-            {
-                email = value;
-            }
-        }
-        public static string Endereco
-        {
-            get
-            {
-                return endereco;
-            }
-            set
-            {
-                endereco = value;
+                nome = value;
             }
         }
         public static string Numero
@@ -223,70 +235,11 @@ namespace Gerenciador_de_Tarefas.Classes
                 numero = value;
             }
         }
-        public static string Bairro
+        public static string NumeroTarefas
         {
             get
             {
-                return bairro;
-            }
-            set
-            {
-                bairro = value;
-            }
-        }
-        public static string Cidade
-        {
-            get
-            {
-                return cidade;
-            }
-            set
-            {
-                cidade = value;
-            }
-        }
-        public static string Estado
-        {
-            get
-            {
-                return estado;
-            }
-            set
-            {
-                estado = value;
-            }
-        }
-        public static string CEP
-        {
-            get
-            {
-                return cep;
-            }
-            set
-            {
-                cep = value;
-            }
-        }
-        public static string Complemento
-        {
-            get
-            {
-                return complemento;
-            }
-            set
-            {
-                complemento = value;
-            }
-        }
-        public static string PontoReferencia
-        {
-            get
-            {
-                return pontoReferencia;
-            }
-            set
-            {
-                pontoReferencia = value;
+                return numeroTarefas;
             }
         }
         public static string Obs
@@ -300,116 +253,80 @@ namespace Gerenciador_de_Tarefas.Classes
                 obs = value;
             }
         }
-        public static string NumeroTarefas
+        public static string PontoReferencia
         {
             get
             {
-                return numeroTarefas;
+                return pontoReferencia;
+            }
+            set
+            {
+                pontoReferencia = value;
             }
         }
-        public static int ClientePesquisado
+        public static string RazaoSocial
         {
-            get; set;
+            get
+            {
+                return razaoSocial;
+            }
+            set
+            {
+                razaoSocial = value;
+            }
+        }
+        public static string RG
+        {
+            get
+            {
+                return rg;
+            }
+            set
+            {
+                rg = value;
+            }
+        }
+        public static string Setor
+        {
+            get
+            {
+                return setor;
+            }
+            set
+            {
+                setor = value;
+
+            }
+        }
+        public static string Site
+        {
+            get
+            {
+                return site;
+            }
+            set
+            {
+                site = value;
+            }
+        }
+        public static string Telefone
+        {
+            get
+            {
+                return telefoneComercial;
+            }
+            set
+            {
+                telefoneComercial = value;
+            }
         }
         #endregion
 
         #region Funcoes
-        public static void PesquisaCliente(DataGridView dgvClientes, List<string> listaPesquisa)
-        {
-            int linha = 0;
-            bool resultado = false;
-
-            for (int i = 0; i < dgvClientes.Rows.Count; i++)
-            {
-                for (int x = 0; x < listaPesquisa.Count; x++)
-                {
-                    if (dgvClientes[0, i].Value.ToString().ToUpper().Contains(listaPesquisa[x].ToUpper()))
-                    {
-                        linha = dgvClientes[0, i].RowIndex;
-                        resultado = true;
-                    }
-                }
-                if (resultado)
-                {
-                    break;
-                }
-            }
-
-            if (resultado)
-            {
-                ClientePesquisado = linha;
-            }
-            else
-            {
-                ClientePesquisado = -1;
-            }
-        }
-
-        /// <summary>
-        /// Método responsável por verificar como está os combobox na tela inicial e realizar os filtros. 
-        /// </summary>
-        /// <param name="posicaoCmbFiltroClientes">Posição da comboBox tipo tarefas na tela de clientes</param>
-        public static string FiltroClientes(int posicaoCmbFiltroClientes)
-        {
-            string comando = "";
-
-            switch (posicaoCmbFiltroClientes)
-            {
-                case 0:
-                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
-                        "from tbl_contato " +
-                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
-                        "where tbl_contato_contrato.Contrato = 3;";
-                    break;
-                case 1:
-                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
-                        "from tbl_contato " +
-                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
-                        "where tbl_contato_contrato.Contrato = 2 OR tbl_contato_contrato.Contrato = 3 OR tbl_contato_contrato.Contrato = 4;";
-                    break;
-                case 2:
-                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
-                        "from tbl_contato " +
-                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
-                        "where tbl_contato_contrato.Contrato = 2;";
-                    break;
-
-                case 3:
-                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
-                       "from tbl_contato " +
-                       "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
-                       "where tbl_contato_contrato.Contrato = 1;";
-                    break;
-                default:
-                    comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
-                        "from tbl_contato " +
-                        "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
-                        "order by tbl_contato.Nome ASC;";
-                    break;
-            }
-
-            return comando;
-        }
-
-
-        public static void PreCarregaCliente(string nome)
-        {
-            try
-            {
-                LimparVariaveis();
-
-                string comando = "Select ID from tbl_contato" + " where nome = '" + nome + "';";
-                ID = int.Parse(Sistema.ConsultaSimples(comando));
-            }
-            catch (Exception)
-            {
-                ListaErro.RetornaErro(20);
-                return;
-            }
-        }
-
         public static void AbrirCliente()
         {
+            LimparVariaveis();
+
             List<string> lista = new List<string>();
             try
             {
@@ -495,6 +412,172 @@ namespace Gerenciador_de_Tarefas.Classes
             }
         }
 
+        public static void ApagarCliente()
+        {
+            Sistema.ExecutaComando("delete from tbl_tarefas where empresa = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_subsubgrupo where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_subgrupo where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_telefone where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato_contrato where contato = " + ID + ";");
+            Sistema.ExecutaComando("delete from tbl_contato where id = " + ID + ";");
+
+            Log.ApagarCliente();
+
+            LimparVariaveis();
+        }
+
+        public static void AtualizarCliente()
+        {
+            try
+            {
+
+                string comando = "Update tbl_contato set nome = '" + Nome + "', " +
+                    "razaosocial = '" + RazaoSocial + "', telefone = '" + Telefone + "', " +
+                    "contato = '" + Contato + "', setor = '" + Setor + "', " +
+                    "cpf = '" + CPF + "', rg = '" + RG + "', cnpj = '" + CNPJ + "', " +
+                    "inscricaoestadual = '" + InscricaoEstadual + "', inscricaomunicipal = '" + InscricaoMunicipal + "', " +
+                    "site = '" + Site + "', email = '" + Email + "', endereco = '" + Endereco + "', " +
+                    "bairro = '" + Bairro + "', cidade = '" + Cidade + "', estado = '" + Estado + "', " +
+                    "cep = '" + CEP + "', complemento = '" + Complemento + "', " +
+                    "pontoreferencia = '" + PontoReferencia + "', obs = '" + Obs + "'" +
+                    "where id = '" + ID + "';";
+                Sistema.ExecutaComando(comando);
+
+                comando = "Update tbl_contato_contrato set contrato = " + Contrato + " where contato = " + ID + ";";
+                Sistema.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                ListaErro.RetornaErro(38);
+                return;
+            }
+            finally
+            {
+                Log.AlterarCliente();
+
+                ListaMensagens.RetornaMensagem(11,MessageBoxIcon.Information);
+            }
+        }
+
+        /// <summary>
+        /// Método responsável por atualizar a tabela da tela inicial
+        /// </summary>
+        /// 
+        public static bool AtualizaDGVClientes(int posicaoCmbFiltroClientes)
+        {
+            if (Sistema.TestaConexao())
+            {
+                string comando = "";
+
+                switch (posicaoCmbFiltroClientes)
+                {
+                    case 0:
+                        comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                            "from tbl_contato " +
+                            "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                            "where tbl_contato_contrato.Contrato = 3;";
+                        break;
+                    case 1:
+                        comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                            "from tbl_contato " +
+                            "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                            "where tbl_contato_contrato.Contrato = 2 OR tbl_contato_contrato.Contrato = 3 OR tbl_contato_contrato.Contrato = 4;";
+                        break;
+                    case 2:
+                        comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                            "from tbl_contato " +
+                            "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                            "where tbl_contato_contrato.Contrato = 2;";
+                        break;
+                    case 3:
+                        comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                           "from tbl_contato " +
+                           "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                           "where tbl_contato_contrato.Contrato = 1;";
+                        break;
+                    default:
+                        comando = "select tbl_contato.Nome, tbl_contato.Contato, tbl_contato.Telefone, tbl_contato.email as 'E-mail', tbl_contato_contrato.contrato " +
+                            "from tbl_contato " +
+                            "join tbl_contato_contrato on tbl_contato_contrato.Contato = tbl_contato.id " +
+                            "order by tbl_contato.Nome ASC;";
+                        break;
+                }
+
+                if (Sistema.IniciaTelaClientes)
+                {
+                    _dgvClientesAtual.DataSource = Sistema.PreencheDGV(comando);
+                    dgvClientesAtualizada.DataSource = _dgvClientesAtual.DataSource;
+
+                    Sistema.IniciaTelaClientes = false;
+
+                    return true;
+                }
+                else
+                {
+                    DataGridView _dgvTemp = new DataGridView
+                    {
+                        // Atualiza a tabela atual temporária
+                        DataSource = Sistema.PreencheDGV(comando)
+                    };
+
+                    // Se a tabela atualizada for diferente da tabela anterior
+                    if (_dgvClientesAtual != _dgvTemp)
+                    {
+                        dgvClientesAtualizada.DataSource = _dgvTemp.DataSource;
+                        _dgvClientesAtual = _dgvTemp;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool AvaliarMudancas()
+        {
+            if (DataCadastro == "  /  / ")
+            {
+                DataCadastro = "";
+            }
+            if (CPF == "   .   .   -")
+            {
+                CPF = "";
+            }
+            if (CNPJ == "  .   .   /    -")
+            {
+                CNPJ = "";
+            }
+            if(CEP == "     -")
+            {
+                CEP = "";
+            }
+            if(Telefone == "(  )     -")
+            {
+                Telefone = "";
+            }
+
+
+            if (_contrato != Contrato || _nome != Nome || _razaoSocial != RazaoSocial || _telefoneComercial != Telefone ||
+                    _contato != Contato || _setor != Setor || _email != Email || _site != Site || _obs != Obs ||
+                    _cpf != CPF || _rg != RG || _cnpj != CNPJ || _inscricaoMunicipal != InscricaoMunicipal ||
+                    _inscricaoEstadual != InscricaoEstadual || _cep != CEP || _endereco != Endereco ||
+                    _numero != Numero || _bairro != Bairro || _cidade != Cidade || _estado != Estado ||
+                    _complemento != Complemento || _pontoReferencia != PontoReferencia)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static bool CadastrarCliente()
         {
             bool resultado = false;
@@ -559,99 +642,6 @@ namespace Gerenciador_de_Tarefas.Classes
             return resultado;
         }
 
-        public static void AtualizarCliente()
-        {
-            try
-            {
-
-                string comando = "Update tbl_contato set nome = '" + Nome + "', " +
-                    "razaosocial = '" + RazaoSocial + "', telefone = '" + Telefone + "', " +
-                    "contato = '" + Contato + "', setor = '" + Setor + "', " +
-                    "cpf = '" + CPF + "', rg = '" + RG + "', cnpj = '" + CNPJ + "', " +
-                    "inscricaoestadual = '" + InscricaoEstadual + "', inscricaomunicipal = '" + InscricaoMunicipal + "', " +
-                    "site = '" + Site + "', email = '" + Email + "', endereco = '" + Endereco + "', " +
-                    "bairro = '" + Bairro + "', cidade = '" + Cidade + "', estado = '" + Estado + "', " +
-                    "cep = '" + CEP + "', complemento = '" + Complemento + "', " +
-                    "pontoreferencia = '" + PontoReferencia + "', obs = '" + Obs + "'" +
-                    "where id = '" + ID + "';";
-                Sistema.ExecutaComando(comando);
-
-                comando = "Update tbl_contato_contrato set contrato = " + Contrato + " where contato = " + ID + ";";
-                Sistema.ExecutaComando(comando);
-            }
-            catch (Exception)
-            {
-                ListaErro.RetornaErro(38);
-                return;
-            }
-            finally
-            {
-                Log.AlterarCliente();
-
-                ListaMensagens.RetornaMensagem(11);
-            }
-        }
-
-        public static void ApagarCliente()
-        {
-            Sistema.ExecutaComando("delete from tbl_tarefas where empresa = " + ID + ";");
-            Sistema.ExecutaComando("delete from tbl_contato_subsubgrupo where contato = " + ID + ";");
-            Sistema.ExecutaComando("delete from tbl_contato_subgrupo where contato = " + ID + ";");
-            Sistema.ExecutaComando("delete from tbl_contato_telefone where contato = " + ID + ";");
-            Sistema.ExecutaComando("delete from tbl_contato_contrato where contato = " + ID + ";");
-            Sistema.ExecutaComando("delete from tbl_contato where id = " + ID + ";");
-
-            Log.ApagarCliente();
-
-            LimparVariaveis();
-        }
-
-        public static bool AvaliarMudancas()
-        {
-            bool resultado = false;
-
-            if (DataCadastro == "  /  /")
-            {
-                DataCadastro = "";
-            }
-
-            if (_contrato != Contrato || _nome != Nome || _razaoSocial != RazaoSocial || _telefoneComercial != Telefone ||
-                    _contato != Contato || _setor != Setor || _email != Email || _site != Site || _obs != Obs ||
-                    _cpf != CPF || _rg != RG || _cnpj != CNPJ || _inscricaoMunicipal != InscricaoMunicipal ||
-                    _inscricaoEstadual != InscricaoEstadual || _cep != CEP || _endereco != Endereco ||
-                    _numero != Numero || _bairro != Bairro || _cidade != Cidade || _estado != Estado ||
-                    _complemento != Complemento || _pontoReferencia != PontoReferencia)
-            {
-                resultado = true;
-            }
-
-                return resultado;
-        }
-
-        /// <summary>
-        /// Limpa as variáveis na classe Cliente
-        /// </summary>
-        public static void LimparVariaveis()
-        {
-            //Originais
-            id = 0; contrato = 0;
-            numeroTarefas = ""; dataCadastro = "";
-            nome = ""; razaoSocial = ""; telefoneComercial = ""; contato = ""; setor = "";
-            cpf = ""; rg = ""; cnpj = ""; inscricaoEstadual = ""; inscricaoMunicipal = "";
-            site = ""; email = ""; endereco = ""; numero = ""; bairro = ""; cidade = "";
-            cep = ""; complemento = ""; pontoReferencia = ""; obs = "";
-
-            novoCadastro = false;
-
-            //Backup
-            _contrato = 0;
-            _dataCadastro = "";
-            _nome = ""; _razaoSocial = ""; _telefoneComercial = ""; _contato = ""; _setor = "";
-            _cpf = ""; _rg = ""; _cnpj = ""; _inscricaoEstadual = ""; _inscricaoMunicipal = "";
-            _site = ""; _email = ""; _endereco = ""; _numero = ""; _bairro = ""; _cidade = "";
-            _cep = ""; _complemento = ""; _pontoReferencia = ""; _obs = "";
-        }
-
         /// <summary>
         /// Método responsável por retornar o tipo de contrato do contato solicitado.
         /// </summary>
@@ -666,6 +656,77 @@ namespace Gerenciador_de_Tarefas.Classes
 
             comando = "Select contrato from tbl_contato_contrato where contato = " + idCliente + ";";
             return Sistema.ConsultaSimples(comando);
+        }
+
+        /// <summary>
+        /// Limpa as variáveis na classe Cliente
+        /// </summary>
+        public static void LimparVariaveis()
+        {
+            //Originais
+            contrato = 0;
+            numeroTarefas = ""; dataCadastro = "";
+            nome = ""; razaoSocial = ""; telefoneComercial = ""; contato = ""; setor = "";
+            cpf = ""; rg = ""; cnpj = ""; inscricaoEstadual = ""; inscricaoMunicipal = "";
+            site = ""; email = ""; endereco = ""; numero = ""; bairro = ""; cidade = "";
+            estado = ""; cep = ""; complemento = ""; pontoReferencia = ""; obs = "";
+
+            novoCadastro = false;
+
+            //Backup
+            _contrato = 0;
+            _dataCadastro = "";
+            _nome = ""; _razaoSocial = ""; _telefoneComercial = ""; _contato = ""; _setor = "";
+            _cpf = ""; _rg = ""; _cnpj = ""; _inscricaoEstadual = ""; _inscricaoMunicipal = "";
+            _site = ""; _email = ""; _endereco = ""; _numero = ""; _bairro = ""; _cidade = "";
+            _estado = ""; _cep = ""; _complemento = ""; _pontoReferencia = ""; _obs = "";
+        }
+
+        public static void PesquisaCliente(DataGridView dgvClientes, List<string> listaPesquisa)
+        {
+            int linha = 0;
+            bool resultado = false;
+
+            for (int i = 0; i < dgvClientes.Rows.Count; i++)
+            {
+                for (int x = 0; x < listaPesquisa.Count; x++)
+                {
+                    if (dgvClientes[0, i].Value.ToString().ToUpper().Contains(listaPesquisa[x].ToUpper()))
+                    {
+                        linha = dgvClientes[0, i].RowIndex;
+                        resultado = true;
+                    }
+                }
+                if (resultado)
+                {
+                    break;
+                }
+            }
+
+            if (resultado)
+            {
+                ClientePesquisado = linha;
+            }
+            else
+            {
+                ClientePesquisado = -1;
+            }
+        }
+
+        public static void PreCarregaCliente(string nome)
+        {
+            try
+            {
+                LimparVariaveis();
+
+                string comando = "Select ID from tbl_contato" + " where nome = '" + nome + "';";
+                ID = int.Parse(Sistema.ConsultaSimples(comando));
+            }
+            catch (Exception)
+            {
+                ListaErro.RetornaErro(20);
+                return;
+            }
         }
         #endregion
     }

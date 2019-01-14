@@ -249,6 +249,10 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "Erro ao Ler as Informações do Arquivo de Conexão com o Banco de Dados : " +
                         "Não foi possível ler os dados de conexão com o banco de dados!\r\n\nFavor reportar esse erro pelo suporte@cftva.com.br";
                     break;
+                case 61:
+                    resultado = "Erro ao preencher a tabela de tarefas : " +
+                        "Não foi possível preencher a tabela de tarefas devido a erro de pesquisa SQL ou algo relacionado!\r\n\nFavor reportar esse erro pelo suporte@cftva.com.br";
+                    break;
             }
 
             

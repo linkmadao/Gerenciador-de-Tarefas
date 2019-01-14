@@ -1,6 +1,6 @@
 ﻿namespace Gerenciador_de_Tarefas
 {
-    partial class tInicial
+    partial class TInicial
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(tInicial));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TInicial));
             this.tlpGeral = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMenuPrincipal = new System.Windows.Forms.TableLayoutPanel();
             this.tlpMenu = new System.Windows.Forms.TableLayoutPanel();
@@ -51,6 +51,31 @@
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.tlpAreaGeral = new System.Windows.Forms.TableLayoutPanel();
             this.panelGeral = new System.Windows.Forms.Panel();
+            this.panelOpcoes = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel22 = new System.Windows.Forms.TableLayoutPanel();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.panelConfigBanco = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.btnTestarAplicar = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.rdbtnServidorLocal = new System.Windows.Forms.RadioButton();
+            this.txtPwd = new System.Windows.Forms.TextBox();
+            this.rdbtnRemoto = new System.Windows.Forms.RadioButton();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtServidor = new System.Windows.Forms.TextBox();
+            this.txtUid = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtBanco = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.statusStrip3 = new System.Windows.Forms.StatusStrip();
+            this.tslOpcoesTitulo = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tslOpcoesResultado = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblOpcoesTitulo = new System.Windows.Forms.Label();
             this.panelFornecedores = new System.Windows.Forms.Panel();
             this.tableLayoutPanel14 = new System.Windows.Forms.TableLayoutPanel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -155,30 +180,6 @@
             this.btnNFFechar = new System.Windows.Forms.Button();
             this.btnNFImprimir = new System.Windows.Forms.Button();
             this.btnNFEditar = new System.Windows.Forms.Button();
-            this.panelOpcoes = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel22 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel23 = new System.Windows.Forms.TableLayoutPanel();
-            this.panelConfigBanco = new System.Windows.Forms.Panel();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnTestarAplicar = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.rdbtnServidorLocal = new System.Windows.Forms.RadioButton();
-            this.txtPwd = new System.Windows.Forms.TextBox();
-            this.rdbtnRemoto = new System.Windows.Forms.RadioButton();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtServidor = new System.Windows.Forms.TextBox();
-            this.txtUid = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtBanco = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel24 = new System.Windows.Forms.TableLayoutPanel();
-            this.btnDestravaTarefas = new System.Windows.Forms.Button();
-            this.btnConfiguraBD = new System.Windows.Forms.Button();
-            this.btnRestaurar = new System.Windows.Forms.Button();
-            this.btnBackup = new System.Windows.Forms.Button();
             this.panelClientes = new System.Windows.Forms.Panel();
             this.tableLayoutPanel10 = new System.Windows.Forms.TableLayoutPanel();
             this.barraStatusClientes = new System.Windows.Forms.StatusStrip();
@@ -243,6 +244,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.tlpAreaGeral.SuspendLayout();
             this.panelGeral.SuspendLayout();
+            this.panelOpcoes.SuspendLayout();
+            this.tableLayoutPanel22.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.panelConfigBanco.SuspendLayout();
+            this.statusStrip3.SuspendLayout();
+            this.tableLayoutPanel23.SuspendLayout();
             this.panelFornecedores.SuspendLayout();
             this.tableLayoutPanel14.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -265,11 +273,6 @@
             this.grpEndereco.SuspendLayout();
             this.tabPageNFObservacoes.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.panelOpcoes.SuspendLayout();
-            this.tableLayoutPanel22.SuspendLayout();
-            this.tableLayoutPanel23.SuspendLayout();
-            this.panelConfigBanco.SuspendLayout();
-            this.tableLayoutPanel24.SuspendLayout();
             this.panelClientes.SuspendLayout();
             this.tableLayoutPanel10.SuspendLayout();
             this.barraStatusClientes.SuspendLayout();
@@ -482,7 +485,7 @@
             this.btnTarefas.Text = "[F3] Tarefas";
             this.btnTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnTarefas.UseVisualStyleBackColor = false;
-            this.btnTarefas.Click += new System.EventHandler(this.btnTarefas_Click);
+            this.btnTarefas.Click += new System.EventHandler(this.BtnTarefas_Click);
             // 
             // btnOpcoes
             // 
@@ -501,7 +504,7 @@
             this.btnOpcoes.Text = "[F5] Opções";
             this.btnOpcoes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnOpcoes.UseVisualStyleBackColor = false;
-            this.btnOpcoes.Click += new System.EventHandler(this.btnOpcoes_Click);
+            this.btnOpcoes.Click += new System.EventHandler(this.BtnOpcoes_Click);
             // 
             // btnFornecedores
             // 
@@ -520,7 +523,7 @@
             this.btnFornecedores.Text = "[F2] Fornecedores";
             this.btnFornecedores.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnFornecedores.UseVisualStyleBackColor = false;
-            this.btnFornecedores.Click += new System.EventHandler(this.btnFornecedores_Click);
+            this.btnFornecedores.Click += new System.EventHandler(this.BtnFornecedores_Click);
             // 
             // btnClientes
             // 
@@ -539,7 +542,7 @@
             this.btnClientes.Text = "[F1] Clientes";
             this.btnClientes.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnClientes.UseVisualStyleBackColor = false;
-            this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
+            this.btnClientes.Click += new System.EventHandler(this.BtnClientes_Click);
             // 
             // btnSair
             // 
@@ -557,7 +560,7 @@
             this.btnSair.TabIndex = 4;
             this.btnSair.Text = "[ESC] Sair";
             this.btnSair.UseVisualStyleBackColor = false;
-            this.btnSair.Click += new System.EventHandler(this.btnSair_Click);
+            this.btnSair.Click += new System.EventHandler(this.BtnSair_Click);
             // 
             // tlpLogoVersao
             // 
@@ -623,9 +626,9 @@
             // panelGeral
             // 
             this.panelGeral.BackColor = System.Drawing.Color.Transparent;
+            this.panelGeral.Controls.Add(this.panelOpcoes);
             this.panelGeral.Controls.Add(this.panelFornecedores);
             this.panelGeral.Controls.Add(this.panelNF);
-            this.panelGeral.Controls.Add(this.panelOpcoes);
             this.panelGeral.Controls.Add(this.panelClientes);
             this.panelGeral.Controls.Add(this.panelTarefas);
             this.panelGeral.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -633,6 +636,303 @@
             this.panelGeral.Name = "panelGeral";
             this.panelGeral.Size = new System.Drawing.Size(938, 688);
             this.panelGeral.TabIndex = 1;
+            // 
+            // panelOpcoes
+            // 
+            this.panelOpcoes.BackColor = System.Drawing.Color.White;
+            this.panelOpcoes.Controls.Add(this.tableLayoutPanel22);
+            this.panelOpcoes.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelOpcoes.Enabled = false;
+            this.panelOpcoes.Location = new System.Drawing.Point(0, 0);
+            this.panelOpcoes.Name = "panelOpcoes";
+            this.panelOpcoes.Size = new System.Drawing.Size(938, 688);
+            this.panelOpcoes.TabIndex = 3;
+            this.panelOpcoes.Visible = false;
+            // 
+            // tableLayoutPanel22
+            // 
+            this.tableLayoutPanel22.ColumnCount = 1;
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel22.Controls.Add(this.tabControl1, 0, 1);
+            this.tableLayoutPanel22.Controls.Add(this.statusStrip3, 0, 2);
+            this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
+            this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel22.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel22.Name = "tableLayoutPanel22";
+            this.tableLayoutPanel22.RowCount = 3;
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel22.Size = new System.Drawing.Size(938, 688);
+            this.tableLayoutPanel22.TabIndex = 0;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl1.Location = new System.Drawing.Point(3, 83);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(932, 572);
+            this.tabControl1.TabIndex = 14;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.panelConfigBanco);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(924, 546);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // panelConfigBanco
+            // 
+            this.panelConfigBanco.AccessibleName = "panelConfigBanco";
+            this.panelConfigBanco.BackColor = System.Drawing.Color.Transparent;
+            this.panelConfigBanco.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panelConfigBanco.Controls.Add(this.label13);
+            this.panelConfigBanco.Controls.Add(this.label12);
+            this.panelConfigBanco.Controls.Add(this.label11);
+            this.panelConfigBanco.Controls.Add(this.btnTestarAplicar);
+            this.panelConfigBanco.Controls.Add(this.label7);
+            this.panelConfigBanco.Controls.Add(this.rdbtnServidorLocal);
+            this.panelConfigBanco.Controls.Add(this.txtPwd);
+            this.panelConfigBanco.Controls.Add(this.rdbtnRemoto);
+            this.panelConfigBanco.Controls.Add(this.label8);
+            this.panelConfigBanco.Controls.Add(this.txtServidor);
+            this.panelConfigBanco.Controls.Add(this.txtUid);
+            this.panelConfigBanco.Controls.Add(this.label10);
+            this.panelConfigBanco.Controls.Add(this.label9);
+            this.panelConfigBanco.Controls.Add(this.txtBanco);
+            this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelConfigBanco.Location = new System.Drawing.Point(3, 3);
+            this.panelConfigBanco.Name = "panelConfigBanco";
+            this.panelConfigBanco.Size = new System.Drawing.Size(918, 540);
+            this.panelConfigBanco.TabIndex = 0;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
+            this.label13.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(83, 200);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(111, 23);
+            this.label13.TabIndex = 13;
+            this.label13.Text = "Conexão:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.Color.Transparent;
+            this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.Location = new System.Drawing.Point(101, 168);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(90, 14);
+            this.label12.TabIndex = 12;
+            this.label12.Text = "MariaDB 10.2";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.Location = new System.Drawing.Point(58, 7);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(194, 23);
+            this.label11.TabIndex = 11;
+            this.label11.Text = "Tipo de conexão:";
+            // 
+            // btnTestarAplicar
+            // 
+            this.btnTestarAplicar.BackColor = System.Drawing.Color.PaleGreen;
+            this.btnTestarAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTestarAplicar.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTestarAplicar.Location = new System.Drawing.Point(414, 346);
+            this.btnTestarAplicar.Name = "btnTestarAplicar";
+            this.btnTestarAplicar.Size = new System.Drawing.Size(135, 23);
+            this.btnTestarAplicar.TabIndex = 4;
+            this.btnTestarAplicar.Text = "Testar e Aplicar";
+            this.btnTestarAplicar.UseVisualStyleBackColor = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(177, 309);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(53, 14);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Senha:";
+            // 
+            // rdbtnServidorLocal
+            // 
+            this.rdbtnServidorLocal.AutoSize = true;
+            this.rdbtnServidorLocal.BackColor = System.Drawing.Color.Transparent;
+            this.rdbtnServidorLocal.Checked = true;
+            this.rdbtnServidorLocal.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdbtnServidorLocal.Location = new System.Drawing.Point(104, 52);
+            this.rdbtnServidorLocal.Name = "rdbtnServidorLocal";
+            this.rdbtnServidorLocal.Size = new System.Drawing.Size(121, 18);
+            this.rdbtnServidorLocal.TabIndex = 0;
+            this.rdbtnServidorLocal.TabStop = true;
+            this.rdbtnServidorLocal.Text = "Servidor Local";
+            this.rdbtnServidorLocal.UseVisualStyleBackColor = false;
+            // 
+            // txtPwd
+            // 
+            this.txtPwd.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPwd.Location = new System.Drawing.Point(236, 306);
+            this.txtPwd.Name = "txtPwd";
+            this.txtPwd.PasswordChar = '*';
+            this.txtPwd.Size = new System.Drawing.Size(207, 22);
+            this.txtPwd.TabIndex = 9;
+            this.txtPwd.Text = "A1s2d3f4";
+            // 
+            // rdbtnRemoto
+            // 
+            this.rdbtnRemoto.AutoSize = true;
+            this.rdbtnRemoto.BackColor = System.Drawing.Color.Transparent;
+            this.rdbtnRemoto.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rdbtnRemoto.Location = new System.Drawing.Point(104, 83);
+            this.rdbtnRemoto.Name = "rdbtnRemoto";
+            this.rdbtnRemoto.Size = new System.Drawing.Size(80, 18);
+            this.rdbtnRemoto.TabIndex = 1;
+            this.rdbtnRemoto.Text = "Remoto:";
+            this.rdbtnRemoto.UseVisualStyleBackColor = false;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(167, 281);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(63, 14);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Usuário:";
+            // 
+            // txtServidor
+            // 
+            this.txtServidor.Enabled = false;
+            this.txtServidor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtServidor.Location = new System.Drawing.Point(190, 82);
+            this.txtServidor.Name = "txtServidor";
+            this.txtServidor.Size = new System.Drawing.Size(253, 22);
+            this.txtServidor.TabIndex = 2;
+            // 
+            // txtUid
+            // 
+            this.txtUid.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUid.Location = new System.Drawing.Point(236, 278);
+            this.txtUid.Name = "txtUid";
+            this.txtUid.Size = new System.Drawing.Size(207, 22);
+            this.txtUid.TabIndex = 7;
+            this.txtUid.Text = "root";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(83, 135);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(210, 23);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Servidor Utilizado:";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Transparent;
+            this.label9.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(116, 253);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(114, 14);
+            this.label9.TabIndex = 6;
+            this.label9.Text = "Nome do Banco:";
+            // 
+            // txtBanco
+            // 
+            this.txtBanco.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtBanco.Location = new System.Drawing.Point(236, 250);
+            this.txtBanco.Name = "txtBanco";
+            this.txtBanco.Size = new System.Drawing.Size(207, 22);
+            this.txtBanco.TabIndex = 5;
+            this.txtBanco.Text = "gerenciatarefa";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(924, 546);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // statusStrip3
+            // 
+            this.statusStrip3.AllowMerge = false;
+            this.statusStrip3.BackColor = System.Drawing.Color.White;
+            this.statusStrip3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.statusStrip3.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusStrip3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tslOpcoesTitulo,
+            this.tslOpcoesResultado});
+            this.statusStrip3.Location = new System.Drawing.Point(0, 658);
+            this.statusStrip3.Name = "statusStrip3";
+            this.statusStrip3.Size = new System.Drawing.Size(938, 30);
+            this.statusStrip3.SizingGrip = false;
+            this.statusStrip3.TabIndex = 35;
+            this.statusStrip3.TabStop = true;
+            // 
+            // tslOpcoesTitulo
+            // 
+            this.tslOpcoesTitulo.BackColor = System.Drawing.Color.Transparent;
+            this.tslOpcoesTitulo.Name = "tslOpcoesTitulo";
+            this.tslOpcoesTitulo.Size = new System.Drawing.Size(53, 25);
+            this.tslOpcoesTitulo.Text = "Status:";
+            // 
+            // tslOpcoesResultado
+            // 
+            this.tslOpcoesResultado.Name = "tslOpcoesResultado";
+            this.tslOpcoesResultado.Size = new System.Drawing.Size(70, 25);
+            this.tslOpcoesResultado.Text = "Resultado";
+            // 
+            // tableLayoutPanel23
+            // 
+            this.tableLayoutPanel23.ColumnCount = 1;
+            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel23.Controls.Add(this.lblOpcoesTitulo, 0, 0);
+            this.tableLayoutPanel23.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel23.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
+            this.tableLayoutPanel23.RowCount = 1;
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 74F));
+            this.tableLayoutPanel23.Size = new System.Drawing.Size(932, 74);
+            this.tableLayoutPanel23.TabIndex = 5;
+            // 
+            // lblOpcoesTitulo
+            // 
+            this.lblOpcoesTitulo.AutoSize = true;
+            this.lblOpcoesTitulo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(91)))), ((int)(((byte)(113)))));
+            this.lblOpcoesTitulo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblOpcoesTitulo.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblOpcoesTitulo.ForeColor = System.Drawing.Color.White;
+            this.lblOpcoesTitulo.Location = new System.Drawing.Point(3, 0);
+            this.lblOpcoesTitulo.Name = "lblOpcoesTitulo";
+            this.lblOpcoesTitulo.Size = new System.Drawing.Size(926, 74);
+            this.lblOpcoesTitulo.TabIndex = 4;
+            this.lblOpcoesTitulo.Text = "Parâmetros de conexão SQL";
+            this.lblOpcoesTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // panelFornecedores
             // 
@@ -743,8 +1043,8 @@
             this.dgvFornecedores.ShowRowErrors = false;
             this.dgvFornecedores.Size = new System.Drawing.Size(932, 572);
             this.dgvFornecedores.TabIndex = 0;
-            this.dgvFornecedores.DataSourceChanged += new System.EventHandler(this.dgvFornecedores_DataSourceChanged);
-            this.dgvFornecedores.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFornecedores_CellDoubleClick);
+            this.dgvFornecedores.DataSourceChanged += new System.EventHandler(this.DgvFornecedores_DataSourceChanged);
+            this.dgvFornecedores.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvFornecedores_CellDoubleClick);
             // 
             // tableLayoutPanel15
             // 
@@ -782,7 +1082,7 @@
             this.btnPesquisaFornecedor.TabIndex = 5;
             this.btnPesquisaFornecedor.Text = "Pesquisar Fornecedor";
             this.btnPesquisaFornecedor.UseVisualStyleBackColor = false;
-            this.btnPesquisaFornecedor.Click += new System.EventHandler(this.btnPesquisaFornecedor_Click);
+            this.btnPesquisaFornecedor.Click += new System.EventHandler(this.BtnPesquisaFornecedor_Click);
             // 
             // btnImprimeFornecedores
             // 
@@ -800,7 +1100,7 @@
             this.btnImprimeFornecedores.TabIndex = 4;
             this.btnImprimeFornecedores.Text = "Imprimir Lista";
             this.btnImprimeFornecedores.UseVisualStyleBackColor = false;
-            this.btnImprimeFornecedores.Click += new System.EventHandler(this.btnImprimeFornecedores_Click);
+            this.btnImprimeFornecedores.Click += new System.EventHandler(this.BtnImprimeFornecedores_Click);
             // 
             // btnNovoFornecedor
             // 
@@ -818,7 +1118,7 @@
             this.btnNovoFornecedor.TabIndex = 3;
             this.btnNovoFornecedor.Text = "Adicionar Fornecedor";
             this.btnNovoFornecedor.UseVisualStyleBackColor = false;
-            this.btnNovoFornecedor.Click += new System.EventHandler(this.btnNovoFornecedor_Click);
+            this.btnNovoFornecedor.Click += new System.EventHandler(this.BtnNovoFornecedor_Click);
             // 
             // tableLayoutPanel16
             // 
@@ -973,7 +1273,7 @@
             this.tlpNFTipoFornecedor.ColumnCount = 3;
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 289F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 295F));
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -995,9 +1295,9 @@
             this.panel1.Controls.Add(this.lblNFDataNascimento);
             this.panel1.Controls.Add(this.label31);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(469, 3);
+            this.panel1.Location = new System.Drawing.Point(464, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(127, 147);
+            this.panel1.Size = new System.Drawing.Size(126, 147);
             this.panel1.TabIndex = 1;
             // 
             // txtNFDataNascimento
@@ -1080,7 +1380,7 @@
             this.panelNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(460, 147);
+            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(455, 147);
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
             // lblNFApelido
@@ -1115,7 +1415,7 @@
             this.btnNFBuscarDados.Text = "Buscar Dados";
             this.tooltipGeral.SetToolTip(this.btnNFBuscarDados, "Busca os dados cadastrais do CNPJ na receita federal");
             this.btnNFBuscarDados.UseVisualStyleBackColor = false;
-            this.btnNFBuscarDados.Click += new System.EventHandler(this.btnNFBuscarDados_Click);
+            this.btnNFBuscarDados.Click += new System.EventHandler(this.BtnNFBuscarDados_Click);
             // 
             // lblNFCPFCNPJ
             // 
@@ -1180,7 +1480,7 @@
             this.cmbNFTipoFornecedor.Size = new System.Drawing.Size(121, 22);
             this.cmbNFTipoFornecedor.TabIndex = 0;
             this.cmbNFTipoFornecedor.Text = "Pessoa Jurídica";
-            this.cmbNFTipoFornecedor.SelectedIndexChanged += new System.EventHandler(this.cmbTipoFornecedor_SelectedIndexChanged);
+            this.cmbNFTipoFornecedor.SelectedIndexChanged += new System.EventHandler(this.CmbTipoFornecedor_SelectedIndexChanged);
             // 
             // panelNFDatas
             // 
@@ -1198,9 +1498,9 @@
             this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFDatas.Location = new System.Drawing.Point(602, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(596, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(284, 147);
+            this.panelNFDatas.Size = new System.Drawing.Size(290, 147);
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -1232,7 +1532,6 @@
             this.cmbNFCateg3.Name = "cmbNFCateg3";
             this.cmbNFCateg3.Size = new System.Drawing.Size(117, 22);
             this.cmbNFCateg3.TabIndex = 10;
-            this.cmbNFCateg3.SelectedIndexChanged += new System.EventHandler(this.cmbNFCateg3_SelectedIndexChanged);
             // 
             // label36
             // 
@@ -1263,7 +1562,6 @@
             this.cmbNFSubCateg2.Name = "cmbNFSubCateg2";
             this.cmbNFSubCateg2.Size = new System.Drawing.Size(101, 22);
             this.cmbNFSubCateg2.TabIndex = 7;
-            this.cmbNFSubCateg2.SelectedIndexChanged += new System.EventHandler(this.cmbNFSubCateg2_SelectedIndexChanged);
             // 
             // cmbNFCateg2
             // 
@@ -1274,7 +1572,6 @@
             this.cmbNFCateg2.Name = "cmbNFCateg2";
             this.cmbNFCateg2.Size = new System.Drawing.Size(117, 22);
             this.cmbNFCateg2.TabIndex = 6;
-            this.cmbNFCateg2.SelectedIndexChanged += new System.EventHandler(this.cmbNFCateg2_SelectedIndexChanged);
             // 
             // label34
             // 
@@ -1305,7 +1602,6 @@
             this.cmbNFSubCateg1.Name = "cmbNFSubCateg1";
             this.cmbNFSubCateg1.Size = new System.Drawing.Size(101, 22);
             this.cmbNFSubCateg1.TabIndex = 3;
-            this.cmbNFSubCateg1.SelectedIndexChanged += new System.EventHandler(this.cmbNFSubCateg1_SelectedIndexChanged);
             // 
             // cmbNFCateg1
             // 
@@ -1316,7 +1612,6 @@
             this.cmbNFCateg1.Name = "cmbNFCateg1";
             this.cmbNFCateg1.Size = new System.Drawing.Size(117, 22);
             this.cmbNFCateg1.TabIndex = 1;
-            this.cmbNFCateg1.SelectedIndexChanged += new System.EventHandler(this.cmbNFCateg1_SelectedIndexChanged);
             // 
             // label32
             // 
@@ -1769,7 +2064,7 @@
             this.btnNFBuscarEndereco.Text = "Buscar Endereço";
             this.tooltipGeral.SetToolTip(this.btnNFBuscarEndereco, "Busca o endereço através do CEP informado no banco de dados do Correios");
             this.btnNFBuscarEndereco.UseVisualStyleBackColor = false;
-            this.btnNFBuscarEndereco.Click += new System.EventHandler(this.btnNFBuscarEndereco_Click);
+            this.btnNFBuscarEndereco.Click += new System.EventHandler(this.BtnNFBuscarEndereco_Click);
             // 
             // txtNFCEP
             // 
@@ -1851,7 +2146,7 @@
             this.btnNFNovoCadastro.TabIndex = 1;
             this.btnNFNovoCadastro.Text = "Cadastrar Fornecedor";
             this.btnNFNovoCadastro.UseVisualStyleBackColor = false;
-            this.btnNFNovoCadastro.Click += new System.EventHandler(this.btnNFNovoCadastro_Click);
+            this.btnNFNovoCadastro.Click += new System.EventHandler(this.BtnNFNovoCadastro_Click);
             // 
             // btnNFApagar
             // 
@@ -1868,7 +2163,7 @@
             this.btnNFApagar.Text = "Apagar";
             this.btnNFApagar.UseVisualStyleBackColor = false;
             this.btnNFApagar.Visible = false;
-            this.btnNFApagar.Click += new System.EventHandler(this.btnNFApagar_Click);
+            this.btnNFApagar.Click += new System.EventHandler(this.BtnNFApagar_Click);
             // 
             // btnNFFechar
             // 
@@ -1883,7 +2178,7 @@
             this.btnNFFechar.TabIndex = 0;
             this.btnNFFechar.Text = "Cancelar";
             this.btnNFFechar.UseVisualStyleBackColor = false;
-            this.btnNFFechar.Click += new System.EventHandler(this.btnNFFechar_Click);
+            this.btnNFFechar.Click += new System.EventHandler(this.BtnNFFechar_Click);
             // 
             // btnNFImprimir
             // 
@@ -1900,7 +2195,7 @@
             this.btnNFImprimir.Text = "Imprimir";
             this.btnNFImprimir.UseVisualStyleBackColor = false;
             this.btnNFImprimir.Visible = false;
-            this.btnNFImprimir.Click += new System.EventHandler(this.btnNFImprimir_Click);
+            this.btnNFImprimir.Click += new System.EventHandler(this.BtnNFImprimir_Click);
             // 
             // btnNFEditar
             // 
@@ -1917,336 +2212,7 @@
             this.btnNFEditar.Text = "Editar";
             this.btnNFEditar.UseVisualStyleBackColor = false;
             this.btnNFEditar.Visible = false;
-            this.btnNFEditar.Click += new System.EventHandler(this.btnNFEditar_Click);
-            // 
-            // panelOpcoes
-            // 
-            this.panelOpcoes.BackColor = System.Drawing.Color.White;
-            this.panelOpcoes.Controls.Add(this.tableLayoutPanel22);
-            this.panelOpcoes.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelOpcoes.Enabled = false;
-            this.panelOpcoes.Location = new System.Drawing.Point(0, 0);
-            this.panelOpcoes.Name = "panelOpcoes";
-            this.panelOpcoes.Size = new System.Drawing.Size(938, 688);
-            this.panelOpcoes.TabIndex = 3;
-            this.panelOpcoes.Visible = false;
-            // 
-            // tableLayoutPanel22
-            // 
-            this.tableLayoutPanel22.ColumnCount = 3;
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 82.68507F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 17.31493F));
-            this.tableLayoutPanel22.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 226F));
-            this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel23, 0, 0);
-            this.tableLayoutPanel22.Controls.Add(this.tableLayoutPanel24, 1, 0);
-            this.tableLayoutPanel22.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel22.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel22.Name = "tableLayoutPanel22";
-            this.tableLayoutPanel22.RowCount = 2;
-            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 69.76744F));
-            this.tableLayoutPanel22.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30.23256F));
-            this.tableLayoutPanel22.Size = new System.Drawing.Size(938, 688);
-            this.tableLayoutPanel22.TabIndex = 0;
-            // 
-            // tableLayoutPanel23
-            // 
-            this.tableLayoutPanel23.ColumnCount = 1;
-            this.tableLayoutPanel23.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel23.Controls.Add(this.panelConfigBanco, 0, 1);
-            this.tableLayoutPanel23.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel23.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel23.Name = "tableLayoutPanel23";
-            this.tableLayoutPanel23.RowCount = 2;
-            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel23.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85F));
-            this.tableLayoutPanel23.Size = new System.Drawing.Size(582, 473);
-            this.tableLayoutPanel23.TabIndex = 5;
-            // 
-            // panelConfigBanco
-            // 
-            this.panelConfigBanco.AccessibleName = "panelConfigBanco";
-            this.panelConfigBanco.BackColor = System.Drawing.Color.Transparent;
-            this.panelConfigBanco.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panelConfigBanco.Controls.Add(this.label13);
-            this.panelConfigBanco.Controls.Add(this.label12);
-            this.panelConfigBanco.Controls.Add(this.label11);
-            this.panelConfigBanco.Controls.Add(this.btnTestarAplicar);
-            this.panelConfigBanco.Controls.Add(this.label7);
-            this.panelConfigBanco.Controls.Add(this.rdbtnServidorLocal);
-            this.panelConfigBanco.Controls.Add(this.txtPwd);
-            this.panelConfigBanco.Controls.Add(this.rdbtnRemoto);
-            this.panelConfigBanco.Controls.Add(this.label8);
-            this.panelConfigBanco.Controls.Add(this.txtServidor);
-            this.panelConfigBanco.Controls.Add(this.txtUid);
-            this.panelConfigBanco.Controls.Add(this.label10);
-            this.panelConfigBanco.Controls.Add(this.label9);
-            this.panelConfigBanco.Controls.Add(this.txtBanco);
-            this.panelConfigBanco.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelConfigBanco.Location = new System.Drawing.Point(3, 73);
-            this.panelConfigBanco.Name = "panelConfigBanco";
-            this.panelConfigBanco.Size = new System.Drawing.Size(576, 397);
-            this.panelConfigBanco.TabIndex = 0;
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.BackColor = System.Drawing.Color.Transparent;
-            this.label13.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(83, 200);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(111, 23);
-            this.label13.TabIndex = 13;
-            this.label13.Text = "Conexão:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.Transparent;
-            this.label12.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(101, 168);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(90, 14);
-            this.label12.TabIndex = 12;
-            this.label12.Text = "MariaDB 10.2";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(83, 22);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(194, 23);
-            this.label11.TabIndex = 11;
-            this.label11.Text = "Tipo de conexão:";
-            // 
-            // btnTestarAplicar
-            // 
-            this.btnTestarAplicar.BackColor = System.Drawing.Color.PaleGreen;
-            this.btnTestarAplicar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTestarAplicar.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestarAplicar.Location = new System.Drawing.Point(414, 346);
-            this.btnTestarAplicar.Name = "btnTestarAplicar";
-            this.btnTestarAplicar.Size = new System.Drawing.Size(135, 23);
-            this.btnTestarAplicar.TabIndex = 4;
-            this.btnTestarAplicar.Text = "Testar e Aplicar";
-            this.btnTestarAplicar.UseVisualStyleBackColor = false;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(177, 309);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 14);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Senha:";
-            // 
-            // rdbtnServidorLocal
-            // 
-            this.rdbtnServidorLocal.AutoSize = true;
-            this.rdbtnServidorLocal.BackColor = System.Drawing.Color.Transparent;
-            this.rdbtnServidorLocal.Checked = true;
-            this.rdbtnServidorLocal.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdbtnServidorLocal.Location = new System.Drawing.Point(104, 52);
-            this.rdbtnServidorLocal.Name = "rdbtnServidorLocal";
-            this.rdbtnServidorLocal.Size = new System.Drawing.Size(121, 18);
-            this.rdbtnServidorLocal.TabIndex = 0;
-            this.rdbtnServidorLocal.TabStop = true;
-            this.rdbtnServidorLocal.Text = "Servidor Local";
-            this.rdbtnServidorLocal.UseVisualStyleBackColor = false;
-            // 
-            // txtPwd
-            // 
-            this.txtPwd.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPwd.Location = new System.Drawing.Point(236, 306);
-            this.txtPwd.Name = "txtPwd";
-            this.txtPwd.PasswordChar = '*';
-            this.txtPwd.Size = new System.Drawing.Size(207, 22);
-            this.txtPwd.TabIndex = 9;
-            this.txtPwd.Text = "A1s2d3f4";
-            // 
-            // rdbtnRemoto
-            // 
-            this.rdbtnRemoto.AutoSize = true;
-            this.rdbtnRemoto.BackColor = System.Drawing.Color.Transparent;
-            this.rdbtnRemoto.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.rdbtnRemoto.Location = new System.Drawing.Point(104, 83);
-            this.rdbtnRemoto.Name = "rdbtnRemoto";
-            this.rdbtnRemoto.Size = new System.Drawing.Size(80, 18);
-            this.rdbtnRemoto.TabIndex = 1;
-            this.rdbtnRemoto.Text = "Remoto:";
-            this.rdbtnRemoto.UseVisualStyleBackColor = false;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(167, 281);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(63, 14);
-            this.label8.TabIndex = 8;
-            this.label8.Text = "Usuário:";
-            // 
-            // txtServidor
-            // 
-            this.txtServidor.Enabled = false;
-            this.txtServidor.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtServidor.Location = new System.Drawing.Point(190, 82);
-            this.txtServidor.Name = "txtServidor";
-            this.txtServidor.Size = new System.Drawing.Size(253, 22);
-            this.txtServidor.TabIndex = 2;
-            // 
-            // txtUid
-            // 
-            this.txtUid.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUid.Location = new System.Drawing.Point(236, 278);
-            this.txtUid.Name = "txtUid";
-            this.txtUid.Size = new System.Drawing.Size(207, 22);
-            this.txtUid.TabIndex = 7;
-            this.txtUid.Text = "root";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(83, 135);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(210, 23);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Servidor Utilizado:";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Transparent;
-            this.label9.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(116, 253);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(114, 14);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "Nome do Banco:";
-            // 
-            // txtBanco
-            // 
-            this.txtBanco.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBanco.Location = new System.Drawing.Point(236, 250);
-            this.txtBanco.Name = "txtBanco";
-            this.txtBanco.Size = new System.Drawing.Size(207, 22);
-            this.txtBanco.TabIndex = 5;
-            this.txtBanco.Text = "gerenciatarefa";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(91)))), ((int)(((byte)(113)))));
-            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label6.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(3, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(576, 70);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Parâmetros de conexão SQL";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tableLayoutPanel24
-            // 
-            this.tableLayoutPanel24.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(66)))), ((int)(((byte)(91)))), ((int)(((byte)(113)))));
-            this.tableLayoutPanel24.ColumnCount = 1;
-            this.tableLayoutPanel24.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel24.Controls.Add(this.btnDestravaTarefas, 0, 4);
-            this.tableLayoutPanel24.Controls.Add(this.btnConfiguraBD, 0, 1);
-            this.tableLayoutPanel24.Controls.Add(this.btnRestaurar, 0, 3);
-            this.tableLayoutPanel24.Controls.Add(this.btnBackup, 0, 2);
-            this.tableLayoutPanel24.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel24.Location = new System.Drawing.Point(591, 3);
-            this.tableLayoutPanel24.Name = "tableLayoutPanel24";
-            this.tableLayoutPanel24.RowCount = 5;
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 21.25F));
-            this.tableLayoutPanel24.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel24.Size = new System.Drawing.Size(117, 473);
-            this.tableLayoutPanel24.TabIndex = 6;
-            // 
-            // btnDestravaTarefas
-            // 
-            this.btnDestravaTarefas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(102)))), ((int)(((byte)(79)))));
-            this.btnDestravaTarefas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnDestravaTarefas.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(102)))), ((int)(((byte)(79)))));
-            this.btnDestravaTarefas.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(92)))), ((int)(((byte)(73)))));
-            this.btnDestravaTarefas.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(130)))), ((int)(((byte)(105)))));
-            this.btnDestravaTarefas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDestravaTarefas.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnDestravaTarefas.ForeColor = System.Drawing.Color.White;
-            this.btnDestravaTarefas.Location = new System.Drawing.Point(3, 373);
-            this.btnDestravaTarefas.Name = "btnDestravaTarefas";
-            this.btnDestravaTarefas.Size = new System.Drawing.Size(111, 97);
-            this.btnDestravaTarefas.TabIndex = 10;
-            this.btnDestravaTarefas.Text = "Destravar Tarefas";
-            this.btnDestravaTarefas.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnDestravaTarefas.UseVisualStyleBackColor = false;
-            // 
-            // btnConfiguraBD
-            // 
-            this.btnConfiguraBD.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(89)))), ((int)(((byte)(173)))));
-            this.btnConfiguraBD.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnConfiguraBD.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(91)))), ((int)(((byte)(89)))), ((int)(((byte)(173)))));
-            this.btnConfiguraBD.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(87)))), ((int)(((byte)(85)))), ((int)(((byte)(169)))));
-            this.btnConfiguraBD.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(99)))), ((int)(((byte)(97)))), ((int)(((byte)(181)))));
-            this.btnConfiguraBD.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnConfiguraBD.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnConfiguraBD.ForeColor = System.Drawing.Color.White;
-            this.btnConfiguraBD.Location = new System.Drawing.Point(3, 73);
-            this.btnConfiguraBD.Name = "btnConfiguraBD";
-            this.btnConfiguraBD.Size = new System.Drawing.Size(111, 94);
-            this.btnConfiguraBD.TabIndex = 7;
-            this.btnConfiguraBD.Text = "Configurar Banco de Dados";
-            this.btnConfiguraBD.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnConfiguraBD.UseVisualStyleBackColor = false;
-            // 
-            // btnRestaurar
-            // 
-            this.btnRestaurar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
-            this.btnRestaurar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnRestaurar.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(85)))), ((int)(((byte)(161)))), ((int)(((byte)(112)))));
-            this.btnRestaurar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(89)))), ((int)(((byte)(163)))), ((int)(((byte)(114)))));
-            this.btnRestaurar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(96)))), ((int)(((byte)(172)))), ((int)(((byte)(125)))));
-            this.btnRestaurar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRestaurar.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnRestaurar.ForeColor = System.Drawing.Color.White;
-            this.btnRestaurar.Location = new System.Drawing.Point(3, 273);
-            this.btnRestaurar.Name = "btnRestaurar";
-            this.btnRestaurar.Size = new System.Drawing.Size(111, 94);
-            this.btnRestaurar.TabIndex = 5;
-            this.btnRestaurar.Text = "Restaurar";
-            this.btnRestaurar.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnRestaurar.UseVisualStyleBackColor = false;
-            // 
-            // btnBackup
-            // 
-            this.btnBackup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(141)))), ((int)(((byte)(239)))));
-            this.btnBackup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnBackup.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(63)))), ((int)(((byte)(141)))), ((int)(((byte)(239)))));
-            this.btnBackup.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(148)))), ((int)(((byte)(239)))));
-            this.btnBackup.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(82)))), ((int)(((byte)(165)))), ((int)(((byte)(243)))));
-            this.btnBackup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBackup.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Bold);
-            this.btnBackup.ForeColor = System.Drawing.Color.White;
-            this.btnBackup.Location = new System.Drawing.Point(3, 173);
-            this.btnBackup.Name = "btnBackup";
-            this.btnBackup.Size = new System.Drawing.Size(111, 94);
-            this.btnBackup.TabIndex = 4;
-            this.btnBackup.Text = "Backup";
-            this.btnBackup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.btnBackup.UseVisualStyleBackColor = false;
+            this.btnNFEditar.Click += new System.EventHandler(this.BtnNFEditar_Click);
             // 
             // panelClientes
             // 
@@ -2351,8 +2317,8 @@
             this.dgvClientes.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvClientes.Size = new System.Drawing.Size(932, 572);
             this.dgvClientes.TabIndex = 0;
-            this.dgvClientes.DataSourceChanged += new System.EventHandler(this.dgvClientes_DataSourceChanged);
-            this.dgvClientes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClientes_CellDoubleClick);
+            this.dgvClientes.DataSourceChanged += new System.EventHandler(this.DgvClientes_DataSourceChanged);
+            this.dgvClientes.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvClientes_CellDoubleClick);
             // 
             // tableLayoutPanel11
             // 
@@ -2390,7 +2356,7 @@
             this.btnPesqCliente.TabIndex = 5;
             this.btnPesqCliente.Text = "Pesquisar Cliente";
             this.btnPesqCliente.UseVisualStyleBackColor = false;
-            this.btnPesqCliente.Click += new System.EventHandler(this.btnPesqCliente_Click);
+            this.btnPesqCliente.Click += new System.EventHandler(this.BtnPesqCliente_Click);
             // 
             // btnPrintListaClientes
             // 
@@ -2408,7 +2374,7 @@
             this.btnPrintListaClientes.TabIndex = 4;
             this.btnPrintListaClientes.Text = "Imprimir Lista";
             this.btnPrintListaClientes.UseVisualStyleBackColor = false;
-            this.btnPrintListaClientes.Click += new System.EventHandler(this.btnPrintListaClientes_Click);
+            this.btnPrintListaClientes.Click += new System.EventHandler(this.BtnPrintListaClientes_Click);
             // 
             // btnAddCliente
             // 
@@ -2426,7 +2392,7 @@
             this.btnAddCliente.TabIndex = 3;
             this.btnAddCliente.Text = "Adicionar Cliente";
             this.btnAddCliente.UseVisualStyleBackColor = false;
-            this.btnAddCliente.Click += new System.EventHandler(this.btnAddCliente_Click);
+            this.btnAddCliente.Click += new System.EventHandler(this.BtnAddCliente_Click);
             // 
             // tableLayoutPanel12
             // 
@@ -2498,7 +2464,7 @@
             this.cmbFiltroClientes.Size = new System.Drawing.Size(244, 22);
             this.cmbFiltroClientes.TabIndex = 0;
             this.cmbFiltroClientes.Text = "Todos";
-            this.cmbFiltroClientes.SelectedIndexChanged += new System.EventHandler(this.cmbFiltroClientes_SelectedIndexChanged);
+            this.cmbFiltroClientes.SelectedIndexChanged += new System.EventHandler(this.CmbFiltroClientes_SelectedIndexChanged);
             // 
             // panelTarefas
             // 
@@ -2622,8 +2588,8 @@
             this.dgvTarefas.Size = new System.Drawing.Size(932, 572);
             this.dgvTarefas.TabIndex = 0;
             this.dgvTarefas.VirtualMode = true;
-            this.dgvTarefas.DataSourceChanged += new System.EventHandler(this.dgvTarefas_DataSourceChanged);
-            this.dgvTarefas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTarefas_CellDoubleClick);
+            this.dgvTarefas.DataSourceChanged += new System.EventHandler(this.DgvTarefas_DataSourceChanged);
+            this.dgvTarefas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvTarefas_CellDoubleClick);
             // 
             // tableLayoutPanel19
             // 
@@ -2696,7 +2662,7 @@
             this.cmbFiltros.Size = new System.Drawing.Size(238, 22);
             this.cmbFiltros.TabIndex = 16;
             this.cmbFiltros.Text = "ID Tarefa DESC";
-            this.cmbFiltros.SelectedIndexChanged += new System.EventHandler(this.cmbFiltros_SelectedIndexChanged);
+            this.cmbFiltros.SelectedIndexChanged += new System.EventHandler(this.CmbFiltros_SelectedIndexChanged);
             // 
             // tableLayoutPanel20
             // 
@@ -2734,7 +2700,7 @@
             this.cmbTipoTarefas.Size = new System.Drawing.Size(133, 22);
             this.cmbTipoTarefas.TabIndex = 16;
             this.cmbTipoTarefas.Text = "Tarefas Pendentes";
-            this.cmbTipoTarefas.SelectedIndexChanged += new System.EventHandler(this.cmbTipoTarefas_SelectedIndexChanged);
+            this.cmbTipoTarefas.SelectedIndexChanged += new System.EventHandler(this.CmbTipoTarefas_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -2778,7 +2744,7 @@
             this.btnImprimirListaTarefas.TabIndex = 4;
             this.btnImprimirListaTarefas.Text = "Imprimir Lista";
             this.btnImprimirListaTarefas.UseVisualStyleBackColor = false;
-            this.btnImprimirListaTarefas.Click += new System.EventHandler(this.btnImprimirListaTarefas_Click);
+            this.btnImprimirListaTarefas.Click += new System.EventHandler(this.BtnImprimirListaTarefas_Click);
             // 
             // btnNovaTarefa
             // 
@@ -2796,19 +2762,19 @@
             this.btnNovaTarefa.TabIndex = 3;
             this.btnNovaTarefa.Text = "Nova Tarefa";
             this.btnNovaTarefa.UseVisualStyleBackColor = false;
-            this.btnNovaTarefa.Click += new System.EventHandler(this.btnNovaTarefa_Click);
+            this.btnNovaTarefa.Click += new System.EventHandler(this.BtnNovaTarefa_Click);
             // 
             // timerHora
             // 
             this.timerHora.Enabled = true;
             this.timerHora.Interval = 1000;
-            this.timerHora.Tick += new System.EventHandler(this.timerHora_Tick);
+            this.timerHora.Tick += new System.EventHandler(this.TimerHora_Tick);
             // 
             // pdClientes
             // 
             this.pdClientes.DocumentName = "Tarefas";
-            this.pdClientes.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.pdClientes_BeginPrint);
-            this.pdClientes.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdClientes_PrintPage);
+            this.pdClientes.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.PdClientes_BeginPrint);
+            this.pdClientes.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PdClientes_PrintPage);
             // 
             // pdImprimirClientes
             // 
@@ -2836,8 +2802,8 @@
             // pdTarefas
             // 
             this.pdTarefas.DocumentName = "Tarefas";
-            this.pdTarefas.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.pdTarefas_BeginPrint);
-            this.pdTarefas.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdTarefas_PrintPage);
+            this.pdTarefas.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.PdTarefas_BeginPrint);
+            this.pdTarefas.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PdTarefas_PrintPage);
             // 
             // pPreviewTarefas
             // 
@@ -2870,8 +2836,8 @@
             // pdNFDocumento
             // 
             this.pdNFDocumento.DocumentName = "NomeFornecedor";
-            this.pdNFDocumento.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.pdNFDocumento_BeginPrint);
-            this.pdNFDocumento.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdNFDocumento_PrintPage);
+            this.pdNFDocumento.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.PdNFDocumento_BeginPrint);
+            this.pdNFDocumento.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PdNFDocumento_PrintPage);
             // 
             // pPreviewNF
             // 
@@ -2905,15 +2871,15 @@
             // pdFornecedores
             // 
             this.pdFornecedores.DocumentName = "Fornecedores";
-            this.pdFornecedores.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.pdFornecedores_BeginPrint);
-            this.pdFornecedores.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdFornecedores_PrintPage);
+            this.pdFornecedores.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.PdFornecedores_BeginPrint);
+            this.pdFornecedores.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.PdFornecedores_PrintPage);
             // 
             // pdImprimirFornecedores
             // 
             this.pdImprimirFornecedores.Document = this.pdFornecedores;
             this.pdImprimirFornecedores.UseEXDialog = true;
             // 
-            // tInicial
+            // TInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -2922,13 +2888,13 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Name = "tInicial";
+            this.Name = "TInicial";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Gerenciador de Tarefas";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.tInicial_FormClosing);
-            this.Load += new System.EventHandler(this.tInicial_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tInicial_KeyDown);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TInicial_FormClosing);
+            this.Load += new System.EventHandler(this.TInicial_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TInicial_KeyDown);
             this.tlpGeral.ResumeLayout(false);
             this.tlpMenuPrincipal.ResumeLayout(false);
             this.tlpMenu.ResumeLayout(false);
@@ -2943,6 +2909,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.tlpAreaGeral.ResumeLayout(false);
             this.panelGeral.ResumeLayout(false);
+            this.panelOpcoes.ResumeLayout(false);
+            this.tableLayoutPanel22.ResumeLayout(false);
+            this.tableLayoutPanel22.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.panelConfigBanco.ResumeLayout(false);
+            this.panelConfigBanco.PerformLayout();
+            this.statusStrip3.ResumeLayout(false);
+            this.statusStrip3.PerformLayout();
+            this.tableLayoutPanel23.ResumeLayout(false);
+            this.tableLayoutPanel23.PerformLayout();
             this.panelFornecedores.ResumeLayout(false);
             this.tableLayoutPanel14.ResumeLayout(false);
             this.tableLayoutPanel14.PerformLayout();
@@ -2974,13 +2951,6 @@
             this.grpEndereco.PerformLayout();
             this.tabPageNFObservacoes.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.panelOpcoes.ResumeLayout(false);
-            this.tableLayoutPanel22.ResumeLayout(false);
-            this.tableLayoutPanel23.ResumeLayout(false);
-            this.tableLayoutPanel23.PerformLayout();
-            this.panelConfigBanco.ResumeLayout(false);
-            this.panelConfigBanco.PerformLayout();
-            this.tableLayoutPanel24.ResumeLayout(false);
             this.panelClientes.ResumeLayout(false);
             this.tableLayoutPanel10.ResumeLayout(false);
             this.tableLayoutPanel10.PerformLayout();
@@ -3089,7 +3059,7 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel21;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel22;
         private System.Windows.Forms.Panel panelConfigBanco;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblOpcoesTitulo;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel23;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox txtPwd;
@@ -3101,11 +3071,6 @@
         private System.Windows.Forms.TextBox txtServidor;
         private System.Windows.Forms.RadioButton rdbtnServidorLocal;
         private System.Windows.Forms.RadioButton rdbtnRemoto;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel24;
-        private System.Windows.Forms.Button btnDestravaTarefas;
-        private System.Windows.Forms.Button btnConfiguraBD;
-        private System.Windows.Forms.Button btnRestaurar;
-        private System.Windows.Forms.Button btnBackup;
         private System.Windows.Forms.Button btnTestarAplicar;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
@@ -3209,5 +3174,11 @@
         private System.Windows.Forms.PrintPreviewDialog pPreviewFornecedores;
         private System.Drawing.Printing.PrintDocument pdFornecedores;
         private System.Windows.Forms.PrintDialog pdImprimirFornecedores;
+        private System.Windows.Forms.StatusStrip statusStrip3;
+        private System.Windows.Forms.ToolStripStatusLabel tslOpcoesTitulo;
+        private System.Windows.Forms.ToolStripStatusLabel tslOpcoesResultado;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }

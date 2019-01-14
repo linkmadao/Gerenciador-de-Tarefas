@@ -188,7 +188,7 @@ namespace Gerenciador_de_Tarefas
                             Hide();
                             ShowInTaskbar = false;
 
-                            tInicial telaInicial = new tInicial();
+                            TInicial telaInicial = new TInicial();
                             telaInicial.ShowDialog();
                         }
                         else

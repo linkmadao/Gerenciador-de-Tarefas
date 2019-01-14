@@ -124,9 +124,11 @@ namespace Gerenciador_de_Tarefas
 
         private void btnInserirImagem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Todos os arquivos |*.*";
-            fileDialog.Multiselect = true;
+            OpenFileDialog fileDialog = new OpenFileDialog
+            {
+                Filter = "Todos os arquivos |*.*",
+                Multiselect = true
+            };
 
             var orgdata = Clipboard.GetDataObject();
             if (fileDialog.ShowDialog() == DialogResult.OK)
@@ -267,11 +269,11 @@ namespace Gerenciador_de_Tarefas
                 {
                     string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(05)[0], ListaMensagens.RetornaInputBox(05)[1], "");
 
-                    if (resposta == "MB8719")
+                    if (resposta == Sistema.SenhaADM)
                     {
                         if (Classes.Tarefa.ApagarTarefa())
                         {
-                            ListaMensagens.RetornaMensagem(14);
+                            ListaMensagens.RetornaMensagem(14, MessageBoxIcon.Information);
                         }
                         else
                         {
@@ -286,7 +288,7 @@ namespace Gerenciador_de_Tarefas
                     {
                         if (Classes.Tarefa.ApagarTarefa())
                         {
-                            ListaMensagens.RetornaMensagem(14);
+                            ListaMensagens.RetornaMensagem(14, MessageBoxIcon.Information);
                         }
                         else
                         {

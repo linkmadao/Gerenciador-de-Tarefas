@@ -72,16 +72,40 @@ namespace Gerenciador_de_Tarefas
 
         private void CadastraCliente_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Cliente.NovoCadastro)
+            Cliente.Contrato = cmbContrato.SelectedIndex;
+            Cliente.DataCadastro = dtpDataCadastro.Value.ToString("yyyy-MM-dd");
+            Cliente.Nome = txtNome.Text;
+            Cliente.RazaoSocial = txtRazaoSocial.Text;
+            Cliente.Telefone = txtTelefoneComercial.Text;
+            Cliente.Contato = txtContato.Text;
+            Cliente.Setor = txtSetor.Text;
+            Cliente.CPF = txtCPF.Text;
+            Cliente.RG = txtRG.Text;
+            Cliente.CNPJ = txtCNPJ.Text;
+            Cliente.InscricaoEstadual = txtInscEstadual.Text;
+            Cliente.InscricaoMunicipal = txtInscMunicipal.Text;
+            Cliente.Site = txtSite.Text;
+            Cliente.Email = txtEmail.Text;
+            Cliente.Endereco = txtEndereco.Text;
+            Cliente.Numero = txtNumero.Text;
+            Cliente.Bairro = txtBairro.Text;
+            Cliente.Cidade = txtCidade.Text;
+            Cliente.Estado = txtEstado.Text;
+            Cliente.CEP = txtCep.Text;
+            Cliente.Complemento = txtComplemento.Text;
+            Cliente.PontoReferencia = txtPontoReferencia.Text;
+            Cliente.Obs = txtOBS.Text;
+
+            if (Cliente.AvaliarMudancas())
             {
-                if (ListaMensagens.RetornaDialogo(06) == DialogResult.No)
+                if (Cliente.NovoCadastro)
                 {
-                    e.Cancel = true;
+                    if (ListaMensagens.RetornaDialogo(06) == DialogResult.No)
+                    {
+                        e.Cancel = true;
+                    }
                 }
-            }
-            else
-            {
-                if (Cliente.AvaliarMudancas())
+                else
                 {
                     if (ListaMensagens.RetornaDialogo(07) == DialogResult.No)
                     {
@@ -143,23 +167,46 @@ namespace Gerenciador_de_Tarefas
         {
             if (ListaMensagens.RetornaDialogo(08) == DialogResult.Yes)
             {
-                string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(09)[0], ListaMensagens.RetornaInputBox(09)[1], "");
-
-                if (resposta == "MB8719")
+                if (Sistema.IDUsuarioLogado != 1 && Sistema.IDUsuarioLogado != 2)
                 {
-                    try
+                    string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(09)[0], ListaMensagens.RetornaInputBox(09)[1], "");
+
+                    if (resposta == Sistema.SenhaADM)
                     {
-                        Cliente.ApagarCliente();
+                        try
+                        {
+                            Cliente.ApagarCliente();
+                        }
+                        catch (Exception)
+                        {
+                            ListaErro.RetornaErro(37);
+                            return;
+                        }
+                        finally
+                        {
+                            ListaMensagens.RetornaMensagem(10, MessageBoxIcon.Information);
+                            this.Close();
+                        }
                     }
-                    catch (Exception)
+                }
+                else
+                {
+                    if (ListaMensagens.RetornaDialogo(26) == DialogResult.Yes)
                     {
-                        ListaErro.RetornaErro(37);
-                        return;
-                    }
-                    finally
-                    {
-                        ListaMensagens.RetornaMensagem(10);
-                        this.Close();
+                        try
+                        {
+                            Cliente.ApagarCliente();
+                        }
+                        catch (Exception)
+                        {
+                            ListaErro.RetornaErro(37);
+                            return;
+                        }
+                        finally
+                        {
+                            ListaMensagens.RetornaMensagem(10, MessageBoxIcon.Information);
+                            this.Close();
+                        }
                     }
                 }
             }

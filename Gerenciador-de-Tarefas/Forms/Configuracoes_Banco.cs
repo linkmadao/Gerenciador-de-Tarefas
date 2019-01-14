@@ -7,8 +7,6 @@ namespace Gerenciador_de_Tarefas
 {
     public partial class Configuracoes_Banco: Form
     {
-        private bool programaDesativado = false;
-
         /// <summary>
         /// Método que abre o formulário de configuração da conexão com o banco de dados.
         /// </summary>
@@ -19,7 +17,7 @@ namespace Gerenciador_de_Tarefas
 
             if (desativaPrograma)
             {
-                programaDesativado = true;
+                Sistema.ProgramaDesativado = true;
             }
         }
 
@@ -32,27 +30,16 @@ namespace Gerenciador_de_Tarefas
         {
             bool abreprograma = false;
 
-            if(rdbtnServidorLocal.Checked)
+            Sistema.ServidorLocal = rdbtnServidorLocal.Checked;
+
+            if (Sistema.TestaConexao())
             {
-                if (Sistema.TestaConexao())
-                {
-                    programaDesativado = false;
-                    abreprograma = true;
-                }
-            }
-            else
-            {
-                if (Sistema.TestaConexao())
-                {
-                    programaDesativado = false;
-                    abreprograma = true;
-                }
+                Sistema.ProgramaDesativado = false;
+                abreprograma = true;
             }
 
             if(abreprograma)
             {
-               
-
                 MessageBox.Show("Dados atualizados com sucesso!");
                 this.Close();
             }
@@ -74,11 +61,11 @@ namespace Gerenciador_de_Tarefas
 
         private void Configuracoes_Banco_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(programaDesativado)
+            if(Sistema.ProgramaDesativado)
             {
                 ListaErro.RetornaErro(14);
 
-                programaDesativado = false;
+                Sistema.ProgramaDesativado = false;
             }
         }
 
