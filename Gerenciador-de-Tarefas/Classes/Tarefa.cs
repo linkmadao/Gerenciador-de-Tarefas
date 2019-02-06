@@ -7,11 +7,11 @@ namespace Gerenciador_de_Tarefas.Classes
     public static class Tarefa
     {
         #region Variaveis
-        private static bool novaTarefa = true, primeiraPagina = true, travar = true;
+        private static bool novaTarefa = true, primeiraPagina = true, travar = true, tarefaApagada = false;
 
         //Originais
         private static int id = 0, prioridade = 1, status = 0;
-        private static string assunto = "", atribuicao = "", dataFinal = "",
+        private static string assunto = "", atribuicao = "", dataFinal = "", dataCadastro = "",
             dataInicial = "", empresa = "", texto = "", textoImpressao = "", titulo = "";
         private static DataGridView dgvTarefasAtualizada = new DataGridView();
 
@@ -30,6 +30,17 @@ namespace Gerenciador_de_Tarefas.Classes
             get
             {
                 return dgvTarefasAtualizada;
+            }
+        }
+        public static bool TarefaApagada
+        {
+            get
+            {
+                return tarefaApagada;
+            }
+            set
+            {
+                tarefaApagada = value;
             }
         }
         public static int ID
@@ -104,6 +115,13 @@ namespace Gerenciador_de_Tarefas.Classes
             set
             {
                 dataFinal = value;
+            }
+        }
+        public static string DataCadastro
+        {
+            get
+            {
+                return dataCadastro;
             }
         }
         public static string Empresa
@@ -197,7 +215,7 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 if(NovaTarefa)
                 {
-                    if (_assunto != Assunto || _prioridade != Prioridade || _status != Status || _texto != Texto)
+                    if (_assunto != Assunto || _texto != Texto)
                     {
                         return true;
                     }
@@ -216,9 +234,26 @@ namespace Gerenciador_de_Tarefas.Classes
                     {
                         _dataFinal = _dataFinal.Substring(0, 10);
                     }
-
+                    if (DataInicial.Length > 10)
+                    {
+                        DataInicial = DataInicial.Substring(0, 10);
+                    }
+                    if (DataFinal.Length > 10)
+                    {
+                        DataFinal = DataFinal.Substring(0, 10);
+                    }
+                    /*
+                    if (DataInicial.Contains("/"))
+                    {
+                        DataInicial = DataInicial.Substring(6, 4) + "-" + DataInicial.Substring(3, 2) + "-" + DataInicial.Substring(0, 2);
+                    }
+                    if (DataFinal.Contains("/"))
+                    {
+                        DataFinal = DataFinal.Substring(6, 4) + "-" + DataFinal.Substring(3, 2) + "-" + DataFinal.Substring(0, 2);
+                    }
+                    */
                     if (_assunto != Assunto || _atribuicao != Atribuicao || _empresa != Empresa || _dataInicial != DataInicial
-                                || _dataFinal != DataFinal || _prioridade != Prioridade || _status != Status || _texto != Texto)
+                                || _dataFinal != DataFinal || _prioridade != Prioridade || (_status - 1) != (Status - 1) || _texto != Texto)
                     {
                         return true;
                     }
@@ -380,9 +415,11 @@ namespace Gerenciador_de_Tarefas.Classes
             }
             catch (Exception)
             {
+                tarefaApagada = false;
                 return false;
             }
 
+            tarefaApagada = true;
             return true;
         }
 
@@ -420,10 +457,12 @@ namespace Gerenciador_de_Tarefas.Classes
             finally
             {
                 //Atualiza variáveis
+                string _dataCadastro = Sistema.Hoje.Substring(6, 4) + "-" + Sistema.Hoje.Substring(3, 2) + "-" + Sistema.Hoje.Substring(0, 2);
+
                 _assunto = Assunto;
                 _atribuicao = Atribuicao;
-                _dataFinal = DataFinal;
-                _dataInicial = DataInicial;
+                _dataFinal = DataFinal.Substring(6, 4) + "-" + DataFinal.Substring(3, 2) + "-" + DataFinal.Substring(0, 2);
+                _dataInicial = DataInicial.Substring(6, 4) + "-" + DataInicial.Substring(3, 2) + "-" + DataInicial.Substring(0, 2);
                 _empresa = Empresa;
                 _prioridade = Prioridade;
                 _status = Status;
@@ -431,20 +470,36 @@ namespace Gerenciador_de_Tarefas.Classes
 
                 if (travar)
                 {
+                    //Cadastra a tarefa
                     comando = "insert into tbl_tarefas values (0," + idEmpresa + "," + idFuncionario
-                    + "," + status + ",'" + assunto + "','" + dataInicial + "', '" + dataFinal
+                    + "," + status + ",'" + assunto + "','" + _dataCadastro + "','" + _dataInicial + "', '" + _dataFinal
                     + "'," + prioridade + ",'" + texto + "','S');";
                     Sistema.ExecutaComando(comando);
 
+                    _dataFinal = DataFinal;
+                    _dataInicial = DataInicial;
+
+                    //ID da tarefa
                     comando = "Select ID from tbl_tarefas where empresa = '" + idEmpresa
                    + "' AND funcionario = '" + idFuncionario
                    + "' AND assunto = '" + assunto + "';";
+
                     id = int.Parse(Sistema.ConsultaSimples(comando));
+
+                    //Data de Cadastro da tarefa
+                    comando = "Select DataCadastro from tbl_tarefas"
+                   + " where id = '" + id.ToString() + "';";
+
+                    string resultado = Sistema.ConsultaSimples(comando);
+
+                    dataCadastro = resultado.Substring(6, 4) + "-" + resultado.Substring(3, 2) + "-" + resultado.Substring(0, 2);
+
+                    novaTarefa = false;
                 }
                 else
                 {
                     comando = "insert into tbl_tarefas values (0," + idEmpresa + "," + idFuncionario
-                    + "," + status + ",'" + assunto + "','" + dataInicial + "', '" + dataFinal
+                    + "," + status + ",'" + assunto + "','" + dataCadastro + "','" + dataInicial + "', '" + dataFinal
                     + "'," + prioridade + ",'" + texto + "','N');";
                     Sistema.ExecutaComando(comando);
                 }
@@ -479,51 +534,48 @@ namespace Gerenciador_de_Tarefas.Classes
             finally
             {
                 novaTarefa = false;
-                
-                if (!NovaTarefa)
-                {
-                    List<string> lista = Sistema.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', " +
-                        "tbl_tarefas.`status`, tbl_tarefas.assunto, tbl_tarefas.datainicial, tbl_tarefas.datafinal, tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
+
+                List<string> lista = Sistema.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', " +
+                        "tbl_tarefas.`status`, tbl_tarefas.assunto, tbl_tarefas.dataCadastro, tbl_tarefas.datainicial, tbl_tarefas.datafinal, tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
                         "Join tbl_contato on tbl_contato.ID = tbl_tarefas.Empresa " +
                         "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
                         "Where tbl_tarefas.id = " + ID + ";");
 
 
-                    Empresa = lista[0];
-                    Atribuicao = lista[1];
-                    Status = int.Parse(lista[2]) - 1;
-                    Assunto = lista[3];
-                    DataInicial = lista[4];
-                    if (lista[5] == "" || lista[5] == null)
-                    {
-                        DataFinal = lista[4];
-                    }
-                    else
-                    {
-                        DataFinal = lista[5];
-                    }
-
-                    Prioridade = int.Parse(lista[6]);
-                    Texto = lista[7];
-                    titulo = lista[0] + " - " + lista[3];
-
-
-                    _empresa = lista[0];
-                    _atribuicao = lista[1];
-                    _status = int.Parse(lista[2]) - 1;
-                    _assunto = lista[3];
-                    _dataInicial = lista[4];
-                    if (lista[5] == "" || lista[5] == null)
-                    {
-                        _dataFinal = lista[4];
-                    }
-                    else
-                    {
-                        _dataFinal = lista[5];
-                    }
-                    _prioridade = int.Parse(lista[6]);
-                    _texto = lista[7];
+                Empresa = lista[0];
+                Atribuicao = lista[1];
+                Status = int.Parse(lista[2]) - 1;
+                Assunto = lista[3];
+                dataCadastro = lista[4].Substring(0,10);
+                DataInicial = lista[5].Substring(0, 10);
+                if (lista[6] == "" || lista[6] == null)
+                {
+                    DataFinal = lista[5].Substring(0, 10);
                 }
+                else
+                {
+                    DataFinal = lista[6].Substring(0, 10);
+                }
+
+                Prioridade = int.Parse(lista[7]);
+                Texto = lista[8];
+                titulo = lista[0] + " - " + lista[3];
+
+                _empresa = lista[0];
+                _atribuicao = lista[1];
+                _status = int.Parse(lista[2]) - 1;
+                _assunto = lista[3];
+                _dataInicial = lista[5].Substring(0, 10);
+                if (lista[6] == "" || lista[6] == null)
+                {
+                    _dataFinal = lista[5].Substring(0, 10);
+                }
+                else
+                {
+                    _dataFinal = lista[6].Substring(0, 10);
+                }
+                _prioridade = int.Parse(lista[7]);
+                _texto = lista[8];
             }
             
         }
@@ -550,8 +602,7 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             try
             {
-                string comando = "Update tbl_tarefas set travar = 'N';";
-                Sistema.ExecutaComando(comando);
+                Sistema.ExecutaComando("Update tbl_tarefas set travar = 'N';");
             }
             catch (Exception)
             {
@@ -573,6 +624,7 @@ namespace Gerenciador_de_Tarefas.Classes
             status = 0;
             assunto = "";
             atribuicao = "";
+            dataCadastro = "";
             dataFinal = "";
             dataInicial = "";
             empresa = "";
@@ -631,15 +683,22 @@ namespace Gerenciador_de_Tarefas.Classes
         {
             try
             {
-                string comando = "Select travar from tbl_tarefas where id = " + ID + ";";
-                if (Sistema.ConsultaSimples(comando) == "S")
-                {
-                    return true;
-                }
-                else
+                if(ID == 0)
                 {
                     return false;
                 }
+                else
+                {
+                    if (Sistema.ConsultaSimples("Select travar from tbl_tarefas where id = " + ID + ";") == "S")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                
             }
             catch (NullReferenceException)
             {

@@ -26,7 +26,7 @@ namespace Gerenciador_de_Tarefas.Classes
         #pragma warning restore 414
         private static readonly string diretorioAtalho = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         private static readonly string executavel = "gerenciador-de-tarefas.exe";
-        private static readonly string nomeAtalho = @"\Gerenciador de Tarefas.lnk";
+        private static readonly string nomeAtalho = "Gerenciador de Tarefas.lnk";
         private static readonly string descricaoSoftware = "Gerenciador de Tarefas - ";
         private static int usuarioLogado = 0;
 
@@ -164,6 +164,13 @@ namespace Gerenciador_de_Tarefas.Classes
                 return DateTime.Now.ToShortTimeString();
             }
         }
+        public static string Hoje
+        {
+            get
+            {
+                return DateTime.Today.ToShortDateString();
+            }
+        }
         public static string NomeBanco
         {
             get
@@ -216,9 +223,10 @@ namespace Gerenciador_de_Tarefas.Classes
         /// </summary>
         public static void ChecaAtualizacao()
         {
+            
             try
             {
-                if(File.Exists(Assembly.GetExecutingAssembly().Location) && Assembly.GetExecutingAssembly().Location.Contains(".exe"))
+                if (File.Exists(Assembly.GetExecutingAssembly().Location) && Assembly.GetExecutingAssembly().Location.Contains(".exe"))
                 {
                     versaoLocal = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;
                 }
@@ -226,63 +234,43 @@ namespace Gerenciador_de_Tarefas.Classes
                 {
                     versaoLocal = FileVersionInfo.GetVersionInfo(GetShortcutTargetFile(diretorioAtalho + nomeAtalho)).FileVersion;
                 }
-                 versaoAtalho = FileVersionInfo.GetVersionInfo(GetShortcutTargetFile(diretorioAtalho + nomeAtalho)).FileVersion;
+
+                try
+                {
+                    versaoAtalho = FileVersionInfo.GetVersionInfo(GetShortcutTargetFile(diretorioAtalho + nomeAtalho)).FileVersion;
+                }
+                catch (InvalidCastException)
+                {
+                    versaoAtalho = versaoLocal;
+                    return;
+                }
+                 
             }
             catch (ArgumentException)
             {
                 versaoAtalho = "";
+                return;
             }
-            //#if RELEASE
-                if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoLocal.Replace(".", "")))
+            #if RELEASE
+            if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoLocal.Replace(".", "")))
+            {
+                if (Directory.Exists(diretorioPadrao + versaoServidor + @"\"))
                 {
-                    if (Directory.Exists(diretorioPadrao + versaoServidor + @"\"))
+                    if (!File.Exists(diretorioAtalho + nomeAtalho))
                     {
-                        if (!File.Exists(diretorioAtalho + nomeAtalho))
-                        {
-                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoServidor, versaoServidor);
-                        }
-                        else
-                        {
-                            if(!string.IsNullOrEmpty(versaoAtalho))
-                            {
-                                if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
-                                {
-                                    //Atualiza/Cria o Atalho
-                                    AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
-                                }
-                            }
-                        
-
-                            //Abre o executável existente
-                            Process process = Process.Start(diretorioPadrao + versaoServidor + @"\" + executavel);
-
-                            //Fecha o aplicativo atual
-                            Application.Exit();
-                        }
+                        CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoServidor, versaoServidor);
                     }
                     else
                     {
-                        //Cria a pasta
-                        Directory.CreateDirectory(diretorioPadrao + versaoServidor + @"\");
-
-                        //Copia todos os arquivos
-                        CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoServidor + @"\", true);
-
-                        if (!File.Exists(diretorioAtalho + nomeAtalho))
+                        if(!string.IsNullOrEmpty(versaoAtalho))
                         {
-                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoServidor, versaoServidor);
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(versaoAtalho))
+                            if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
                             {
-                                if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
-                                {
-                                    //Atualiza/Cria o Atalho
-                                    AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
-                                }
+                                //Atualiza/Cria o Atalho
+                                AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
                             }
                         }
+                        
 
                         //Abre o executável existente
                         Process process = Process.Start(diretorioPadrao + versaoServidor + @"\" + executavel);
@@ -293,52 +281,83 @@ namespace Gerenciador_de_Tarefas.Classes
                 }
                 else
                 {
-                    if (Directory.Exists(diretorioPadrao + versaoLocal + @"\"))
+                    //Cria a pasta
+                    Directory.CreateDirectory(diretorioPadrao + versaoServidor + @"\");
+
+                    //Copia todos os arquivos
+                    CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoServidor + @"\", true);
+
+                    if (!File.Exists(diretorioAtalho + nomeAtalho))
                     {
-                        if (!File.Exists(diretorioAtalho + nomeAtalho))
-                        {
-                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoLocal, versaoServidor);
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(versaoAtalho))
-                            {
-                                if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
-                                {
-                                    //Atualiza/Cria o Atalho
-                                    AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
-                                }
-                            }
-                        }
+                        CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoServidor, versaoServidor);
                     }
                     else
                     {
-                        //Cria a pasta
-                        Directory.CreateDirectory(diretorioPadrao + versaoLocal + @"\");
-
-                        //Copia todos os arquivos
-                        CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoLocal + @"\", true);
-
-                        if (!File.Exists(diretorioAtalho + nomeAtalho))
+                        if (!string.IsNullOrEmpty(versaoAtalho))
                         {
-                            CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoLocal, versaoServidor);
-                        }
-                        else
-                        {
-                            if (!string.IsNullOrEmpty(versaoAtalho))
+                            if (Convert.ToInt32(versaoServidor.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
                             {
-                                if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
-                                {
-                                    //Atualiza/Cria o Atalho
-                                    AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
-                                }
+                                //Atualiza/Cria o Atalho
+                                AtualizaAtalho(diretorioPadrao + versaoServidor + @"\", versaoServidor);
+                            }
+                        }
+                    }
+
+                    //Abre o executável existente
+                    Process process = Process.Start(diretorioPadrao + versaoServidor + @"\" + executavel);
+
+                    //Fecha o aplicativo atual
+                    Application.Exit();
+                }
+            }
+            else
+            {
+                if (Directory.Exists(diretorioPadrao + versaoLocal + @"\"))
+                {
+                    if (!File.Exists(diretorioAtalho + nomeAtalho))
+                    {
+                        CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoLocal, versaoServidor);
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(versaoAtalho))
+                        {
+                            if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                            {
+                                //Atualiza/Cria o Atalho
+                                AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
                             }
                         }
                     }
                 }
+                else
+                {
+                    //Cria a pasta
+                    Directory.CreateDirectory(diretorioPadrao + versaoLocal + @"\");
 
-                LerDadosXML();
-                //#endif
+                    //Copia todos os arquivos
+                    CopiaDiretorio(diretorioServidor, diretorioPadrao + versaoLocal + @"\", true);
+
+                    if (!File.Exists(diretorioAtalho + nomeAtalho))
+                    {
+                        CriaAtalho(diretorioAtalho + nomeAtalho, diretorioPadrao + versaoLocal, versaoServidor);
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(versaoAtalho))
+                        {
+                            if (Convert.ToInt32(versaoLocal.Replace(".", "")) > Convert.ToInt32(versaoAtalho.Replace(".", "")))
+                            {
+                                //Atualiza/Cria o Atalho
+                                AtualizaAtalho(diretorioPadrao + versaoLocal + @"\", versaoLocal);
+                            }
+                        }
+                    }
+                }
+            }
+
+            LerDadosXML();
+            #endif
         }
 
         /// <summary>
@@ -434,15 +453,22 @@ namespace Gerenciador_de_Tarefas.Classes
             string caminhoPasta = Path.GetDirectoryName(nomeAtalho);
             string nomePrograma = Path.GetFileName(nomeAtalho);
 
-            Shell shell = new Shell();
-            Folder pasta = shell.NameSpace(caminhoPasta);
-            FolderItem folderItem = pasta.ParseName(nomePrograma);
-            if (folderItem != null)
+            try
             {
-                ShellLinkObject link = (ShellLinkObject)folderItem.GetLink;
-                return link.Path;
+                Shell shell = new Shell(); //Erro 
+                Folder pasta = shell.NameSpace(caminhoPasta);
+                FolderItem folderItem = pasta.ParseName(nomePrograma);
+                if (folderItem != null)
+                {
+                    ShellLinkObject link = (ShellLinkObject)folderItem.GetLink;
+                    return link.Path;
+                }
             }
-
+            catch (InvalidCastException)
+            {
+                return string.Empty;
+            }
+            
             return string.Empty;
         }
 
@@ -800,7 +826,7 @@ namespace Gerenciador_de_Tarefas.Classes
 
                 while (dR.Read())
                 {
-                    for (int i = 0; i < 8; i++)
+                    for (int i = 0; i < 9; i++)
                     {
                         if (dR.GetString(i) == null)
                         {
@@ -1066,7 +1092,7 @@ namespace Gerenciador_de_Tarefas.Classes
 
             return resultado;
         }
-    #endregion
-    #endregion
+#endregion
+        #endregion
     }
 }

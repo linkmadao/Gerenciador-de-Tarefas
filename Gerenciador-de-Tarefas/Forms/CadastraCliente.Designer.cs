@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CadastraCliente));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageDadosCadastrais = new System.Windows.Forms.TabPage();
             this.label27 = new System.Windows.Forms.Label();
@@ -94,6 +95,9 @@
             this.btnNovoRegistro = new System.Windows.Forms.Button();
             this.btnAlterar = new System.Windows.Forms.Button();
             this.btnImprimir = new System.Windows.Forms.Button();
+            this.pPreview = new System.Windows.Forms.PrintPreviewDialog();
+            this.pdDocumento = new System.Drawing.Printing.PrintDocument();
+            this.pdConfigImpressao = new System.Windows.Forms.PrintDialog();
             this.tabControl1.SuspendLayout();
             this.tabPageDadosCadastrais.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -799,13 +803,36 @@
             this.btnImprimir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnImprimir.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnImprimir.UseVisualStyleBackColor = true;
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
+            // 
+            // pPreview
+            // 
+            this.pPreview.AutoScrollMargin = new System.Drawing.Size(0, 0);
+            this.pPreview.AutoScrollMinSize = new System.Drawing.Size(0, 0);
+            this.pPreview.ClientSize = new System.Drawing.Size(400, 300);
+            this.pPreview.Document = this.pdDocumento;
+            this.pPreview.Enabled = true;
+            this.pPreview.Icon = ((System.Drawing.Icon)(resources.GetObject("pPreview.Icon")));
+            this.pPreview.Name = "pPreviewNF";
+            this.pPreview.Visible = false;
+            // 
+            // pdDocumento
+            // 
+            this.pdDocumento.DocumentName = "NomeTarefa";
+            this.pdDocumento.BeginPrint += new System.Drawing.Printing.PrintEventHandler(this.pdDocumento_BeginPrint);
+            this.pdDocumento.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.pdDocumento_PrintPage);
+            // 
+            // pdConfigImpressao
+            // 
+            this.pdConfigImpressao.Document = this.pdDocumento;
+            this.pdConfigImpressao.UseEXDialog = true;
             // 
             // CadastraCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnSair;
-            this.ClientSize = new System.Drawing.Size(688, 528);
+            this.ClientSize = new System.Drawing.Size(684, 538);
             this.ControlBox = false;
             this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.btnSair);
@@ -910,5 +937,8 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label lblNumeroTarefas;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.PrintPreviewDialog pPreview;
+        private System.Drawing.Printing.PrintDocument pdDocumento;
+        private System.Windows.Forms.PrintDialog pdConfigImpressao;
     }
 }

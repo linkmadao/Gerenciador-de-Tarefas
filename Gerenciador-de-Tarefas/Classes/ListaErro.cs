@@ -253,8 +253,19 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "Erro ao preencher a tabela de tarefas : " +
                         "Não foi possível preencher a tabela de tarefas devido a erro de pesquisa SQL ou algo relacionado!\r\n\nFavor reportar esse erro pelo suporte@cftva.com.br";
                     break;
+                case 62:
+                    resultado = "Erro ao cadastrar/salvar a tarefa : " +
+                        "Não foi possível cadastrar/salvar a tarefa devido a um erro de SQL ou algo do tipo!\r\n\nFavor reportar esse erro pelo suporte@cftva.com.br";
+                    break;
+                case 63:
+                    resultado = "Quantidade de Caracteres Insuficiente : " +
+                        "O texto a ser inserido possui menos do que 3 caracteres!\nPor favor, insira um texto que possua mais do que 3 caracteres.";
+                    break;
+                case 64:
+                    resultado = "Erro ao alterar a tarefa : " +
+                        "Não foi possível alterar a tarefa!\nFavor reportar esse erro pelo suporte@cftva.com.br.";
+                    break;
             }
-
             
             return resultado;
         }

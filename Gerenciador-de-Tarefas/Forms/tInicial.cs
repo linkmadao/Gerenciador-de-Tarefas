@@ -196,6 +196,10 @@ namespace Gerenciador_de_Tarefas
             panelTarefas.Enabled = false;
             panelTarefas.Hide();
 
+            panelNT.Visible = false;
+            panelNT.Enabled = false;
+            panelNT.Hide();
+
             panelOpcoes.Visible = false;
             panelOpcoes.Enabled = false;
             panelOpcoes.Hide();
@@ -272,10 +276,11 @@ namespace Gerenciador_de_Tarefas
                         //Executa a mesma função de dar 2 cliques com o mouse no cliente
                         DgvFornecedores_CellDoubleClick(dgvFornecedores, new DataGridViewCellEventArgs(dgvFornecedores.CurrentCell.ColumnIndex, dgvFornecedores.CurrentRow.Index));
                     }
+                    e.SuppressKeyPress = true;
                 }
             }
             //O painel do Fornecedor/Novo Fornecedor está visível?
-            else if (panelNF.Visible && panelNF.Enabled)
+            else if (panelNF.Visible)
             {
                 // Se apertar CTRL +N
                 if (e.Control && e.KeyCode == Keys.N)
@@ -292,7 +297,7 @@ namespace Gerenciador_de_Tarefas
                 //Se apertar ESC
                 else if (e.KeyCode == Keys.Escape)
                 {
-                    panelNF.Visible = false;
+                    BtnNFFechar_Click(btnNFFechar, e);
                     e.SuppressKeyPress = true;
                 }
             }
@@ -326,32 +331,84 @@ namespace Gerenciador_de_Tarefas
                     }
                 }
             }
+            //O painel de NT está visível?
+            else if (panelNT.Visible)
+            {
+                // Se apertar CTRL +N
+                if (e.Control && e.KeyCode == Keys.N)
+                {
+                    if(btnNTCadastrar.Text == "Nova Tarefa")
+                    {
+                        BtnNTCadastrar_Click(btnNTCadastrar, e);
+                    }
+                    e.SuppressKeyPress = true;
+                }
+                //Se apertar CTRL + P
+                else if (e.Control && e.KeyCode == Keys.P)
+                {
+                    if(btnNTImprimir.Visible)
+                    {
+                        BtnNTImprimir_Click(btnNTImprimir, e);
+                    }
+                    e.SuppressKeyPress = true;
+                }
+                //Se apertar ESC
+                else if (e.KeyCode == Keys.Escape)
+                {
+                    BtnNTSair_Click(btnNTSair, e);
+                    e.SuppressKeyPress = true;
+                }
+                else if (e.Control && e.KeyCode == Keys.S)
+                {
+                    if (btnNTCadastrar.Text == "Cadastrar Tarefa")
+                    {
+                        BtnNTCadastrar_Click(btnNTCadastrar, e);
+                    }
+                    else
+                    {
+                        BtnNTEditar_Click(btnNTEditar, e);
+                    }
+                    e.SuppressKeyPress = true;
+                }
+            }
             //O painel de fornecedores está visível?
             else if (panelOpcoes.Visible)
             {
                 //Se apertar CTRL + S
                 if (e.Control && e.KeyCode == Keys.S)
                 {
-
                     //Sistema.SalvarDadosXML(rdbtnRemoto.Checked, txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text);
+                    e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + D
                 else if (e.Control && e.KeyCode == Keys.D)
                 {
-                    DialogResult resultadoDialogo = MessageBox.Show("Você tem certeza de que deseja destravar todas as tarefas?\nTodas as outras estações devem estar fechadas!", "Destravar Tarefas", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (resultadoDialogo == DialogResult.Yes)
+                    if (Sistema.IDUsuarioLogado != 1 && Sistema.IDUsuarioLogado != 2)
                     {
-                        string resposta = Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
-
-                        if (resposta == Sistema.SenhaADM)
+                        if (ListaMensagens.RetornaDialogo(31) == DialogResult.Yes)
                         {
-                            if (Classes.Tarefa.DestravaTodasTarefas())
+                            string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(32)[1], ListaMensagens.RetornaInputBox(32)[0], "");
+
+                            if (resposta == Sistema.SenhaADM)
                             {
-                                MessageBox.Show("As tarefas foram destravadas com sucesso.");
+                                if (Tarefa.DestravaTodasTarefas())
+                                {
+                                    ListaMensagens.RetornaMensagem(33, MessageBoxIcon.Information);
+                                }
                             }
                         }
                     }
+                    else
+                    {
+                        if (ListaMensagens.RetornaDialogo(31) == DialogResult.Yes)
+                        {
+                            if (Tarefa.DestravaTodasTarefas())
+                            {
+                                ListaMensagens.RetornaMensagem(33, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
+                    e.SuppressKeyPress = true;
                 }
                 //Se apertar CTRL + B
                 else if (e.Control && e.KeyCode == Keys.B)
@@ -430,7 +487,10 @@ namespace Gerenciador_de_Tarefas
         {
             if (Cliente.AtualizaDGVClientes(cmbFiltroClientes.SelectedIndex))
             {
+                dgvClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
                 dgvClientes.DataSource = Cliente.DGVAtualizada.DataSource;
+
+                Funcoes.FastAutoSizeColumns(dgvClientes);
 
                 //Desmarca a primeira linha
                 dgvClientes.Rows[0].Selected = false;
@@ -754,29 +814,24 @@ namespace Gerenciador_de_Tarefas
         }
         #endregion
 
-        #endregion 
+        #endregion
 
         #region Tarefas
-        private void BtnNovaTarefa_Click(object sender, EventArgs e)
-        {
-            Classes.Tarefa.LimparVariaveis();
-
-            Tarefa ntarefa = new Tarefa();
-            ntarefa.ShowDialog();
-        }
-
-
+        #region Painel Tarefas
         /// <summary>
         /// Método responsável por atualizar a tabela da tela inicial
         /// </summary>
         /// 
         private void AtualizaDGVTarefas(int linha)
         {
-            if (Classes.Tarefa.AtualizaDGVTarefas(cmbTipoTarefas.SelectedIndex))
+            if (Tarefa.AtualizaDGVTarefas(cmbTipoTarefas.SelectedIndex))
             {
                 try
                 {
-                    dgvTarefas.DataSource = Classes.Tarefa.DGVAtualizada.DataSource;
+                    dgvTarefas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+                    dgvTarefas.DataSource = Tarefa.DGVAtualizada.DataSource;
+
+                    Funcoes.FastAutoSizeColumns(dgvTarefas);
                 }
                 catch (ArgumentOutOfRangeException)
                 {
@@ -996,36 +1051,6 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        private void DgvTarefas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex != -1)
-            {
-                int posicaoAtualScroll = dgvTarefas.FirstDisplayedScrollingRowIndex;
-                DataGridViewRow linha = dgvTarefas.Rows[e.RowIndex];
-
-                Classes.Tarefa.Empresa = linha.Cells["Empresa"].Value.ToString();
-                Classes.Tarefa.Atribuicao = linha.Cells["Atribuido a"].Value.ToString();
-                Classes.Tarefa.Assunto = linha.Cells["Assunto"].Value.ToString();
-                Classes.Tarefa.CarregarTarefa();
-
-                if (Classes.Tarefa.TravaTarefa())
-                {
-                    Log.AbrirTarefa(Classes.Tarefa.ID);
-
-                    Tarefa telaTarefa = new Tarefa();
-                    telaTarefa.ShowDialog();
-                    Classes.Tarefa.DestravaTarefa();
-                }
-                else
-                {
-                    ListaMensagens.RetornaMensagem(01, MessageBoxIcon.Warning);
-                }
-
-                AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
-                dgvTarefas.FirstDisplayedScrollingRowIndex = posicaoAtualScroll;
-            }
-        }
-
         private void DgvTarefas_DataSourceChanged(object sender, EventArgs e)
         {
             dgvTarefas.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
@@ -1041,6 +1066,37 @@ namespace Gerenciador_de_Tarefas
         {
             AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
             dgvTarefas.Focus();
+        }
+
+        private void DgvTarefas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1)
+            {
+                DataGridViewRow linha = dgvTarefas.Rows[e.RowIndex];
+
+                Tarefa.Empresa = linha.Cells["Empresa"].Value.ToString();
+                Tarefa.Atribuicao = linha.Cells["Atribuido a"].Value.ToString();
+                Tarefa.Assunto = linha.Cells["Assunto"].Value.ToString();
+                Tarefa.CarregarTarefa();
+
+                if (Tarefa.TravaTarefa())
+                {
+                    Log.AbrirTarefa(Tarefa.ID);
+                    NTCarregaTarefa();
+
+                    panelNT.Visible = true;
+                    panelNT.Enabled = true;
+
+                    panelTarefas.Visible = false;
+                    panelTarefas.Enabled = false;
+                }
+                else
+                {
+                    ListaMensagens.RetornaMensagem(01, MessageBoxIcon.Warning);
+
+                    AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
+                }
+            }
         }
 
         #region Impressão
@@ -1467,6 +1523,536 @@ namespace Gerenciador_de_Tarefas
             }
         }
         #endregion
+        #endregion
+
+        #region Nova Tarefa
+        private void BtnNovaTarefa_Click(object sender, EventArgs e)
+        {
+            Tarefa.LimparVariaveis();
+            NTLimpaCampos();
+
+            panelNT.Visible = true;
+            panelNT.Enabled = true;
+
+            panelTarefas.Visible = false;
+            panelTarefas.Enabled = false;
+        }
+
+        private void NTLimpaCampos()
+        {
+            if (cmbNTCliente.DataSource == null)
+            {
+                cmbNTCliente.DataSource = Tarefa.ListaClientes;
+            }
+            if (cmbNTResponsavel.DataSource == null)
+            {
+                cmbNTResponsavel.DataSource = Tarefa.ListaFuncionarios;
+            }
+
+            lblNTTitulo.Text = "Nova Tarefa";
+            txtNTID.Text = "";
+            txtNTAssunto.Text = "";
+            mskNTDataCadastro.Text = "";
+            dtpNTDataInicio.Text = Sistema.Hoje;
+            dtpNTDataFinal.Text = Sistema.Hoje;
+            cmbNTPrioridade.SelectedIndex = 1;
+            cmbNTStatus.SelectedIndex = 0;
+            cmbNTResponsavel.Text = "";
+            cmbNTCliente.Text = "";
+            rtbNTHistorico.Text = "";
+            rtbNTTexto.Text = "";
+            btnNTCadastrar.Text = "Cadastrar Tarefa";
+            btnNTSair.Text = "Cancelar";
+            btnNTGerarOS.Visible = false;
+            btnNTGerarOS.Enabled = false;
+            btnNTImprimir.Visible = false;
+            btnNTImprimir.Enabled = false;
+            btnNTEditar.Visible = false;
+            btnNTEditar.Enabled = false;
+            btnNTApagar.Visible = false;
+            btnNTApagar.Enabled = false;
+            txtNTAssunto.Focus();
+        }
+
+        private void NTCarregaTarefa()
+        {
+            if (cmbNTCliente.DataSource == null)
+            {
+                cmbNTCliente.DataSource = Tarefa.ListaClientes;
+            }
+            if (cmbNTResponsavel.DataSource == null)
+            {
+                cmbNTResponsavel.DataSource = Tarefa.ListaFuncionarios;
+            }
+
+            txtNTID.Text = Tarefa.ID.ToString();
+            txtNTAssunto.Text = Tarefa.Assunto;
+            mskNTDataCadastro.Text = Tarefa.DataCadastro;
+            dtpNTDataInicio.Text = Tarefa.DataInicial;
+            if(Tarefa.Status == 5)
+            {
+                dtpNTDataFinal.Text = Tarefa.DataFinal;
+            }
+            else
+            {
+                dtpNTDataFinal.Text = Tarefa.DataInicial;
+            }
+            cmbNTPrioridade.SelectedIndex = Tarefa.Prioridade;
+            cmbNTStatus.SelectedIndex = Tarefa.Status;
+            cmbNTResponsavel.Text = Tarefa.Atribuicao;
+            cmbNTCliente.Text = Tarefa.Empresa;
+
+            rtbNTHistorico.Text = Tarefa.Texto;
+            lblNTTitulo.Text = Tarefa.Titulo;
+            btnNTCadastrar.Text = "Nova Tarefa";
+            btnNTSair.Text = "Sair";
+            btnNTGerarOS.Visible = true;
+            btnNTGerarOS.Enabled = true;
+            btnNTImprimir.Visible = true;
+            btnNTImprimir.Enabled = true;
+            btnNTEditar.Visible = true;
+            btnNTEditar.Enabled = true;
+            btnNTApagar.Visible = true;
+            btnNTApagar.Enabled = true;
+
+            rtbNTTexto.Focus();
+        }
+
+        private void BtnNTSair_Click(object sender, EventArgs e)
+        {
+            if (!Tarefa.TarefaApagada)
+            {
+                Tarefa.Assunto = txtNTAssunto.Text;
+                Tarefa.Atribuicao = cmbNTResponsavel.SelectedItem.ToString();
+                Tarefa.DataInicial = dtpNTDataInicio.Text;
+                Tarefa.DataFinal = dtpNTDataFinal.Text;
+                Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
+                Tarefa.Status = cmbNTStatus.SelectedIndex;
+                Tarefa.Texto = rtbNTHistorico.Text;
+
+                if (Tarefa.AvaliaMudancas())
+                {
+                    if (!Tarefa.NovaTarefa)
+                    {
+                        if (ListaMensagens.RetornaDialogo(03) == DialogResult.Yes)
+                        {
+                            Tarefa.DestravaTarefa();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (ListaMensagens.RetornaDialogo(02) == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if(Tarefa.TarefaBloqueada())
+                    {
+                        Tarefa.DestravaTarefa();
+                    }
+                }
+            }
+
+            panelTarefas.Visible = true;
+            panelTarefas.Enabled = true;
+
+            panelNT.Visible = false;
+            panelNT.Enabled = false;
+
+            AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
+        }
+
+        private void BtnNTEditar_Click(object sender, EventArgs e)
+        {
+            if (txtNTAssunto.TextLength < 1)
+            {
+                ListaErro.RetornaErro(29);
+                txtNTAssunto.Focus();
+            }
+            else
+            {
+                if (rtbNTHistorico.TextLength < 5)
+                {
+                    ListaErro.RetornaErro(28);
+                    rtbNTHistorico.Focus();
+                }
+                else
+                {
+                    try
+                    {
+                        Tarefa.Assunto = txtNTAssunto.Text;
+                        Tarefa.Atribuicao = cmbNTResponsavel.Text;
+                        Tarefa.DataFinal = dtpNTDataFinal.Value.ToString("yyyy-MM-dd");
+                        Tarefa.DataInicial = dtpNTDataInicio.Value.ToString("yyyy-MM-dd");
+                        Tarefa.Empresa = cmbNTCliente.Text;
+                        Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
+                        Tarefa.Status = cmbNTStatus.SelectedIndex + 1;
+                        Tarefa.Texto = rtbNTHistorico.Text;
+
+                        if (Tarefa.AvaliaMudancas())
+                        {
+                            lblNTTitulo.Text = cmbNTCliente.Text + " - " + txtNTAssunto.Text;
+
+                            Tarefa.Travar = true;
+
+                            Tarefa.Salvar();
+
+                            ListaMensagens.RetornaMensagem(29, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        ListaErro.RetornaErro(64);
+                    }
+                }
+            }
+        }
+
+        private void BtnNTInsereTexto_Click(object sender, EventArgs e)
+        {
+            if (rtbNTTexto.TextLength > 3)
+            {
+                if(ListaMensagens.RetornaDialogo(27) == DialogResult.Yes)
+                {
+                    if(rtbNTHistorico.TextLength <= 0)
+                    {
+                        rtbNTHistorico.Text = Sistema.Hoje + " - " + Sistema.Hora + " - " + Sistema.NomeUsuarioLogado + "\n\n" + rtbNTTexto.Text;
+                    }
+                    else
+                    {
+                        string linhaGigante = "\n_________________________________________________________________________________\n\n";
+
+                        rtbNTHistorico.Text = Sistema.Hoje + " - " + Sistema.Hora + " - " + Sistema.NomeUsuarioLogado + "\n\n" + rtbNTTexto.Text +
+                            linhaGigante + rtbNTHistorico.Text;
+                    }
+
+                    rtbNTTexto.Clear();
+                    rtbNTTexto.Focus();
+                }
+                else
+                {
+                    rtbNTTexto.Focus();
+                }
+            }
+            else
+            {
+                ListaErro.RetornaErro(63);
+                rtbNTTexto.Focus();
+            }
+        }
+
+        private void BtnNTCadastrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Tarefa.Assunto = txtNTAssunto.Text;
+                Tarefa.Texto = rtbNTHistorico.Text;
+
+                if (Tarefa.AvaliaMudancas())
+                { 
+                    if (Tarefa.NovaTarefa)
+                    {
+                        if (txtNTAssunto.TextLength < 5)
+                        {
+                            ListaErro.RetornaErro(29);
+                            txtNTAssunto.Focus();
+                        }
+                        else
+                        {
+                            if (rtbNTHistorico.TextLength < 1)
+                            {
+                                ListaErro.RetornaErro(28);
+                                rtbNTTexto.Focus();
+                            }
+                            else
+                            {
+                                Tarefa.Atribuicao = cmbNTResponsavel.SelectedItem.ToString();
+                                Tarefa.DataInicial = dtpNTDataInicio.Text;
+                                Tarefa.DataFinal = dtpNTDataFinal.Text;
+                                Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
+                                Tarefa.Status = cmbNTStatus.SelectedIndex + 1;
+                                Tarefa.Empresa = cmbNTCliente.SelectedItem.ToString();
+
+                                Tarefa.CadastrarTarefa();
+
+                                if (ListaMensagens.RetornaDialogo(28) == DialogResult.Yes)
+                                {
+                                    Tarefa.DestravaTarefa();
+                                    Tarefa.LimparVariaveis();
+                                    NTLimpaCampos();
+                                }
+                                else
+                                {
+                                    btnNTGerarOS.Visible = true;
+                                    btnNTGerarOS.Enabled = true;
+                                    btnNTImprimir.Visible = true;
+                                    btnNTImprimir.Enabled = true;
+                                    btnNTEditar.Visible = true;
+                                    btnNTEditar.Enabled = true;
+                                    btnNTApagar.Visible = true;
+                                    btnNTApagar.Enabled = true;
+
+                                    lblNTTitulo.Text = Tarefa.Titulo;
+                                    txtNTID.Text = Tarefa.ID.ToString();
+                                    mskNTDataCadastro.Text = 
+
+                                    btnNTCadastrar.Text = "Nova Tarefa";
+                                    btnSair.Text = "Sair";
+                                }
+                            }
+                        } 
+                    }
+                    else
+                    {
+                        if (ListaMensagens.RetornaDialogo(03) == DialogResult.Yes)
+                        {
+                            Tarefa.DestravaTarefa();
+                            Tarefa.LimparVariaveis();
+                            NTLimpaCampos();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if(Tarefa.NovaTarefa)
+                    {
+                        ListaMensagens.RetornaMensagem(30, MessageBoxIcon.Information);
+                        txtNTAssunto.Focus();
+                    }
+                    else
+                    {
+                        Tarefa.DestravaTarefa();
+                        Tarefa.LimparVariaveis();
+                        NTLimpaCampos();
+                    }
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.ToString());
+                throw;
+            }
+        }
+
+        private void BtnNTApagar_Click(object sender, EventArgs e)
+        {
+            if (ListaMensagens.RetornaDialogo(04) == DialogResult.Yes)
+            {
+                if (Sistema.IDUsuarioLogado != 1 && Sistema.IDUsuarioLogado != 2)
+                {
+                    string resposta = Interaction.InputBox(ListaMensagens.RetornaInputBox(05)[0], ListaMensagens.RetornaInputBox(05)[1], "");
+
+                    if (resposta == Sistema.SenhaADM)
+                    {
+                        if (Tarefa.ApagarTarefa())
+                        {
+                            ListaMensagens.RetornaMensagem(14, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            ListaErro.RetornaErro(18);
+                        }
+
+                        BtnNTSair_Click(btnNTSair, e);
+                    }
+                }
+                else
+                {
+                    if (ListaMensagens.RetornaDialogo(15) == DialogResult.Yes)
+                    {
+                        if (Tarefa.ApagarTarefa())
+                        {
+                            ListaMensagens.RetornaMensagem(14, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            ListaErro.RetornaErro(18);
+                        }
+
+                        BtnNTSair_Click(btnNTSair, e);
+                    }
+                }
+            }
+        }
+
+        #region NT-Impressão
+        private void BtnNTImprimir_Click(object sender, EventArgs e)
+        {
+            if (pdNTConfigImpressao.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    pPreviewNT.ShowDialog();
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    ListaErro.RetornaErro(24);
+                }
+            }
+        }
+
+        private void PdNTDocumento_BeginPrint(object sender, PrintEventArgs e)
+        {
+            Tarefa.PrimeiraPagina = true;
+            Tarefa.TextoImpressao = Funcoes.PreparaTexto(rtbNTHistorico.Text, MaxCaracteres);
+            pdNTDocumento.DocumentName = Text;
+
+        }
+
+        private void PdNTDocumento_PrintPage(object sender, PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            //Define a fonte do Título
+            Font fonteTitulo = new Font("Arial", 12, FontStyle.Bold);
+            //Define a fonte do texto
+            Font fontetexto = new Font("Arial", 10);
+
+            //Cria um Brush solido com a cor preta
+            SolidBrush brush = new SolidBrush(Color.Black);
+
+            //Pega a largura inicial da folha
+            int xPosition = e.MarginBounds.X;
+            //Pega a altura inicial da folha
+            int yPosition = e.MarginBounds.Y;
+
+            int maxCharacters = 0;
+            //Calcula a quantidade máxima de caracteres que a linha suporta
+            maxCharacters = e.MarginBounds.Width / (int)fontetexto.Size;
+
+            //Posição onde o texto parou
+            int position = 0;
+            // A variável "posicaoUltimoEspaco" é atribuída, mas seu valor nunca é usado
+            int posicaoUltimoEspaco = 0;
+
+            //Nome da empresa que será impresso
+            string titulo = "Empresa: " + cmbNTCliente.SelectedItem.ToString();
+            //Assunto que será usado
+            string assunto = "Assunto: " + txtNTAssunto.Text;
+
+            g.DrawString(titulo, fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height + 20;
+
+            while (assunto.Length - position > maxCharacters)
+            {
+                if (assunto.Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = assunto.Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                    //Escreve o assunto
+                    g.DrawString(assunto.Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (assunto.Length - position > 0)
+            {
+                if (assunto.Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(assunto.Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+
+            //Configura a cor e o tamanho da linha
+            Pen blackPen = new Pen(Color.Black, 3);
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //A quem a tarefa foi atribuida
+            string atribuicao = "Atribuido a: " + cmbNTResponsavel.SelectedItem.ToString();
+            //Qual o período da tarefa
+            string periodo = "Data de Início: " + dtpNTDataInicio.Value.ToShortDateString() + " - Data de Conclusão: " + dtpNTDataFinal.Value.ToShortDateString();
+            //Qual o status da tarefa
+            string status = "Status: " + cmbNTStatus.SelectedItem.ToString();
+            //Qual a prioridade da tarefa
+            string prioridade = "Prioridade: " + cmbNTPrioridade.SelectedItem.ToString();
+
+            //Imprime a atribuição com a prioridade
+            g.DrawString(atribuicao + " | " + prioridade, fontetexto, brush, xPosition, yPosition);
+            yPosition += fontetexto.Height;
+            //Imprime o período
+            g.DrawString(periodo, fontetexto, brush, xPosition, yPosition);
+            yPosition += fontetexto.Height;
+            //Imprime o status da tarefa
+            g.DrawString(status, fontetexto, brush, xPosition, yPosition);
+            yPosition += fontetexto.Height;
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+
+            //Imprime o título "Texto: "
+            g.DrawString("Texto:", fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height * 2;
+
+            int linhasPorPagina = 60;
+            int contador = 0;
+
+            //Calcula a quantidade máxima de caracteres que a linha suporta
+            maxCharacters = MaxCaracteres;
+
+            //Define a fonte do texto
+            Font fonteTexto2 = new Font("Arial", 8);
+
+            if (Tarefa.PrimeiraPagina)
+            {
+                Tarefa.PrimeiraPagina = false;
+                leitor = new StringReader(Tarefa.TextoImpressao);
+            }
+
+            //float LeftMargin = e.MarginBounds.Left;
+            //float TopMargin = e.MarginBounds.Top;
+            string Line = null;
+
+            while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
+            {
+                yPosition += fonteTexto2.Height;
+                e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
+                contador++;
+            }
+
+            if (Line != null)
+            {
+                e.HasMorePages = true;
+            }
+            else
+            {
+                e.HasMorePages = false;
+            }
+
+            brush.Dispose();
+        }
+        #endregion
+        #endregion
 
         #endregion
 
@@ -1480,7 +2066,10 @@ namespace Gerenciador_de_Tarefas
         {
             if (Fornecedor.AtualizaDGVFornecedores(cmbGrupoFornecedor.SelectedIndex))
             {
+                dgvFornecedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
                 dgvFornecedores.DataSource = Fornecedor.DGVAtualizada.DataSource;
+
+                Funcoes.FastAutoSizeColumns(dgvFornecedores);
 
                 //Desmarca a primeira linha
                 dgvFornecedores.Rows[0].Selected = false;
@@ -1745,6 +2334,8 @@ namespace Gerenciador_de_Tarefas
         #region Novo Fornecedor
         private void BtnNovoFornecedor_Click(object sender, EventArgs e)
         {
+            Fornecedor.LimparVariaveis();
+
             txtNFDataCadastro.Text = DateTime.Today.ToShortDateString();
 
             panelNF.Visible = true;
@@ -2643,262 +3234,130 @@ namespace Gerenciador_de_Tarefas
             brush.Dispose();
         }
 
-            /*
-            //Nome da empresa que será impresso
-            string titulo = "Empresa: " + cmbEmpresa.SelectedItem.ToString();
-            //Assunto que será usado
-            string assunto = "Assunto: " + txtAssunto.Text;
+        /*
+        //Nome da empresa que será impresso
+        string titulo = "Empresa: " + cmbEmpresa.SelectedItem.ToString();
+        //Assunto que será usado
+        string assunto = "Assunto: " + txtAssunto.Text;
 
-            g.DrawString(titulo, fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height + 20;
+        g.DrawString(titulo, fonteTitulo, brush, xPosition, yPosition);
+        yPosition += fonteTitulo.Height + 20;
 
-            while (assunto.Length - position > maxCharacters)
+        while (assunto.Length - position > maxCharacters)
+        {
+            if (assunto.Substring(position, 1) == " ")
             {
-                if (assunto.Substring(position, 1) == " ")
-                {
-                    position += 1;
-                }
-                else
-                {
-                    //Define a posição do ultimo espaço em branco no texto selecionado
-                    posicaoUltimoEspaco = assunto.Substring(position, position + maxCharacters).LastIndexOf(" ");
-
-                    //Escreve o assunto
-                    g.DrawString(assunto.Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
-                    //Soma na altura atual do texto
-                    yPosition += fonteTitulo.Height;
-                    //Define a nova posição do texto
-                    position += posicaoUltimoEspaco;
-                }
+                position += 1;
             }
-            if (assunto.Length - position > 0)
+            else
             {
-                if (assunto.Substring(position, 1) == " ")
-                {
-                    position += 1;
-                }
-                g.DrawString(assunto.Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                //Define a posição do ultimo espaço em branco no texto selecionado
+                posicaoUltimoEspaco = assunto.Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                //Escreve o assunto
+                g.DrawString(assunto.Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                //Soma na altura atual do texto
                 yPosition += fonteTitulo.Height;
+                //Define a nova posição do texto
+                position += posicaoUltimoEspaco;
             }
-
-            //Configura a cor e o tamanho da linha
-            Pen blackPen = new Pen(Color.Black, 3);
-
-            //Cria um espaço de 10pixels 
-            yPosition += 10;
-            //Cria a linha
-            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
-            //Cria um espaço de 10pixels
-            yPosition += 10;
-
-            //A quem a tarefa foi atribuida
-            string atribuicao = "Atribuido a: " + cmbFuncionario.SelectedItem.ToString();
-            //Qual o período da tarefa
-            string periodo = "Data de Início: " + dtpInicio.Value.ToShortDateString() + " - Data de Conclusão: " + dtpFinal.Value.ToShortDateString();
-            //Qual o status da tarefa
-            string status = "Status: " + cmbStatus.SelectedItem.ToString();
-            //Qual a prioridade da tarefa
-            string prioridade = "Prioridade: " + cmbPrioridade.SelectedItem.ToString();
-
-            //Imprime a atribuição com a prioridade
-            g.DrawString(atribuicao + " | " + prioridade, fontetexto, brush, xPosition, yPosition);
-            yPosition += fontetexto.Height;
-            //Imprime o período
-            g.DrawString(periodo, fontetexto, brush, xPosition, yPosition);
-            yPosition += fontetexto.Height;
-            //Imprime o status da tarefa
-            g.DrawString(status, fontetexto, brush, xPosition, yPosition);
-            yPosition += fontetexto.Height;
-
-            //Cria um espaço de 10pixels 
-            yPosition += 10;
-            //Cria a linha
-            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
-            //Cria um espaço de 10pixels
-            yPosition += 10;
-
-
-            //Imprime o título "Texto: "
-            g.DrawString("Texto:", fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height * 2;
-            */
-            /*
-            int linhasPorPagina = 60;
-            int contador = 0;
-
-            //Calcula a quantidade máxima de caracteres que a linha suporta
-            maxCharacters = MaxCaracteres;
-
-            //Define a fonte do texto
-            Font fonteTexto2 = new Font("Arial", 8);
-
-            if (primeiraPagina)
-            {
-                primeiraPagina = false;
-                leitor = new StringReader(_textoImprimir);
-            }
-
-            //float LeftMargin = e.MarginBounds.Left;
-            //float TopMargin = e.MarginBounds.Top;
-            string Line = null;
-
-            while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
-            {
-                yPosition += fonteTexto2.Height;
-                e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
-                contador++;
-            }
-
-            if (Line != null)
-            {
-                e.HasMorePages = true;
-            }
-            else
-            {
-                e.HasMorePages = false;
-            }
-
-            brush.Dispose();
         }
+        if (assunto.Length - position > 0)
+        {
+            if (assunto.Substring(position, 1) == " ")
+            {
+                position += 1;
+            }
+            g.DrawString(assunto.Substring(position), fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+        }
+
+        //Configura a cor e o tamanho da linha
+        Pen blackPen = new Pen(Color.Black, 3);
+
+        //Cria um espaço de 10pixels 
+        yPosition += 10;
+        //Cria a linha
+        g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+        //Cria um espaço de 10pixels
+        yPosition += 10;
+
+        //A quem a tarefa foi atribuida
+        string atribuicao = "Atribuido a: " + cmbFuncionario.SelectedItem.ToString();
+        //Qual o período da tarefa
+        string periodo = "Data de Início: " + dtpInicio.Value.ToShortDateString() + " - Data de Conclusão: " + dtpFinal.Value.ToShortDateString();
+        //Qual o status da tarefa
+        string status = "Status: " + cmbStatus.SelectedItem.ToString();
+        //Qual a prioridade da tarefa
+        string prioridade = "Prioridade: " + cmbPrioridade.SelectedItem.ToString();
+
+        //Imprime a atribuição com a prioridade
+        g.DrawString(atribuicao + " | " + prioridade, fontetexto, brush, xPosition, yPosition);
+        yPosition += fontetexto.Height;
+        //Imprime o período
+        g.DrawString(periodo, fontetexto, brush, xPosition, yPosition);
+        yPosition += fontetexto.Height;
+        //Imprime o status da tarefa
+        g.DrawString(status, fontetexto, brush, xPosition, yPosition);
+        yPosition += fontetexto.Height;
+
+        //Cria um espaço de 10pixels 
+        yPosition += 10;
+        //Cria a linha
+        g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+        //Cria um espaço de 10pixels
+        yPosition += 10;
+
+
+        //Imprime o título "Texto: "
+        g.DrawString("Texto:", fonteTitulo, brush, xPosition, yPosition);
+        yPosition += fonteTitulo.Height * 2;
         */
-            #endregion
-            #endregion
-            /*
-            #region Opcoes
-            private void Backup()
-            {
-                try
-                {
-                    string dia = DateTime.Now.Day.ToString();
-                    string mes = DateTime.Now.Month.ToString();
-                    string ano = DateTime.Now.Year.ToString();
-                    string hora = DateTime.Now.ToShortTimeString().Replace(":", "");
-                    string nomeDoArquivo = ano + mes + dia + "-" + hora;
+        /*
+        int linhasPorPagina = 60;
+        int contador = 0;
 
-                    sfdSalvarArquivo.Filter = "Backup SQL|*.sql";
-                    sfdSalvarArquivo.Title = "Realizar Backup";
-                    sfdSalvarArquivo.FileName = nomeDoArquivo;
+        //Calcula a quantidade máxima de caracteres que a linha suporta
+        maxCharacters = MaxCaracteres;
 
-                    if (sfdSalvarArquivo.ShowDialog() == DialogResult.OK)
-                    {
-                        string local = Path.GetFullPath(sfdSalvarArquivo.FileName);
-                        if (Sistema.Backup(local))
-                        {
-                            if (System.IO.File.Exists(local))
-                            {
-                                string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Backup realizado - " +
-                                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                                Sistema.ExecutaComando(comando);
+        //Define a fonte do texto
+        Font fonteTexto2 = new Font("Arial", 8);
 
-                                MessageBox.Show("Backup realizado com sucesso!", "Backup realizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            }
-                            else
-                            {
-                                string erro = ListaErro.RetornaErro(22);
-                                int separador = erro.LastIndexOf(":");
-                                MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        return;
-                    }
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-            }
-        }
-
-        private void btnTestarAplicar_Click(object sender, EventArgs e)
+        if (primeiraPagina)
         {
-            bool abreprograma = false;
-
-            if (rdbtnServidorLocal.Checked)
-            {
-                if (Sistema.TestaConexao(txtBanco.Text, txtUid.Text, txtPwd.Text))
-                {
-                    abreprograma = true;
-                }
-            }
-            else
-            {
-                if (Sistema.TestaConexao(txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text))
-                {
-                    abreprograma = true;
-                }
-            }
-
-            if (abreprograma)
-            {
-                XElement xml = XElement.Load(nomeXML);
-                XElement x = xml.Elements().First();
-                if (x != null)
-                {
-                    if (rdbtnRemoto.Checked && txtServidor.Text != "")
-                    {
-                        x.Attribute("servidor").SetValue(txtServidor.Text);
-                    }
-                    x.Attribute("banco").SetValue(txtBanco.Text);
-                    x.Attribute("uid").SetValue(txtUid.Text);
-                    x.Attribute("pwd").SetValue(txtPwd.Text);
-                }
-
-                xml.Save(nomeXML);
-
-                string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Informações de conexão SQL alteradas - " +
-                DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                Sistema.ExecutaComando(comando);
-
-                MessageBox.Show("Dados atualizados com sucesso!");
-            }
+            primeiraPagina = false;
+            leitor = new StringReader(_textoImprimir);
         }
 
-        private void rdbtnRemoto_Click(object sender, EventArgs e)
+        //float LeftMargin = e.MarginBounds.Left;
+        //float TopMargin = e.MarginBounds.Top;
+        string Line = null;
+
+        while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
         {
-            //rdbtnRemoto.Checked = true;
-            //rdbtnServidorLocal.Checked = false;
-            //txtServidor.Enabled = true;
+            yPosition += fonteTexto2.Height;
+            e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
+            contador++;
         }
 
-        private void rdbtnServidorLocal_Click(object sender, EventArgs e)
+        if (Line != null)
         {
-          //  rdbtnRemoto.Checked = false;
-           // rdbtnServidorLocal.Checked = true;
-            //txtServidor.Enabled = false;
+            e.HasMorePages = true;
         }
-
-        private void btnDestravaTarefas_Click(object sender, EventArgs e)
+        else
         {
-            DialogResult resultadoDialogo = MessageBox.Show("Você tem certeza de que deseja destravar todas as tarefas?\nTodas as outras estações devem estar fechadas!", "Destravar Tarefas", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (resultadoDialogo == DialogResult.Yes)
-            {
-                /*string resposta = Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
-
-                if (resposta == Sistema.SenhaADM)
-                {
-                if (funcoes.DestravaTodasTarefas())
-                {
-                    string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'As tarefas foram destravadas - " +
-                        DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
-                    Sistema.ExecutaComando(comando);
-
-                    MessageBox.Show("As tarefas foram destravadas com sucesso.");
-                }
-                //}
-            }
-        }
-    
-        private void btnBackup_Click(object sender, EventArgs e)
-        {
-            Backup();
+            e.HasMorePages = false;
         }
 
-        private void btnRestaurar_Click(object sender, EventArgs e)
+        brush.Dispose();
+    }
+    */
+        #endregion
+
+        #endregion
+        /*
+        #region Opcoes
+        private void Backup()
         {
             try
             {
@@ -2908,20 +3367,22 @@ namespace Gerenciador_de_Tarefas
                 string hora = DateTime.Now.ToShortTimeString().Replace(":", "");
                 string nomeDoArquivo = ano + mes + dia + "-" + hora;
 
-                ofdAbrirArquivo.Filter = "Backup SQL|*.sql";
-                ofdAbrirArquivo.Title = "Realizar Backup";
+                sfdSalvarArquivo.Filter = "Backup SQL|*.sql";
+                sfdSalvarArquivo.Title = "Realizar Backup";
+                sfdSalvarArquivo.FileName = nomeDoArquivo;
 
-                if (ofdAbrirArquivo.ShowDialog() == DialogResult.OK)
+                if (sfdSalvarArquivo.ShowDialog() == DialogResult.OK)
                 {
-                    string local = Path.GetFullPath(ofdAbrirArquivo.FileName);
+                    string local = Path.GetFullPath(sfdSalvarArquivo.FileName);
                     if (Sistema.Backup(local))
                     {
                         if (System.IO.File.Exists(local))
                         {
-                            string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Restauração realizada - " +
+                            string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Backup realizado - " +
                             DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
                             Sistema.ExecutaComando(comando);
-                            MessageBox.Show("Restauração realizada com sucesso!", "Restauração realizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                            MessageBox.Show("Backup realizado com sucesso!", "Backup realizado", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
@@ -2942,8 +3403,139 @@ namespace Gerenciador_de_Tarefas
                 throw;
             }
         }
-        #endregion
-    
-    */
+    }
+
+    private void btnTestarAplicar_Click(object sender, EventArgs e)
+    {
+        bool abreprograma = false;
+
+        if (rdbtnServidorLocal.Checked)
+        {
+            if (Sistema.TestaConexao(txtBanco.Text, txtUid.Text, txtPwd.Text))
+            {
+                abreprograma = true;
+            }
+        }
+        else
+        {
+            if (Sistema.TestaConexao(txtServidor.Text, txtBanco.Text, txtUid.Text, txtPwd.Text))
+            {
+                abreprograma = true;
+            }
+        }
+
+        if (abreprograma)
+        {
+            XElement xml = XElement.Load(nomeXML);
+            XElement x = xml.Elements().First();
+            if (x != null)
+            {
+                if (rdbtnRemoto.Checked && txtServidor.Text != "")
+                {
+                    x.Attribute("servidor").SetValue(txtServidor.Text);
+                }
+                x.Attribute("banco").SetValue(txtBanco.Text);
+                x.Attribute("uid").SetValue(txtUid.Text);
+                x.Attribute("pwd").SetValue(txtPwd.Text);
+            }
+
+            xml.Save(nomeXML);
+
+            string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Informações de conexão SQL alteradas - " +
+            DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
+            Sistema.ExecutaComando(comando);
+
+            MessageBox.Show("Dados atualizados com sucesso!");
+        }
+    }
+
+    private void rdbtnRemoto_Click(object sender, EventArgs e)
+    {
+        //rdbtnRemoto.Checked = true;
+        //rdbtnServidorLocal.Checked = false;
+        //txtServidor.Enabled = true;
+    }
+
+    private void rdbtnServidorLocal_Click(object sender, EventArgs e)
+    {
+      //  rdbtnRemoto.Checked = false;
+       // rdbtnServidorLocal.Checked = true;
+        //txtServidor.Enabled = false;
+    }
+
+    private void btnDestravaTarefas_Click(object sender, EventArgs e)
+    {
+        DialogResult resultadoDialogo = MessageBox.Show("Você tem certeza de que deseja destravar todas as tarefas?\nTodas as outras estações devem estar fechadas!", "Destravar Tarefas", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+        if (resultadoDialogo == DialogResult.Yes)
+        {
+            /*string resposta = Interaction.InputBox("Digite a senha para prosseguir", "Destravar Tarefas", "");
+
+            if (resposta == Sistema.SenhaADM)
+            {
+            if (funcoes.DestravaTodasTarefas())
+            {
+                string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'As tarefas foram destravadas - " +
+                    DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
+                Sistema.ExecutaComando(comando);
+
+                MessageBox.Show("As tarefas foram destravadas com sucesso.");
+            }
+            //}
+        }
+    }
+
+    private void btnBackup_Click(object sender, EventArgs e)
+    {
+        Backup();
+    }
+
+    private void btnRestaurar_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string dia = DateTime.Now.Day.ToString();
+            string mes = DateTime.Now.Month.ToString();
+            string ano = DateTime.Now.Year.ToString();
+            string hora = DateTime.Now.ToShortTimeString().Replace(":", "");
+            string nomeDoArquivo = ano + mes + dia + "-" + hora;
+
+            ofdAbrirArquivo.Filter = "Backup SQL|*.sql";
+            ofdAbrirArquivo.Title = "Realizar Backup";
+
+            if (ofdAbrirArquivo.ShowDialog() == DialogResult.OK)
+            {
+                string local = Path.GetFullPath(ofdAbrirArquivo.FileName);
+                if (Sistema.Backup(local))
+                {
+                    if (System.IO.File.Exists(local))
+                    {
+                        string comando = "Insert into tbl_log values (0," + Sistema.IDUsuarioLogado + ", 'Restauração realizada - " +
+                        DateTime.Now.ToShortDateString() + " às " + DateTime.Now.ToShortTimeString() + "');";
+                        Sistema.ExecutaComando(comando);
+                        MessageBox.Show("Restauração realizada com sucesso!", "Restauração realizada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        string erro = ListaErro.RetornaErro(22);
+                        int separador = erro.LastIndexOf(":");
+                        MessageBox.Show(erro.Substring((separador + 2)), erro.Substring(0, (separador - 1)), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
+        }
+    }
+    #endregion
+
+*/
     }
 }

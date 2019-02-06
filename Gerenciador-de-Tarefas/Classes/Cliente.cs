@@ -14,8 +14,8 @@ namespace Gerenciador_de_Tarefas.Classes
         // Originais
         private static int id = 0, contrato = 1;
         private static string dataCadastro, nome, razaoSocial, telefoneComercial, contato, setor, cpf, rg, cnpj, inscricaoEstadual, inscricaoMunicipal,
-            site, email, endereco, numero, bairro, cidade, estado, cep, complemento, pontoReferencia, obs, numeroTarefas;
-        private static bool novoCadastro = false;
+            site, email, endereco, numero, bairro, cidade, estado, cep, complemento, pontoReferencia, obs, numeroTarefas, textoImpressao = "";
+        private static bool novoCadastro = false, primeiraPagina = true;
         private static DataGridView dgvClientesAtualizada = new DataGridView();
 
         // Backup
@@ -35,6 +35,17 @@ namespace Gerenciador_de_Tarefas.Classes
             set
             {
                 novoCadastro = value;
+            }
+        }
+        public static bool PrimeiraPagina
+        {
+            get
+            {
+                return primeiraPagina;
+            }
+            set
+            {
+                primeiraPagina = value;
             }
         }
         public static DataGridView DGVAtualizada
@@ -318,6 +329,17 @@ namespace Gerenciador_de_Tarefas.Classes
             set
             {
                 telefoneComercial = value;
+            }
+        }
+        public static string TextoImpressao
+        {
+            get
+            {
+                return textoImpressao;
+            }
+            set
+            {
+                textoImpressao = value;
             }
         }
         #endregion
@@ -727,6 +749,177 @@ namespace Gerenciador_de_Tarefas.Classes
                 ListaErro.RetornaErro(20);
                 return;
             }
+        }
+
+        public static List<string> DadosImpressao()
+        {
+            List<string> lista = new List<string>
+            {
+                "ID: " + ID
+            };
+
+            if (!string.IsNullOrEmpty(CNPJ))
+            {
+                // 1
+                if(!string.IsNullOrEmpty(RazaoSocial))
+                {
+                    lista.Add("Razão Social: " + RazaoSocial);
+                }
+                else
+                {
+                    lista.Add("");
+                }
+                // 2
+                lista.Add("Nome Fantasia: " + Nome);
+                // 3
+                if (CNPJ.Contains(".") && CNPJ.Contains("/") && CNPJ.Contains("-"))
+                {
+                    lista.Add("CNPJ: " + CNPJ);
+                }
+                else
+                {
+                    lista.Add("CNPJ: " + CNPJ.FormataCNPJ());
+                }
+            }
+            else if(!string.IsNullOrEmpty(CPF))
+            {
+                // 1
+                lista.Add("Nome: " + Nome);
+                // 2
+                lista.Add("RG: " + RG);
+                // 3
+                if (CPF.Contains(".") && CPF.Contains("-"))
+                {
+                    lista.Add("CPF: " + CPF);
+                }
+                else
+                {
+                    lista.Add("CPF: " + CPF.FormataCPF());
+                }
+
+            }
+            else
+            {
+                // 1
+                lista.Add("Nome: " + Nome);
+                // 2
+                lista.Add("");
+                // 3
+                lista.Add("");
+            }
+            //4
+            string consulta = "Select nome from tbl_contrato where id = " + (Contrato + 1).ToString() + ";";
+            lista.Add("Tipo de cliente: " + Sistema.ConsultaSimples(consulta));
+            //5 
+            if (DataCadastro.Contains("/"))
+            {
+                lista.Add("Cadastrado em: " + DataCadastro);
+            }
+            else
+            {
+                lista.Add("Cadastrado em: " + DataCadastro.FormataData());
+            }
+            // 6
+            string textoEndereco = "Endereço: ";
+
+            if (!string.IsNullOrEmpty(Endereco))
+            {
+                textoEndereco += Endereco;
+            }
+            if (!string.IsNullOrEmpty(Numero))
+            {
+                textoEndereco += ", " + Numero;
+            }
+            if (!string.IsNullOrEmpty(Bairro))
+            {
+                textoEndereco += " - " + Bairro;
+            }
+            if (!string.IsNullOrEmpty(Cidade))
+            {
+                textoEndereco += " - " + Cidade;
+            }
+            if (!string.IsNullOrEmpty(Estado))
+            {
+                textoEndereco += " / " + Estado;
+            }
+            if (!string.IsNullOrEmpty(CEP))
+            {
+                if (CEP.Contains("-"))
+                {
+                    textoEndereco += " - " + CEP;
+                }
+                else
+                {
+                    textoEndereco += " - " + CEP.FormataCEP();
+                }
+            }
+            if (!string.IsNullOrEmpty(PontoReferencia))
+            {
+                textoEndereco += ", " + PontoReferencia;
+            }
+            lista.Add(textoEndereco);
+
+            // 7
+            if (!string.IsNullOrEmpty(Telefone) && !string.IsNullOrEmpty(Contato))
+            {
+                if (Telefone.Length > 11)
+                {
+                    lista.Add(Telefone.FormataNumeroCelular() + " - " + Contato);
+                }
+                else
+                {
+                    lista.Add(Telefone.FormataNumeroTelefone() + " - " + Contato);
+                }
+
+            }
+            else if (!string.IsNullOrEmpty(Telefone) && string.IsNullOrEmpty(Contato))
+            {
+                if (Telefone.Length > 11)
+                {
+                    lista.Add(Telefone.FormataNumeroCelular());
+                }
+                else
+                {
+                    lista.Add(Telefone.FormataNumeroTelefone());
+                }
+            }
+            else if (string.IsNullOrEmpty(Telefone) && !string.IsNullOrEmpty(Contato))
+            {
+                lista.Add("Contato Principal:" + Contato);
+            }
+            else
+            {
+                lista.Add("");
+            }
+
+            // 8
+            if(!string.IsNullOrEmpty(Setor))
+            {
+                lista.Add("Setor: " + Setor);
+            }
+            else
+            {
+                lista.Add("");
+            }
+
+            // 9
+            if (!string.IsNullOrEmpty(Email))
+            {
+                lista.Add("E-mail Principal: " + Email);
+            }
+            else
+            {
+                lista.Add("");
+            }
+
+            // 10
+            lista.Add("");
+            // 11
+            lista.Add("Site: " + Site);
+            // 12
+            lista.Add("Inscrição Estadual: " + InscricaoEstadual);
+
+            return lista;
         }
         #endregion
     }

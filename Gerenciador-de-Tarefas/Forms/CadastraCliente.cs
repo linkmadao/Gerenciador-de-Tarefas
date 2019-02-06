@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -482,6 +483,258 @@ namespace Gerenciador_de_Tarefas
             {
                 
             }
+        }
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            if (pdConfigImpressao.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    pPreview.ShowDialog();
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    ListaErro.RetornaErro(24);
+                }
+            }
+        }
+
+        private void pdDocumento_BeginPrint(object sender, System.Drawing.Printing.PrintEventArgs e)
+        {
+            Cliente.PrimeiraPagina = true;
+            Cliente.TextoImpressao = Funcoes.PreparaTexto(txtOBS.Text, 100);
+            pdDocumento.DocumentName = txtNome.Text;
+        }
+
+        private void pdDocumento_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            Graphics g = e.Graphics;
+
+            //Define a fonte do Título
+            Font fonteTitulo = new Font("Arial", 12, FontStyle.Bold);
+            //Define a fonte do texto
+            Font fontetexto = new Font("Arial", 10);
+
+            //Cria um Brush solido com a cor preta
+            SolidBrush brush = new SolidBrush(Color.Black);
+
+            //Pega a largura inicial da folha
+            int xPosition = e.MarginBounds.X;
+            //Pega a altura inicial da folha
+            int yPosition = e.MarginBounds.Y;
+
+            int maxCharacters = 0;
+            //Calcula a quantidade máxima de caracteres que a linha suporta
+            maxCharacters = e.MarginBounds.Width / (int)fontetexto.Size;
+
+            //Posição onde o texto parou
+            int position = 0;
+            // A variável "posicaoUltimoEspaco" é atribuída, mas seu valor nunca é usado
+            int posicaoUltimoEspaco = 0;
+
+            List<string> dados = Cliente.DadosImpressao();
+
+            //Escreve o ID do fornecedor
+            g.DrawString(dados[0], fonteTitulo, brush, xPosition, yPosition);
+            //Soma na altura atual do texto
+            yPosition += fonteTitulo.Height;
+
+            //Nome
+            while (dados[1].Length - position > maxCharacters)
+            {
+                if (dados[1].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = dados[1].Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                    //Escreve o nome
+                    g.DrawString(dados[1].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (dados[1].Length - position > 0)
+            {
+                if (dados[1].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(dados[1].Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+                position = 0;
+            }
+
+            //Nome Fantasia / RG
+            while (dados[2].Length - position > maxCharacters)
+            {
+                if (dados[2].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = dados[2].Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                    //Escreve o apelido
+                    g.DrawString(dados[2].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (dados[2].Length - position > 0)
+            {
+                if (dados[2].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(dados[2].Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+                position = 0;
+            }
+
+            //Escreve o documento
+            g.DrawString(dados[3], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve a inscrição estadual
+            g.DrawString(dados[12], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve o tipo de cliente
+            g.DrawString(dados[4], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve a data de cadastro
+            g.DrawString(dados[5], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Escreve o site
+            g.DrawString(dados[11], fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height;
+
+            //Configura a cor e o tamanho da linha
+            Pen blackPen = new Pen(Color.Black, 3);
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //Endereço
+            while (dados[6].Length - position > maxCharacters)
+            {
+                if (dados[6].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                else
+                {
+                    //Define a posição do ultimo espaço em branco no texto selecionado
+                    posicaoUltimoEspaco = dados[6].Substring(position, position + maxCharacters).LastIndexOf(" ");
+
+                    //Escreve o endereço
+                    g.DrawString(dados[6].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    //Soma na altura atual do texto
+                    yPosition += fonteTitulo.Height;
+                    //Define a nova posição do texto
+                    position += posicaoUltimoEspaco;
+                }
+            }
+            if (dados[6].Length - position > 0)
+            {
+                if (dados[6].Substring(position, 1) == " ")
+                {
+                    position += 1;
+                }
+                g.DrawString(dados[6].Substring(position), fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+                position = 0;
+            }
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //Escreve o contato 1
+            if (!string.IsNullOrEmpty(dados[7]))
+            {
+                g.DrawString("Contato: " + dados[7], fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+            //Escreve o setor
+            if (!string.IsNullOrEmpty(dados[8]))
+            {
+                g.DrawString(dados[8], fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+            //Escreve o e-mail
+            if (!string.IsNullOrEmpty(dados[9]))
+            {
+                g.DrawString(dados[9], fonteTitulo, brush, xPosition, yPosition);
+                yPosition += fonteTitulo.Height;
+            }
+
+            //Cria um espaço de 10pixels 
+            yPosition += 10;
+            //Cria a linha
+            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            //Cria um espaço de 10pixels
+            yPosition += 10;
+
+            //Imprime o título "Texto: "
+            g.DrawString("Observações:", fonteTitulo, brush, xPosition, yPosition);
+            yPosition += fonteTitulo.Height * 2;
+
+            int linhasPorPagina = 60;
+            int contador = 0;
+
+            //Calcula a quantidade máxima de caracteres que a linha suporta
+            maxCharacters = 100;
+
+            //Define a fonte do texto
+            Font fonteTexto2 = new Font("Arial", 9);
+            StringReader leitor = new StringReader("");
+
+            if (Cliente.PrimeiraPagina)
+            {
+                Cliente.PrimeiraPagina = false;
+                leitor = new StringReader(Cliente.TextoImpressao);
+            }
+
+            string Line = null;
+
+            while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
+            {
+                yPosition += fonteTexto2.Height;
+                e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
+                contador++;
+            }
+
+            if (Line != null)
+            {
+                e.HasMorePages = true;
+            }
+            else
+            {
+                e.HasMorePages = false;
+            }
+
+            brush.Dispose();
         }
     }
 }
