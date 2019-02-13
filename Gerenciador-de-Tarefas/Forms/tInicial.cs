@@ -14,7 +14,7 @@ namespace Gerenciador_de_Tarefas
     public partial class TInicial : Form
     {
         #region telaInicial
-        public TInicial()
+        public TInicial() 
         {
             InitializeComponent();
         }
