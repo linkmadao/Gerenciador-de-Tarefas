@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Gerenciador_de_Tarefas.Classes
@@ -204,6 +205,10 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 return Sistema.PreencheCMB("Select nome from tbl_funcionarios;");
             }
+        }
+        public static StringReader Leitor
+        {
+            get; set;
         }
         #endregion
 

@@ -15,6 +15,46 @@ using Folder = Shell32.Folder;
 
 namespace Gerenciador_de_Tarefas.Classes
 {
+    public class RootObject
+    {
+        public string Nome { get; set; }
+        public string Fantasia { get; set; }
+        public string CNPJ { get; set; }
+        public string Telefone { get; set; }
+        public string Email { get; set; }
+        public string Abertura { get; set; }
+        public string Logradouro { get; set; }
+        public string Numero { get; set; }
+        public string Complemento { get; set; }
+        public string Bairro { get; set; }
+        public string Municipio { get; set; }
+        public string UF { get; set; }
+        public string CEP { get; set; }
+    }
+
+    public struct LayoutJson
+    {
+        private string _index, _value;
+
+        public LayoutJson(String Index, String Value)
+        {
+            _index = Index;
+            _value = Value;
+        }
+
+        public string Index
+        {
+            get { return _index; }
+            set { _index = value; }
+        }
+
+        public string Value
+        {
+            get { return _value; }
+            set { _value = value; }
+        }
+    }
+
     public static class Sistema
     {
         #region Variaveis
@@ -58,6 +98,7 @@ namespace Gerenciador_de_Tarefas.Classes
         #endregion
 
         #region Propriedades
+        #region bool
         /// <summary>
         /// Retorna a versão do software em questão
         /// </summary>
@@ -116,17 +157,8 @@ namespace Gerenciador_de_Tarefas.Classes
                 servidorLocal = value;
             }
         }
-        public static int IDUsuarioLogado
-        {
-            get
-            {
-                return usuarioLogado;
-            }
-            set
-            {
-                usuarioLogado = value;
-            }
-        }
+        #endregion
+        #region int
         public static int ContadorSegundos
         {
             get
@@ -143,11 +175,45 @@ namespace Gerenciador_de_Tarefas.Classes
                 return contadorSegundos;
             }
         }
+        public static int IDUsuarioLogado
+        {
+            get
+            {
+                return usuarioLogado;
+            }
+            set
+            {
+                usuarioLogado = value;
+            }
+        }
+        
+        #endregion
+        #region string
         public static string Ano
         {
             get
             {
                 return DateTime.Now.Year.ToString();
+            }
+        }
+        /// <summary>
+        /// Retorna a data e hora do dia atual no formato "dd/MM/aaaa hh:mm:ss"
+        /// </summary>
+        public static string DataHoraImpressao
+        {
+            get
+            {
+                return DateTime.Now.ToLongDateString() + " " + DateTime.Now.ToShortTimeString();
+            }
+        }
+        /// <summary>
+        /// Divisória de textos utilizada na tela de criação/edição de tarefas
+        /// </summary>
+        public static string Divisoria
+        {
+            get
+            {
+                return "\n_________________________________________________________________________________\n\n";
             }
         }
         public static string EnderecoServidor
@@ -214,6 +280,7 @@ namespace Gerenciador_de_Tarefas.Classes
                 return versaoLocal;
             }
         }
+        #endregion
         #endregion
 
         #region Funcoes

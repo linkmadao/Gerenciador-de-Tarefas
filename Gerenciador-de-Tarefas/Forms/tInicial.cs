@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Collections;
 using System.Drawing.Printing;
 using Microsoft.VisualBasic;
 using Gerenciador_de_Tarefas.Classes;
@@ -34,11 +33,6 @@ namespace Gerenciador_de_Tarefas
             EscondePaineis();
         }
 
-        private void BtnSair_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
         private void TInicial_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (Sistema.ProgramaDesativado)
@@ -50,6 +44,11 @@ namespace Gerenciador_de_Tarefas
             {
                 Log.Logoff();
             }
+        }
+
+        private void BtnSair_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
 
         private void BtnClientes_Click(object sender, EventArgs e)
@@ -611,17 +610,6 @@ namespace Gerenciador_de_Tarefas
         }
 
         #region Impressão
-
-        StringFormat strFormat; //Used to format the grid rows.
-        ArrayList arrColumnLefts = new ArrayList();//Used to save left coordinates of columns
-        ArrayList arrColumnWidths = new ArrayList();//Used to save column widths
-        int iCellHeight = 0; //Used to get/set the datagridview cell height
-        int iTotalWidth = 0; //
-        int iRow = 0;//Used as counter
-        bool bFirstPage = false; //Used to check whether we are printing first page
-        bool bNewPage = false;// Used to check whether we are printing a new page
-        int iHeaderHeight = 0; //Used for the header height
-
         private void BtnPrintListaClientes_Click(object sender, EventArgs e)
         {
             if (pdImprimirClientes.ShowDialog() == DialogResult.OK)
@@ -638,25 +626,25 @@ namespace Gerenciador_de_Tarefas
         {
             try
             {
-                strFormat = new StringFormat
+                Impressao.FormatoString = new StringFormat
                 {
                     Alignment = StringAlignment.Near,
                     LineAlignment = StringAlignment.Center,
                     Trimming = StringTrimming.EllipsisCharacter
                 };
 
-                arrColumnLefts.Clear();
-                arrColumnWidths.Clear();
-                iCellHeight = 0;
-                iRow = 0;
-                bFirstPage = true;
-                bNewPage = true;
+                Impressao.ArrColunasRestantes.Clear();
+                Impressao.ArrLarguraColunas.Clear();
+                Impressao.AlturaCelula = 0;
+                Impressao.LinhaAtual = 0;
+                Impressao.PrimeiraPagina = true;
+                Impressao.NovaPagina = true;
 
-                // Calculating Total Widths
-                iTotalWidth = 0;
+                // Calcula a Largura Total
+                Impressao.LarguraTotal = 0;
                 foreach (DataGridViewColumn dgvGridCol in dgvClientes.Columns)
                 {
-                    iTotalWidth += dgvGridCol.Width;
+                    Impressao.LarguraTotal += dgvGridCol.Width;
                 }
             }
             catch (Exception)
@@ -669,69 +657,67 @@ namespace Gerenciador_de_Tarefas
         {
             try
             {
-                //Set the left margin
-                int iLeftMargin = e.MarginBounds.Left;
-                //Set the top margin
-                int iTopMargin = e.MarginBounds.Top;
-                //Whether more pages have to print or not
-                bool bMorePagesToPrint = false;
-                int iTmpWidth = 0;
+                // Seta a margem esquerda da folha
+                Impressao.MargemEsquerda = e.MarginBounds.Left;
+                // Seta a margem superior da folha
+                Impressao.MargemSuperior = e.MarginBounds.Top;
+                //Verifica se há mais páginas para imprimir
+                Impressao.TemMaisPaginasParaImprimir = false;
+                Impressao.LarguraTemporaria = 0;
 
-                //For the first page to print set the cell width and header height
-                if (bFirstPage)
+                //Seta a largura da célula e a altura do cabeçalho caso seja a primeira folha
+                if (Impressao.PrimeiraPagina)
                 {
                     foreach (DataGridViewColumn GridCol in dgvClientes.Columns)
                     {
                         if (GridCol.Name != "contrato")
                         {
-                            iTmpWidth = (int)(Math.Floor((double)((double)GridCol.Width /
-                            (double)iTotalWidth * (double)iTotalWidth *
-                            ((double)e.MarginBounds.Width / (double)iTotalWidth))));
+                            Impressao.LarguraTemporaria = (int)(Math.Floor((double)((double)GridCol.Width /
+                            (double)Impressao.LarguraTotal * (double)Impressao.LarguraTotal *
+                            ((double)e.MarginBounds.Width / (double)Impressao.LarguraTotal))));
 
-                            iHeaderHeight = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
-                                GridCol.InheritedStyle.Font, iTmpWidth).Height) + 11;
+                            Impressao.AlturaCabecalho = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
+                                GridCol.InheritedStyle.Font, Impressao.LarguraTemporaria).Height) + 11;
 
                             // Save width and height of headers
-                            arrColumnLefts.Add(iLeftMargin);
-                            arrColumnWidths.Add(iTmpWidth);
-                            iLeftMargin += iTmpWidth;
+                            Impressao.ArrColunasRestantes.Add(Impressao.MargemEsquerda);
+                            Impressao.ArrLarguraColunas.Add(Impressao.LarguraTemporaria);
+                            Impressao.MargemEsquerda += Impressao.LarguraTemporaria;
                         }
                     }
                 }
                 //Loop till all the grid rows not get printed
-                while (iRow <= dgvClientes.Rows.Count - 1)
+                while (Impressao.LinhaAtual <= dgvClientes.Rows.Count - 1)
                 {
-                    DataGridViewRow GridRow = dgvClientes.Rows[iRow];
+                    DataGridViewRow GridRow = dgvClientes.Rows[Impressao.LinhaAtual];
                     //Set the cell height
-                    iCellHeight = GridRow.Height + 12;
+                    Impressao.AlturaCelula = GridRow.Height + 12;
                     int iCount = 0;
                     //Check whether the current page settings allows more rows to print
-                    if (iTopMargin + iCellHeight >= e.MarginBounds.Height + e.MarginBounds.Top)
+                    if (Impressao.MargemSuperior + Impressao.AlturaCelula >= e.MarginBounds.Height + e.MarginBounds.Top)
                     {
-                        bNewPage = true;
-                        bFirstPage = false;
-                        bMorePagesToPrint = true;
+                        Impressao.NovaPagina = true;
+                        Impressao.PrimeiraPagina = false;
+                        Impressao.TemMaisPaginasParaImprimir = true;
                         break;
                     }
                     else
                     {
-                        if (bNewPage)
+                        if (Impressao.NovaPagina)
                         {
                             //Draw Header
                             e.Graphics.DrawString("Lista de Clientes",
                                 new Font(dgvClientes.Font, FontStyle.Bold),
-                                Brushes.Black, e.MarginBounds.Left,
+                                Impressao.FonteCorPreta, e.MarginBounds.Left,
                                 e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Clientes",
                                 new Font(dgvClientes.Font, FontStyle.Bold),
                                 e.MarginBounds.Width).Height - 13);
 
-                            String strDate = DateTime.Now.ToLongDateString() + " " +
-                                DateTime.Now.ToShortTimeString();
                             //Draw Date
-                            e.Graphics.DrawString(strDate,
-                                new Font(dgvClientes.Font, FontStyle.Bold), Brushes.Black,
+                            e.Graphics.DrawString(Sistema.DataHoraImpressao,
+                                new Font(dgvClientes.Font, FontStyle.Bold), Impressao.FonteCorPreta,
                                 e.MarginBounds.Left +
-                                (e.MarginBounds.Width - e.Graphics.MeasureString(strDate,
+                                (e.MarginBounds.Width - e.Graphics.MeasureString(Sistema.DataHoraImpressao,
                                 new Font(dgvClientes.Font, FontStyle.Bold),
                                 e.MarginBounds.Width).Width),
                                 e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Clientes",
@@ -739,29 +725,29 @@ namespace Gerenciador_de_Tarefas
                                 FontStyle.Bold), e.MarginBounds.Width).Height - 13);
 
                             //Draw Columns                 
-                            iTopMargin = e.MarginBounds.Top;
+                            Impressao.MargemSuperior = e.MarginBounds.Top;
                             foreach (DataGridViewColumn GridCol in dgvClientes.Columns)
                             {
                                 if (GridCol.Name != "contrato")
                                 {
-                                    e.Graphics.FillRectangle(new SolidBrush(Color.LightGray),
-                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                    (int)arrColumnWidths[iCount], iHeaderHeight));
+                                    e.Graphics.FillRectangle(Impressao.FonteCorCinzaClaro,
+                                    new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                    (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                     e.Graphics.DrawRectangle(Pens.Black,
-                                        new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                        (int)arrColumnWidths[iCount], iHeaderHeight));
+                                        new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                        (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                     e.Graphics.DrawString(GridCol.HeaderText,
                                         GridCol.InheritedStyle.Font,
-                                        new SolidBrush(GridCol.InheritedStyle.ForeColor),
-                                        new RectangleF((int)arrColumnLefts[iCount], iTopMargin,
-                                        (int)arrColumnWidths[iCount], iHeaderHeight), strFormat);
+                                        new SolidBrush (GridCol.InheritedStyle.ForeColor),
+                                        new RectangleF((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                        (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho), Impressao.FormatoString);
                                     iCount++;
                                 }
                             }
-                            bNewPage = false;
-                            iTopMargin += iHeaderHeight;
+                            Impressao.NovaPagina = false;
+                            Impressao.MargemSuperior += Impressao.AlturaCabecalho;
                         }
                         iCount = 0;
                         //Draw Columns Contents                
@@ -783,26 +769,26 @@ namespace Gerenciador_de_Tarefas
 
                                     e.Graphics.DrawString(texto,
                                     Cel.InheritedStyle.Font,
-                                    new SolidBrush(Cel.InheritedStyle.ForeColor),
-                                    new RectangleF((int)arrColumnLefts[iCount],
-                                    (float)iTopMargin,
-                                    (int)arrColumnWidths[iCount], (float)iCellHeight),
-                                    strFormat);
+                                    new SolidBrush (Cel.InheritedStyle.ForeColor),
+                                    new RectangleF((int)Impressao.ArrColunasRestantes[iCount],
+                                    (float)Impressao.MargemSuperior,
+                                    (int)Impressao.ArrLarguraColunas[iCount], (float)Impressao.AlturaCelula),
+                                    Impressao.FormatoString);
                                 }
 
                                 //Drawing Cells Borders 
                                 e.Graphics.DrawRectangle(Pens.Black,
-                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                    (int)arrColumnWidths[iCount], iCellHeight));
+                                    new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                    (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCelula));
                                 iCount++;
                             }
                         }
                     }
-                    iRow++;
-                    iTopMargin += iCellHeight;
+                    Impressao.LinhaAtual++;
+                    Impressao.MargemSuperior += Impressao.AlturaCelula;
                 }
-                //If more lines exist, print another page.
-                if (bMorePagesToPrint)
+                //If more Impressao.LinhaTemporarias exist, print another page.
+                if (Impressao.TemMaisPaginasParaImprimir)
                     e.HasMorePages = true;
                 else
                     e.HasMorePages = false;
@@ -1110,25 +1096,25 @@ namespace Gerenciador_de_Tarefas
         {
             try
             {
-                strFormat = new StringFormat
+                Impressao.FormatoString = new StringFormat
                 {
                     Alignment = StringAlignment.Near,
                     LineAlignment = StringAlignment.Center,
                     Trimming = StringTrimming.EllipsisCharacter
                 };
 
-                arrColumnLefts.Clear();
-                arrColumnWidths.Clear();
-                iCellHeight = 0;
-                iRow = 0;
-                bFirstPage = true;
-                bNewPage = true;
+                Impressao.ArrColunasRestantes.Clear();
+                Impressao.ArrLarguraColunas.Clear();
+                Impressao.AlturaCelula = 0;
+                Impressao.LinhaAtual = 0;
+                Impressao.PrimeiraPagina = true;
+                Impressao.NovaPagina = true;
 
                 // Calculating Total Widths
-                iTotalWidth = 0;
+                Impressao.LarguraTotal = 0;
                 foreach (DataGridViewColumn dgvGridCol in dgvTarefas.Columns)
                 {
-                    iTotalWidth += dgvGridCol.Width;
+                    Impressao.LarguraTotal += dgvGridCol.Width;
                 }
             }
             catch (Exception)
@@ -1155,16 +1141,14 @@ namespace Gerenciador_de_Tarefas
         {
             try
             {
-                //Set the left margin
-                int iLeftMargin = e.MarginBounds.Left;
-                //Set the top margin
-                int iTopMargin = e.MarginBounds.Top;
-                //Whether more pages have to print or not
-                bool bMorePagesToPrint = false;
-                int iTmpWidth = 0;
+                //Seta a margem esquerda da folha
+                Impressao.MargemEsquerda = e.MarginBounds.Left;
+                //Seta a margem superior da folha
+                Impressao.MargemSuperior = e.MarginBounds.Top;
+                Impressao.LarguraTemporaria = 0;
 
-                //For the first page to print set the cell width and header height
-                if (bFirstPage)
+                //Seta a largura da célula e a altura do cabeçalho caso seja a primeira folha
+                if (Impressao.PrimeiraPagina)
                 {
                     foreach (DataGridViewColumn GridCol in dgvTarefas.Columns)
                     {
@@ -1172,89 +1156,87 @@ namespace Gerenciador_de_Tarefas
                         {
                             if (GridCol.Name != "ID" && GridCol.Name != "Data Conclusão" && GridCol.Name != "prioridade")
                             {
-                                iTmpWidth = (int)(Math.Floor((double)((double)GridCol.Width /
-                                (double)iTotalWidth * (double)iTotalWidth *
-                                ((double)e.MarginBounds.Width / (double)iTotalWidth))));
+                                Impressao.LarguraTemporaria = (int)(Math.Floor((double)((double)GridCol.Width /
+                                (double)Impressao.LarguraTotal * (double)Impressao.LarguraTotal *
+                                ((double)e.MarginBounds.Width / (double)Impressao.LarguraTotal))));
 
-                                iHeaderHeight = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
-                                    GridCol.InheritedStyle.Font, iTmpWidth).Height) + 11;
+                                Impressao.AlturaCabecalho = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
+                                    GridCol.InheritedStyle.Font, Impressao.LarguraTemporaria).Height) + 11;
 
                                 // Save width and height of headers
-                                arrColumnLefts.Add(iLeftMargin);
-                                arrColumnWidths.Add(iTmpWidth);
-                                iLeftMargin += iTmpWidth;
+                                Impressao.ArrColunasRestantes.Add(Impressao.MargemEsquerda);
+                                Impressao.ArrLarguraColunas.Add(Impressao.LarguraTemporaria);
+                                Impressao.MargemEsquerda += Impressao.LarguraTemporaria;
                             }
                         }
                         else if (cmbTipoTarefas.SelectedIndex == 1)
                         {
                             if (GridCol.Name != "ID" && GridCol.Name != "Status" && GridCol.Name != "prioridade")
                             {
-                                iTmpWidth = (int)(Math.Floor((double)((double)GridCol.Width /
-                                (double)iTotalWidth * (double)iTotalWidth *
-                                ((double)e.MarginBounds.Width / (double)iTotalWidth))));
+                                Impressao.LarguraTemporaria = (int)(Math.Floor((double)((double)GridCol.Width /
+                                (double)Impressao.LarguraTotal * (double)Impressao.LarguraTotal *
+                                ((double)e.MarginBounds.Width / (double)Impressao.LarguraTotal))));
 
-                                iHeaderHeight = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
-                                    GridCol.InheritedStyle.Font, iTmpWidth).Height) + 11;
+                                Impressao.AlturaCabecalho = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
+                                    GridCol.InheritedStyle.Font, Impressao.LarguraTemporaria).Height) + 11;
 
                                 // Save width and height of headers
-                                arrColumnLefts.Add(iLeftMargin);
-                                arrColumnWidths.Add(iTmpWidth);
-                                iLeftMargin += iTmpWidth;
+                                Impressao.ArrColunasRestantes.Add(Impressao.MargemEsquerda);
+                                Impressao.ArrLarguraColunas.Add(Impressao.LarguraTemporaria);
+                                Impressao.MargemEsquerda += Impressao.LarguraTemporaria;
                             }
                         }
                         else if (cmbTipoTarefas.SelectedIndex == 2)
                         {
                             if (GridCol.Name != "ID" && GridCol.Name != "prioridade")
                             {
-                                iTmpWidth = (int)(Math.Floor((double)((double)GridCol.Width /
-                                    (double)iTotalWidth * (double)iTotalWidth *
-                                    ((double)e.MarginBounds.Width / (double)iTotalWidth))));
+                                Impressao.LarguraTemporaria = (int)(Math.Floor((double)((double)GridCol.Width /
+                                    (double)Impressao.LarguraTotal * (double)Impressao.LarguraTotal *
+                                    ((double)e.MarginBounds.Width / (double)Impressao.LarguraTotal))));
 
-                                iHeaderHeight = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
-                                    GridCol.InheritedStyle.Font, iTmpWidth).Height) + 11;
+                                Impressao.AlturaCabecalho = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
+                                    GridCol.InheritedStyle.Font, Impressao.LarguraTemporaria).Height) + 11;
 
                                 // Save width and height of headers
-                                arrColumnLefts.Add(iLeftMargin);
-                                arrColumnWidths.Add(iTmpWidth);
-                                iLeftMargin += iTmpWidth;
+                                Impressao.ArrColunasRestantes.Add(Impressao.MargemEsquerda);
+                                Impressao.ArrLarguraColunas.Add(Impressao.LarguraTemporaria);
+                                Impressao.MargemEsquerda += Impressao.LarguraTemporaria;
                             }
                         }
                     }
                 }
                 //Loop till all the grid rows not get printed
-                while (iRow <= dgvTarefas.Rows.Count - 1)
+                while (Impressao.LinhaAtual <= dgvTarefas.Rows.Count - 1)
                 {
-                    DataGridViewRow GridRow = dgvTarefas.Rows[iRow];
+                    DataGridViewRow GridRow = dgvTarefas.Rows[Impressao.LinhaAtual];
                     //Seta a altura da linha
-                    iCellHeight = GridRow.Height + 12;
+                    Impressao.AlturaCelula = GridRow.Height + 12;
                     int iCount = 0;
                     //Check whether the current page settings allows more rows to print
-                    if (iTopMargin + iCellHeight >= e.MarginBounds.Height + e.MarginBounds.Top)
+                    if (Impressao.MargemSuperior + Impressao.AlturaCelula >= e.MarginBounds.Height + e.MarginBounds.Top)
                     {
-                        bNewPage = true;
-                        bFirstPage = false;
-                        bMorePagesToPrint = true;
+                        Impressao.NovaPagina = true;
+                        Impressao.PrimeiraPagina = false;
+                        Impressao.TemMaisPaginasParaImprimir = true;
                         break;
                     }
                     else
                     {
-                        if (bNewPage)
+                        if (Impressao.NovaPagina)
                         {
                             //Draw Header
                             e.Graphics.DrawString("Lista de Tarefas",
                                 new Font(dgvTarefas.Font, FontStyle.Bold),
-                                Brushes.Black, e.MarginBounds.Left,
+                                Impressao.FonteCorPreta, e.MarginBounds.Left,
                                 e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Tarefas",
                                 new Font(dgvTarefas.Font, FontStyle.Bold),
                                 e.MarginBounds.Width).Height - 13);
 
-                            String strDate = DateTime.Now.ToLongDateString() + " " +
-                                DateTime.Now.ToShortTimeString();
                             //Draw Date
-                            e.Graphics.DrawString(strDate,
-                                new Font(dgvTarefas.Font, FontStyle.Bold), Brushes.Black,
+                            e.Graphics.DrawString(Sistema.DataHoraImpressao,
+                                new Font(dgvTarefas.Font, FontStyle.Bold), Impressao.FonteCorPreta,
                                 e.MarginBounds.Left +
-                                (e.MarginBounds.Width - e.Graphics.MeasureString(strDate,
+                                (e.MarginBounds.Width - e.Graphics.MeasureString(Sistema.DataHoraImpressao,
                                 new Font(dgvTarefas.Font, FontStyle.Bold),
                                 e.MarginBounds.Width).Width),
                                 e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Tarefas",
@@ -1262,26 +1244,26 @@ namespace Gerenciador_de_Tarefas
                                 FontStyle.Bold), e.MarginBounds.Width).Height - 13);
 
                             //Draw Columns                 
-                            iTopMargin = e.MarginBounds.Top;
+                            Impressao.MargemSuperior = e.MarginBounds.Top;
                             foreach (DataGridViewColumn GridCol in dgvTarefas.Columns)
                             {
                                 if (cmbTipoTarefas.SelectedIndex == 0)
                                 {
                                     if (GridCol.Name != "ID" && GridCol.Name != "Data Conclusão" && GridCol.Name != "prioridade")
                                     {
-                                        e.Graphics.FillRectangle(new SolidBrush(Color.LightGray),
-                                            new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight));
+                                        e.Graphics.FillRectangle(Impressao.FonteCorCinzaClaro,
+                                            new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                         e.Graphics.DrawRectangle(Pens.Black,
-                                            new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight));
+                                            new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                         e.Graphics.DrawString(GridCol.HeaderText,
                                             GridCol.InheritedStyle.Font,
-                                            new SolidBrush(GridCol.InheritedStyle.ForeColor),
-                                            new RectangleF((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight), strFormat);
+                                            new SolidBrush (GridCol.InheritedStyle.ForeColor),
+                                            new RectangleF((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho), Impressao.FormatoString);
                                         iCount++;
                                     }
                                 }
@@ -1289,19 +1271,19 @@ namespace Gerenciador_de_Tarefas
                                 {
                                     if (GridCol.Name != "ID" && GridCol.Name != "Status" && GridCol.Name != "prioridade")
                                     {
-                                        e.Graphics.FillRectangle(new SolidBrush(Color.LightGray),
-                                            new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight));
+                                        e.Graphics.FillRectangle(Impressao.FonteCorCinzaClaro,
+                                            new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                         e.Graphics.DrawRectangle(Pens.Black,
-                                            new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight));
+                                            new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                         e.Graphics.DrawString(GridCol.HeaderText,
                                             GridCol.InheritedStyle.Font,
-                                            new SolidBrush(GridCol.InheritedStyle.ForeColor),
-                                            new RectangleF((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight), strFormat);
+                                            new SolidBrush (GridCol.InheritedStyle.ForeColor),
+                                            new RectangleF((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho), Impressao.FormatoString);
                                         iCount++;
                                     }
                                 }
@@ -1309,25 +1291,25 @@ namespace Gerenciador_de_Tarefas
                                 {
                                     if (GridCol.Name != "ID" && GridCol.Name != "prioridade")
                                     {
-                                        e.Graphics.FillRectangle(new SolidBrush(Color.LightGray),
-                                            new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight));
+                                        e.Graphics.FillRectangle(Impressao.FonteCorCinzaClaro,
+                                            new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                         e.Graphics.DrawRectangle(Pens.Black,
-                                            new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight));
+                                            new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                         e.Graphics.DrawString(GridCol.HeaderText,
                                             GridCol.InheritedStyle.Font,
-                                            new SolidBrush(GridCol.InheritedStyle.ForeColor),
-                                            new RectangleF((int)arrColumnLefts[iCount], iTopMargin,
-                                            (int)arrColumnWidths[iCount], iHeaderHeight), strFormat);
+                                            new SolidBrush (GridCol.InheritedStyle.ForeColor),
+                                            new RectangleF((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho), Impressao.FormatoString);
                                         iCount++;
                                     }
                                 }
                             }
-                            bNewPage = false;
-                            iTopMargin += iHeaderHeight;
+                            Impressao.NovaPagina = false;
+                            Impressao.MargemSuperior += Impressao.AlturaCabecalho;
                         }
                         iCount = 0;
                         //Draw Columns Contents                
@@ -1376,16 +1358,16 @@ namespace Gerenciador_de_Tarefas
 
                                             e.Graphics.DrawString(texto,
                                                 Cel.InheritedStyle.Font,
-                                                new SolidBrush(Cel.InheritedStyle.ForeColor),
-                                                new RectangleF((int)arrColumnLefts[iCount],
-                                                (float)iTopMargin,
-                                                (int)arrColumnWidths[iCount], (float)iCellHeight),
-                                                strFormat);
+                                                new SolidBrush (Cel.InheritedStyle.ForeColor),
+                                                new RectangleF((int)Impressao.ArrColunasRestantes[iCount],
+                                                (float)Impressao.MargemSuperior,
+                                                (int)Impressao.ArrLarguraColunas[iCount], (float)Impressao.AlturaCelula),
+                                                Impressao.FormatoString);
 
                                             //Drawing Cells Borders 
                                             e.Graphics.DrawRectangle(Pens.Black,
-                                                new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                                (int)arrColumnWidths[iCount], iCellHeight));
+                                                new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                                (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCelula));
                                             iCount++;
                                         }
                                     }
@@ -1430,16 +1412,16 @@ namespace Gerenciador_de_Tarefas
 
                                             e.Graphics.DrawString(texto,
                                             Cel.InheritedStyle.Font,
-                                            new SolidBrush(Cel.InheritedStyle.ForeColor),
-                                            new RectangleF((int)arrColumnLefts[iCount],
-                                            (float)iTopMargin,
-                                            (int)arrColumnWidths[iCount], (float)iCellHeight),
-                                            strFormat);
+                                            new SolidBrush (Cel.InheritedStyle.ForeColor),
+                                            new RectangleF((int)Impressao.ArrColunasRestantes[iCount],
+                                            (float)Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], (float)Impressao.AlturaCelula),
+                                            Impressao.FormatoString);
 
                                             //Drawing Cells Borders 
                                             e.Graphics.DrawRectangle(Pens.Black,
-                                                new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                                (int)arrColumnWidths[iCount], iCellHeight));
+                                                new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                                (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCelula));
                                             iCount++;
                                         }
                                     }
@@ -1491,16 +1473,16 @@ namespace Gerenciador_de_Tarefas
 
                                             e.Graphics.DrawString(texto,
                                             Cel.InheritedStyle.Font,
-                                            new SolidBrush(Cel.InheritedStyle.ForeColor),
-                                            new RectangleF((int)arrColumnLefts[iCount],
-                                            (float)iTopMargin,
-                                            (int)arrColumnWidths[iCount], (float)iCellHeight),
-                                            strFormat);
+                                            new SolidBrush (Cel.InheritedStyle.ForeColor),
+                                            new RectangleF((int)Impressao.ArrColunasRestantes[iCount],
+                                            (float)Impressao.MargemSuperior,
+                                            (int)Impressao.ArrLarguraColunas[iCount], (float)Impressao.AlturaCelula),
+                                            Impressao.FormatoString);
 
                                             //Drawing Cells Borders 
                                             e.Graphics.DrawRectangle(Pens.Black,
-                                                new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                                (int)arrColumnWidths[iCount], iCellHeight));
+                                                new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                                (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCelula));
                                             iCount++;
                                         }
                                     }
@@ -1508,11 +1490,11 @@ namespace Gerenciador_de_Tarefas
                             }
                         }
                     }
-                    iRow++;
-                    iTopMargin += iCellHeight;
+                    Impressao.LinhaAtual++;
+                    Impressao.MargemSuperior += Impressao.AlturaCelula;
                 }
-                //If more lines exist, print another page.
-                if (bMorePagesToPrint)
+                //If more Impressao.LinhaTemporarias exist, print another page.
+                if (Impressao.TemMaisPaginasParaImprimir)
                     e.HasMorePages = true;
                 else
                     e.HasMorePages = false;
@@ -1727,10 +1709,8 @@ namespace Gerenciador_de_Tarefas
                     }
                     else
                     {
-                        string linhaGigante = "\n_________________________________________________________________________________\n\n";
-
                         rtbNTHistorico.Text = Sistema.Hoje + " - " + Sistema.Hora + " - " + Sistema.NomeUsuarioLogado + "\n\n" + rtbNTTexto.Text +
-                            linhaGigante + rtbNTHistorico.Text;
+                            Sistema.Divisoria + rtbNTHistorico.Text;
                     }
 
                     rtbNTTexto.Clear();
@@ -1801,10 +1781,10 @@ namespace Gerenciador_de_Tarefas
 
                                     lblNTTitulo.Text = Tarefa.Titulo;
                                     txtNTID.Text = Tarefa.ID.ToString();
-                                    mskNTDataCadastro.Text = 
+                                    mskNTDataCadastro.Text = Tarefa.DataCadastro;
 
                                     btnNTCadastrar.Text = "Nova Tarefa";
-                                    btnSair.Text = "Sair";
+                                    btnNTSair.Text = "Sair";
                                 }
                             }
                         } 
@@ -1905,8 +1885,8 @@ namespace Gerenciador_de_Tarefas
         private void PdNTDocumento_BeginPrint(object sender, PrintEventArgs e)
         {
             Tarefa.PrimeiraPagina = true;
-            Tarefa.TextoImpressao = Funcoes.PreparaTexto(rtbNTHistorico.Text, MaxCaracteres);
-            pdNTDocumento.DocumentName = Text;
+            Tarefa.TextoImpressao = Funcoes.PreparaTexto(rtbNTHistorico.Text, Impressao.MaximoCaracteres);
+            pdNTDocumento.DocumentName = cmbNTCliente.Text + " - " + txtNTAssunto.Text;
 
         }
 
@@ -1914,74 +1894,62 @@ namespace Gerenciador_de_Tarefas
         {
             Graphics g = e.Graphics;
 
-            //Define a fonte do Título
-            Font fonteTitulo = new Font("Arial", 12, FontStyle.Bold);
-            //Define a fonte do texto
-            Font fontetexto = new Font("Arial", 10);
+            //Seta a margem esquerda da folha
+            Impressao.MargemEsquerda = e.MarginBounds.X;
+            //Seta a margem superior da folha
+            Impressao.MargemSuperior = e.MarginBounds.Y;
 
-            //Cria um Brush solido com a cor preta
-            SolidBrush brush = new SolidBrush(Color.Black);
-
-            //Pega a largura inicial da folha
-            int xPosition = e.MarginBounds.X;
-            //Pega a altura inicial da folha
-            int yPosition = e.MarginBounds.Y;
-
-            int maxCharacters = 0;
+            Impressao.MaximoCaracteres = 0;
             //Calcula a quantidade máxima de caracteres que a linha suporta
-            maxCharacters = e.MarginBounds.Width / (int)fontetexto.Size;
+            Impressao.MaximoCaracteres = e.MarginBounds.Width / (int)Impressao.FonteTexto.Size;
 
-            //Posição onde o texto parou
-            int position = 0;
-            // A variável "posicaoUltimoEspaco" é atribuída, mas seu valor nunca é usado
-            int posicaoUltimoEspaco = 0;
+            
+            Impressao.PosicaoTexto = 0;
+           Impressao.PosicaoUltimoEspaco = 0;
 
             //Nome da empresa que será impresso
             string titulo = "Empresa: " + cmbNTCliente.SelectedItem.ToString();
             //Assunto que será usado
             string assunto = "Assunto: " + txtNTAssunto.Text;
 
-            g.DrawString(titulo, fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height + 20;
+            Impressao.Graficos.DrawString(titulo, Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height + 20;
 
-            while (assunto.Length - position > maxCharacters)
+            while (assunto.Length - Impressao.PosicaoTexto > Impressao.MaximoCaracteres)
             {
-                if (assunto.Substring(position, 1) == " ")
+                if (assunto.Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
                 else
                 {
                     //Define a posição do ultimo espaço em branco no texto selecionado
-                    posicaoUltimoEspaco = assunto.Substring(position, position + maxCharacters).LastIndexOf(" ");
+                    Impressao.PosicaoUltimoEspaco = assunto.Substring(Impressao.PosicaoTexto, Impressao.PosicaoTexto + Impressao.MaximoCaracteres).LastIndexOf(" ");
 
                     //Escreve o assunto
-                    g.DrawString(assunto.Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    Impressao.Graficos.DrawString(assunto.Substring(Impressao.PosicaoTexto, Impressao.PosicaoUltimoEspaco), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
                     //Soma na altura atual do texto
-                    yPosition += fonteTitulo.Height;
+                    Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
                     //Define a nova posição do texto
-                    position += posicaoUltimoEspaco;
+                    Impressao.PosicaoTexto += Impressao.PosicaoUltimoEspaco;
                 }
             }
-            if (assunto.Length - position > 0)
+            if (assunto.Length - Impressao.PosicaoTexto > 0)
             {
-                if (assunto.Substring(position, 1) == " ")
+                if (assunto.Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
-                g.DrawString(assunto.Substring(position), fonteTitulo, brush, xPosition, yPosition);
-                yPosition += fonteTitulo.Height;
+                Impressao.Graficos.DrawString(assunto.Substring(Impressao.PosicaoTexto), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+                Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
             }
-
-            //Configura a cor e o tamanho da linha
-            Pen blackPen = new Pen(Color.Black, 3);
 
             //Cria um espaço de 10pixels 
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
             //Cria a linha
-            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            Impressao.Graficos.DrawLine(Impressao.LinhaPreta, new Point(Impressao.MargemEsquerda, Impressao.MargemSuperior), new Point(e.MarginBounds.Width + 100, Impressao.MargemSuperior));
             //Cria um espaço de 10pixels
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
 
             //A quem a tarefa foi atribuida
             string atribuicao = "Atribuido a: " + cmbNTResponsavel.SelectedItem.ToString();
@@ -1993,54 +1961,45 @@ namespace Gerenciador_de_Tarefas
             string prioridade = "Prioridade: " + cmbNTPrioridade.SelectedItem.ToString();
 
             //Imprime a atribuição com a prioridade
-            g.DrawString(atribuicao + " | " + prioridade, fontetexto, brush, xPosition, yPosition);
-            yPosition += fontetexto.Height;
+            Impressao.Graficos.DrawString(atribuicao + " | " + prioridade, Impressao.FonteTexto, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteTexto.Height;
             //Imprime o período
-            g.DrawString(periodo, fontetexto, brush, xPosition, yPosition);
-            yPosition += fontetexto.Height;
+            Impressao.Graficos.DrawString(periodo, Impressao.FonteTexto, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteTexto.Height;
             //Imprime o status da tarefa
-            g.DrawString(status, fontetexto, brush, xPosition, yPosition);
-            yPosition += fontetexto.Height;
+            Impressao.Graficos.DrawString(status, Impressao.FonteTexto, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteTexto.Height;
 
             //Cria um espaço de 10pixels 
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
             //Cria a linha
-            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            Impressao.Graficos.DrawLine(Impressao.LinhaPreta, new Point(Impressao.MargemEsquerda, Impressao.MargemSuperior), new Point(e.MarginBounds.Width + 100, Impressao.MargemSuperior));
             //Cria um espaço de 10pixels
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
 
 
             //Imprime o título "Texto: "
-            g.DrawString("Texto:", fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height * 2;
+            Impressao.Graficos.DrawString("Texto:", Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height * 2;
 
-            int linhasPorPagina = 60;
-            int contador = 0;
-
-            //Calcula a quantidade máxima de caracteres que a linha suporta
-            maxCharacters = MaxCaracteres;
-
-            //Define a fonte do texto
-            Font fonteTexto2 = new Font("Arial", 8);
+            Impressao.ContadorLinhas = 0;
 
             if (Tarefa.PrimeiraPagina)
             {
                 Tarefa.PrimeiraPagina = false;
-                leitor = new StringReader(Tarefa.TextoImpressao);
+                Tarefa.Leitor = new StringReader(Tarefa.TextoImpressao);
             }
 
-            //float LeftMargin = e.MarginBounds.Left;
-            //float TopMargin = e.MarginBounds.Top;
-            string Line = null;
+            Impressao.LinhaTemporaria = null;
 
-            while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
+            while (Impressao.ContadorLinhas < Impressao.MaximoLinhas && ((Impressao.LinhaTemporaria = Tarefa.Leitor.ReadLine()) != null))
             {
-                yPosition += fonteTexto2.Height;
-                e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
-                contador++;
+                Impressao.MargemSuperior += Impressao.FonteTextoAlternativo.Height;
+                e.Graphics.DrawString(Impressao.LinhaTemporaria, Impressao.FonteTextoAlternativo, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior, new StringFormat());
+                Impressao.ContadorLinhas++;
             }
 
-            if (Line != null)
+            if (Impressao.LinhaTemporaria != null)
             {
                 e.HasMorePages = true;
             }
@@ -2049,7 +2008,7 @@ namespace Gerenciador_de_Tarefas
                 e.HasMorePages = false;
             }
 
-            brush.Dispose();
+            Impressao.FonteCorPreta.Dispose();
         }
         #endregion
         #endregion
@@ -2165,25 +2124,25 @@ namespace Gerenciador_de_Tarefas
         {
             try
             {
-                strFormat = new StringFormat
+                Impressao.FormatoString = new StringFormat
                 {
                     Alignment = StringAlignment.Near,
                     LineAlignment = StringAlignment.Center,
                     Trimming = StringTrimming.EllipsisCharacter
                 };
 
-                arrColumnLefts.Clear();
-                arrColumnWidths.Clear();
-                iCellHeight = 0;
-                iRow = 0;
-                bFirstPage = true;
-                bNewPage = true;
+                Impressao.ArrColunasRestantes.Clear();
+                Impressao.ArrLarguraColunas.Clear();
+                Impressao.AlturaCelula = 0;
+                Impressao.LinhaAtual = 0;
+                Impressao.PrimeiraPagina = true;
+                Impressao.NovaPagina = true;
 
                 // Calculating Total Widths
-                iTotalWidth = 0;
+                Impressao.LarguraTotal = 0;
                 foreach (DataGridViewColumn dgvGridCol in dgvFornecedores.Columns)
                 {
-                    iTotalWidth += dgvGridCol.Width;
+                    Impressao.LarguraTotal += dgvGridCol.Width;
                 }
             }
             catch (Exception)
@@ -2196,66 +2155,64 @@ namespace Gerenciador_de_Tarefas
         {
             try
             {
-                //Set the left margin
-                int iLeftMargin = e.MarginBounds.Left;
-                //Set the top margin
-                int iTopMargin = e.MarginBounds.Top;
-                //Whether more pages have to print or not
-                bool bMorePagesToPrint = false;
-                int iTmpWidth = 0;
+                //Seta a margem esquerda da folha
+                Impressao.MargemEsquerda = e.MarginBounds.Left;
+                //Seta a margem superior da folha
+                Impressao.MargemSuperior = e.MarginBounds.Top;
+                //Verifica se há mais páginas para imprimir
+                Impressao.TemMaisPaginasParaImprimir = false;
+                Impressao.LarguraTemporaria = 0;
 
-                //For the first page to print set the cell width and header height
-                if (bFirstPage)
+                //Seta a largura da célula e a altura do cabeçalho caso seja a primeira folha
+                if (Impressao.PrimeiraPagina)
                 {
                     foreach (DataGridViewColumn GridCol in dgvFornecedores.Columns)
                     {
-                        iTmpWidth = (int)(Math.Floor((double)((double)GridCol.Width /
-                            (double)iTotalWidth * (double)iTotalWidth *
-                            ((double)e.MarginBounds.Width / (double)iTotalWidth))));
+                        Impressao.LarguraTemporaria = (int)(Math.Floor((double)((double)GridCol.Width /
+                            (double)Impressao.LarguraTotal * (double)Impressao.LarguraTotal *
+                            ((double)e.MarginBounds.Width / (double)Impressao.LarguraTotal))));
 
-                        iHeaderHeight = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
-                            GridCol.InheritedStyle.Font, iTmpWidth).Height) + 11;
+                        Impressao.AlturaCabecalho = (int)(e.Graphics.MeasureString(GridCol.HeaderText,
+                            GridCol.InheritedStyle.Font, Impressao.LarguraTemporaria).Height) + 11;
 
                         // Save width and height of headers
-                        arrColumnLefts.Add(iLeftMargin);
-                        arrColumnWidths.Add(iTmpWidth);
-                        iLeftMargin += iTmpWidth;
+                        Impressao.ArrColunasRestantes.Add(Impressao.MargemEsquerda);
+                        Impressao.ArrLarguraColunas.Add(Impressao.LarguraTemporaria);
+                        Impressao.MargemEsquerda += Impressao.LarguraTemporaria;
                     }
                 }
                 //Loop till all the grid rows not get printed
-                while (iRow <= dgvFornecedores.Rows.Count - 1)
+                while (Impressao.LinhaAtual <= dgvFornecedores.Rows.Count - 1)
                 {
-                    DataGridViewRow GridRow = dgvFornecedores.Rows[iRow];
+                    DataGridViewRow GridRow = dgvFornecedores.Rows[Impressao.LinhaAtual];
                     //Set the cell height
-                    iCellHeight = GridRow.Height + 12;
+                    Impressao.AlturaCelula = GridRow.Height + 12;
                     int iCount = 0;
                     //Check whether the current page settings allows more rows to print
-                    if (iTopMargin + iCellHeight >= e.MarginBounds.Height + e.MarginBounds.Top)
+                    if (Impressao.MargemSuperior + Impressao.AlturaCelula >= e.MarginBounds.Height + e.MarginBounds.Top)
                     {
-                        bNewPage = true;
-                        bFirstPage = false;
-                        bMorePagesToPrint = true;
+                        Impressao.NovaPagina = true;
+                        Impressao.PrimeiraPagina = false;
+                        Impressao.TemMaisPaginasParaImprimir = true;
                         break;
                     }
                     else
                     {
-                        if (bNewPage)
+                        if (Impressao.NovaPagina)
                         {
                             //Draw Header
                             e.Graphics.DrawString("Lista de Fornecedores",
                                 new Font(dgvClientes.Font, FontStyle.Bold),
-                                Brushes.Black, e.MarginBounds.Left,
+                                Impressao.FonteCorPreta, e.MarginBounds.Left,
                                 e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Fornecedores",
                                 new Font(dgvClientes.Font, FontStyle.Bold),
                                 e.MarginBounds.Width).Height - 13);
-
-                            String strDate = DateTime.Now.ToLongDateString() + " " +
-                                DateTime.Now.ToShortTimeString();
+ 
                             //Draw Date
-                            e.Graphics.DrawString(strDate,
-                                new Font(dgvClientes.Font, FontStyle.Bold), Brushes.Black,
+                            e.Graphics.DrawString(Sistema.DataHoraImpressao,
+                                new Font(dgvClientes.Font, FontStyle.Bold), Impressao.FonteCorPreta,
                                 e.MarginBounds.Left +
-                                (e.MarginBounds.Width - e.Graphics.MeasureString(strDate,
+                                (e.MarginBounds.Width - e.Graphics.MeasureString(Sistema.DataHoraImpressao,
                                 new Font(dgvClientes.Font, FontStyle.Bold),
                                 e.MarginBounds.Width).Width),
                                 e.MarginBounds.Top - e.Graphics.MeasureString("Lista de Fornecedores",
@@ -2263,26 +2220,26 @@ namespace Gerenciador_de_Tarefas
                                 FontStyle.Bold), e.MarginBounds.Width).Height - 13);
 
                             //Draw Columns                 
-                            iTopMargin = e.MarginBounds.Top;
+                            Impressao.MargemSuperior = e.MarginBounds.Top;
                             foreach (DataGridViewColumn GridCol in dgvClientes.Columns)
                             {
-                                e.Graphics.FillRectangle(new SolidBrush(Color.LightGray),
-                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                    (int)arrColumnWidths[iCount], iHeaderHeight));
+                                e.Graphics.FillRectangle(Impressao.FonteCorCinzaClaro,
+                                    new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                    (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                 e.Graphics.DrawRectangle(Pens.Black,
-                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                    (int)arrColumnWidths[iCount], iHeaderHeight));
+                                    new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                    (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho));
 
                                 e.Graphics.DrawString(GridCol.HeaderText,
                                     GridCol.InheritedStyle.Font,
-                                    new SolidBrush(GridCol.InheritedStyle.ForeColor),
-                                    new RectangleF((int)arrColumnLefts[iCount], iTopMargin,
-                                    (int)arrColumnWidths[iCount], iHeaderHeight), strFormat);
+                                    new SolidBrush (GridCol.InheritedStyle.ForeColor),
+                                    new RectangleF((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                    (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCabecalho), Impressao.FormatoString);
                                 iCount++;
                             }
-                            bNewPage = false;
-                            iTopMargin += iHeaderHeight;
+                            Impressao.NovaPagina = false;
+                            Impressao.MargemSuperior += Impressao.AlturaCabecalho;
                         }
                         iCount = 0;
                         //Draw Columns Contents                
@@ -2302,25 +2259,25 @@ namespace Gerenciador_de_Tarefas
 
                                 e.Graphics.DrawString(texto,
                                 Cel.InheritedStyle.Font,
-                                new SolidBrush(Cel.InheritedStyle.ForeColor),
-                                new RectangleF((int)arrColumnLefts[iCount],
-                                (float)iTopMargin,
-                                (int)arrColumnWidths[iCount], (float)iCellHeight),
-                                strFormat);
+                                new SolidBrush (Cel.InheritedStyle.ForeColor),
+                                new RectangleF((int)Impressao.ArrColunasRestantes[iCount],
+                                (float)Impressao.MargemSuperior,
+                                (int)Impressao.ArrLarguraColunas[iCount], (float)Impressao.AlturaCelula),
+                                Impressao.FormatoString);
 
                                 //Drawing Cells Borders 
                                 e.Graphics.DrawRectangle(Pens.Black,
-                                    new Rectangle((int)arrColumnLefts[iCount], iTopMargin,
-                                    (int)arrColumnWidths[iCount], iCellHeight));
+                                    new Rectangle((int)Impressao.ArrColunasRestantes[iCount], Impressao.MargemSuperior,
+                                    (int)Impressao.ArrLarguraColunas[iCount], Impressao.AlturaCelula));
                                 iCount++;
                             }
                         }
                     }
-                    iRow++;
-                    iTopMargin += iCellHeight;
+                    Impressao.LinhaAtual++;
+                    Impressao.MargemSuperior += Impressao.AlturaCelula;
                 }
-                //If more lines exist, print another page.
-                if (bMorePagesToPrint)
+                //If more Impressao.LinhaTemporarias exist, print another page.
+                if (Impressao.TemMaisPaginasParaImprimir)
                     e.HasMorePages = true;
                 else
                     e.HasMorePages = false;
@@ -2985,244 +2942,221 @@ namespace Gerenciador_de_Tarefas
             }
         }
 
-        bool primeiraPaginaNF = false;
-        string _textoImprimir = null;
-        int MaxCaracteres = 100;
-        StringReader leitor;
-
         private void PdNFDocumento_BeginPrint(object sender, PrintEventArgs e)
         {
-            primeiraPaginaNF = true;
-            _textoImprimir = "";
-            _textoImprimir = Funcoes.PreparaTexto(txtNFObservacoes.Text, MaxCaracteres);
+            Fornecedor.PrimeiraPagina = true;
+            Fornecedor.TextoImpressao = "";
+            Fornecedor.TextoImpressao = Funcoes.PreparaTexto(txtNFObservacoes.Text, Impressao.MaximoCaracteres);
             pdNFDocumento.DocumentName = txtNFNome.Text;
         }
 
         private void PdNFDocumento_PrintPage(object sender, PrintPageEventArgs e)
         {
-            Graphics g = e.Graphics;
+            Impressao.Graficos = e.Graphics;
 
-            //Define a fonte do Título
-            Font fonteTitulo = new Font("Arial", 12, FontStyle.Bold);
-            //Define a fonte do texto
-            Font fontetexto = new Font("Arial", 10);
+            //Seta a margem esquerda da folha
+            Impressao.MargemEsquerda = e.MarginBounds.X;
+            //Seta a margem superior da folha
+            Impressao.MargemSuperior = e.MarginBounds.Y;
 
-            //Cria um Brush solido com a cor preta
-            SolidBrush brush = new SolidBrush(Color.Black);
-
-            //Pega a largura inicial da folha
-            int xPosition = e.MarginBounds.X;
-            //Pega a altura inicial da folha
-            int yPosition = e.MarginBounds.Y;
-
-            int maxCharacters = 0;
+            //Zera a quantidade máxima de caracteres
+            Impressao.MaximoCaracteres = 0;
             //Calcula a quantidade máxima de caracteres que a linha suporta
-            maxCharacters = e.MarginBounds.Width / (int)fontetexto.Size;
+            Impressao.MaximoCaracteres = e.MarginBounds.Width / (int)Impressao.FonteTexto.Size;
 
-            //Posição onde o texto parou
-            int position = 0;
-            // A variável "posicaoUltimoEspaco" é atribuída, mas seu valor nunca é usado
-            int posicaoUltimoEspaco = 0;
+            
+            Impressao.PosicaoTexto = 0;
+            
+            Impressao.PosicaoUltimoEspaco = 0;
 
             List<string> dados = Fornecedor.DadosImpressao();
                         
             //Escreve o ID do fornecedor
-            g.DrawString(dados[0], fonteTitulo, brush, xPosition, yPosition);
+            Impressao.Graficos.DrawString(dados[0], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
             //Soma na altura atual do texto
-            yPosition += fonteTitulo.Height;
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Nome
-            while (dados[1].Length - position > maxCharacters)
+            while (dados[1].Length - Impressao.PosicaoTexto > Impressao.MaximoCaracteres)
             {
-                if (dados[1].Substring(position, 1) == " ")
+                if (dados[1].Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
                 else
                 {
                     //Define a posição do ultimo espaço em branco no texto selecionado
-                    posicaoUltimoEspaco = dados[1].Substring(position, position + maxCharacters).LastIndexOf(" ");
+                    Impressao.PosicaoUltimoEspaco = dados[1].Substring(Impressao.PosicaoTexto, Impressao.PosicaoTexto + Impressao.MaximoCaracteres).LastIndexOf(" ");
 
                     //Escreve o nome
-                    g.DrawString(dados[1].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    Impressao.Graficos.DrawString(dados[1].Substring(Impressao.PosicaoTexto, Impressao.PosicaoUltimoEspaco), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
                     //Soma na altura atual do texto
-                    yPosition += fonteTitulo.Height;
+                    Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
                     //Define a nova posição do texto
-                    position += posicaoUltimoEspaco;
+                    Impressao.PosicaoTexto += Impressao.PosicaoUltimoEspaco;
                 }
             }
-            if (dados[1].Length - position > 0)
+            if (dados[1].Length - Impressao.PosicaoTexto > 0)
             {
-                if (dados[1].Substring(position, 1) == " ")
+                if (dados[1].Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
-                g.DrawString(dados[1].Substring(position), fonteTitulo, brush, xPosition, yPosition);
-                yPosition += fonteTitulo.Height;
-                position = 0;
+                Impressao.Graficos.DrawString(dados[1].Substring(Impressao.PosicaoTexto), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+                Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
+                Impressao.PosicaoTexto = 0;
             }
 
             //Apelido
-            while (dados[2].Length - position > maxCharacters)
+            while (dados[2].Length - Impressao.PosicaoTexto > Impressao.MaximoCaracteres)
             {
-                if (dados[2].Substring(position, 1) == " ")
+                if (dados[2].Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
                 else
                 {
                     //Define a posição do ultimo espaço em branco no texto selecionado
-                    posicaoUltimoEspaco = dados[2].Substring(position, position + maxCharacters).LastIndexOf(" ");
+                    Impressao.PosicaoUltimoEspaco = dados[2].Substring(Impressao.PosicaoTexto, Impressao.PosicaoTexto + Impressao.MaximoCaracteres).LastIndexOf(" ");
 
                     //Escreve o apelido
-                    g.DrawString(dados[2].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    Impressao.Graficos.DrawString(dados[2].Substring(Impressao.PosicaoTexto, Impressao.PosicaoUltimoEspaco), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
                     //Soma na altura atual do texto
-                    yPosition += fonteTitulo.Height;
+                    Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
                     //Define a nova posição do texto
-                    position += posicaoUltimoEspaco;
+                    Impressao.PosicaoTexto += Impressao.PosicaoUltimoEspaco;
                 }
             }
-            if (dados[2].Length - position > 0)
+            if (dados[2].Length - Impressao.PosicaoTexto > 0)
             {
-                if (dados[2].Substring(position, 1) == " ")
+                if (dados[2].Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
-                g.DrawString(dados[2].Substring(position), fonteTitulo, brush, xPosition, yPosition);
-                yPosition += fonteTitulo.Height;
-                position = 0;
+                Impressao.Graficos.DrawString(dados[2].Substring(Impressao.PosicaoTexto), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+                Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
+                Impressao.PosicaoTexto = 0;
             }
 
             //Escreve o documento
-            g.DrawString(dados[3], fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
+            Impressao.Graficos.DrawString(dados[3], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Escreve a inscrição estadual
-            g.DrawString(dados[12], fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
+            Impressao.Graficos.DrawString(dados[12], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Escreve a data de aniversario
-            g.DrawString(dados[4], fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
+            Impressao.Graficos.DrawString(dados[4], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Escreve a data de cadastro
-            g.DrawString(dados[5], fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
+            Impressao.Graficos.DrawString(dados[5], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Escreve o site
-            g.DrawString(dados[11], fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
-
-            //Configura a cor e o tamanho da linha
-            Pen blackPen = new Pen(Color.Black, 3);
+            Impressao.Graficos.DrawString(dados[11], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Cria um espaço de 10pixels 
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
             //Cria a linha
-            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            Impressao.Graficos.DrawLine(Impressao.LinhaPreta, new Point(Impressao.MargemEsquerda, Impressao.MargemSuperior), new Point(e.MarginBounds.Width + 100, Impressao.MargemSuperior));
             //Cria um espaço de 10pixels
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
 
             //Endereço
-            while (dados[6].Length - position > maxCharacters)
+            while (dados[6].Length - Impressao.PosicaoTexto > Impressao.MaximoCaracteres)
             {
-                if (dados[6].Substring(position, 1) == " ")
+                if (dados[6].Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
                 else
                 {
                     //Define a posição do ultimo espaço em branco no texto selecionado
-                    posicaoUltimoEspaco = dados[6].Substring(position, position + maxCharacters).LastIndexOf(" ");
+                    Impressao.PosicaoUltimoEspaco = dados[6].Substring(Impressao.PosicaoTexto, Impressao.PosicaoTexto + Impressao.MaximoCaracteres).LastIndexOf(" ");
 
                     //Escreve o endereço
-                    g.DrawString(dados[6].Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
+                    Impressao.Graficos.DrawString(dados[6].Substring(Impressao.PosicaoTexto, Impressao.PosicaoUltimoEspaco), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
                     //Soma na altura atual do texto
-                    yPosition += fonteTitulo.Height;
+                    Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
                     //Define a nova posição do texto
-                    position += posicaoUltimoEspaco;
+                    Impressao.PosicaoTexto += Impressao.PosicaoUltimoEspaco;
                 }
             }
-            if (dados[6].Length - position > 0)
+            if (dados[6].Length - Impressao.PosicaoTexto > 0)
             {
-                if (dados[6].Substring(position, 1) == " ")
+                if (dados[6].Substring(Impressao.PosicaoTexto, 1) == " ")
                 {
-                    position += 1;
+                    Impressao.PosicaoTexto += 1;
                 }
-                g.DrawString(dados[6].Substring(position), fonteTitulo, brush, xPosition, yPosition);
-                yPosition += fonteTitulo.Height;
-                position = 0;
+                Impressao.Graficos.DrawString(dados[6].Substring(Impressao.PosicaoTexto), Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+                Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
+                Impressao.PosicaoTexto = 0;
             }
 
             //Cria um espaço de 10pixels 
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
             //Cria a linha
-            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            Impressao.Graficos.DrawLine(Impressao.LinhaPreta, new Point(Impressao.MargemEsquerda, Impressao.MargemSuperior), new Point(e.MarginBounds.Width + 100, Impressao.MargemSuperior));
             //Cria um espaço de 10pixels
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
 
             //Escreve os telefones
-            g.DrawString("Contatos: ", fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
+            Impressao.Graficos.DrawString("Contatos: ", Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Escreve o contato 1
             if(!string.IsNullOrEmpty(dados[7]))
             {
-                g.DrawString(dados[7], fonteTitulo, brush, xPosition, yPosition);
-                yPosition += fonteTitulo.Height;
+                Impressao.Graficos.DrawString(dados[7], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+                Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
             }
             //Escreve o contato 2
             if (!string.IsNullOrEmpty(dados[8]))
             {
-                g.DrawString(dados[8], fonteTitulo, brush, xPosition, yPosition);
-                yPosition += fonteTitulo.Height;
+                Impressao.Graficos.DrawString(dados[8], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+                Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
             }
             //Escreve o celular
             if (!string.IsNullOrEmpty(dados[9]))
             {
-                g.DrawString(dados[9], fonteTitulo, brush, xPosition, yPosition);
-                yPosition += fonteTitulo.Height;
+                Impressao.Graficos.DrawString(dados[9], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+                Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
             }
             //Escreve o e-mail
-            g.DrawString(dados[10], fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
+            Impressao.Graficos.DrawString(dados[10], Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height;
 
             //Cria um espaço de 10pixels 
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
             //Cria a linha
-            g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
+            Impressao.Graficos.DrawLine(Impressao.LinhaPreta, new Point(Impressao.MargemEsquerda, Impressao.MargemSuperior), new Point(e.MarginBounds.Width + 100, Impressao.MargemSuperior));
             //Cria um espaço de 10pixels
-            yPosition += 10;
+            Impressao.MargemSuperior += 10;
 
-            //Imprime o título "Texto: "
-            g.DrawString("Observações:", fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height * 2;
+            Impressao.Graficos.DrawString("Observações:", Impressao.FonteCabecalho, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior);
+            Impressao.MargemSuperior += Impressao.FonteCabecalho.Height * 2;
 
-            int linhasPorPagina = 60;
-            int contador = 0;
+            Impressao.ContadorLinhas = 0;
 
-            //Calcula a quantidade máxima de caracteres que a linha suporta
-            maxCharacters = MaxCaracteres;
-
-            //Define a fonte do texto
-            Font fonteTexto2 = new Font("Arial", 9);
-
-            if (primeiraPaginaNF)
+            if (Fornecedor.PrimeiraPagina)
             {
-                primeiraPaginaNF = false;
-                leitor = new StringReader(_textoImprimir);
+                Fornecedor.PrimeiraPagina = false;
+                Fornecedor.Leitor = new StringReader(Fornecedor.TextoImpressao);
             }
 
-            string Line = null;
+            Impressao.LinhaTemporaria = null;
 
-            while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
+            while (Impressao.ContadorLinhas < Impressao.MaximoLinhas && ((Impressao.LinhaTemporaria = Fornecedor.Leitor.ReadLine()) != null))
             {
-                yPosition += fonteTexto2.Height;
-                e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
-                contador++;
+                Impressao.MargemSuperior += Impressao.FonteTextoAlternativo.Height;
+                e.Graphics.DrawString(Impressao.LinhaTemporaria, Impressao.FonteTextoAlternativo, Impressao.FonteCorPreta, Impressao.MargemEsquerda, Impressao.MargemSuperior, new StringFormat());
+                Impressao.ContadorLinhas++;
             }
 
-            if (Line != null)
+            if (Impressao.LinhaTemporaria != null)
             {
                 e.HasMorePages = true;
             }
@@ -3231,127 +3165,8 @@ namespace Gerenciador_de_Tarefas
                 e.HasMorePages = false;
             }
 
-            brush.Dispose();
+            Impressao.FonteCorPreta.Dispose();
         }
-
-        /*
-        //Nome da empresa que será impresso
-        string titulo = "Empresa: " + cmbEmpresa.SelectedItem.ToString();
-        //Assunto que será usado
-        string assunto = "Assunto: " + txtAssunto.Text;
-
-        g.DrawString(titulo, fonteTitulo, brush, xPosition, yPosition);
-        yPosition += fonteTitulo.Height + 20;
-
-        while (assunto.Length - position > maxCharacters)
-        {
-            if (assunto.Substring(position, 1) == " ")
-            {
-                position += 1;
-            }
-            else
-            {
-                //Define a posição do ultimo espaço em branco no texto selecionado
-                posicaoUltimoEspaco = assunto.Substring(position, position + maxCharacters).LastIndexOf(" ");
-
-                //Escreve o assunto
-                g.DrawString(assunto.Substring(position, posicaoUltimoEspaco), fonteTitulo, brush, xPosition, yPosition);
-                //Soma na altura atual do texto
-                yPosition += fonteTitulo.Height;
-                //Define a nova posição do texto
-                position += posicaoUltimoEspaco;
-            }
-        }
-        if (assunto.Length - position > 0)
-        {
-            if (assunto.Substring(position, 1) == " ")
-            {
-                position += 1;
-            }
-            g.DrawString(assunto.Substring(position), fonteTitulo, brush, xPosition, yPosition);
-            yPosition += fonteTitulo.Height;
-        }
-
-        //Configura a cor e o tamanho da linha
-        Pen blackPen = new Pen(Color.Black, 3);
-
-        //Cria um espaço de 10pixels 
-        yPosition += 10;
-        //Cria a linha
-        g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
-        //Cria um espaço de 10pixels
-        yPosition += 10;
-
-        //A quem a tarefa foi atribuida
-        string atribuicao = "Atribuido a: " + cmbFuncionario.SelectedItem.ToString();
-        //Qual o período da tarefa
-        string periodo = "Data de Início: " + dtpInicio.Value.ToShortDateString() + " - Data de Conclusão: " + dtpFinal.Value.ToShortDateString();
-        //Qual o status da tarefa
-        string status = "Status: " + cmbStatus.SelectedItem.ToString();
-        //Qual a prioridade da tarefa
-        string prioridade = "Prioridade: " + cmbPrioridade.SelectedItem.ToString();
-
-        //Imprime a atribuição com a prioridade
-        g.DrawString(atribuicao + " | " + prioridade, fontetexto, brush, xPosition, yPosition);
-        yPosition += fontetexto.Height;
-        //Imprime o período
-        g.DrawString(periodo, fontetexto, brush, xPosition, yPosition);
-        yPosition += fontetexto.Height;
-        //Imprime o status da tarefa
-        g.DrawString(status, fontetexto, brush, xPosition, yPosition);
-        yPosition += fontetexto.Height;
-
-        //Cria um espaço de 10pixels 
-        yPosition += 10;
-        //Cria a linha
-        g.DrawLine(blackPen, new Point(xPosition, yPosition), new Point(e.MarginBounds.Width + 100, yPosition));
-        //Cria um espaço de 10pixels
-        yPosition += 10;
-
-
-        //Imprime o título "Texto: "
-        g.DrawString("Texto:", fonteTitulo, brush, xPosition, yPosition);
-        yPosition += fonteTitulo.Height * 2;
-        */
-        /*
-        int linhasPorPagina = 60;
-        int contador = 0;
-
-        //Calcula a quantidade máxima de caracteres que a linha suporta
-        maxCharacters = MaxCaracteres;
-
-        //Define a fonte do texto
-        Font fonteTexto2 = new Font("Arial", 8);
-
-        if (primeiraPagina)
-        {
-            primeiraPagina = false;
-            leitor = new StringReader(_textoImprimir);
-        }
-
-        //float LeftMargin = e.MarginBounds.Left;
-        //float TopMargin = e.MarginBounds.Top;
-        string Line = null;
-
-        while (contador < linhasPorPagina && ((Line = leitor.ReadLine()) != null))
-        {
-            yPosition += fonteTexto2.Height;
-            e.Graphics.DrawString(Line, fonteTexto2, brush, xPosition, yPosition, new StringFormat());
-            contador++;
-        }
-
-        if (Line != null)
-        {
-            e.HasMorePages = true;
-        }
-        else
-        {
-            e.HasMorePages = false;
-        }
-
-        brush.Dispose();
-    }
-    */
         #endregion
 
         #endregion
