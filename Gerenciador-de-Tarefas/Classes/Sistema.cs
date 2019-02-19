@@ -857,14 +857,14 @@ namespace Gerenciador_de_Tarefas.Classes
             }
             catch (NullReferenceException)
             {
-                ListaErro.RetornaErro(04);
                 FechaConexao();
+                return null;
             }
             catch (MySqlException)
             {
                 ListaErro.RetornaErro(04);
                 FechaConexao();
-                return resultado;
+                return null;
             }
             finally
             {
@@ -894,6 +894,50 @@ namespace Gerenciador_de_Tarefas.Classes
                 while (dR.Read())
                 {
                     for (int i = 0; i < 9; i++)
+                    {
+                        if (dR.GetString(i) == null)
+                        {
+                            resultado.Add("");
+                        }
+                        else
+                        {
+                            resultado.Add(dR.GetString(i));
+                        }
+                    }
+                }
+            }
+            catch (MySqlException)
+            {
+                ListaErro.RetornaErro(05);
+                FechaConexao();
+            }
+            finally
+            {
+                FechaConexao();
+            }
+
+            return resultado;
+        }
+
+        public static List<string> ConsultaAnexosTarefa(int id, string comando)
+        {
+            List<string> resultado = new List<string>();
+
+            try
+            {
+                AbreConexao();
+
+                MySqlCommand cmd = new MySqlCommand(comando, conexao);
+                MySqlDataReader dR;
+
+                dR = cmd.ExecuteReader();
+
+                int qtdAnexos = int.Parse(ConsultaSimples("Select count(id) from tbl_tarefa_anexos " +
+                    "where tarefa = " + id + ";"));
+
+                while (dR.Read())
+                {
+                    for (int i = 0; i < qtdAnexos; i++)
                     {
                         if (dR.GetString(i) == null)
                         {
@@ -1159,7 +1203,7 @@ namespace Gerenciador_de_Tarefas.Classes
 
             return resultado;
         }
-#endregion
+        #endregion
         #endregion
     }
 }

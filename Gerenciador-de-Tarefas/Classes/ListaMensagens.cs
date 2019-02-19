@@ -153,7 +153,14 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "Destravar Tarefas? : " +
                         "As tarefas foram desbloqueadas com sucesso!";
                     break;
-
+                case 34:
+                    resultado = "Arquivo já existe : " +
+                        "O arquivo informado já existe na pasta desta tarefa!\n\nCaso essa mensagem continue aparecendo favor informar ao suporte técnico: suporte@cftva.com.br";
+                    break;
+                case 35:
+                    resultado = "Arquivo já cadastrado : " +
+                        "O arquivo informado já está cadastrado para essa tarefa no banco de dados!\n\nCaso essa mensagem continue aparecendo favor informar ao suporte técnico: suporte@cftva.com.br";
+                    break;
             }
 
             return resultado;

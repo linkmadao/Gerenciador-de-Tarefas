@@ -265,6 +265,10 @@ namespace Gerenciador_de_Tarefas.Classes
                     resultado = "Erro ao alterar a tarefa : " +
                         "Não foi possível alterar a tarefa!\nFavor reportar esse erro pelo suporte@cftva.com.br.";
                     break;
+                case 65:
+                    resultado = "Erro ao copiar o arquivo : " +
+                        "Não foi possível copiar o arquivo solicitado!\nFavor reportar esse erro pelo suporte@cftva.com.br.";
+                    break;
             }
             
             return resultado;

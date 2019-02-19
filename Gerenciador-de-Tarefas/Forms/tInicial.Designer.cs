@@ -72,7 +72,7 @@
             this.txtNTAssunto = new System.Windows.Forms.TextBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.dtpNTDataFinal = new System.Windows.Forms.DateTimePicker();
-            this.dtpNTDataInicio = new System.Windows.Forms.DateTimePicker();
+            this.dtpNTDataInicial = new System.Windows.Forms.DateTimePicker();
             this.label42 = new System.Windows.Forms.Label();
             this.cmbNTPrioridade = new System.Windows.Forms.ComboBox();
             this.mskNTDataCadastro = new System.Windows.Forms.MaskedTextBox();
@@ -92,10 +92,16 @@
             this.tabNTAnexos = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel25 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel26 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnNTAnexar = new System.Windows.Forms.Button();
             this.tableLayoutPanel27 = new System.Windows.Forms.TableLayoutPanel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.txtNTNomeArquivo = new System.Windows.Forms.TextBox();
             this.label37 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel28 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel29 = new System.Windows.Forms.TableLayoutPanel();
+            this.lstNTAnexos = new System.Windows.Forms.ListView();
+            this.colNTCheckBox = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colFormato = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.colNome = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.btnNTGerarOS = new System.Windows.Forms.Button();
             this.btnNTApagar = new System.Windows.Forms.Button();
@@ -288,7 +294,6 @@
             this.pdNTDocumento = new System.Drawing.Printing.PrintDocument();
             this.pdNTConfigImpressao = new System.Windows.Forms.PrintDialog();
             this.pPreviewNT = new System.Windows.Forms.PrintPreviewDialog();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.tlpGeral.SuspendLayout();
             this.tlpMenuPrincipal.SuspendLayout();
             this.tlpMenu.SuspendLayout();
@@ -320,6 +325,7 @@
             this.tableLayoutPanel25.SuspendLayout();
             this.tableLayoutPanel26.SuspendLayout();
             this.tableLayoutPanel27.SuspendLayout();
+            this.tableLayoutPanel28.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.panelOpcoes.SuspendLayout();
             this.tableLayoutPanel22.SuspendLayout();
@@ -969,7 +975,7 @@
             // 
             this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel7.Controls.Add(this.dtpNTDataFinal);
-            this.panel7.Controls.Add(this.dtpNTDataInicio);
+            this.panel7.Controls.Add(this.dtpNTDataInicial);
             this.panel7.Controls.Add(this.label42);
             this.panel7.Controls.Add(this.cmbNTPrioridade);
             this.panel7.Controls.Add(this.mskNTDataCadastro);
@@ -994,15 +1000,15 @@
             this.dtpNTDataFinal.TabIndex = 11;
             this.dtpNTDataFinal.Value = new System.DateTime(2019, 1, 22, 0, 0, 0, 0);
             // 
-            // dtpNTDataInicio
+            // dtpNTDataInicial
             // 
-            this.dtpNTDataInicio.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpNTDataInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpNTDataInicio.Location = new System.Drawing.Point(166, 36);
-            this.dtpNTDataInicio.Name = "dtpNTDataInicio";
-            this.dtpNTDataInicio.Size = new System.Drawing.Size(103, 22);
-            this.dtpNTDataInicio.TabIndex = 9;
-            this.dtpNTDataInicio.Value = new System.DateTime(2019, 1, 22, 0, 0, 0, 0);
+            this.dtpNTDataInicial.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dtpNTDataInicial.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtpNTDataInicial.Location = new System.Drawing.Point(166, 36);
+            this.dtpNTDataInicial.Name = "dtpNTDataInicial";
+            this.dtpNTDataInicial.Size = new System.Drawing.Size(103, 22);
+            this.dtpNTDataInicial.TabIndex = 9;
+            this.dtpNTDataInicial.Value = new System.DateTime(2019, 1, 22, 0, 0, 0, 0);
             // 
             // label42
             // 
@@ -1223,7 +1229,7 @@
             this.tableLayoutPanel25.ColumnCount = 1;
             this.tableLayoutPanel25.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel25.Controls.Add(this.tableLayoutPanel26, 0, 0);
-            this.tableLayoutPanel25.Controls.Add(this.listBox1, 0, 1);
+            this.tableLayoutPanel25.Controls.Add(this.tableLayoutPanel28, 0, 1);
             this.tableLayoutPanel25.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel25.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel25.Name = "tableLayoutPanel25";
@@ -1239,22 +1245,40 @@
             this.tableLayoutPanel26.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
             this.tableLayoutPanel26.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel26.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel26.Controls.Add(this.btnNTAnexar, 2, 0);
             this.tableLayoutPanel26.Controls.Add(this.tableLayoutPanel27, 1, 0);
-            this.tableLayoutPanel26.Controls.Add(this.button1, 2, 0);
             this.tableLayoutPanel26.Controls.Add(this.label37, 0, 0);
             this.tableLayoutPanel26.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel26.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel26.Name = "tableLayoutPanel26";
             this.tableLayoutPanel26.RowCount = 1;
             this.tableLayoutPanel26.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel26.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
+            this.tableLayoutPanel26.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 34F));
             this.tableLayoutPanel26.Size = new System.Drawing.Size(869, 34);
             this.tableLayoutPanel26.TabIndex = 0;
+            // 
+            // btnNTAnexar
+            // 
+            this.btnNTAnexar.BackColor = System.Drawing.Color.OliveDrab;
+            this.btnNTAnexar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnNTAnexar.Enabled = false;
+            this.btnNTAnexar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnNTAnexar.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNTAnexar.ForeColor = System.Drawing.Color.White;
+            this.btnNTAnexar.Location = new System.Drawing.Point(752, 3);
+            this.btnNTAnexar.Name = "btnNTAnexar";
+            this.btnNTAnexar.Size = new System.Drawing.Size(114, 28);
+            this.btnNTAnexar.TabIndex = 23;
+            this.btnNTAnexar.Text = "Anexar";
+            this.btnNTAnexar.UseVisualStyleBackColor = false;
+            this.btnNTAnexar.Click += new System.EventHandler(this.btnNTAnexar_Click);
             // 
             // tableLayoutPanel27
             // 
             this.tableLayoutPanel27.ColumnCount = 1;
             this.tableLayoutPanel27.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel27.Controls.Add(this.textBox1, 0, 0);
+            this.tableLayoutPanel27.Controls.Add(this.txtNTNomeArquivo, 1, 0);
             this.tableLayoutPanel27.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel27.Location = new System.Drawing.Point(83, 3);
             this.tableLayoutPanel27.Name = "tableLayoutPanel27";
@@ -1265,29 +1289,15 @@
             this.tableLayoutPanel27.Size = new System.Drawing.Size(663, 28);
             this.tableLayoutPanel27.TabIndex = 21;
             // 
-            // textBox1
+            // txtNTNomeArquivo
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(657, 22);
-            this.textBox1.TabIndex = 23;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.OliveDrab;
-            this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(752, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(114, 28);
-            this.button1.TabIndex = 19;
-            this.button1.Text = "Anexar";
-            this.button1.UseVisualStyleBackColor = false;
+            this.txtNTNomeArquivo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNTNomeArquivo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtNTNomeArquivo.Location = new System.Drawing.Point(3, 3);
+            this.txtNTNomeArquivo.Name = "txtNTNomeArquivo";
+            this.txtNTNomeArquivo.ReadOnly = true;
+            this.txtNTNomeArquivo.Size = new System.Drawing.Size(657, 22);
+            this.txtNTNomeArquivo.TabIndex = 23;
             // 
             // label37
             // 
@@ -1299,6 +1309,79 @@
             this.label37.TabIndex = 20;
             this.label37.Text = "Arquivo:";
             this.label37.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // tableLayoutPanel28
+            // 
+            this.tableLayoutPanel28.ColumnCount = 2;
+            this.tableLayoutPanel28.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.19102F));
+            this.tableLayoutPanel28.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.80898F));
+            this.tableLayoutPanel28.Controls.Add(this.tableLayoutPanel29, 0, 0);
+            this.tableLayoutPanel28.Controls.Add(this.lstNTAnexos, 0, 0);
+            this.tableLayoutPanel28.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel28.Location = new System.Drawing.Point(3, 43);
+            this.tableLayoutPanel28.Name = "tableLayoutPanel28";
+            this.tableLayoutPanel28.RowCount = 1;
+            this.tableLayoutPanel28.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel28.Size = new System.Drawing.Size(869, 278);
+            this.tableLayoutPanel28.TabIndex = 1;
+            // 
+            // tableLayoutPanel29
+            // 
+            this.tableLayoutPanel29.ColumnCount = 1;
+            this.tableLayoutPanel29.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel29.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel29.Location = new System.Drawing.Point(751, 3);
+            this.tableLayoutPanel29.Name = "tableLayoutPanel29";
+            this.tableLayoutPanel29.RowCount = 5;
+            this.tableLayoutPanel29.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel29.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel29.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel29.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel29.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel29.Size = new System.Drawing.Size(115, 272);
+            this.tableLayoutPanel29.TabIndex = 3;
+            // 
+            // lstNTAnexos
+            // 
+            this.lstNTAnexos.Activation = System.Windows.Forms.ItemActivation.OneClick;
+            this.lstNTAnexos.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lstNTAnexos.CheckBoxes = true;
+            this.lstNTAnexos.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colNTCheckBox,
+            this.colFormato,
+            this.colNome});
+            this.lstNTAnexos.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstNTAnexos.GridLines = true;
+            this.lstNTAnexos.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lstNTAnexos.Location = new System.Drawing.Point(3, 3);
+            this.lstNTAnexos.MultiSelect = false;
+            this.lstNTAnexos.Name = "lstNTAnexos";
+            this.lstNTAnexos.Size = new System.Drawing.Size(742, 272);
+            this.lstNTAnexos.TabIndex = 2;
+            this.lstNTAnexos.UseCompatibleStateImageBehavior = false;
+            this.lstNTAnexos.View = System.Windows.Forms.View.Details;
+            this.lstNTAnexos.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.lstNTAnexos_ColumnWidthChanging);
+            this.lstNTAnexos.DrawColumnHeader += new System.Windows.Forms.DrawListViewColumnHeaderEventHandler(this.lstNTAnexos_DrawColumnHeader);
+            this.lstNTAnexos.DrawItem += new System.Windows.Forms.DrawListViewItemEventHandler(this.lstNTAnexos_DrawItem);
+            this.lstNTAnexos.DrawSubItem += new System.Windows.Forms.DrawListViewSubItemEventHandler(this.lstNTAnexos_DrawSubItem);
+            this.lstNTAnexos.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lstNTAnexos_MouseDown);
+            // 
+            // colNTCheckBox
+            // 
+            this.colNTCheckBox.Text = "";
+            this.colNTCheckBox.Width = 25;
+            // 
+            // colFormato
+            // 
+            this.colFormato.Text = "Formato";
+            this.colFormato.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.colFormato.Width = 106;
+            // 
+            // colNome
+            // 
+            this.colNome.Text = "Nome Arquivo";
+            this.colNome.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.colNome.Width = 600;
             // 
             // tableLayoutPanel5
             // 
@@ -2059,7 +2142,7 @@
             this.tlpNFTipoFornecedor.ColumnCount = 3;
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 77.70992F));
             this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 22.29008F));
-            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 304F));
+            this.tlpNFTipoFornecedor.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 311F));
             this.tlpNFTipoFornecedor.Controls.Add(this.panel1, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFTipoFornecedor, 0, 0);
             this.tlpNFTipoFornecedor.Controls.Add(this.panelNFDatas, 1, 0);
@@ -2081,9 +2164,9 @@
             this.panel1.Controls.Add(this.lblNFDataNascimento);
             this.panel1.Controls.Add(this.label31);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(457, 3);
+            this.panel1.Location = new System.Drawing.Point(452, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(124, 147);
+            this.panel1.Size = new System.Drawing.Size(122, 147);
             this.panel1.TabIndex = 1;
             // 
             // txtNFDataNascimento
@@ -2166,7 +2249,7 @@
             this.panelNFTipoFornecedor.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelNFTipoFornecedor.Location = new System.Drawing.Point(3, 3);
             this.panelNFTipoFornecedor.Name = "panelNFTipoFornecedor";
-            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(448, 147);
+            this.panelNFTipoFornecedor.Size = new System.Drawing.Size(443, 147);
             this.panelNFTipoFornecedor.TabIndex = 0;
             // 
             // lblNFApelido
@@ -2284,9 +2367,9 @@
             this.panelNFDatas.Controls.Add(this.cmbNFCateg1);
             this.panelNFDatas.Controls.Add(this.label32);
             this.panelNFDatas.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelNFDatas.Location = new System.Drawing.Point(587, 3);
+            this.panelNFDatas.Location = new System.Drawing.Point(580, 3);
             this.panelNFDatas.Name = "panelNFDatas";
-            this.panelNFDatas.Size = new System.Drawing.Size(299, 147);
+            this.panelNFDatas.Size = new System.Drawing.Size(306, 147);
             this.panelNFDatas.TabIndex = 2;
             // 
             // label35
@@ -3612,7 +3695,9 @@
             // 
             // ofdAbrirArquivo
             // 
-            this.ofdAbrirArquivo.DefaultExt = "sql";
+            this.ofdAbrirArquivo.Filter = "Todos Arquivos (*.*)|*.*";
+            this.ofdAbrirArquivo.InitialDirectory = "C:\\";
+            this.ofdAbrirArquivo.Title = "Anexar Arquivo";
             // 
             // tooltipGeral
             // 
@@ -3687,15 +3772,6 @@
             this.pPreviewNT.Name = "pPreviewNF";
             this.pPreviewNT.Visible = false;
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 14;
-            this.listBox1.Location = new System.Drawing.Point(3, 43);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 88);
-            this.listBox1.TabIndex = 1;
-            // 
             // TInicial
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3753,6 +3829,7 @@
             this.tableLayoutPanel26.PerformLayout();
             this.tableLayoutPanel27.ResumeLayout(false);
             this.tableLayoutPanel27.PerformLayout();
+            this.tableLayoutPanel28.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.panelOpcoes.ResumeLayout(false);
             this.tableLayoutPanel22.ResumeLayout(false);
@@ -4070,16 +4147,21 @@
         private System.Windows.Forms.Button btnNTGerarOS;
         private System.Windows.Forms.Button btnNTApagar;
         private System.Windows.Forms.DateTimePicker dtpNTDataFinal;
-        private System.Windows.Forms.DateTimePicker dtpNTDataInicio;
+        private System.Windows.Forms.DateTimePicker dtpNTDataInicial;
         private System.Drawing.Printing.PrintDocument pdNTDocumento;
         private System.Windows.Forms.PrintDialog pdNTConfigImpressao;
         private System.Windows.Forms.PrintPreviewDialog pPreviewNT;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel25;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel26;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnNTAnexar;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel27;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.TextBox txtNTNomeArquivo;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel28;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel29;
+        private System.Windows.Forms.ListView lstNTAnexos;
+        private System.Windows.Forms.ColumnHeader colFormato;
+        private System.Windows.Forms.ColumnHeader colNome;
+        private System.Windows.Forms.ColumnHeader colNTCheckBox;
     }
 }

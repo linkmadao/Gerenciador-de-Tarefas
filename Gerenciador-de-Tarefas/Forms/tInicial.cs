@@ -8,6 +8,7 @@ using System.IO;
 using System.Drawing.Printing;
 using Microsoft.VisualBasic;
 using Gerenciador_de_Tarefas.Classes;
+using System.Diagnostics;
 
 namespace Gerenciador_de_Tarefas
 {
@@ -1522,55 +1523,81 @@ namespace Gerenciador_de_Tarefas
 
         private void NTLimpaCampos()
         {
-            if (cmbNTCliente.DataSource == null)
-            {
-                cmbNTCliente.DataSource = Tarefa.ListaClientes;
-            }
-            if (cmbNTResponsavel.DataSource == null)
-            {
-                cmbNTResponsavel.DataSource = Tarefa.ListaFuncionarios;
-            }
-
-            lblNTTitulo.Text = "Nova Tarefa";
-            txtNTID.Text = "";
-            txtNTAssunto.Text = "";
-            mskNTDataCadastro.Text = "";
-            dtpNTDataInicio.Text = Sistema.Hoje;
-            dtpNTDataFinal.Text = Sistema.Hoje;
-            cmbNTPrioridade.SelectedIndex = 1;
-            cmbNTStatus.SelectedIndex = 0;
-            cmbNTResponsavel.Text = "";
-            cmbNTCliente.Text = "";
-            rtbNTHistorico.Text = "";
-            rtbNTTexto.Text = "";
+            btnNTAnexar.Enabled = false;
+            btnNTApagar.Visible = false;
+            btnNTApagar.Enabled = false;
             btnNTCadastrar.Text = "Cadastrar Tarefa";
-            btnNTSair.Text = "Cancelar";
+            btnNTEditar.Visible = false;
+            btnNTEditar.Enabled = false;
             btnNTGerarOS.Visible = false;
             btnNTGerarOS.Enabled = false;
             btnNTImprimir.Visible = false;
             btnNTImprimir.Enabled = false;
-            btnNTEditar.Visible = false;
-            btnNTEditar.Enabled = false;
-            btnNTApagar.Visible = false;
-            btnNTApagar.Enabled = false;
-            txtNTAssunto.Focus();
-        }
+            btnNTSair.Text = "Cancelar";
 
-        private void NTCarregaTarefa()
-        {
             if (cmbNTCliente.DataSource == null)
             {
                 cmbNTCliente.DataSource = Tarefa.ListaClientes;
             }
+            cmbNTCliente.Text = "";
+
             if (cmbNTResponsavel.DataSource == null)
             {
                 cmbNTResponsavel.DataSource = Tarefa.ListaFuncionarios;
             }
+            cmbNTResponsavel.Text = "";
 
-            txtNTID.Text = Tarefa.ID.ToString();
-            txtNTAssunto.Text = Tarefa.Assunto;
-            mskNTDataCadastro.Text = Tarefa.DataCadastro;
-            dtpNTDataInicio.Text = Tarefa.DataInicial;
+            cmbNTPrioridade.SelectedIndex = 1;
+            cmbNTStatus.SelectedIndex = 0;
+
+
+            dtpNTDataInicial.Text = Sistema.Hoje;
+            dtpNTDataFinal.Text = Sistema.Hoje;
+            
+            lblNTTitulo.Text = "Nova Tarefa";
+            lstNTAnexos.Clear();
+
+            mskNTDataCadastro.Text = "";
+
+            rtbNTHistorico.Text = "";
+            rtbNTTexto.Text = "";
+
+            txtNTAssunto.Focus();
+            txtNTAssunto.Text = "";
+            txtNTID.Text = "";
+            txtNTNomeArquivo.Text = "";
+        }
+
+        private void NTCarregaTarefa()
+        {
+            btnNTAnexar.Enabled = true;
+            btnNTApagar.Visible = true;
+            btnNTApagar.Enabled = true;
+            btnNTCadastrar.Text = "Nova Tarefa";
+            btnNTEditar.Visible = true;
+            btnNTEditar.Enabled = true;
+            btnNTGerarOS.Visible = true;
+            btnNTGerarOS.Enabled = true;
+            btnNTImprimir.Visible = true;
+            btnNTImprimir.Enabled = true;
+            btnNTSair.Text = "Sair";
+
+            if (cmbNTCliente.DataSource == null)
+            {
+                cmbNTCliente.DataSource = Tarefa.ListaClientes;
+            }
+            cmbNTCliente.Text = Tarefa.Empresa;
+
+            if (cmbNTResponsavel.DataSource == null)
+            {
+                cmbNTResponsavel.DataSource = Tarefa.ListaFuncionarios;
+            }
+            cmbNTResponsavel.Text = Tarefa.Atribuicao;
+
+            cmbNTPrioridade.SelectedIndex = Tarefa.Prioridade;
+            cmbNTStatus.SelectedIndex = Tarefa.Status;
+            
+            dtpNTDataInicial.Text = Tarefa.DataInicial;
             if(Tarefa.Status == 5)
             {
                 dtpNTDataFinal.Text = Tarefa.DataFinal;
@@ -1579,249 +1606,42 @@ namespace Gerenciador_de_Tarefas
             {
                 dtpNTDataFinal.Text = Tarefa.DataInicial;
             }
-            cmbNTPrioridade.SelectedIndex = Tarefa.Prioridade;
-            cmbNTStatus.SelectedIndex = Tarefa.Status;
-            cmbNTResponsavel.Text = Tarefa.Atribuicao;
-            cmbNTCliente.Text = Tarefa.Empresa;
+
+            lblNTTitulo.Text = Tarefa.Titulo;
+
+            mskNTDataCadastro.Text = Tarefa.DataCadastro;
 
             rtbNTHistorico.Text = Tarefa.Texto;
-            lblNTTitulo.Text = Tarefa.Titulo;
-            btnNTCadastrar.Text = "Nova Tarefa";
-            btnNTSair.Text = "Sair";
-            btnNTGerarOS.Visible = true;
-            btnNTGerarOS.Enabled = true;
-            btnNTImprimir.Visible = true;
-            btnNTImprimir.Enabled = true;
-            btnNTEditar.Visible = true;
-            btnNTEditar.Enabled = true;
-            btnNTApagar.Visible = true;
-            btnNTApagar.Enabled = true;
-
             rtbNTTexto.Focus();
+
+            txtNTID.Text = Tarefa.ID.ToString();
+            txtNTAssunto.Text = Tarefa.Assunto;
         }
 
-        private void BtnNTSair_Click(object sender, EventArgs e)
+        #region Botões
+        private void btnNTAnexar_Click(object sender, EventArgs e)
         {
-            if (!Tarefa.TarefaApagada)
+            if (ofdAbrirArquivo.ShowDialog() == DialogResult.OK)
             {
-                Tarefa.Assunto = txtNTAssunto.Text;
-                Tarefa.Atribuicao = cmbNTResponsavel.SelectedItem.ToString();
-                Tarefa.DataInicial = dtpNTDataInicio.Text;
-                Tarefa.DataFinal = dtpNTDataFinal.Text;
-                Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
-                Tarefa.Status = cmbNTStatus.SelectedIndex;
-                Tarefa.Texto = rtbNTHistorico.Text;
+                string nomeArquivo = ofdAbrirArquivo.FileName;
+                txtNTNomeArquivo.Text = nomeArquivo;
 
-                if (Tarefa.AvaliaMudancas())
+                try
+                {   
+                    if (Tarefa.AnexarArquivo(nomeArquivo))
+                    {
+                        ListViewItem item = new ListViewItem();
+
+                        item.SubItems.Add(Path.GetExtension(nomeArquivo).ToUpper());
+                        item.SubItems.Add(Path.GetFileNameWithoutExtension(nomeArquivo));
+
+                        lstNTAnexos.Items.Add(item);
+                    }
+                }
+                catch (Exception)
                 {
-                    if (!Tarefa.NovaTarefa)
-                    {
-                        if (ListaMensagens.RetornaDialogo(03) == DialogResult.Yes)
-                        {
-                            Tarefa.DestravaTarefa();
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        if (ListaMensagens.RetornaDialogo(02) == DialogResult.No)
-                        {
-                            return;
-                        }
-                    }
+                    throw;
                 }
-                else
-                {
-                    if(Tarefa.TarefaBloqueada())
-                    {
-                        Tarefa.DestravaTarefa();
-                    }
-                }
-            }
-
-            panelTarefas.Visible = true;
-            panelTarefas.Enabled = true;
-
-            panelNT.Visible = false;
-            panelNT.Enabled = false;
-
-            AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
-        }
-
-        private void BtnNTEditar_Click(object sender, EventArgs e)
-        {
-            if (txtNTAssunto.TextLength < 1)
-            {
-                ListaErro.RetornaErro(29);
-                txtNTAssunto.Focus();
-            }
-            else
-            {
-                if (rtbNTHistorico.TextLength < 5)
-                {
-                    ListaErro.RetornaErro(28);
-                    rtbNTHistorico.Focus();
-                }
-                else
-                {
-                    try
-                    {
-                        Tarefa.Assunto = txtNTAssunto.Text;
-                        Tarefa.Atribuicao = cmbNTResponsavel.Text;
-                        Tarefa.DataFinal = dtpNTDataFinal.Value.ToString("yyyy-MM-dd");
-                        Tarefa.DataInicial = dtpNTDataInicio.Value.ToString("yyyy-MM-dd");
-                        Tarefa.Empresa = cmbNTCliente.Text;
-                        Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
-                        Tarefa.Status = cmbNTStatus.SelectedIndex + 1;
-                        Tarefa.Texto = rtbNTHistorico.Text;
-
-                        if (Tarefa.AvaliaMudancas())
-                        {
-                            lblNTTitulo.Text = cmbNTCliente.Text + " - " + txtNTAssunto.Text;
-
-                            Tarefa.Travar = true;
-
-                            Tarefa.Salvar();
-
-                            ListaMensagens.RetornaMensagem(29, MessageBoxIcon.Information);
-                        }
-                    }
-                    catch (NullReferenceException)
-                    {
-                        ListaErro.RetornaErro(64);
-                    }
-                }
-            }
-        }
-
-        private void BtnNTInsereTexto_Click(object sender, EventArgs e)
-        {
-            if (rtbNTTexto.TextLength > 3)
-            {
-                if(ListaMensagens.RetornaDialogo(27) == DialogResult.Yes)
-                {
-                    if(rtbNTHistorico.TextLength <= 0)
-                    {
-                        rtbNTHistorico.Text = Sistema.Hoje + " - " + Sistema.Hora + " - " + Sistema.NomeUsuarioLogado + "\n\n" + rtbNTTexto.Text;
-                    }
-                    else
-                    {
-                        rtbNTHistorico.Text = Sistema.Hoje + " - " + Sistema.Hora + " - " + Sistema.NomeUsuarioLogado + "\n\n" + rtbNTTexto.Text +
-                            Sistema.Divisoria + rtbNTHistorico.Text;
-                    }
-
-                    rtbNTTexto.Clear();
-                    rtbNTTexto.Focus();
-                }
-                else
-                {
-                    rtbNTTexto.Focus();
-                }
-            }
-            else
-            {
-                ListaErro.RetornaErro(63);
-                rtbNTTexto.Focus();
-            }
-        }
-
-        private void BtnNTCadastrar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Tarefa.Assunto = txtNTAssunto.Text;
-                Tarefa.Texto = rtbNTHistorico.Text;
-
-                if (Tarefa.AvaliaMudancas())
-                { 
-                    if (Tarefa.NovaTarefa)
-                    {
-                        if (txtNTAssunto.TextLength < 5)
-                        {
-                            ListaErro.RetornaErro(29);
-                            txtNTAssunto.Focus();
-                        }
-                        else
-                        {
-                            if (rtbNTHistorico.TextLength < 1)
-                            {
-                                ListaErro.RetornaErro(28);
-                                rtbNTTexto.Focus();
-                            }
-                            else
-                            {
-                                Tarefa.Atribuicao = cmbNTResponsavel.SelectedItem.ToString();
-                                Tarefa.DataInicial = dtpNTDataInicio.Text;
-                                Tarefa.DataFinal = dtpNTDataFinal.Text;
-                                Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
-                                Tarefa.Status = cmbNTStatus.SelectedIndex + 1;
-                                Tarefa.Empresa = cmbNTCliente.SelectedItem.ToString();
-
-                                Tarefa.CadastrarTarefa();
-
-                                if (ListaMensagens.RetornaDialogo(28) == DialogResult.Yes)
-                                {
-                                    Tarefa.DestravaTarefa();
-                                    Tarefa.LimparVariaveis();
-                                    NTLimpaCampos();
-                                }
-                                else
-                                {
-                                    btnNTGerarOS.Visible = true;
-                                    btnNTGerarOS.Enabled = true;
-                                    btnNTImprimir.Visible = true;
-                                    btnNTImprimir.Enabled = true;
-                                    btnNTEditar.Visible = true;
-                                    btnNTEditar.Enabled = true;
-                                    btnNTApagar.Visible = true;
-                                    btnNTApagar.Enabled = true;
-
-                                    lblNTTitulo.Text = Tarefa.Titulo;
-                                    txtNTID.Text = Tarefa.ID.ToString();
-                                    mskNTDataCadastro.Text = Tarefa.DataCadastro;
-
-                                    btnNTCadastrar.Text = "Nova Tarefa";
-                                    btnNTSair.Text = "Sair";
-                                }
-                            }
-                        } 
-                    }
-                    else
-                    {
-                        if (ListaMensagens.RetornaDialogo(03) == DialogResult.Yes)
-                        {
-                            Tarefa.DestravaTarefa();
-                            Tarefa.LimparVariaveis();
-                            NTLimpaCampos();
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    if(Tarefa.NovaTarefa)
-                    {
-                        ListaMensagens.RetornaMensagem(30, MessageBoxIcon.Information);
-                        txtNTAssunto.Focus();
-                    }
-                    else
-                    {
-                        Tarefa.DestravaTarefa();
-                        Tarefa.LimparVariaveis();
-                        NTLimpaCampos();
-                    }
-                }
-            }
-            catch (NullReferenceException ex)
-            {
-                MessageBox.Show(ex.ToString());
-                throw;
             }
         }
 
@@ -1865,6 +1685,339 @@ namespace Gerenciador_de_Tarefas
                 }
             }
         }
+
+        private void BtnNTCadastrar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Tarefa.Assunto = txtNTAssunto.Text;
+                Tarefa.Texto = rtbNTHistorico.Text;
+
+                if (Tarefa.AvaliaMudancas())
+                {
+                    if (Tarefa.NovaTarefa)
+                    {
+                        if (txtNTAssunto.TextLength < 5)
+                        {
+                            ListaErro.RetornaErro(29);
+                            txtNTAssunto.Focus();
+                        }
+                        else
+                        {
+                            if (rtbNTHistorico.TextLength < 1)
+                            {
+                                ListaErro.RetornaErro(28);
+                                rtbNTTexto.Focus();
+                            }
+                            else
+                            {
+                                Tarefa.Atribuicao = cmbNTResponsavel.SelectedItem.ToString();
+                                Tarefa.DataInicial = dtpNTDataInicial.Text;
+                                Tarefa.DataFinal = dtpNTDataFinal.Text;
+                                Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
+                                Tarefa.Status = cmbNTStatus.SelectedIndex + 1;
+                                Tarefa.Empresa = cmbNTCliente.SelectedItem.ToString();
+
+                                Tarefa.CadastrarTarefa();
+
+                                if (ListaMensagens.RetornaDialogo(28) == DialogResult.Yes)
+                                {
+                                    Tarefa.DestravaTarefa();
+                                    Tarefa.LimparVariaveis();
+                                    NTLimpaCampos();
+                                }
+                                else
+                                {
+                                    btnNTAnexar.Enabled = true;
+                                    btnNTApagar.Visible = true;
+                                    btnNTApagar.Enabled = true;
+                                    btnNTCadastrar.Text = "Nova Tarefa";
+                                    btnNTEditar.Visible = true;
+                                    btnNTEditar.Enabled = true;
+                                    btnNTGerarOS.Visible = true;
+                                    btnNTGerarOS.Enabled = true;
+                                    btnNTImprimir.Visible = true;
+                                    btnNTImprimir.Enabled = true;
+                                    btnNTSair.Text = "Sair";
+                                    lblNTTitulo.Text = Tarefa.Titulo;
+                                    mskNTDataCadastro.Text = Tarefa.DataCadastro;
+                                    txtNTID.Text = Tarefa.ID.ToString();
+                                    
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (ListaMensagens.RetornaDialogo(03) == DialogResult.Yes)
+                        {
+                            Tarefa.DestravaTarefa();
+                            Tarefa.LimparVariaveis();
+                            NTLimpaCampos();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if (Tarefa.NovaTarefa)
+                    {
+                        ListaMensagens.RetornaMensagem(30, MessageBoxIcon.Information);
+                        txtNTAssunto.Focus();
+                    }
+                    else
+                    {
+                        Tarefa.DestravaTarefa();
+                        Tarefa.LimparVariaveis();
+                        NTLimpaCampos();
+                    }
+                }
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show(ex.ToString());
+                throw;
+            }
+        }
+
+        private void BtnNTEditar_Click(object sender, EventArgs e)
+        {
+            if (txtNTAssunto.TextLength < 1)
+            {
+                ListaErro.RetornaErro(29);
+                txtNTAssunto.Focus();
+            }
+            else
+            {
+                if (rtbNTHistorico.TextLength < 5)
+                {
+                    ListaErro.RetornaErro(28);
+                    rtbNTHistorico.Focus();
+                }
+                else
+                {
+                    try
+                    {
+                        Tarefa.Assunto = txtNTAssunto.Text;
+                        Tarefa.Atribuicao = cmbNTResponsavel.Text;
+                        Tarefa.DataFinal = dtpNTDataFinal.Value.ToString("yyyy-MM-dd");
+                        Tarefa.DataInicial = dtpNTDataInicial.Value.ToString("yyyy-MM-dd");
+                        Tarefa.Empresa = cmbNTCliente.Text;
+                        Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
+                        Tarefa.Status = cmbNTStatus.SelectedIndex + 1;
+                        Tarefa.Texto = rtbNTHistorico.Text;
+
+                        List<string> anexos = new List<string>();
+                        foreach(ListViewItem l in lstNTAnexos.Items)
+                        {
+                            anexos.Add(l.SubItems[2].Text + l.SubItems[1].Text);
+                        }
+
+                        if (Tarefa.Anexos != anexos)
+                        {
+                            Tarefa.Anexos = anexos;
+                        }
+
+                        if (Tarefa.AvaliaMudancas())
+                        {
+                            lblNTTitulo.Text = cmbNTCliente.Text + " - " + txtNTAssunto.Text;
+
+                            Tarefa.Travar = true;
+
+                            Tarefa.AtualizarTarefa();
+
+                            ListaMensagens.RetornaMensagem(29, MessageBoxIcon.Information);
+                        }
+                    }
+                    catch (NullReferenceException)
+                    {
+                        ListaErro.RetornaErro(64);
+                    }
+                }
+            }
+        }
+
+        private void BtnNTInsereTexto_Click(object sender, EventArgs e)
+        {
+            if (rtbNTTexto.TextLength > 3)
+            {
+                if(ListaMensagens.RetornaDialogo(27) == DialogResult.Yes)
+                {
+                    if(rtbNTHistorico.TextLength <= 0)
+                    {
+                        rtbNTHistorico.Text = Sistema.Hoje + " - " + Sistema.Hora + " - " + Sistema.NomeUsuarioLogado + "\n\n" + rtbNTTexto.Text;
+                    }
+                    else
+                    {
+                        rtbNTHistorico.Text = Sistema.Hoje + " - " + Sistema.Hora + " - " + Sistema.NomeUsuarioLogado + "\n\n" + rtbNTTexto.Text +
+                            Sistema.Divisoria + rtbNTHistorico.Text;
+                    }
+
+                    rtbNTTexto.Clear();
+                    rtbNTTexto.Focus();
+                }
+                else
+                {
+                    rtbNTTexto.Focus();
+                }
+            }
+            else
+            {
+                ListaErro.RetornaErro(63);
+                rtbNTTexto.Focus();
+            }
+        }
+
+        private void BtnNTSair_Click(object sender, EventArgs e)
+        {
+            if (!Tarefa.TarefaApagada)
+            {
+                Tarefa.Assunto = txtNTAssunto.Text;
+                Tarefa.Atribuicao = cmbNTResponsavel.SelectedItem.ToString();
+                Tarefa.DataInicial = dtpNTDataInicial.Text;
+                Tarefa.DataFinal = dtpNTDataFinal.Text;
+                Tarefa.Prioridade = cmbNTPrioridade.SelectedIndex;
+                Tarefa.Status = cmbNTStatus.SelectedIndex;
+                Tarefa.Texto = rtbNTHistorico.Text;
+
+                if (Tarefa.AvaliaMudancas())
+                {
+                    if (!Tarefa.NovaTarefa)
+                    {
+                        if (ListaMensagens.RetornaDialogo(03) == DialogResult.Yes)
+                        {
+
+
+                            Tarefa.DestravaTarefa();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        if (ListaMensagens.RetornaDialogo(02) == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    if (Tarefa.TarefaBloqueada())
+                    {
+                        Tarefa.DestravaTarefa();
+                    }
+                }
+            }
+
+            panelTarefas.Visible = true;
+            panelTarefas.Enabled = true;
+
+            panelNT.Visible = false;
+            panelNT.Enabled = false;
+
+            AtualizaDGVTarefas(dgvTarefas.CurrentCell.RowIndex);
+        }
+        #endregion
+
+        #region ListView - Anexo
+        private void lstNTAnexos_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        {
+            e.Cancel = true;
+            e.NewWidth = lstNTAnexos.Columns[e.ColumnIndex].Width;
+        }
+
+        private void lstNTAnexos_MouseDown(object sender, MouseEventArgs e)
+        {
+            var info = lstNTAnexos.HitTest(e.X, e.Y);
+            //var row = info.Item.Index;
+            //var col = info.Item.SubItems.IndexOf(info.SubItem);
+
+            var value = info.Item.SubItems[2].Text + info.Item.SubItems[1].Text;
+
+            Process.Start(@"\\192.168.254.253\GerenciadorTarefas\Anexos\" + Tarefa.ID + @"\" + value);
+        }
+
+        #region Checkbox - coluna 0
+        /*
+         * OBS: é necessário ativar a opção "Mostrar conteúdo da janela ao arrastar" no windows para funcionar
+         * COMO ATIVAR:
+         *  1º - Aperte a combinação "Tecla do Windows + R" e digite "sysdm.cpl" (Sem as aspas duplas), depois aperte OK;
+         *  2º - Na janela de Propriedades do Sistema, vá para a aba "Avançado" e depois clique no botão "Configurações" do grupo "Desempenho";
+         *  3º - Na janela de Opções de Desempenho, ative a opção "Mostrar conteúdo da janela ao arrastar" e clique em OK;
+         *  4º - Depois disso só clicar em OK e pronto, irá funcionar :3
+        */
+
+        private void lstNTAnexos_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e)
+        {
+            // Se for a primeira coluna
+            if(e.ColumnIndex == 0)
+            {
+                // Desenha o fundo
+                e.DrawBackground();
+                //Cria uma variável booleana
+                bool value = false;
+
+                try
+                {
+                    value = Convert.ToBoolean(e.Header.Tag);
+                }
+                catch (Exception)
+                {
+                }
+
+                CheckBoxRenderer.DrawCheckBox(e.Graphics, new Point(e.Bounds.Left + 4, e.Bounds.Top + 4),
+                    value ? System.Windows.Forms.VisualStyles.CheckBoxState.CheckedNormal :
+                    System.Windows.Forms.VisualStyles.CheckBoxState.UncheckedNormal);
+            }
+            else
+            {
+                e.DrawDefault = true;
+            }
+        }
+
+        private void lstNTAnexos_DrawItem(object sender, DrawListViewItemEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void lstNTAnexos_DrawSubItem(object sender, DrawListViewSubItemEventArgs e)
+        {
+            e.DrawDefault = true;
+        }
+
+        private void lstNTAnexos_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Se for a coluna 0
+            if (e.Column == 0)
+            {
+                bool value = false;
+
+                try
+                {
+                    value = Convert.ToBoolean(this.lstNTAnexos.Columns[e.Column].Tag);
+                }
+                catch (Exception)
+                {
+                }
+
+                this.lstNTAnexos.Columns[e.Column].Tag = !value;
+
+                foreach (ListViewItem item in this.lstNTAnexos.Items)
+                {
+                    item.Checked = !value;
+                }
+
+                this.lstNTAnexos.Invalidate();
+            }
+        }
+        #endregion
+        #endregion
 
         #region NT-Impressão
         private void BtnNTImprimir_Click(object sender, EventArgs e)
@@ -1954,7 +2107,7 @@ namespace Gerenciador_de_Tarefas
             //A quem a tarefa foi atribuida
             string atribuicao = "Atribuido a: " + cmbNTResponsavel.SelectedItem.ToString();
             //Qual o período da tarefa
-            string periodo = "Data de Início: " + dtpNTDataInicio.Value.ToShortDateString() + " - Data de Conclusão: " + dtpNTDataFinal.Value.ToShortDateString();
+            string periodo = "Data de Início: " + dtpNTDataInicial.Value.ToShortDateString() + " - Data de Conclusão: " + dtpNTDataFinal.Value.ToShortDateString();
             //Qual o status da tarefa
             string status = "Status: " + cmbNTStatus.SelectedItem.ToString();
             //Qual a prioridade da tarefa

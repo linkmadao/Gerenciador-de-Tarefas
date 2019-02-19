@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Gerenciador_de_Tarefas.Classes
@@ -8,31 +9,47 @@ namespace Gerenciador_de_Tarefas.Classes
     public static class Tarefa
     {
         #region Variaveis
-        private static bool novaTarefa = true, primeiraPagina = true, travar = true, tarefaApagada = false;
+        private static bool novaTarefa = true, primeiraPagina = true, travar = true, 
+            tarefaApagada = false;
 
-        //Originais
         private static int id = 0, prioridade = 1, status = 0;
         private static string assunto = "", atribuicao = "", dataFinal = "", dataCadastro = "",
             dataInicial = "", empresa = "", texto = "", textoImpressao = "", titulo = "";
         private static DataGridView dgvTarefasAtualizada = new DataGridView();
 
-        //Backup
+        private static List<string> anexos = new List<string>();
+
+        #region Backup
         private static int _prioridade = 1, _status = 0;
         private static string _assunto = "", _atribuicao = "", _dataFinal = "",
             _dataInicial = "", _empresa = "", _texto = "";
         private static DataGridView _dgvTarefasAtual = new DataGridView();
 
-
+        private static List<string> _anexos = new List<string>();
+        #endregion
         #endregion
 
         #region Propriedades
-        public static DataGridView DGVAtualizada
+        #region bool
+        public static bool NovaTarefa
         {
             get
             {
-                return dgvTarefasAtualizada;
+                return novaTarefa;
             }
         }
+        public static bool PrimeiraPagina
+        {
+            get
+            {
+                return primeiraPagina;
+            }
+            set
+            {
+                primeiraPagina = value;
+            }
+        }
+        
         public static bool TarefaApagada
         {
             get
@@ -44,6 +61,26 @@ namespace Gerenciador_de_Tarefas.Classes
                 tarefaApagada = value;
             }
         }
+        public static bool Travar
+        {
+            set
+            {
+                travar = value;
+            }
+        }
+        #endregion
+
+        #region DataGridView
+        public static DataGridView DGVAtualizada
+        {
+            get
+            {
+                return dgvTarefasAtualizada;
+            }
+        }
+        #endregion
+
+        #region int
         public static int ID
         {
             get
@@ -73,7 +110,9 @@ namespace Gerenciador_de_Tarefas.Classes
                 status = value;
             }
         }
-
+        #endregion
+        
+        #region string
         public static string Assunto
         {
             get
@@ -165,34 +204,21 @@ namespace Gerenciador_de_Tarefas.Classes
                 return titulo;
             }
         }
+        #endregion
 
-        public static bool NovaTarefa
+        #region List<string>
+        public static List<string> Anexos
         {
             get
             {
-                return novaTarefa;
-            }
-        }
-        public static bool PrimeiraPagina
-        {
-            get
-            {
-                return primeiraPagina;
+                return anexos;
             }
             set
             {
-                primeiraPagina = value;
+                anexos = value;
             }
         }
-        public static bool Travar
-        {
-            set
-            {
-                travar = value;
-            }
-        }
-
-        public static List<string>ListaClientes
+        public static List<string> ListaClientes
         {
             get
             {
@@ -206,135 +232,125 @@ namespace Gerenciador_de_Tarefas.Classes
                 return Sistema.PreencheCMB("Select nome from tbl_funcionarios;");
             }
         }
+        #endregion
+
+        #region StringReader
         public static StringReader Leitor
         {
             get; set;
         }
         #endregion
+        #endregion
 
         #region Funcoes
-
-        public static bool AvaliaMudancas()
+        public static bool AnexarArquivo(string caminhoArquivo)
         {
+            bool resultado = false;
+
             try
             {
-                if(NovaTarefa)
+                string formato = Path.GetExtension(caminhoArquivo).ToUpper();
+                string nomeArquivo = Path.GetFileNameWithoutExtension(caminhoArquivo);
+                string nomeArquivoCompleto = nomeArquivo + formato;
+                string enderecoServidor = Encoding.UTF8.GetString(Convert.FromBase64String(Sistema.EnderecoServidor));
+                string caminhoPasta = "\\\\" + enderecoServidor + "\\GerenciadorTarefas\\Anexos\\" + id.ToString();
+                string destino = caminhoPasta + "\\" + nomeArquivoCompleto;
+
+                if (!Directory.Exists(caminhoPasta)) 
                 {
-                    if (_assunto != Assunto || _texto != Texto)
+                    Directory.CreateDirectory(caminhoPasta);
+                }
+
+                FileInfo arquivo = new FileInfo(destino); 
+
+                if (!arquivo.Exists)
+                {
+                    try
                     {
-                        return true;
+                        File.Copy(caminhoArquivo, destino);
+                        resultado = true;
                     }
-                    else
+                    catch (Exception)
                     {
-                        return false;
+                        ListaErro.RetornaErro(65);
+                        return resultado;
+                    }
+                    finally
+                    {
+                        if(resultado)
+                        {
+                            string comando = "Select id from tbl_tarefa_anexos " +
+                                "where tarefa = '" + id.ToString() + "' and nome = '" + nomeArquivoCompleto + "';";
+
+                            if (string.IsNullOrEmpty(Sistema.ConsultaSimples(comando)))
+                            {
+                                Sistema.ExecutaComando("insert into tbl_tarefa_anexos values(0," + id.ToString() + "," +
+                                "'" + nomeArquivoCompleto + "');");
+                            }
+                            else
+                            {
+                                ListaMensagens.RetornaMensagem(35, MessageBoxIcon.Information);
+                                resultado = false;
+                            }
+                        }
                     }
                 }
                 else
                 {
-                    if (_dataInicial.Length > 10)
-                    {
-                        _dataInicial = _dataInicial.Substring(0, 10);
-                    }
-                    if (_dataFinal.Length > 10)
-                    {
-                        _dataFinal = _dataFinal.Substring(0, 10);
-                    }
-                    if (DataInicial.Length > 10)
-                    {
-                        DataInicial = DataInicial.Substring(0, 10);
-                    }
-                    if (DataFinal.Length > 10)
-                    {
-                        DataFinal = DataFinal.Substring(0, 10);
-                    }
-                    /*
-                    if (DataInicial.Contains("/"))
-                    {
-                        DataInicial = DataInicial.Substring(6, 4) + "-" + DataInicial.Substring(3, 2) + "-" + DataInicial.Substring(0, 2);
-                    }
-                    if (DataFinal.Contains("/"))
-                    {
-                        DataFinal = DataFinal.Substring(6, 4) + "-" + DataFinal.Substring(3, 2) + "-" + DataFinal.Substring(0, 2);
-                    }
-                    */
-                    if (_assunto != Assunto || _atribuicao != Atribuicao || _empresa != Empresa || _dataInicial != DataInicial
-                                || _dataFinal != DataFinal || _prioridade != Prioridade || (_status - 1) != (Status - 1) || _texto != Texto)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    ListaMensagens.RetornaMensagem(34, MessageBoxIcon.Information);
                 }
             }
             catch (Exception)
             {
-                return false;
             }
+
+            return resultado;
         }
+
         /// <summary>
-        /// Método responsável por atualizar uma tarefa
+        /// Apaga a tarefa
         /// </summary>
-        /// <param name="tarefa">ID da tarefa</param>
-        /// <param name="empresa">Nome da empresa</param>
-        /// <param name="funcionario">Nome do funcionário</param>
-        /// <param name="status">Status da tarefa</param>
-        /// <param name="assunto">Assunto da tarefa</param>
-        /// <param name="dataInicio">Data quando a tarefa iniciou</param>
-        /// <param name="dataFinal">Data quando a tarefa irá terminar/terminou</param>
-        /// <param name="prioridade">Prioridade da tarefa</param>
-        /// <param name="texto">Texto relatado na tarefa</param>
-        /// <returns>Se verdadeiro, a operação foi um sucesso</returns>
-        public static bool AtualizarTarefa()
+        /// <param name="tarefa">ID da tarefa que deseja apagar</param>
+        public static bool ApagarTarefa()
         {
-            string comando = null;
-            int idEmpresa = 0, idFuncionario = 0;
-
             try
             {
-                comando = "Select ID from tbl_contato where nome = '" + empresa + "';";
-                idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
+                string enderecoServidor = Encoding.UTF8.GetString(Convert.FromBase64String(Sistema.EnderecoServidor));
 
-                comando = "Select ID from tbl_funcionarios where nome = '" + atribuicao + "';";
-                idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
+                Sistema.ExecutaComando("delete from tbl_tarefa_anexos where tarefa = " + ID + ";");
+                Directory.Delete(@"\\"+ enderecoServidor + @"\GerenciadorTarefas\Anexos\" + ID);
+
+                Sistema.ExecutaComando("delete from tbl_tarefas where id = " + ID + ";");
+            }
+            catch (Exception)
+            {
+                tarefaApagada = false;
+                return false;
+            }
+
+            tarefaApagada = true;
+            return true;
+        }
+
+        public static bool ApagarAnexos()
+        {
+            try
+            {
+                Sistema.ExecutaComando("delete from tbl_tarefa_anexos where tarefa = " + ID + ";");
+
+                Directory.Delete(@"\\192.168.254.253\GerenciadorTarefas\Anexos\" + ID);
             }
             catch (Exception)
             {
                 return false;
             }
 
-            try
-            {
-                comando = "update tbl_tarefas " +
-                        "SET empresa = " + idEmpresa + ", funcionario = " + idFuncionario + ", " +
-                        "status = " + status + ", assunto = '" + assunto + "', " +
-                        "datainicial = '" + dataInicial + "', datafinal = '" + dataFinal + "', " +
-                        "prioridade = " + prioridade + ", texto = '" + texto + "' " +
-                        "Where id = " + ID + ";";
-
-                Sistema.ExecutaComando(comando);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-            //Atualiza variáveis
-            _assunto = Assunto;
-            _atribuicao = Atribuicao;
-            _dataFinal = DataFinal;
-            _dataInicial = DataInicial;
-            _empresa = Empresa;
-            _prioridade = Prioridade;
-            _status = Status;
-            _texto = Texto;
-
+            tarefaApagada = true;
             return true;
         }
 
         /// <summary>
-        /// Método responsável por atualizar a tabela da tela inicial
+        ///Atualiza a tabela de tarefas
         /// </summary>
         public static bool AtualizaDGVTarefas(int posicaoCmbFiltroTarefas)
         {
@@ -409,38 +425,116 @@ namespace Gerenciador_de_Tarefas.Classes
         }
 
         /// <summary>
-        /// Método responsável por apagar uma tarefa
+        /// Atualiza a tarefa
         /// </summary>
-        /// <param name="tarefa">ID da tarefa que deseja apagar</param>
-        public static bool ApagarTarefa()
+        /// <returns>Se verdadeiro, a operação foi um sucesso</returns>
+        public static bool AtualizarTarefa()
         {
+            string comando = null;
+            int idEmpresa = 0, idFuncionario = 0;
+
             try
             {
-                Sistema.ExecutaComando("delete from tbl_tarefas where id = " + ID + ";");
+                comando = "Select ID from tbl_contato where nome = '" + empresa + "';";
+                idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
+
+                comando = "Select ID from tbl_funcionarios where nome = '" + atribuicao + "';";
+                idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
             }
             catch (Exception)
             {
-                tarefaApagada = false;
+                ListaErro.RetornaErro(17);
                 return false;
             }
 
-            tarefaApagada = true;
+            try
+            {
+                comando = "update tbl_tarefas " +
+                        "SET empresa = " + idEmpresa + ", funcionario = " + idFuncionario + ", " +
+                        "status = " + status + ", assunto = '" + assunto + "', " +
+                        "datainicial = '" + dataInicial + "', datafinal = '" + dataFinal + "', " +
+                        "prioridade = " + prioridade + ", texto = '" + texto + "' " +
+                        "Where id = " + ID + ";";
+
+                Sistema.ExecutaComando(comando);
+            }
+            catch (Exception)
+            {
+                ListaErro.RetornaErro(17);
+                return false;
+            }
+
+            //Atualiza variáveis
+            _assunto = Assunto;
+            _atribuicao = Atribuicao;
+            _dataFinal = DataFinal;
+            _dataInicial = DataInicial;
+            _empresa = Empresa;
+            _prioridade = Prioridade;
+            _status = Status;
+            _texto = Texto;
+
             return true;
         }
 
         /// <summary>
-        /// Método responsável por cadastrar uma tarefa
+        /// Verifica se há mudanças na tarefa
         /// </summary>
-        /// <param name="empresa">Nome da empresa</param>
-        /// <param name="funcionario">Nome do funcionário</param>
-        /// <param name="status">Status da tarefa</param>
-        /// <param name="assunto">Assunto da tarefa</param>
-        /// <param name="dataInicio">Data quando a tarefa iniciou</param>
-        /// <param name="dataFinal">Data quando a tarefa irá terminar/terminou</param>
-        /// <param name="prioridade">Prioridade da tarefa</param>
-        /// <param name="texto">Texto relatado na tarefa</param>
-        /// <param name="travar">Travar a tarefa?</param>
-        /// <returns></returns>
+        public static bool AvaliaMudancas()
+        {
+            try
+            {
+                if (NovaTarefa)
+                {
+                    if (_assunto != Assunto || _texto != Texto)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (_dataInicial.Length > 10)
+                    {
+                        _dataInicial = _dataInicial.Substring(0, 10);
+                    }
+                    if (_dataFinal.Length > 10)
+                    {
+                        _dataFinal = _dataFinal.Substring(0, 10);
+                    }
+                    if (DataInicial.Length > 10)
+                    {
+                        DataInicial = DataInicial.Substring(0, 10);
+                    }
+                    if (DataFinal.Length > 10)
+                    {
+                        DataFinal = DataFinal.Substring(0, 10);
+                    }
+                    if (_assunto != Assunto || _atribuicao != Atribuicao || _empresa != Empresa || 
+                        _dataInicial != DataInicial || _dataFinal != DataFinal ||
+                        _prioridade != Prioridade || (_status - 1) != (Status - 1) || 
+                        _texto != Texto || _anexos != Anexos)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Cadastra a tarefa
+        /// </summary>
         public static void CadastrarTarefa()
         {
             string comando = null;
@@ -511,6 +605,9 @@ namespace Gerenciador_de_Tarefas.Classes
             }
         }
 
+        /// <summary>
+        /// Carrega os dados da tarefa escolhida
+        /// </summary>
         public static void CarregarTarefa()
         {
             try
@@ -540,11 +637,13 @@ namespace Gerenciador_de_Tarefas.Classes
             {
                 novaTarefa = false;
 
-                List<string> lista = Sistema.ConsultaTarefas("select tbl_contato.nome AS 'empresa', tbl_funcionarios.nome as 'funcionario', " +
-                        "tbl_tarefas.`status`, tbl_tarefas.assunto, tbl_tarefas.dataCadastro, tbl_tarefas.datainicial, tbl_tarefas.datafinal, tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
-                        "Join tbl_contato on tbl_contato.ID = tbl_tarefas.Empresa " +
-                        "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
-                        "Where tbl_tarefas.id = " + ID + ";");
+                List<string> lista = Sistema.ConsultaTarefas("select tbl_contato.nome AS 'empresa', " +
+                    "tbl_funcionarios.nome as 'funcionario', tbl_tarefas.`status`, tbl_tarefas.assunto, " +
+                    "tbl_tarefas.dataCadastro, tbl_tarefas.datainicial, tbl_tarefas.datafinal, " +
+                    "tbl_tarefas.prioridade, tbl_tarefas.texto from tbl_tarefas " +
+                    "Join tbl_contato on tbl_contato.ID = tbl_tarefas.Empresa " +
+                    "Join tbl_funcionarios on tbl_funcionarios.id = tbl_tarefas.Funcionario " +
+                    "Where tbl_tarefas.id = " + ID + ";");
 
 
                 Empresa = lista[0];
@@ -565,6 +664,8 @@ namespace Gerenciador_de_Tarefas.Classes
                 Prioridade = int.Parse(lista[7]);
                 Texto = lista[8];
                 titulo = lista[0] + " - " + lista[3];
+                Anexos = Sistema.ConsultaAnexosTarefa(ID, "select nome from tbl_tarefa_anexos " +
+                    "Where id = " + ID + ";");
 
                 _empresa = lista[0];
                 _atribuicao = lista[1];
@@ -581,15 +682,36 @@ namespace Gerenciador_de_Tarefas.Classes
                 }
                 _prioridade = int.Parse(lista[7]);
                 _texto = lista[8];
+                _anexos = Anexos;
             }
             
         }
 
         /// <summary>
-        /// Método responsável por destravar a tarefa
+        /// Retorna a prioridade da tarefa solicitada
         /// </summary>
-        /// <param name="idTarefa">ID da tarefa que deseja destravar</param>
-        /// <returns></returns>
+        public static string ConsultaPrioridade()
+        {
+            int idEmpresa = 0, idFuncionario = 0, idTarefa = 0;
+            string comando = null;
+
+            comando = "Select ID from tbl_contato where nome = '" + Empresa + "';";
+            idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
+
+            comando = "Select ID from tbl_funcionarios where nome = '" + Atribuicao + "';";
+            idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
+
+            comando = "Select ID from tbl_tarefas where empresa = '" + idEmpresa + "'"
+                + " AND funcionario = '" + idFuncionario + "' AND assunto = '" + Assunto + "';";
+            idTarefa = int.Parse(Sistema.ConsultaSimples(comando));
+
+            comando = "Select prioridade from tbl_tarefas where id = " + idTarefa + ";";
+            return Sistema.ConsultaSimples(comando);
+        }
+
+        /// <summary>
+        /// Destrava a tarefa selecionada
+        /// </summary>
         public static void DestravaTarefa()
         {
             if (TarefaBloqueada())
@@ -599,10 +721,8 @@ namespace Gerenciador_de_Tarefas.Classes
         }
 
         /// <summary>
-        /// Método responsável por destravar todas as tarefas do banco de dados.
-        /// Utilizar apenas se ocorrer algum desligamento inesperado de algum usuário.
+        /// Destrava todas as tarefas do banco de dados
         /// </summary>
-        /// <returns>Se verdadeiro, a operação foi um sucesso.</returns>
         public static bool DestravaTodasTarefas()
         {
             try
@@ -618,6 +738,9 @@ namespace Gerenciador_de_Tarefas.Classes
             return true;
         }
 
+        /// <summary>
+        /// Limpa as variáveis
+        /// </summary>
         public static void LimparVariaveis()
         {
             //Originais
@@ -636,6 +759,7 @@ namespace Gerenciador_de_Tarefas.Classes
             texto = "";
             textoImpressao = "";
             titulo = "";
+            anexos = new List<string>();
 
             //Backup
             _prioridade = 1;
@@ -646,49 +770,17 @@ namespace Gerenciador_de_Tarefas.Classes
             _dataInicial = "";
             _empresa = "";
             _texto = "";
-    }
-
-        public static void Salvar()
-        {
-            if(novaTarefa)
-            {
-                CadastrarTarefa();
-            }
-            else
-            {
-                if(!AtualizarTarefa())
-                {
-                    ListaErro.RetornaErro(17);
-                }
-            }
+            _anexos = new List<string>();
         }
 
         /// <summary>
-        /// Método responsável por travar a tarefa
-        /// </summary>
-        /// <param name="idTarefa">ID da tarefa que deseja travar</param>
-        /// <returns></returns>
-        public static bool TravaTarefa()
-        {
-            bool resultado = false;
-
-            if (!TarefaBloqueada())
-            {
-                Sistema.ExecutaComando("Update tbl_tarefas set travar = 'S' where id = " + ID + ";");
-                resultado = true;
-            }
-
-            return resultado;
-        }
-
-        /// <summary>
-        /// Método responsável por retornar se a tarefa esta bloqueada.
+        /// Verifica se a tarefa esta bloqueada
         /// </summary>
         public static bool TarefaBloqueada()
         {
             try
             {
-                if(ID == 0)
+                if (ID == 0)
                 {
                     return false;
                 }
@@ -703,7 +795,7 @@ namespace Gerenciador_de_Tarefas.Classes
                         return false;
                     }
                 }
-                
+
             }
             catch (NullReferenceException)
             {
@@ -712,11 +804,26 @@ namespace Gerenciador_de_Tarefas.Classes
         }
 
         /// <summary>
-        /// Verifica como está os combobox na tela inicial e realiza os filtros. 
+        /// Trava a tarefa
+        /// </summary>
+        public static bool TravaTarefa()
+        {
+            bool resultado = false;
+
+            if (!TarefaBloqueada())
+            {
+                Sistema.ExecutaComando("Update tbl_tarefas set travar = 'S' where id = " + ID + ";");
+                resultado = true;
+            }
+
+            return resultado;
+        }
+
+        /// <summary>
+        /// Verifica como está os combobox na tela de tarefas e realiza os filtros
         /// </summary>
         /// <param name="posicaoCmbFiltros">Posição da comboBox filtro na tela de tarefas</param>
         /// <param name="posicaoCmbTipoTarefas">Posição da comboBox tipo tarefas na tela de tarefas</param>
-        /// <returns></returns>
         public static string VerificaComboBoxTarefas(int posicaoCmbFiltros, int posicaoCmbTipoTarefas)
         {
             string comando = "", ordenadoPor = "";
@@ -817,114 +924,6 @@ namespace Gerenciador_de_Tarefas.Classes
             return comando;
         }
 
-
-        /// <summary>
-        /// Método responsável por retornar a prioridade da tarefa solicitada.
-        /// </summary>
-        public static string ConsultaPrioridade()
-        {
-            int idEmpresa = 0, idFuncionario = 0, idTarefa = 0;
-            string comando = null;
-
-            comando = "Select ID from tbl_contato where nome = '" + Empresa + "';";
-            idEmpresa = int.Parse(Sistema.ConsultaSimples(comando));
-
-            comando = "Select ID from tbl_funcionarios where nome = '" + Atribuicao + "';";
-            idFuncionario = int.Parse(Sistema.ConsultaSimples(comando));
-
-            comando = "Select ID from tbl_tarefas where empresa = '" + idEmpresa + "'"
-                + " AND funcionario = '" + idFuncionario + "' AND assunto = '" + Assunto + "';";
-            idTarefa = int.Parse(Sistema.ConsultaSimples(comando));
-
-            comando = "Select prioridade from tbl_tarefas where id = " + idTarefa + ";";
-            return Sistema.ConsultaSimples(comando);
-        }
-
         #endregion
-        /*
-        /// <summary>
-        /// Método responsável por pegar o texto desalinhado da tela Tarefas e realinhar para impressão.
-        /// </summary>
-        /// <param name="textoOriginal">Texto da tarefa.</param>
-        /// <param name="maxCaracteres">Quantidada máxima de caracteres por linha.</param>
-        /// <example>PreparaTexto(rtbTexto.text,110);</example>
-        /// <returns>Retorna texto alinhado pelo a quantidade de caracteres máxima.</returns>
-        public string PreparaTexto(string textoOriginal, int maxCaracteres)
-        {
-            string textoResultado = "";
-            string _textoOriginal = textoOriginal;
-
-
-            while (_textoOriginal.Length > maxCaracteres)
-            {
-                int posicaoAtual = 0, posicaoUltimoEspaco = 0;
-
-                if (_textoOriginal.Substring(posicaoAtual, 1) == " ")
-                {
-                    posicaoAtual += 1;
-                }
-                if (_textoOriginal.Substring(posicaoAtual, 1) == "\n\n")
-                {
-                    posicaoAtual += 1;
-                }
-                if (_textoOriginal.Substring(posicaoAtual, 2) == ".\n\n")
-                {
-                    posicaoAtual += 2;
-                }
-
-                if (_textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).Contains("\n\n"))
-                {
-                    if (_textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).IndexOf("\n\n") > 0)
-                    {
-                        posicaoUltimoEspaco = _textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).IndexOf("\n\n");
-                    }
-                    else if (_textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).IndexOf(".\n\n") > 0)
-                    {
-                        posicaoUltimoEspaco = _textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).IndexOf(".\n\n") + 1;
-                    }
-                    else if (_textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).IndexOf("\n\n\n\n") > 0)
-                    {
-                        posicaoUltimoEspaco = _textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).IndexOf("\n\n\n\n");
-                    }
-                }
-                else
-                {
-                    if (_textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).LastIndexOf(" ") > 0)
-                    {
-                        //Define a posição do ultimo espaço em branco no texto selecionado
-                        posicaoUltimoEspaco = _textoOriginal.Substring(posicaoAtual, posicaoAtual + maxCaracteres).LastIndexOf(" ");
-                    }
-                    else
-                    {
-                        posicaoUltimoEspaco = posicaoAtual + maxCaracteres;
-                    }
-                }
-
-                if (posicaoUltimoEspaco <= 0)
-                {
-                    posicaoUltimoEspaco = posicaoAtual;
-                }
-
-                //Escreve o texto
-                textoResultado += _textoOriginal.Substring(posicaoAtual, posicaoUltimoEspaco);
-                textoResultado += "\n\n";
-
-                _textoOriginal = _textoOriginal.Substring(posicaoUltimoEspaco + posicaoAtual);
-
-            }
-            if (_textoOriginal.Length > 0)
-            {
-                if (_textoOriginal.Substring(0, 1) == " ")
-                {
-                    textoResultado += _textoOriginal.Substring(1);
-                }
-                else
-                {
-                    textoResultado += _textoOriginal;
-                }
-            }
-
-            return textoResultado;
-        }*/
     }
 }
